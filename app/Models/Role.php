@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $fillable = ['name', 'description'];
 
     public function users(): BelongsToMany

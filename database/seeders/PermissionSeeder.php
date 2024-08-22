@@ -15,9 +15,10 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            ['name' => 'view_section_t', 'description' => 'Can view section T'],
-            ['name' => 'view_section_p', 'description' => 'Can view section P'],
-            // Add more permissions as needed
+            ['name' => 'read'],
+            ['name' => 'write'],
+            ['name' => 'delete'],
+            ['name' => 'create'],
         ];
 
         foreach ($permissions as $permission) {
@@ -26,11 +27,18 @@ class PermissionSeeder extends Seeder
 
         // Assign permissions to roles
         $adminRole = Role::where('name', 'admin')->first();
-        $adamRole = Role::where('name', 'adam')->first();
-        $eveRole = Role::where('name', 'eve')->first();
+        //$guestRole = Role::where('name', 'guest')->first(); // guest has no permissions at the moment, if they're a guest they simply can't access the contents of the site
+        $titulacionRole = Role::where('name', 'titulacion')->first();
+        $p_preprofesionalesRole = Role::where('name', 'p_preprofesionales')->first();
+        $p_vinculacionRole = Role::where('name', 'p_vinculacion')->first();
+        $asistenteRole = Role::where('name', 'asistente')->first();
+        $directorRole = Role::where('name', 'director')->first();
 
         $adminRole->permissions()->attach(Permission::all());
-        $adamRole->permissions()->attach(Permission::all());
-        $eveRole->permissions()->attach(Permission::where('name', 'view_section_p')->first());
+        $titulacionRole->permissions()->attach(Permission::all());
+        $p_preprofesionalesRole->permissions()->attach(Permission::all());
+        $p_vinculacionRole->permissions()->attach(Permission::all());
+        $asistenteRole->permissions()->attach(Permission::where('name', 'read')->first());
+        $directorRole->permissions()->attach(Permission::where('name', 'read')->first());
     }
 }

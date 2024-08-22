@@ -17,31 +17,59 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Admin User',
+                'name' => 'admin',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
-                'role' => 'admin'
+                'roles' => ['admin']
             ],
             [
-                'name' => 'Adam User',
-                'email' => 'adam@example.com',
+                'name' => 'guest',
+                'email' => 'guest@example.com',
                 'password' => Hash::make('password'),
-                'role' => 'adam'
+                'roles' => ['guest']
             ],
             [
-                'name' => 'Eve User',
-                'email' => 'eve@example.com',
+                'name' => 'titulacion',
+                'email' => 'titulacion@example.com',
                 'password' => Hash::make('password'),
-                'role' => 'eve'
+                'roles' => ['titulacion']
+            ],
+            [
+                'name' => 'practicas',
+                'email' => 'practicas@example.com',
+                'password' => Hash::make('password'),
+                'roles' => ['p_preprofesionales', 'p_vinculacion']
+            ],
+            [
+                'name' => 'asistente',
+                'email' => 'asistente@example.com',
+                'password' => Hash::make('password'),
+                'roles' => ['asistente']
+            ],
+            [
+                'name' => 'director',
+                'email' => 'director@example.com',
+                'password' => Hash::make('password'),
+                'roles' => ['director']
             ],
         ];
-
+        /*for one role per user
         foreach ($users as $userData) {
             $role = $userData['role'];
             unset($userData['role']);
             
             $user = User::create($userData);
             $user->roles()->attach(Role::where('name', $role)->first());
+        }*/
+
+        //for multiple roles
+        foreach ($users as $userData) {
+            $roles = $userData['roles'];
+            unset($userData['roles']);
+
+            $user = User::create($userData);
+            $roleIds = Role::whereIn('name', $roles)->pluck('id')->toArray();
+            $user->roles()->attach($roleIds);
         }
     }
 }

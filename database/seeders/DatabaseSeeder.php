@@ -25,11 +25,13 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             //
-            Academic_periodSeeder::class,
-            Thesis_areaSeeder::class,
+            AcademicPeriodSeeder::class,
+            ThesisAreaSeeder::class,
             CourseSeeder::class,
             StudentSeeder::class,
             ProfessorSeeder::class,
+            StudentCoursesSeeder::class,
+            StudentThesesSeeder::class,
         ]);
     }
 }

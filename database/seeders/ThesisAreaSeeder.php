@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Thesis_area;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ThesisArea;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class Thesis_areaSeeder extends Seeder
+class ThesisAreaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $thesis_areas = [
+        $thesisAreas = [
             [
                 'area' => 'SOFTWARE',
             ],
@@ -25,8 +25,8 @@ class Thesis_areaSeeder extends Seeder
             ],
         ];
 
-        foreach ($thesis_areas as $thesis_areasData) {
-            Thesis_area::create($thesis_areasData);
+        foreach ($thesisAreas as $thesisAreasData) {
+            ThesisArea::create($thesisAreasData);
         }
     }
 }

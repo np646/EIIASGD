@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Academic_period;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AcademicPeriod;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class Academic_periodSeeder extends Seeder
+class AcademicPeriodSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $academic_periods = [
+        $academicPeriods = [
             [
                 'period' => 'SEPTIEMBRE 2018 - ENERO 2019',
                 'year' => '2018',
@@ -24,8 +24,8 @@ class Academic_periodSeeder extends Seeder
             ],
         ];
 
-        foreach ($academic_periods as $academic_periodData) {
-            Academic_period::create($academic_periodData);
+        foreach ($academicPeriods as $academicPeriodData) {
+            AcademicPeriod::create($academicPeriodData);
         }
     }
 }

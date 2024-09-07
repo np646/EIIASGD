@@ -1,16 +1,17 @@
 <template>
-    <div class="cuerpo">
+    <div class="body">
         <!-- Navigation bar -->
-        <div class="barra-navegacion">
-            <div class="nombre-pagina">
-                <BIconList aria-label="Toggle navigation" id="nav-max" @click="toggleSidebar"></BIconList>
+        <div class="navigation-bar">
+            <div class="website-name">
+                <BIconList aria-label="Toggle navigation" id="toggle-sidebar" @click="toggleSidebar"></BIconList>
                 <span>EIIASGD</span>
-                <form class="d-flex busqueda" role="search">
+                <form class="d-flex search-box" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
-                    <button class="btn btn-outline-secondary" type="submit"><BIconSearch id="lupa"></BIconSearch></button>
+                    <button class="btn btn-outline-secondary" type="submit"><BIconSearch id="search-icon"></BIconSearch></button>
                 </form>
 
-                <div class="dropdown perfil">
+                <!-- TODO: bring profile functionality from real vue/laravel dashboard-->
+                <div class="dropdown profile">
                     <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">usuario</button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Perfil</a></li>
@@ -19,10 +20,10 @@
                 </div>
             </div>
             <transition name="fade">
-                <div v-show="isNavMinVisible" class="barra-navegacion-min">
+                <div v-show="isNavMinVisible" class="navigation-bar-min">
                     <div class="bg-light">
-                        <ul id="nav_min_ul">
-                            <li v-for="item in menuItems" :key="item.href" id="nav_min_li">
+                        <ul class="navigation-bar-min-ul">
+                            <li v-for="item in menuItems" :key="item.href" id="navigation-bar-min-li">
                                 <a :id="item.id" :href="item.href">
                                     <span>{{ item.text }}</span>
                                 </a>
@@ -34,29 +35,29 @@
         </div>
 
         <!-- Sidebar -->
-        <div class="barra-lateral" :class="{ 'mini-barra-lateral': isSidebarMini }">
-            <nav class="navegacion">
-                <ul id="nav_ul">
+        <div class="sidebar" :class="{ 'sidebar-min': isSidebarMini }">
+            <nav class="menu-items">
+                <ul id="menu-items-ul">
                     <template v-for="(item, index) in menuItems" :key="item.href">
                         <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
                           
                             <a v-if="(item.text == 'Prácticas')"  @click.prevent="toggleSubmenu(item)">
                                 <!-- Usa el componente de ícono en lugar de la clase -->
                                 <component :is="item.icon"></component>
-                                <span :class="{ oculto: isSidebarMini }">{{ item.text }}</span>
+                                <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </a>
                           
                             <Link v-else :href="item.href" @click.prevent="item.subItems && toggleSubmenu(item)">
                                 <!-- Usa el componente de ícono en lugar de la clase -->
                                 <component :is="item.icon"></component>
-                                <span :class="{ oculto: isSidebarMini }">{{ item.text }}</span>
+                                <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </Link>
                           
                         </li>
                         <template v-if="item.subItems">
                             <li v-for="subItem in item.subItems" :key="subItem.href" class="submenu-item" :class="{ visible: activeSubmenu === item }">
                                 <Link :href="subItem.href">
-                                    <span :class="{ oculto: isSidebarMini }">{{ subItem.text }}</span>
+                                    <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
                                 </Link>
                             </li>
                         </template>
@@ -65,7 +66,7 @@
             </nav>
         </div>
         <!-- Main content -->
-        <main class="principal" :class="{ 'min-main': isSidebarMini }">
+        <main class="main-content" :class="{ 'main-content-min': isSidebarMini }">
             <slot></slot>
         </main>
     </div>
@@ -152,145 +153,4 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Include your existing CSS here */
-
-/* Updated styles for submenu */
-.submenu-item {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.3s ease;
-}
-
-.submenu-item.visible {
-    height: 45px; /* Adjust this value based on your item height */
-}
-
-.submenu-item a {
-    display: flex;
-    align-items: center;
-}
-
-/* Styles for the parent menu item with submenu */
-.has-submenu {
-    position: relative;
-}
-
-.has-submenu.active::after {
-    transform: translateY(-50%) rotate(180deg);
-}
-
-/* Updated styles for submenu */
-.submenu {
-    padding-left: 0;
-    list-style-type: none;
-}
-
-.submenu ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.submenu li {
-    margin-bottom: 5px;
-}
-
-.submenu a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--color-texto-menu);
-    padding: 10px 15px;
-}
-
-.submenu i {
-    margin-right: 10px;
-}
-
-/* Styles for the parent menu item with submenu */
-.has-submenu {
-    position: relative;
-}
-
-.has-submenu.active::after {
-    transform: translateY(-50%) rotate(180deg);
-}
-
-/* Fade transition */
-.fade-enter-active,
-.fade-leave-active {
-    transition: all 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-/* Include your existing CSS here */
-
-/* Fade transition */
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-/* Submenu styles */
-.submenu {
-    padding-left: 20px;
-}
-
-.submenu ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.submenu li {
-    margin-bottom: 5px;
-}
-
-.submenu a {
-    text-decoration: none;
-    color: var(--color-texto-menu);
-}
-
-/* Mobile menu styles */
-.barra-navegacion-min {
-    width: 100%;
-    margin-top: 15px;
-}
-
-@media (max-width: 600px) {
-    .barra-navegacion-min li {
-        border-bottom: 1px solid #2b5177;
-    }
-
-    .barra-navegacion-min span {
-        width: 100px;
-        white-space: nowrap;
-        font-size: 18px;
-        text-align: center;
-        color: #00356b;
-    }
-}
-
-/* Existing styles from your CSS file */
-#practicas {
-    padding: 0;
-}
-
-#practicas ul {
-    padding-left: 20px;
-}
-
-#practicas li {
-    margin-bottom: 5px;
-    list-style-type: none;
-}
-
-#practicas li a {
-    padding-left: 15px;
-}
 </style>

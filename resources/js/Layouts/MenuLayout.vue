@@ -40,19 +40,15 @@
                 <ul id="menu-items-ul">
                     <template v-for="(item, index) in menuItems" :key="item.href">
                         <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
-                          
                             <a v-if="(item.text == 'Prácticas')"  @click.prevent="toggleSubmenu(item)">
-                                <!-- Usa el componente de ícono en lugar de la clase -->
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </a>
                           
                             <Link v-else :href="item.href" @click.prevent="item.subItems && toggleSubmenu(item)">
-                                <!-- Usa el componente de ícono en lugar de la clase -->
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </Link>
-                          
                         </li>
                         <template v-if="item.subItems">
                             <li v-for="subItem in item.subItems" :key="subItem.href" class="submenu-item" :class="{ visible: activeSubmenu === item }">
@@ -89,7 +85,7 @@ import "/resources/css/menu-style.css";
 import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 
-// Marca los componentes como no reactivos
+// To set icons as not reactive
 const BIconHouseDoorFillRaw = markRaw(BIconHouseDoorFill);
 const BIconPersonFillRaw = markRaw(BIconPersonFill);
 const BIconPeopleFillRaw = markRaw(BIconPeopleFill);
@@ -98,14 +94,12 @@ const BIconSuitcaseLgFillRaw = markRaw(BIconSuitcaseLgFill);
 const BIconClipboardDataFillRaw = markRaw(BIconClipboardDataFill);
 const BIconGearFillRaw = markRaw(BIconGearFill);
 
-
+// To toggle sidebar and submenu
 const isSidebarMini = ref(false);
 const isNavMinVisible = ref(false);
 const activeSubmenu = ref(null);
 
-
-
-
+// To create menu items
 const menuItems = ref([
     { id: "inbox", href: route('dashboard'), text: "Inicio", icon: BIconHouseDoorFillRaw },
     { id: "estudiantes", href: "/estudiantes", text: "Estudiantes", icon: BIconPersonFillRaw },

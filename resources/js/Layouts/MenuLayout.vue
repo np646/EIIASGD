@@ -40,11 +40,11 @@
                 <ul id="menu-items-ul">
                     <template v-for="(item, index) in menuItems" :key="item.href">
                         <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
-                            <a v-if="(item.text == 'Prácticas')"  @click.prevent="toggleSubmenu(item)">
+                            <a v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </a>
-                          
+
                             <Link v-else :href="item.href" @click.prevent="item.subItems && toggleSubmenu(item)">
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
@@ -53,6 +53,7 @@
                         <template v-if="item.subItems">
                             <li v-for="subItem in item.subItems" :key="subItem.href" class="submenu-item" :class="{ visible: activeSubmenu === item }">
                                 <Link :href="subItem.href">
+                                    <component :is="subItem.icon"></component>
                                     <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
                                 </Link>
                             </li>
@@ -79,9 +80,12 @@ import {
     BIconSuitcaseLgFill,
     BIconClipboardDataFill,
     BIconGearFill,
+    BIconDot,
 } from "bootstrap-icons-vue";
-import { markRaw } from 'vue';
+// Stuff breaks if I put the styles in this file so it has to stay in its own css file lol
+// TODO: figure out how to make it work (low priority)
 import "/resources/css/menu-style.css";
+import { markRaw } from "vue";
 import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 
@@ -93,6 +97,8 @@ const BIconMortarboardFillRaw = markRaw(BIconMortarboardFill);
 const BIconSuitcaseLgFillRaw = markRaw(BIconSuitcaseLgFill);
 const BIconClipboardDataFillRaw = markRaw(BIconClipboardDataFill);
 const BIconGearFillRaw = markRaw(BIconGearFill);
+// TODO: use different icons, and make the submenu items fill the entire sidebar so there's less weird stuff going on with practicas
+const BIconDotRaw = markRaw(BIconDot);
 
 // To toggle sidebar and submenu
 const isSidebarMini = ref(false);
@@ -101,7 +107,7 @@ const activeSubmenu = ref(null);
 
 // To create menu items
 const menuItems = ref([
-    { id: "inbox", href: route('dashboard'), text: "Inicio", icon: BIconHouseDoorFillRaw },
+    { id: "inbox", href: route("dashboard"), text: "Inicio", icon: BIconHouseDoorFillRaw },
     { id: "estudiantes", href: "/estudiantes", text: "Estudiantes", icon: BIconPersonFillRaw },
     { id: "docentes", href: "/docentes", text: "Docentes", icon: BIconPeopleFillRaw },
     { id: "titulacion", href: "/titulacion", text: "Titulación", icon: BIconMortarboardFillRaw },
@@ -110,8 +116,8 @@ const menuItems = ref([
         text: "Prácticas",
         icon: BIconSuitcaseLgFillRaw,
         subItems: [
-            { href: "/vinculacion", text: "Vinculación" },
-            { href: "/preprofesionales", text: "Preprofesionales" },
+            { href: "/vinculacion", text: "Vinculación", icon: BIconDotRaw },
+            { href: "/preprofesionales", text: "Preprofesionales", icon: BIconDotRaw },
         ],
     },
     { id: "reportes", href: "/reportes", text: "Reportes", icon: BIconClipboardDataFillRaw },
@@ -145,6 +151,3 @@ onUnmounted(() => {
     window.removeEventListener("resize", handleResize);
 });
 </script>
-
-<style scoped>
-</style>

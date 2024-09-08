@@ -19,8 +19,8 @@
                                   </div>
                               </div>
                           </div>
-
                           <div class="login-wrap p-4 p-md-5">
+                            <!-- TODO: get login working -->
                               <form action="#" class="signin-form">
                                   <!-- Email -->
                                   <label class="label input-label" for="email">EMAIL</label>
@@ -241,10 +241,8 @@ label {
 }
 
 body {
-  font-family: "Nunito", sans-serif;
   font-size: 16px;
   line-height: 1.8;
-  font-weight: normal;
   background: rgb(242, 242, 242);
   color: gray;
 }

@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap");
 
 /*
 TODO: install font globally
@@ -14,7 +13,6 @@ but find a way to keep the rounded corners when it's not active
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Nunito", sans-serif;
 }
 
 .body {

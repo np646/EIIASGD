@@ -1,6 +1,6 @@
 <template>
-    <!-- <MenuLayout></MenuLayout> -->
-    <LoginLayout></LoginLayout>
+    <MenuLayout></MenuLayout>
+    <!-- <LoginLayout></LoginLayout> -->
 </template>
 
 <script setup>

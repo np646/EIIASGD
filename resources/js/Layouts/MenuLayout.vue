@@ -10,12 +10,11 @@
                     <button class="btn btn-outline-secondary" type="submit"><BIconSearch id="search-icon"></BIconSearch></button>
                 </form>
 
-                <!-- TODO: bring profile functionality from real vue/laravel dashboard-->
                 <div class="dropdown profile">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">usuario</button>
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $page.props.auth.user.name }}</button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        <li><Link class="dropdown-item" :href="route('profile.edit')">Perfil</Link></li>
+                        <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
                     </ul>
                 </div>
             </div>
@@ -81,6 +80,8 @@ import {
     BIconClipboardDataFill,
     BIconGearFill,
     BIconDot,
+    BIconPersonWorkspace,
+    BIconPersonRaisedHand,
 } from "bootstrap-icons-vue";
 // Stuff breaks if I put the styles in this file so it has to stay in its own css file lol
 // TODO: figure out how to make it work (low priority)
@@ -97,8 +98,8 @@ const BIconMortarboardFillRaw = markRaw(BIconMortarboardFill);
 const BIconSuitcaseLgFillRaw = markRaw(BIconSuitcaseLgFill);
 const BIconClipboardDataFillRaw = markRaw(BIconClipboardDataFill);
 const BIconGearFillRaw = markRaw(BIconGearFill);
-// TODO: use different icons, and make the submenu items fill the entire sidebar so there's less weird stuff going on with practicas
-const BIconDotRaw = markRaw(BIconDot);
+const BIconPersonWorkspaceRaw = markRaw(BIconPersonWorkspace);
+const BIconPersonRaisedHandRaw = markRaw(BIconPersonRaisedHand);
 
 // To toggle sidebar and submenu
 const isSidebarMini = ref(false);
@@ -116,8 +117,8 @@ const menuItems = ref([
         text: "Prácticas",
         icon: BIconSuitcaseLgFillRaw,
         subItems: [
-            { href: "/vinculacion", text: "Vinculación", icon: BIconDotRaw },
-            { href: "/preprofesionales", text: "Preprofesionales", icon: BIconDotRaw },
+            { href: "/vinculacion", text: "Vinculación", icon: BIconPersonRaisedHandRaw },
+            { href: "/preprofesionales", text: "Preprofesionales", icon:  BIconPersonWorkspaceRaw },
         ],
     },
     { id: "reportes", href: "/reportes", text: "Reportes", icon: BIconClipboardDataFillRaw },

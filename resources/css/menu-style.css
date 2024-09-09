@@ -1,9 +1,6 @@
 
 /*
-TODO: install font globally
-TODO: change color of search box border when its active
-TODO: when the submenu is closed, both submenus dont have an icon
-TODO: usuario dropdown, change the color of hover and active
+
 TODO: practicas icon doesnt have a cursor when hovering over icon
 TODO: change submenu items look, just a blue bottom border, 
 but find a way to keep the rounded corners when it's not active
@@ -68,6 +65,10 @@ but find a way to keep the rounded corners when it's not active
     margin-right: auto;
 }
 
+.btn-outline-secondary {
+    border-color: rgb(222,226,230);
+}
+
 .btn-outline-secondary:hover {
     background-color: #2b5177;
 }
@@ -78,6 +79,11 @@ but find a way to keep the rounded corners when it's not active
 
 .search-box input {
     width: 300px;
+}
+.search-box input:focus {
+    border-color: #00356b;
+    box-shadow: 0 0 0 2px #cadae7;
+    outline: none;
 }
 
 /* Profile */
@@ -100,6 +106,7 @@ but find a way to keep the rounded corners when it's not active
 
 .profile .dropdown-item:hover {
     background-color: #e9eaec;
+    /* background-color: rgb(222,226,230); */
     color: #00356b;
 }
 
@@ -196,7 +203,6 @@ but find a way to keep the rounded corners when it's not active
     background-color: rgb(134, 134, 134);
 }
 
-/*TODO: push items to the right*/
 .sidebar .menu-items #menu-items-ul {
     margin: 0;
     padding: 0;
@@ -242,7 +248,7 @@ but find a way to keep the rounded corners when it's not active
     padding-left: 30px;
 }
 
-/*------------------> Responsive*/
+/* Window size <600px */
 @media (max-height: 660px) {
     .sidebar .website-name {
         margin-bottom: 5px;
@@ -271,7 +277,7 @@ but find a way to keep the rounded corners when it's not active
     }
 }
 
-/*BOTONES*/
+/* Buttons */
 .btn-primary {
     background-color: #00356b;
     border-color: #00356b;

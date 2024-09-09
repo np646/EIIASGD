@@ -1,11 +1,4 @@
 
-/*
-
-TODO: practicas icon doesnt have a cursor when hovering over icon
-TODO: change submenu items look, just a blue bottom border, 
-but find a way to keep the rounded corners when it's not active
-*/
-
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +8,6 @@ but find a way to keep the rounded corners when it's not active
 .body {
     height: 100vh;
     width: 100%;
-    /*TODO: change color after testing future components*/
     background-color: #ffffff;
 }
 
@@ -26,7 +18,6 @@ but find a way to keep the rounded corners when it's not active
     height: 60px;
     position: fixed;
     margin-bottom: 0px;
-    /*TODO: border under navbar is optional?*/
     border-bottom: 1px solid #e9eaec;
 }
 
@@ -42,7 +33,7 @@ but find a way to keep the rounded corners when it's not active
     min-width: 40px;
     font-size: 30px;
     cursor: pointer;
-    margin-left: 25px;
+    margin-left: 20px;
     margin-top: 15px;
 }
 
@@ -90,7 +81,7 @@ but find a way to keep the rounded corners when it's not active
 .profile {
     margin-left: 20px;
     margin-top: 15px;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 .profile,
@@ -157,14 +148,13 @@ but find a way to keep the rounded corners when it's not active
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 220px;
+    width: 226px;
     height: 100%;
     overflow: hidden;
     padding: 20px 15px;
     background-color: rgb(255, 255, 255);
     transition: width 0.5s ease, background-color 0.3s ease, left 0.5s ease, margin-right 0.5s ease;
     z-index: 50;
-    /*TODO: border to the right is optional?*/
     border-right: 1px solid #e9eaec;
 }
 
@@ -175,7 +165,8 @@ but find a way to keep the rounded corners when it's not active
     text-align: left;
     opacity: 1;
     transition: opacity 0.5s ease, width 0.5s ease;
-    padding-left: 15px;
+    padding-left: 8px;
+    padding-top:3px;
 }
 
 .sidebar span.hide {
@@ -277,6 +268,9 @@ but find a way to keep the rounded corners when it's not active
     }
 }
 
+.practicas-icon{
+    cursor: pointer;
+}
 /* Buttons */
 .btn-primary {
     background-color: #00356b;

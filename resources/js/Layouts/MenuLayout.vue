@@ -39,7 +39,7 @@
                 <ul id="menu-items-ul">
                     <template v-for="(item, index) in menuItems" :key="item.href">
                         <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
-                            <a v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
+                            <a class ="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </a>
@@ -79,7 +79,6 @@ import {
     BIconSuitcaseLgFill,
     BIconClipboardDataFill,
     BIconGearFill,
-    BIconDot,
     BIconPersonWorkspace,
     BIconPersonRaisedHand,
 } from "bootstrap-icons-vue";
@@ -130,7 +129,6 @@ const toggleSidebar = () => {
         isNavMinVisible.value = !isNavMinVisible.value;
     } else {
         isSidebarMini.value = !isSidebarMini.value;
-        toggleSubmenu(null);
     }
 };
 

@@ -1,22 +1,12 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+import { usePage } from "@inertiajs/vue3";
+import MenuLayout from "@/Layouts/MenuLayout.vue";
 
-defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+const user = usePage().props.auth.user;
 </script>
 
-<template>
-    <Head title="Profile" />
+<template v-slot:slot-content>
+    <!-- <Head title="Profile" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -42,5 +32,42 @@ defineProps({
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </AuthenticatedLayout> -->
+
+    <MenuLayout>
+        <div class="profile-info">
+            <div class="row g-3">
+                <div class="col-12">
+                   <h4 class="form-label">Información básica</h4>
+                </div>
+                <div class="col-md-8">
+                    <label for="inputNombres" class="form-label">Nombres</label>
+                    <input type="text" class="form-control bg-white" id="inputNombres" required v-model="user.name" disabled/>
+                </div>
+                 <!-- TODO: make v-for to create divs depending on the amount of roles -->
+                <div class="col-md-8">
+                    <label for="inputApellidos" class="form-label">Rol</label>
+                    <input type="text" class="form-control" id="inputApellidos" required v-model="user.roles"/>
+                </div>
+                <div class="col-md-8">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control bg-white" id="inputEmail" required v-model="user.email" disabled/>
+                </div>
+            </div>
+        </div>
+
+        <!-- <h2>perfil</h2>
+        <div style="width: 20px; height:20px;">
+
+        </div> -->
+    </MenuLayout>
 </template>
+
+<style scoped>
+/* TODO: should be global styles for the stuff inside slot */
+.profile-info {
+    max-width: 800px;
+    padding-top: 20px;
+    padding-left: 40px;
+}
+</style>

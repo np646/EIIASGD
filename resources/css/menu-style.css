@@ -228,11 +228,11 @@
 }
 
 /* Main content */
-.main-content {
-    margin-left: 250px;
-    padding-top: 100px;
+/* .main-content {
+  //  margin-left: 250px; 
+    // padding-top: 100px; 
     transition: margin-left 0.5s ease;
-}
+} */
 
 .main-content .main-content-min {
     margin-left: 80px;
@@ -349,4 +349,25 @@
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+
+
+.main-content {
+    /* margin-left: 250px; */
+    /* padding-top: 100px; */
+    transition: margin-left 0.5s ease;
+    display: flex;
+    /* justify-content: center; 
+    align-items: center;  */
+    min-height: 100vh; 
+}
+
+/* Content inside slot */
+.slot-content {
+    margin-top: 60px;
+    /*TODO: change margin-left when sidebar is closed*/
+    margin-left:226px;
+    border: 1px solid black;
+    width: 100%; /* Define el ancho del contenido */
 }

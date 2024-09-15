@@ -1,7 +1,7 @@
 <template>
     <div class="body">
         <!-- Navigation bar -->
-        <div class="navigation-bar">
+        <nav class="navigation-bar">
             <div class="website-name">
                 <BIconList aria-label="Toggle navigation" id="toggle-sidebar" @click="toggleSidebar"></BIconList>
                 <span>EIIASGD</span>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </transition>
-        </div>
+        </nav>
 
         <!-- Sidebar -->
         <div class="sidebar" :class="{ 'sidebar-min': isSidebarMini }">
@@ -62,8 +62,13 @@
             </nav>
         </div>
         <!-- Main content -->
-        <main class="main-content" :class="{ 'main-content-min': isSidebarMini }">
-            <slot></slot>
+        <main class="main-content" name="main-content" :class="{ 'main-content-min': isSidebarMini }">
+            <div class="slot-content">
+                <slot>
+
+                </slot>
+            </div>
+           
         </main>
     </div>
 </template>

@@ -113,7 +113,7 @@ const activeSubmenu = ref(null);
 // To create menu items
 const menuItems = ref([
     { id: "inbox", href: route("dashboard"), text: "Inicio", icon: BIconHouseDoorFillRaw },
-    { id: "estudiantes", href: "/estudiantes", text: "Estudiantes", icon: BIconPersonFillRaw },
+    { id: "estudiantes", href:route('students.create'), text: "Estudiantes", icon: BIconPersonFillRaw },
     { id: "docentes", href: "/docentes", text: "Docentes", icon: BIconPeopleFillRaw },
     { id: "titulacion", href: "/titulacion", text: "Titulación", icon: BIconMortarboardFillRaw },
     {

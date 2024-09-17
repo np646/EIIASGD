@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserPermissionController;
 
 Route::get('/', function () {
@@ -51,5 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user-permissions', [UserPermissionController::class, 'index'])->name('user.permissions');
     // For authenticated routes
 });
+
+//Students
+Route::resource('students', StudentController::class);
 
 require __DIR__ . '/auth.php';

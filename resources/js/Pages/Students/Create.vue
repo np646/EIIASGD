@@ -14,50 +14,60 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("students.store")), {
-        onFinish: () => form.reset(),
-    };
+    form.post(route("students.store")),
+        {
+            onFinish: () => form.reset(),
+        };
 };
 </script>
 
 <template v-slot:slot-content>
     <MenuLayout>
         <div class="profile-info">
-            <h1>Create Student</h1>
-            <form @submit.prevent="submit">
-                <div>
-                    <label>Nombres:</label>
-                    <input v-model="form.name" type="text" />
+            <h1>Registrar nuevo estudiante</h1>
+            <form @submit.prevent="submit" class="row g-3">
+                <div class="col-md-6">
+                    <label for="inputNombres" class="form-label">Nombres:</label>
+                    <input v-model="form.name" type="text" class="form-control" id="inputNombres" required />
                 </div>
-                <div>
-                    <label>Apellidos:</label>
-                    <input v-model="form.lastname" type="text" />
+                <div class="col-md-6">
+                    <label for="inputApellidos" class="form-label">Apellidos:</label>
+                    <input v-model="form.lastname" type="text" class="form-control" id="inputApellidos" required />
                 </div>
-                <div>
-                    <label>Fecha de nacimiento:</label>
-                    <input v-model="form.date_of_birth" type="text" />
+                <div class="col-md-6">
+                    <label for="inputFechaDeNacimiento" class="form-label">Fecha de nacimiento:</label>
+                    <input v-model="form.date_of_birth" type="date" class="form-control" id="inputFechaDeNacimiento" required />
                 </div>
-                <div>
-                    <label>Identificación: </label>
-                    <input v-model="form.identification" type="text" />
+                <div class="col-md-6">
+                    <label for="inputIdentificacion" class="form-label">Identificación: </label>
+                    <input v-model="form.identification" type="text" class="form-control" id="inputIdentificacion" required />
                 </div>
-                <div>
-                    <label>Email:</label>
-                    <input v-model="form.email" type="email" />
+                <div class="col-md-6">
+                    <label for="inputEmail" class="form-label">Email:</label>
+                    <input v-model="form.email" type="email" class="form-control" id="inputEmail" required />
                 </div>
-                <div>
-                    <label>Código de Banner</label>
-                    <input v-model="form.banner_code" type="text" />
+                <div class="col-md-6">
+                    <label for="inputCodigoBanner" class="form-label">Código de Banner:</label>
+                    <input v-model="form.banner_code" type="text" class="form-control" id="inputCodigoBanner" required />
                 </div>
-                <div>
+                <!-- <div>
                     <label>Sexo:</label>
                     <input v-model="form.sex" type="number" />
+                </div> -->
+                <div class="col-md-6">
+                    <label for="selectSexo" class="form-label">Sexo:</label>
+                    <select id="selectSexo" class="form-select" required v-model="form.sex">
+                        <option>Femenino</option>
+                        <option>Masculino</option>
+                    </select>
                 </div>
                 <div>
                     <label>Estado:</label>
                     <input v-model="form.status" type="number" />
                 </div>
-                <button type="submit">Save</button>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
             </form>
         </div>
     </MenuLayout>

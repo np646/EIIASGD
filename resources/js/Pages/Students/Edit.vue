@@ -1,35 +1,84 @@
-<template>
-    <div>
-        <h1>Edit Student</h1>
-        <form @submit.prevent="submit">
+<template v-slot:slot-content>
+    <MenuLayout>
+        <div class="profile-info">
             <div>
-                <label>Name:</label>
-                <input v-model="form.name" type="text">
+                <!-- TODO: this text is too big -->
+                <h1>Editar información de estudiante</h1>
+                <form @submit.prevent="submit" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputNombres" class="form-label">Nombres:</label>
+                        <input v-model="form.name" type="text" class="form-control" id="inputNombres" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputApellidos" class="form-label">Apellidos:</label>
+                        <input v-model="form.lastname" type="text" class="form-control" id="inputApellidos" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputFechaDeNacimiento" class="form-label">Fecha de nacimiento:</label>
+                        <input v-model="form.date_of_birth" type="date" class="form-control" id="inputFechaDeNacimiento" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputIdentificacion" class="form-label">Identificación: </label>
+                        <input v-model="form.identification" type="text" class="form-control" id="inputIdentificacion" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail" class="form-label">Email:</label>
+                        <input v-model="form.email" type="email" class="form-control" id="inputEmail" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCodigoBanner" class="form-label">Código de Banner:</label>
+                        <input v-model="form.banner_code" type="text" class="form-control" id="inputCodigoBanner" required />
+                    </div>
+                    <!-- <div>
+                    <label>Sexo:</label>
+                    <input v-model="form.sex" type="number" />
+                </div> -->
+                    <div class="col-md-6">
+                        <!-- TODO: get selected sex working -->
+                        <label for="selectSexo" class="form-label">Sexo:</label>
+                        <select id="selectSexo" class="form-select" required v-model="form.sex">
+                            <option>Femenino</option>
+                            <option>Masculino</option>
+                        </select>
+                    </div>
+                    <!-- TODO: Send state by default -->
+                    <div>
+                        <label>Estado:</label>
+                        <input v-model="form.status" type="number" />
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label>Email:</label>
-                <input v-model="form.email" type="email">
-            </div>
-            <div>
-                <label>Age:</label>
-                <input v-model="form.age" type="number">
-            </div>
-            <button type="submit">Update</button>
-        </form>
-    </div>
+        </div>
+    </MenuLayout>
 </template>
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3'
-
-const { student } = usePage().props
+import { Link, useForm, usePage } from "@inertiajs/vue3";
+import MenuLayout from "@/Layouts/MenuLayout.vue";
+const { student } = usePage().props;
 const form = useForm({
     name: student.name,
+    lastname: student.lastname,
+    date_of_birth: student.date_of_birth,
+    identification: student.identification,
+    sex: student.sex,
     email: student.email,
-    age: student.age
-})
+    banner_code: student.banner_code,
+});
 
 const submit = () => {
-    form.put(route('students.update', student.id))
-}
+    form.put(route("students.update", student.id));
+};
 </script>
+
+<style scoped>
+/* TODO: should be global styles for the stuff inside slot */
+.profile-info {
+    max-width: 800px;
+    padding-top: 20px;
+    padding-left: 40px;
+}
+</style>

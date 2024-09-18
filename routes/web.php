@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ProfessorController;
+use App\Http\Controllers\AcademicPeriodController;
 use App\Http\Controllers\UserPermissionController;
 
 Route::get('/', function () {
@@ -55,5 +57,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //Students
 Route::resource('students', StudentController::class);
+
+//Professors
+Route::resource('professors', ProfessorController::class);
+
+//Academic periods
+Route::resource('academicPeriods', AcademicPeriodController::class);
 
 require __DIR__ . '/auth.php';

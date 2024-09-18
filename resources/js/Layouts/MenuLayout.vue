@@ -39,7 +39,7 @@
                 <ul id="menu-items-ul">
                     <template v-for="(item, index) in menuItems" :key="item.href">
                         <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
-                            <a class ="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
+                            <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
                                 <component :is="item.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                             </a>
@@ -64,11 +64,8 @@
         <!-- Main content -->
         <main class="main-content" name="main-content" :class="{ 'main-content-min': isSidebarMini }">
             <div class="slot-content">
-                <slot>
-
-                </slot>
+                <slot> </slot>
             </div>
-           
         </main>
     </div>
 </template>
@@ -89,6 +86,7 @@ import {
 } from "bootstrap-icons-vue";
 // Stuff breaks if I put the styles in this file so it has to stay in its own css file lol
 // TODO: figure out how to make it work (low priority)
+// TODO: rather, each part of the layout should be its own component
 import "/resources/css/menu-style.css";
 import { markRaw } from "vue";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -113,8 +111,8 @@ const activeSubmenu = ref(null);
 // To create menu items
 const menuItems = ref([
     { id: "inbox", href: route("dashboard"), text: "Inicio", icon: BIconHouseDoorFillRaw },
-    { id: "estudiantes", href:route('students.index'), text: "Estudiantes", icon: BIconPersonFillRaw },
-    { id: "docentes", href: "/docentes", text: "Docentes", icon: BIconPeopleFillRaw },
+    { id: "estudiantes", href: route("students.index"), text: "Estudiantes", icon: BIconPersonFillRaw },
+    { id: "docentes", href: route("professors.index"), text: "Docentes", icon: BIconPeopleFillRaw },
     { id: "titulacion", href: "/titulacion", text: "Titulación", icon: BIconMortarboardFillRaw },
     {
         href: "",
@@ -122,7 +120,7 @@ const menuItems = ref([
         icon: BIconSuitcaseLgFillRaw,
         subItems: [
             { href: "/vinculacion", text: "Vinculación", icon: BIconPersonRaisedHandRaw },
-            { href: "/preprofesionales", text: "Preprofesionales", icon:  BIconPersonWorkspaceRaw },
+            { href: "/preprofesionales", text: "Preprofesionales", icon: BIconPersonWorkspaceRaw },
         ],
     },
     { id: "reportes", href: "/reportes", text: "Reportes", icon: BIconClipboardDataFillRaw },

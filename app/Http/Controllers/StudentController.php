@@ -61,6 +61,7 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
+        //TODO: test update
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:students,email,' . $student->id,

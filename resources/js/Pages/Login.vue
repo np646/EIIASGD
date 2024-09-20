@@ -83,11 +83,13 @@ import { useForm } from "@inertiajs/vue3";
 const props = defineProps({
     titleText: {
         type: String,
-        default: "GESTIÓN DOCUMENTAL",
+        // default: "GESTIÓN DOCUMENTAL",
+        default: "SAMPLE",
     },
     subtitleText: {
         type: String,
-        default: "| ESCUELA DE INFORMÁTICA E INTELIGENCIA ARTIFICIAL",
+        // default: "| ESCUELA DE INFORMÁTICA E INTELIGENCIA ARTIFICIAL",
+        default: "SAMPLE",
     },
     speed: {
         type: Number,
@@ -139,6 +141,51 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+    .wrap {
+        flex-direction: column;
+    }
+
+    .container-image,
+    .login-wrap {
+        width: 100%;
+    }
+
+    .container-image {
+        height: 200px; /* Adjust as needed */
+    }
+
+    .container-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .top-left {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .text-overlay {
+        font-size: 20px;
+        padding: 10px 0 0 15px;
+    }
+
+    .second-text {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    .login-wrap {
+        padding: 2rem;
+    }
+
+    .center-section {
+        padding: 2em 0;
+    }
+}
+
+/* Existing styles */
 section {
     display: block;
 }
@@ -157,10 +204,7 @@ label {
 }
 
 .row {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
@@ -176,8 +220,6 @@ label {
 
 @media (min-width: 768px) {
     .col-md-12 {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 100%;
         flex: 0 0 100%;
         max-width: 100%;
     }
@@ -185,8 +227,6 @@ label {
 
 @media (min-width: 992px) {
     .col-lg-10 {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 83.33333%;
         flex: 0 0 83.33333%;
         max-width: 83.33333%;
     }
@@ -198,17 +238,11 @@ label {
 
 .input-group-prepend,
 .input-group-append {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
 }
 
 .input-group-text {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     padding: 0.375rem 0.75rem;
     margin-bottom: 0;
@@ -237,17 +271,11 @@ label {
     border-radius: 0.25rem !important;
 }
 
-@media (min-width: 768px) {
-    .d-md-flex {
-        display: -webkit-box !important;
-        display: -ms-flexbox !important;
-        display: flex !important;
-    }
+.d-md-flex {
+    display: flex !important;
 }
 
 .justify-content-center {
-    -webkit-box-pack: center !important;
-    -ms-flex-pack: center !important;
     justify-content: center !important;
 }
 
@@ -257,6 +285,7 @@ label {
 
 .px-3 {
     padding-right: 1rem !important;
+    padding-left: 1rem !important;
 }
 
 .p-4 {
@@ -289,34 +318,23 @@ body {
     overflow: hidden;
     background: #fff;
     border-radius: 5px;
-    -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
-    -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    display: flex;
 }
 
 .login-wrap {
     width: 50%;
 }
-@media (max-width: 991.98px) {
-    .login-wrap {
-        width: 100%;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .wrap {
-        height: 250px;
-    }
-}
 
 .login-wrap {
     position: relative;
-    background: #fff h3;
+    background: #fff;
 }
 
 .form-group {
     position: relative;
 }
+
 .form-group .label {
     font-size: 12px;
     text-transform: uppercase;
@@ -324,6 +342,7 @@ body {
     color: #000;
     font-weight: 700;
 }
+
 .form-group a {
     color: gray;
 }
@@ -334,61 +353,64 @@ body {
     color: #000;
     font-size: 16px;
     border-radius: 5px;
-    -webkit-box-shadow: none;
     box-shadow: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
 .form-control::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
     color: rgba(0, 0, 0, 0.2) !important;
 }
+
 .form-control::-moz-placeholder {
-    /* Firefox 19+ */
     color: rgba(0, 0, 0, 0.2) !important;
 }
+
 .form-control:-ms-input-placeholder {
-    /* IE 10+ */
     color: rgba(0, 0, 0, 0.2) !important;
 }
+
 .form-control:-moz-placeholder {
-    /* Firefox 18- */
     color: rgba(0, 0, 0, 0.2) !important;
 }
+
 .form-control:focus,
 .form-control:active {
     outline: none !important;
-    -webkit-box-shadow: none;
     box-shadow: none;
     border: 1px solid #00356b;
 }
 
 .btn {
     cursor: pointer;
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
     font-size: 15px;
     padding: 10px 20px;
 }
+
 .btn:hover,
 .btn:active,
 .btn:focus {
     outline: none;
 }
+
 .btn.btn-primary {
     background: #00356b !important;
     border: 1px solid #00356b !important;
     color: #fff !important;
 }
+
 .btn.btn-primary:hover {
     border: 1px solid #00356b;
     background: transparent;
     color: #00356b;
 }
+
 .btn.btn-primary.btn-outline-primary {
     border: 1px solid #00356b;
     background: transparent;
     color: #00356b;
 }
+
 .btn.btn-primary.btn-outline-primary:hover {
     border: 1px solid transparent;
     background: #00356b;
@@ -416,7 +438,6 @@ body {
     filter: brightness(50%);
 }
 
-/* Text over image */
 .top-left {
     position: absolute;
     top: 10px;

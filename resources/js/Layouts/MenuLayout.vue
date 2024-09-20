@@ -6,12 +6,16 @@
                 <BIconList aria-label="Toggle navigation" id="toggle-sidebar" @click="toggleSidebar"></BIconList>
                 <span>EIIASGD</span>
                 <form class="d-flex search-box" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
-                    <button class="btn btn-outline-secondary" type="submit"><BIconSearch id="search-icon"></BIconSearch></button>
+                    <div class="position-relative">
+                        <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" />
+                        <BIconSearch id="search-icon"></BIconSearch>
+                    </div>
                 </form>
-
                 <div class="dropdown profile">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $page.props.auth.user.name }}</button>
+                    <div class="avatar">
+                        {{ firstLetter }}
+                    </div>
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ userName }}</button>
                     <ul class="dropdown-menu">
                         <li><Link class="dropdown-item" :href="route('profile.edit')">Perfil</Link></li>
                         <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
@@ -90,7 +94,7 @@ import {
 import "/resources/css/menu-style.css";
 import { markRaw } from "vue";
 import { ref, onMounted, onUnmounted } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { Link,usePage } from "@inertiajs/vue3";
 
 // To set icons as not reactive
 const BIconHouseDoorFillRaw = markRaw(BIconHouseDoorFill);
@@ -152,4 +156,11 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener("resize", handleResize);
 });
+
+import { computed } from 'vue';
+
+//FOR USERNAME AVATAR
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
+const firstLetter = computed(() => userName.value.charAt(0).toUpperCase());
 </script>

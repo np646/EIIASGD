@@ -246,7 +246,6 @@ body {
     border-bottom-right-radius: 0;
 }
 
-
 .form-control {
     height: 48px;
     background: #fff;

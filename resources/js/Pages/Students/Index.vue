@@ -39,12 +39,3 @@ import { Link, usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 const { students } = usePage().props;
 </script>
-
-<style scoped>
-/* TODO: should be global styles for the stuff inside slot */
-.profile-info {
-    max-width: 800px;
-    padding-top: 20px;
-    padding-left: 40px;
-}
-</style>

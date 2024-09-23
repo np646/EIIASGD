@@ -7,7 +7,7 @@
                         <div class="wrap d-md-flex">
                             <div class="container-image">
                                 <img
-                                    src="https://www.cincinnati.com/gcdn/presto/2021/07/08/NCCT/41a860e4-8fbc-44b3-a555-cd735e05f8c4-07082021ceb_02.JPG?width=660&height=441&fit=crop&format=pjpg&auto=webp"
+                                    src="/img/login.jpg"
                                 />
                                 <div>
                                     <div class="top-left">
@@ -83,13 +83,11 @@ import { useForm } from "@inertiajs/vue3";
 const props = defineProps({
     titleText: {
         type: String,
-        // default: "GESTIÓN DOCUMENTAL",
-        default: "SAMPLE",
+        default: "GESTIÓN DOCUMENTAL",
     },
     subtitleText: {
         type: String,
-        // default: "| ESCUELA DE INFORMÁTICA E INTELIGENCIA ARTIFICIAL",
-        default: "SAMPLE",
+        default: "| ESCUELA DE INFORMÁTICA E INTELIGENCIA ARTIFICIAL",
     },
     speed: {
         type: Number,
@@ -141,104 +139,81 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-    .wrap {
-        flex-direction: column;
-    }
-
-    .container-image,
-    .login-wrap {
-        width: 100%;
-    }
-
-    .container-image {
-        height: 200px; /* Adjust as needed */
-    }
-
-    .container-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .top-left {
-        width: 100%;
-        padding: 15px;
-    }
-
-    .text-overlay {
-        font-size: 20px;
-        padding: 10px 0 0 15px;
-    }
-
-    .second-text {
-        font-size: 14px;
-        max-width: 100%;
-    }
-
-    .login-wrap {
-        padding: 2rem;
-    }
-
-    .center-section {
-        padding: 2em 0;
-    }
+/* Base styles */
+body {
+    font-size: 16px;
+    line-height: 1.8;
+    background: rgb(242, 242, 242);
+    color: gray;
 }
 
-/* Existing styles */
-section {
-    display: block;
+.center-section {
+    padding: 7em 0;
 }
 
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-}
-
-.container {
+.wrap {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.row {
+    max-width: 1000px; /* Adjust as needed */
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
     display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    overflow: hidden;
 }
 
-.col-md-12,
-.col-lg-10 {
+.container-image {
     position: relative;
+    color: white;
+    width: 50%;
+}
+
+.container-image img {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(50%);
 }
 
-@media (min-width: 768px) {
-    .col-md-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+.login-wrap {
+    width: 50%;
+    padding: 3rem;
+    background: #fff;
 }
 
-@media (min-width: 992px) {
-    .col-lg-10 {
-        flex: 0 0 83.33333%;
-        max-width: 83.33333%;
-    }
+.top-left {
+    position: absolute;
+    top: 10px;
+    left: 24px;
 }
 
+.text-overlay {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.second-text {
+    color: white;
+    word-wrap: break-word;
+    max-width: 26ch;
+}
+
+.second-text::first-letter {
+    color: rgb(68, 182, 227);
+}
+
+/* Form styles */
 .form-group {
     margin-bottom: 1rem;
 }
 
-.input-group-prepend,
-.input-group-append {
-    display: flex;
+.input-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00356b;
+    font-weight: 700;
 }
 
 .input-group-text {
@@ -256,6 +231,10 @@ label {
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
+.input-group-prepend,
+.input-group-append {
+    display: flex;
+}
 
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
@@ -267,85 +246,6 @@ label {
     border-bottom-right-radius: 0;
 }
 
-.rounded {
-    border-radius: 0.25rem !important;
-}
-
-.d-md-flex {
-    display: flex !important;
-}
-
-.justify-content-center {
-    justify-content: center !important;
-}
-
-.mb-3 {
-    margin-bottom: 1rem !important;
-}
-
-.px-3 {
-    padding-right: 1rem !important;
-    padding-left: 1rem !important;
-}
-
-.p-4 {
-    padding: 1.5rem !important;
-}
-
-@media (min-width: 768px) {
-    .p-md-5 {
-        padding: 3rem !important;
-    }
-}
-
-body {
-    font-size: 16px;
-    line-height: 1.8;
-    background: rgb(242, 242, 242);
-    color: gray;
-}
-
-.bg-primary {
-    background: #00356b !important;
-}
-
-.center-section {
-    padding: 7em 0;
-}
-
-.wrap {
-    width: 100%;
-    overflow: hidden;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
-    display: flex;
-}
-
-.login-wrap {
-    width: 50%;
-}
-
-.login-wrap {
-    position: relative;
-    background: #fff;
-}
-
-.form-group {
-    position: relative;
-}
-
-.form-group .label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000;
-    font-weight: 700;
-}
-
-.form-group a {
-    color: gray;
-}
 
 .form-control {
     height: 48px;
@@ -353,110 +253,59 @@ body {
     color: #000;
     font-size: 16px;
     border-radius: 5px;
-    box-shadow: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
-
-.form-control::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control::-moz-placeholder {
-    color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control:-ms-input-placeholder {
-    color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control:-moz-placeholder {
-    color: rgba(0, 0, 0, 0.2) !important;
-}
-
 .form-control:focus,
 .form-control:active {
     outline: none !important;
     box-shadow: none;
     border: 1px solid #00356b;
 }
-
-.btn {
-    cursor: pointer;
-    box-shadow: none !important;
-    font-size: 15px;
-    padding: 10px 20px;
-}
-
-.btn:hover,
-.btn:active,
-.btn:focus {
-    outline: none;
-}
-
 .btn.btn-primary {
     background: #00356b !important;
     border: 1px solid #00356b !important;
     color: #fff !important;
-}
-
-.btn.btn-primary:hover {
-    border: 1px solid #00356b;
-    background: transparent;
-    color: #00356b;
-}
-
-.btn.btn-primary.btn-outline-primary {
-    border: 1px solid #00356b;
-    background: transparent;
-    color: #00356b;
-}
-
-.btn.btn-primary.btn-outline-primary:hover {
-    border: 1px solid transparent;
-    background: #00356b;
-    color: #fff;
-}
-
-.input-label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #00356b;
-    font-weight: 700;
-}
-
-.container-image {
-    position: relative;
-    color: white;
-    width: 50%;
-}
-
-.container-image img {
+    cursor: pointer;
+    font-size: 15px;
+    padding: 10px 20px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(50%);
 }
 
-.top-left {
-    position: absolute;
-    top: 10px;
-}
+/* Responsive styles */
+@media (max-width: 768px) {
+    .center-section {
+        padding: 2em 0;
+    }
 
-.text-overlay {
-    font-size: 24px;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    padding: 15px 0px 0px 24px;
-}
+    .wrap {
+        flex-direction: column;
+        max-width: 100%;
+    }
 
-.second-text {
-    color: white;
-    word-wrap: break-word;
-    max-width: 26ch;
-}
+    .container-image,
+    .login-wrap {
+        width: 100%;
+    }
 
-.second-text::first-letter {
-    color: rgb(68, 182, 227);
+    .container-image {
+        height: 200px; /* Adjust as needed */
+    }
+
+    .login-wrap {
+        padding: 2rem;
+    }
+
+    .top-left {
+        padding: 15px;
+    }
+
+    .text-overlay {
+        font-size: 20px;
+    }
+
+    .second-text {
+        font-size: 14px;
+        max-width: 100%;
+    }
 }
 </style>

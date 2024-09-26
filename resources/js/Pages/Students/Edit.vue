@@ -56,7 +56,7 @@
 </template>
 
 <script setup>
-import { Link, useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 const { student } = usePage().props;
 const form = useForm({

@@ -55,7 +55,7 @@ const emit = defineEmits(["toggleSidebar"]);
     background-color: #ffffff;
     width: 100%;
     height: 60px;
-    position: fixed;
+    position: relative;
     margin-bottom: 0px;
     border-bottom: 1px solid #e9eaec;
 }
@@ -204,6 +204,8 @@ const emit = defineEmits(["toggleSidebar"]);
 .navigation-bar-min {
     width: 100%;
     margin-top: 15px;
+    position:relative;
+    z-index: 1;
 }
 
 .navigation-bar-min span {

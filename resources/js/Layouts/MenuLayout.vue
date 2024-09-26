@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted} from "vue";
 import { usePage } from "@inertiajs/vue3";
 import Navbar from "@/Pages/Menu/Components/Navbar.vue";
 import Sidebar from "@/Pages/Menu/Components/Sidebar.vue";
@@ -25,6 +25,7 @@ const toggleSidebar = () => {
         isNavMinVisible.value = !isNavMinVisible.value;
     } else {
         isSidebarMini.value = !isSidebarMini.value;
+        localStorage.setItem('sidebarMini', JSON.stringify(isSidebarMini.value));
     }
 };
 
@@ -38,6 +39,12 @@ const handleResize = () => {
 
 onMounted(() => {
     window.addEventListener("resize", handleResize);
+
+     // Load the sidebar state from localStorage when the component mounts
+  const savedState = localStorage.getItem('sidebarMini');
+  if (savedState !== null) {
+    isSidebarMini.value = JSON.parse(savedState);
+  }
 });
 
 onUnmounted(() => {
@@ -59,7 +66,10 @@ const userName = computed(() => page.props.auth.user.name);
     height: 100vh;
     width: 100%;
     background-color: #ffffff;
+    position:relative;
 }
+
+
 
 .main-content {
     display: flex;
@@ -68,7 +78,6 @@ const userName = computed(() => page.props.auth.user.name);
 
 /* Content inside slot */
 .slot-content {
-    margin-top: 60px;
     margin-left: 226px;
     width: 100%;
     padding-top: 20px;
@@ -76,7 +85,6 @@ const userName = computed(() => page.props.auth.user.name);
 }
 
 .slot-content-sidebar-mini {
-    margin-top: 60px;
     margin-left: 80px;
     width: 100%;
     padding-top: 20px;
@@ -90,11 +98,11 @@ const userName = computed(() => page.props.auth.user.name);
 
 @media (max-width: 600px) {
     .slot-content {
-        margin-top: 60px;
         margin-left: 0px;
         width: 100%;
         padding-top: 20px;
         transition: margin-left 0.4s ease;
+        padding-left: 0px;
     }
 }
 </style>

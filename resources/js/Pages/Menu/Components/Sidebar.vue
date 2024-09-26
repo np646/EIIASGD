@@ -1,39 +1,56 @@
 <template>
     <div class="sidebar" :class="{ 'sidebar-min': isSidebarMini }">
-        <nav class="menu-items">
-            <ul id="menu-items-ul">
-                <template v-for="(item, index) in menuItems" :key="item.href">
-                    <li :id="item.id" :class="{ 'has-submenu': item.subItems }">
-                        <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
-                            <component :is="item.icon"></component>
-                            <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
-                        </a>
-                        <Link v-else :href="item.href" @click.prevent="item.subItems && toggleSubmenu(item)">
-                            <component :is="item.icon"></component>
-                            <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
-                        </Link>
-                    </li>
-                    <template v-if="item.subItems">
-                        <li v-for="subItem in item.subItems" :key="subItem.href" class="submenu-item" :class="{ visible: activeSubmenu === item }">
-                            <Link :href="subItem.href">
-                                <component :is="subItem.icon"></component>
-                                <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
-                            </Link>
-                        </li>
-                    </template>
-                </template>
-            </ul>
-        </nav>
+      <nav class="menu-items">
+        <ul id="menu-items-ul">
+          <template v-for="(item, index) in menuItems" :key="item.href">
+            <li :id="item.id" :class="{ 'has-submenu': item.subItems, 'active': isActive(item) }">
+              <a
+                class="practicas-icon"
+                v-if="item.text == 'Prácticas'"
+                @click.prevent="toggleSubmenu(item)"
+                :class="{ 'active': isActive(item) }"
+              >
+                <component :is="item.icon"></component>
+                <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
+              </a>
+              <Link
+                v-else
+                :href="item.href"
+                :class="{ 'active': isActive(item) }"
+              >
+                <component :is="item.icon"></component>
+                <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
+              </Link>
+            </li>
+            <template v-if="item.subItems">
+              <li
+                v-for="subItem in item.subItems"
+                :key="subItem.href"
+                class="submenu-item"
+                :class="{ visible: activeSubmenu === item, 'active': isActive(subItem) }"
+              >
+                <Link
+                  :href="subItem.href"
+                  :class="{ 'active': isActive(subItem) }"
+                >
+                  <component :is="subItem.icon"></component>
+                  <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
+                </Link>
+              </li>
+            </template>
+          </template>
+        </ul>
+      </nav>
     </div>
-</template>
+  </template>
 
 <script setup>
-import { ref } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
+import { Link, usePage } from "@inertiajs/vue3";
 import { useMenuItems } from "@/Pages/Menu/Composables/useMenuItems";
 const menuItems = useMenuItems();
 const activeSubmenu = ref(null);
-
+const page = usePage();
 // To toggle sidebar and submenu
 const props = defineProps({
     isSidebarMini: Boolean,
@@ -42,11 +59,20 @@ const props = defineProps({
 const toggleSubmenu = (item) => {
     activeSubmenu.value = activeSubmenu.value === item ? null : item;
 };
+
+const currentRoute = computed(() => page.url);
+
+const isActive = (item) => {
+  if (item.href.includes(currentRoute.value)) return true;
+  if (item.subItems) {
+    return item.subItems.some(subItem => subItem.href.includes(currentRoute.value));
+  }
+  return false;
+};
 </script>
 <style scoped>
 /* Sidebar */
 .sidebar {
-    margin-top: 60px;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -108,14 +134,20 @@ const toggleSubmenu = (item) => {
     display: flex;
     align-items: center;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 5px;
     color: #00356b;
     padding-left: 17px;
+    margin-bottom:2px;
 }
 
 .sidebar .menu-items a:hover {
     background-color: #00356b;
     color: #ffffff;
+}
+
+.sidebar .menu-items a.active {
+  background-color: #00356b;
+  color: #ffffff;
 }
 
 .sidebar .menu-items i {
@@ -131,21 +163,6 @@ const toggleSubmenu = (item) => {
 
 .practicas-icon {
     cursor: pointer;
-}
-/* Buttons */
-.btn-primary {
-    background-color: #00356b;
-    border-color: #00356b;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-    color: #fff;
-    background-color: #0e2950;
-    border-color: #0e2950;
 }
 
 /* Prácticas submenu */

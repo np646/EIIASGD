@@ -73,7 +73,7 @@ const isActive = (item) => {
 <style scoped>
 /* Sidebar */
 .sidebar {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -10,11 +10,11 @@
                 </div>
             </form>
             <div class="dropdown profile">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ userName }}
+                <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <BIconPersonCircle class="avatar"></BIconPersonCircle>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><Link class="dropdown-item" :href="route('profile.edit')">Perfil</Link></li>
+                    <li><Link class="dropdown-item" :href="route('profile.edit')">{{ userName }}</Link></li>
                     <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
                 </ul>
             </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { BIconList, BIconSearch } from "bootstrap-icons-vue";
+import { BIconList, BIconPersonCircle, BIconSearch } from "bootstrap-icons-vue";
 import { Link } from "@inertiajs/vue3";
 import { useMenuItems } from "@/Pages/Menu/Composables/useMenuItems";
 const menuItems = useMenuItems();
@@ -47,6 +47,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["toggleSidebar"]);
+
+import "primeicons/primeicons.css";
 </script>
 
 <style scoped>
@@ -163,15 +165,8 @@ const emit = defineEmits(["toggleSidebar"]);
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
-    height: 20px;
-    background-color: white;
-    /* TODO: get the color combination right  */
-    border-color: #00356b;
     color: #00356b;
-    border-radius: 50%;
-    font-size: 15px;
-    border-width: 1px;
+    font-size: 20px;
     margin-right: 0px;
 }
 /* Navigation bar <600px */

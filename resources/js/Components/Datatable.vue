@@ -17,8 +17,7 @@
         <template #header>
             <div class="flex justify-between">
                 <div style="text-align: left">
-                    <!-- TODO: Change to export as excel file -->
-                    <Button icon="pi pi-external-link" label="Exportar" @click="exportCSV($event)" />
+                    <ButtonSlide :pageName="generateRoute('create')" />
                 </div>
                 <IconField>
                     <InputIcon>
@@ -32,20 +31,20 @@
 
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
 
-        <Column :exportable="false" style="min-width: 12rem" header="Editar">
+        <Column :exportable="false" header="Editar">
             <template #body="slotProps">
                 <Link :href="route('students.edit', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-pencil" outlined severity="info" rounded />
                 </Link>
             </template>
         </Column>
-        <Column :exportable="false" style="min-width: 12rem" header="Eliminar">
+        <Column :exportable="false" header="Eliminar">
             <template #body="slotProps">
                 <!-- TODO: get delete (updating status) working -->
                 <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
             </template>
         </Column>
-        <Column :exportable="false" style="min-width: 12rem" header="Ver perfil">
+        <Column :exportable="false" header="Ver perfil">
             <template #body="slotProps">
                 <Link :href="route('students.edit', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-search-plus" outlined severity="secondary" rounded />
@@ -66,6 +65,7 @@ import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
 import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
+import ButtonSlide from "./ButtonSlide.vue";
 
 const filters = ref();
 const initFilters = () => {
@@ -78,12 +78,16 @@ const props = defineProps({
     columnHeaders: Array,
     globalFilters: Array,
     data: Object,
+    pageName: String,
 });
 
-// To export as CSV
-const dt = ref();
-const exportCSV = () => {
-    dt.value.exportCSV();
-};
 initFilters();
+
+// To generate routes based on page name
+const generateRoute = (action, id = null) => {
+  if (id) {
+    return route(`${props.pageName}.${action}`, id);
+  }
+  return route(`${props.pageName}.${action}`);
+};
 </script>

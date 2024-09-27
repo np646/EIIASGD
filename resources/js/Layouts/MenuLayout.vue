@@ -73,7 +73,6 @@ const userName = computed(() => page.props.auth.user.name);
 
 .main-content {
     display: flex;
-    min-height: 100vh;
 }
 
 /* Content inside slot */
@@ -82,6 +81,7 @@ const userName = computed(() => page.props.auth.user.name);
     width: 100%;
     padding-top: 20px;
     padding-left: 40px;
+    padding-right: 40px;
 }
 
 .slot-content-sidebar-mini {
@@ -89,6 +89,7 @@ const userName = computed(() => page.props.auth.user.name);
     width: 100%;
     padding-top: 20px;
     padding-left: 40px;
+    padding-right: 40px;
 }
 
 .slot-content,

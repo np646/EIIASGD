@@ -1,11 +1,8 @@
 <template v-slot:slot-content>
     <MenuLayout>
         <div>
-            <!-- <h1>Estudiantes</h1> -->
-           
-            <TitleButton :pageName="route('students.create')"/>
-            <!-- TODO: change color scheme -->
-            <Datatable :data="students" :columnHeaders="columnHeaders" :globalFilters="globalFilters" />
+            <Title :title="title" />
+            <Datatable :data="students" :columnHeaders="columnHeaders" :globalFilters="globalFilters" :pageName="pageName" />
         </div>
     </MenuLayout>
 </template>
@@ -14,9 +11,11 @@
 import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Datatable from "@/Components/Datatable.vue";
-import TitleButton from "@/Components/TitleButton.vue";
+import Title from "@/Components/Title.vue";
 
 const { students } = usePage().props;
+const pageName = "students";
+const title = "Estudiantes";
 const columnHeaders = [
     { field: "lastname", header: "Apellidos" },
     { field: "name", header: "Nombres" },
@@ -25,6 +24,4 @@ const columnHeaders = [
 const globalFilters = ["lastname", "name", "email"];
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

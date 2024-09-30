@@ -10,7 +10,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
+        $students = Student::where('status', 1)->get();
         return Inertia::render('Students/Index', [
             'students' => $students
         ]);
@@ -76,5 +76,29 @@ class StudentController extends Controller
     {
         $student->delete();
         return redirect()->route('students.index');
+    }
+
+    public function profile(Student $student)
+    {
+        return Inertia::render('Students/Profile', [
+            'student' => $student
+        ]);
+    }
+
+    public function remove(Request $request, Student $student)
+    {
+        $request->validate([
+            'status' => 'required|integer'
+        ]);
+
+        $student->update($request->only('status'));
+        return redirect()->route('students.index');
+    }
+
+    public function fetch()
+    {
+        $students = Student::where('status', 1)->get();
+        return response()->json($students);
+
     }
 }

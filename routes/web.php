@@ -57,6 +57,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //Students
 Route::resource('students', StudentController::class);
+Route::get('students/{student}/profile', [StudentController::class, 'profile'])->name('students.profile');
+Route::put('students/{student}/remove', [StudentController::class, 'remove'])->name('students.remove');
+Route::put('students/fetch', [StudentController::class, 'fetch'])->name('students.fetch');
+
 
 //Professors
 Route::resource('professors', ProfessorController::class);

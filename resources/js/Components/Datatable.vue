@@ -13,6 +13,7 @@
         :rows="5"
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
+        :key="componentKey"
     >
         <template #header>
             <div class="flex justify-between">
@@ -33,20 +34,29 @@
 
         <Column :exportable="false" header="Editar">
             <template #body="slotProps">
-                <Link :href="route('students.edit', slotProps.data.id)">
+                <Link :href="generateRoute('edit', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-pencil" outlined severity="info" rounded />
                 </Link>
             </template>
         </Column>
         <Column :exportable="false" header="Eliminar">
             <template #body="slotProps">
-                <!-- TODO: get delete (updating status) working -->
-                <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
+                <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
+                <Dialog v-model:visible="visible" modal header="Eliminar" :style="{ width: '25rem' }">
+                    <span class="text-surface-500 dark:text-surface-400 block mb-8">¿Está seguro que desea continuar?</span>
+                    <form @submit.prevent="submit">
+                        <input value="0" class="form-control" id="inputStatus" required hidden />
+                        <div class="flex justify-end gap-2">
+                            <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
+                            <Button type="submit" label="Eliminar" severity="danger"></Button>
+                        </div>
+                    </form>
+                </Dialog>
             </template>
         </Column>
         <Column :exportable="false" header="Ver perfil">
             <template #body="slotProps">
-                <Link :href="route('students.edit', slotProps.data.id)">
+                <Link :href="generateRoute('profile', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-search-plus" outlined severity="secondary" rounded />
                 </Link>
             </template>
@@ -55,7 +65,7 @@
 </template>
 
 <script setup>
-import { Link} from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -66,7 +76,9 @@ import InputText from "primevue/inputtext";
 import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import ButtonSlide from "./ButtonSlide.vue";
+import Dialog from "primevue/dialog";
 
+const visible = ref(false);
 const filters = ref();
 const initFilters = () => {
     filters.value = {
@@ -79,15 +91,49 @@ const props = defineProps({
     globalFilters: Array,
     data: Object,
     pageName: String,
+    slotProps: Object,
 });
 
 initFilters();
 
 // To generate routes based on page name
+const removeId = ref(null);
 const generateRoute = (action, id = null) => {
-  if (id) {
-    return route(`${props.pageName}.${action}`, id);
-  }
-  return route(`${props.pageName}.${action}`);
+    if (id) {
+        return route(`${props.pageName}.${action}`, id);
+    }
+    return route(`${props.pageName}.${action}`);
 };
+
+// To delete
+const form = useForm({
+    status: 0,
+});
+
+const openDeleteDialog = (id) => {
+    removeId.value = id;
+    visible.value = true;
+};
+
+const submit = () => {
+    if (removeId.value !== null) {
+        form.put(generateRoute('remove', removeId.value), {
+            onSuccess: () => {
+                visible.value = false;
+                // window.location.reload();
+                // forceReload();
+            },
+        });
+    } else {
+        console.error("No existe el ID.");
+    }
+};
+
+// To force reload
+const componentKey = ref(0);
+
+function forceReload() {
+  componentKey.value += 1; // Increment the key to force a reload
+}
+
 </script>

@@ -2,7 +2,7 @@
     <MenuLayout>
         <div>
             <Title :title="title" />
-            <Datatable :data="students" :columnHeaders="columnHeaders" :globalFilters="globalFilters" :pageName="pageName" />
+            <Datatable :data="students" :columnHeaders="columnHeaders" :globalFilters="globalFilters" :pageName="pageName"/>
         </div>
     </MenuLayout>
 </template>

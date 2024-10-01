@@ -21,6 +21,8 @@ import PrimeVue from "primevue/config";
 // To style datatables
 import Aura from "@primevue/themes/aura";
 
+import Tooltip from 'primevue/tooltip';
+
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
@@ -36,6 +38,7 @@ createInertiaApp({
                     preset: Aura,
                 },
             })
+            .directive('tooltip', Tooltip)
             .mount(el);
     },
     progress: {

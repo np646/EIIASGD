@@ -13,7 +13,7 @@
         :rows="5"
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
-        :key="componentKey"
+        :perfil="perfil"
     >
         <template #header>
             <div class="flex justify-between">
@@ -24,7 +24,7 @@
                     <InputIcon>
                         <i class="pi pi-search" />
                     </InputIcon>
-                    <InputText v-model="filters['global'].value" placeholder="Buscar" />
+                    <InputText v-model="filters['global'].value" placeholder="Buscar" class="border-color" />
                 </IconField>
             </div>
         </template>
@@ -32,14 +32,14 @@
 
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
 
-        <Column :exportable="false" header="Editar">
+        <Column :exportable="false" header="Editar" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Link :href="generateRoute('edit', slotProps.data.id)">
-                    <Button class="mr-2" icon="pi pi-pencil" outlined severity="info" rounded />
+                    <Button class="mr-2" icon="pi pi-pencil" outlined rounded />
                 </Link>
             </template>
         </Column>
-        <Column :exportable="false" header="Eliminar">
+        <Column :exportable="false" header="Eliminar"  bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
                 <Dialog v-model:visible="visible" modal header="Eliminar" :style="{ width: '25rem' }">
@@ -54,10 +54,10 @@
                 </Dialog>
             </template>
         </Column>
-        <Column :exportable="false" header="Ver perfil">
+        <Column  v-if=perfil :exportable="false" header="Perfil" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
                 <Link :href="generateRoute('profile', slotProps.data.id)">
-                    <Button class="mr-2" icon="pi pi-search-plus" outlined severity="secondary" rounded />
+                    <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
                 </Link>
             </template>
         </Column>
@@ -66,7 +66,7 @@
 
 <script setup>
 import { Link, useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
@@ -92,6 +92,7 @@ const props = defineProps({
     data: Object,
     pageName: String,
     slotProps: Object,
+    perfil: Boolean,
 });
 
 initFilters();
@@ -106,6 +107,8 @@ const generateRoute = (action, id = null) => {
 };
 
 // To delete
+const emit = defineEmits(["remove-id"]);
+
 const form = useForm({
     status: 0,
 });
@@ -117,23 +120,21 @@ const openDeleteDialog = (id) => {
 
 const submit = () => {
     if (removeId.value !== null) {
-        form.put(generateRoute('remove', removeId.value), {
+        form.put(generateRoute("remove", removeId.value), {
             onSuccess: () => {
+                emit("remove-id", removeId.value);
+                removeId.value = null;
                 visible.value = false;
-                // window.location.reload();
-                // forceReload();
             },
         });
     } else {
-        console.error("No existe el ID.");
+        console.error("No fue posible eliminar el ID.");
     }
 };
-
-// To force reload
-const componentKey = ref(0);
-
-function forceReload() {
-  componentKey.value += 1; // Increment the key to force a reload
-}
-
 </script>
+
+<style scoped>
+.border-color:focus {
+    border-color: #00356b !important;
+}
+</style>

@@ -21,7 +21,7 @@ import PrimeVue from "primevue/config";
 // To style datatables
 import Aura from "@primevue/themes/aura";
 
-import Tooltip from 'primevue/tooltip';
+import Tooltip from "primevue/tooltip";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -37,8 +37,16 @@ createInertiaApp({
                 theme: {
                     preset: Aura,
                 },
+                locale: {
+                    dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                    firstDayOfWeek: 1,
+                },
             })
-            .directive('tooltip', Tooltip)
+            .directive("tooltip", Tooltip)
             .mount(el);
     },
     progress: {

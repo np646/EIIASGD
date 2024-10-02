@@ -14,7 +14,9 @@
                     <BIconPersonCircle class="avatar"></BIconPersonCircle>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><Link class="dropdown-item" :href="route('profile.edit')">{{ userName }}</Link></li>
+                    <li>
+                        <Link class="dropdown-item" :href="route('profile.edit')">{{ userName }}</Link>
+                    </li>
                     <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
                 </ul>
             </div>
@@ -66,6 +68,7 @@ import "primeicons/primeicons.css";
     width: 100%;
     height: 45px;
     color: #00356b;
+    /* color: #595a6c; */
     display: flex;
     align-items: center;
 }
@@ -150,14 +153,12 @@ import "primeicons/primeicons.css";
     color: #00356b;
 }
 
-.profile .dropdown-item:active {
-    background-color: #00356b;
-    color: white;
+.profile .dropdown-menu {
+    border-color: #e9eaec;
 }
 
 .profile .dropdown-item:hover {
     background-color: #e9eaec;
-    /* background-color: rgb(222,226,230); */
     color: #00356b;
 }
 
@@ -165,9 +166,15 @@ import "primeicons/primeicons.css";
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    /* color: #595a6c; */
     color: #00356b;
     font-size: 20px;
     margin-right: 0px;
+}
+
+.avatar:hover,
+.avatar:focus {
+    color: #00356b;
 }
 /* Navigation bar <600px */
 .navigation-bar-min-ul {
@@ -199,7 +206,7 @@ import "primeicons/primeicons.css";
 .navigation-bar-min {
     width: 100%;
     margin-top: 15px;
-    position:relative;
+    position: relative;
     z-index: 1;
 }
 

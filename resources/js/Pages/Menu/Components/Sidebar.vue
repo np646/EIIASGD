@@ -3,7 +3,7 @@
         <nav class="menu-items">
             <ul id="menu-items-ul">
                 <template v-for="(item, index) in menuItems" :key="item.href">
-                    <li :id="item.id" :class="{ 'has-submenu': item.subItems, active: isActive(item) }" v-tooltip="item.text">
+                    <li :id="item.id" :class="{ 'has-submenu': item.subItems, active: isActive(item) }" v-tooltip="isSidebarMini ? item.text : null">
                         <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)" :class="{ active: isActive(item) }">
                             <component :is="item.icon"></component>
                             <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
@@ -19,15 +19,8 @@
                             :key="subItem.href"
                             class="submenu-item"
                             :class="{ visible: activeSubmenu === item, active: isActive(subItem) }"
-                            v-bind="
-                                isSidebarMini
-                                    ? {
-                                          title: subItem.text,
-                                      }
-                                    : {}
-                            "
                         >
-                            <Link :href="subItem.href" :class="{ active: isActive(subItem) }">
+                            <Link :href="subItem.href" :class="{ active: isActive(subItem) }" v-tooltip="isSidebarMini ? item.text : null">
                                 <component :is="subItem.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
                             </Link>
@@ -64,8 +57,6 @@ const isActive = (item) => {
     }
     return false;
 };
-
-import Tooltip from "primevue/tooltip";
 </script>
 <style scoped>
 /* Sidebar */
@@ -229,6 +220,4 @@ import Tooltip from "primevue/tooltip";
         left: -250px;
     }
 }
-
-/* Tooltip */
 </style>

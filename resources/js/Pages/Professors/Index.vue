@@ -31,13 +31,27 @@
                 <Link :href="route('professors.create')">Crear nuevo docente</Link>
             </div>
         </div>
+
+        <Select :options="professors" :optionLabel="label" :placeholder="placeholder" v-model="selectedOption" />
+        {{ selectedCityName }}
     </MenuLayout>
 </template>
 
 <script setup>
 import { Link, usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
+import Select from "@/Components/Select.vue";
+
+import { ref, computed } from "vue";
+
 const { professors } = usePage().props;
+
+const selectedOption = ref(null);
+const label = "name";
+const placeholder = "Select a City";
+const selectedCityName = computed(() => {
+    return selectedOption.value ? selectedOption.value.id : null;
+});
 </script>
 
 <style scoped>

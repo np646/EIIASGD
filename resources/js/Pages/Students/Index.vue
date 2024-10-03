@@ -1,16 +1,14 @@
 <template v-slot:slot-content>
     <MenuLayout>
-        <div>
-            <Title :title="title" />
-            <Datatable
-                :data="studentsRef"
-                :columnHeaders="columnHeaders"
-                :globalFilters="globalFilters"
-                :pageName="pageName"
-                @remove-id="updateArray"
-                :perfil="perfil"
-            />
-        </div>
+        <Title :title="title" />
+        <Datatable
+            :data="studentsRef"
+            :columnHeaders="columnHeaders"
+            :globalFilters="globalFilters"
+            :pageName="pageName"
+            @remove-id="updateArray"
+            :perfil="perfil"
+        />
     </MenuLayout>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <Select v-model="selectedOption" :optionLabel="label" :placeholder="placeholder" class="w-full md:w-56" />
+    <Select v-model="selectedOption" :optionLabel="label" :placeholder="placeholder"/>
 </template>
 
 <script setup>

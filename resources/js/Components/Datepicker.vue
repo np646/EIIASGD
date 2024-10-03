@@ -1,5 +1,5 @@
 <template>
-    <DatePicker v-model="date" dateFormat="dd/mm/yy" />
+    <DatePicker v-model="date" format="yy/mm/dd" showIcon iconDisplay="input" fluid />
 </template>
 
 <script setup>
@@ -9,8 +9,16 @@ import { ref, watch } from "vue";
 const date = ref();
 
 const emit = defineEmits(["update:date"]);
-watch(date, (newOption) => {
-    emit("update:date", newOption);
+watch(date, (newDate) => {
+    if (newDate instanceof Date) {
+        const year = newDate.getFullYear();
+        const month = String(newDate.getMonth() + 1).padStart(2, '0');
+        const day = String(newDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        emit("update:date", formattedDate);
+    } else {
+        emit("update:date", null);
+    }
 });
 </script>
 
@@ -25,7 +33,7 @@ watch(date, (newOption) => {
 .p-datepicker-input:focus-within {
     border-color: var(--general) !important;
 }
-.p-datepicker-day-selected  {
+.p-datepicker-day-selected {
     background-color: var(--general) !important;
 }
 </style>

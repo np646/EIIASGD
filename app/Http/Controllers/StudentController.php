@@ -64,8 +64,12 @@ class StudentController extends Controller
         //TODO: test update
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:students,email,' . $student->id,
-            'age' => 'required|integer'
+            'lastname' => 'required|string',
+            'email' => 'required|email|unique:students',
+            'date_of_birth' => 'required|string',
+            'identification' => 'required|string',
+            'banner_code' => 'required|string|unique:students',
+            'sex' => 'required|integer',
         ]);
 
         $student->update($request->all());

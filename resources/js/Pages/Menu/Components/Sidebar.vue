@@ -49,11 +49,11 @@ const toggleSubmenu = (item) => {
 };
 
 const currentRoute = computed(() => page.url);
-
+const routeName = currentRoute.value.split("/");
 const isActive = (item) => {
-    if (item.href.includes(currentRoute.value)) return true;
+    if (item.href.includes(routeName[1])) return true;
     if (item.subItems) {
-        return item.subItems.some((subItem) => subItem.href.includes(currentRoute.value));
+        return item.subItems.some((subItem) => subItem.href.includes(routeName[1]));
     }
     return false;
 };

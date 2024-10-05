@@ -16,7 +16,7 @@ const props = defineProps({
 .wrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .line {

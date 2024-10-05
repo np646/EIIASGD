@@ -17,18 +17,17 @@ const emit = defineEmits(["update:modelValue"]);
 const selectedOption = ref(props.modelValue);
 
 const selectedOptionIndex = computed(() => {
-    if (!selectedOption.value) return -1;
-    return props.options.findIndex((option) => {
-        if (typeof selectedOption.value === "object") {
-            return option.id === selectedOption.value.id;
-        } else {
-            return option.value === selectedOption.value;
-        }
-    });
+    if (!selectedOption.value) return null;
+
+    if (typeof selectedOption.value === "object") {
+        return selectedOption.value.id;
+    } else {
+        const found = props.options.find((option) => option.value === selectedOption.value);
+        return found ? found.id : null;
+    }
 });
 
 watch(selectedOption, () => {
-    console.log(selectedOptionIndex.value);
     emit("update:modelValue", selectedOptionIndex.value);
 });
 </script>

@@ -1,3 +1,49 @@
+<template v-slot:slot-content>
+    <MenuLayout>
+        <Title :title="title" />
+        <div class="container">
+            <div class="mx-auto">
+                <form @submit.prevent="submit">
+                    <div class="col-md-6 mb-3">
+                        <label for="inputNombres" class="col-form-label">Nombres</label>
+                        <InputText class="form-control" v-model="form.name" id="inputNombres" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="inputApellidos" class="col-form-label">Apellidos</label>
+                        <InputText class="form-control" v-model="form.lastname" id="inputApellidos" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="inputEmail" class="col-form-label">Email</label>
+                        <InputText class="form-control" v-model="form.email" type="email" id="inputEmail" required />
+                    </div>
+                    <div class="row gap-3">
+                        <div class="col-md-3 mb-3">
+                            <label for="inputIdentificacion" class="col-form-label">Identificación</label>
+                            <InputText class="form-control" v-model="form.identification" id="inputIdentificacion" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
+                            <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
+                        </div>
+                    </div>
+                    <div class="row gap-3">
+                        <div class="col-md-3 mb-3">
+                            <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
+                            <Datepicker v-model="form.date_of_birth" @update:date="onDateUpdate" id="inputFechaDeNacimiento" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="selectSexo" class="col-form-label">Sexo</label>
+                            <Select class="w-100" :options="sex" :optionLabel="label" :placeholder="placeholder" v-model="selectedOption" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <Button label="Guardar" icon="pi pi-check" type="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </MenuLayout>
+</template>
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
@@ -6,6 +52,9 @@ import InputText from "primevue/inputtext";
 import Datepicker from "@/Components/Datepicker.vue";
 import Select from "@/Components/Select.vue";
 import Button from "primevue/button";
+import Title from "@/Components/Title.vue";
+
+const title = "Registrar nuevo estudiante";
 
 const sex = ref([
     { id: 0, sex: "Femenino" },
@@ -34,13 +83,12 @@ const form = useForm({
 const onDateUpdate = (newDate) => {
     if (newDate instanceof Date) {
         const year = newDate.getFullYear();
-        const month = String(newDate.getMonth() + 1).padStart(2, '0');
-        const day = String(newDate.getDate()).padStart(2, '0');
+        const month = String(newDate.getMonth() + 1).padStart(2, "0");
+        const day = String(newDate.getDate()).padStart(2, "0");
         form.date_of_birth = `${year}-${month}-${day}`;
-  } else {
-    form.date_of_birth = newDate;
-  }
-  console.log('Updated date of birth:', form.date_of_birth);
+    } else {
+        form.date_of_birth = newDate;
+    }
 };
 
 const submit = () => {
@@ -50,50 +98,3 @@ const submit = () => {
         };
 };
 </script>
-
-<template v-slot:slot-content>
-    <MenuLayout>
-        <!-- <h1>Registrar nuevo estudiante</h1> -->
-        <div class="container">
-            <div class="mx-auto">
-            <form @submit.prevent="submit">
-                <div class="col-md-6 mb-3">
-                    <label for="inputNombres" class="col-form-label">Nombres</label>
-                    <InputText class="form-control" v-model="form.name" id="inputNombres" required />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="inputApellidos" class="col-form-label">Apellidos</label>
-                    <InputText class="form-control" v-model="form.lastname" id="inputApellidos" required />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="inputEmail" class="col-form-label">Email</label>
-                    <InputText class="form-control" v-model="form.email" type="email" id="inputEmail" required />
-                </div>
-                <div class="row gap-3">
-                    <div class="col-md-3 mb-3">
-                        <label for="inputIdentificacion" class="col-form-label">Identificación</label>
-                        <InputText class="form-control" v-model="form.identification" id="inputIdentificacion" required />
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
-                        <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
-                    </div>
-                </div>
-                <div class="row gap-3">
-                    <div class="col-md-3 mb-3">
-                        <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
-                        <Datepicker v-model="form.date_of_birth" @update:date="onDateUpdate"  id="inputFechaDeNacimiento" required/>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="selectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" :options="sex" :optionLabel="label" :placeholder="placeholder" v-model="selectedOption" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <Button label="Guardar" icon="pi pi-check" type="submit"/>
-                </div>
-            </form>
-        </div>
-        </div>
-    </MenuLayout>
-</template>

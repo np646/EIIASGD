@@ -62,15 +62,15 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         //TODO: test update
-        $request->validate([
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email|unique:students',
-            'date_of_birth' => 'required|string',
-            'identification' => 'required|string',
-            'banner_code' => 'required|string|unique:students',
-            'sex' => 'required|integer',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'lastname' => 'required|string',
+        //     'email' => 'required|email|unique:students',
+        //     'date_of_birth' => 'required|date',
+        //     'identification' => 'required|string',
+        //     'banner_code' => 'required|string|unique:students',
+        //     'sex' => 'required|integer',
+        // ]);
 
         $student->update($request->all());
         return redirect()->route('students.index');

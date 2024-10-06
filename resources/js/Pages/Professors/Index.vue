@@ -1,14 +1,16 @@
 <template v-slot:slot-content>
     <MenuLayout>
         <Title :title="title" />
-        <Datatable
-            :data="professorsRef"
-            :columnHeaders="columnHeaders"
-            :globalFilters="globalFilters"
-            :pageName="pageName"
-            @remove-id="updateArray"
-            :perfil="perfil"
-        />
+        <ContentContainer>
+            <Datatable
+                :data="professorsRef"
+                :columnHeaders="columnHeaders"
+                :globalFilters="globalFilters"
+                :pageName="pageName"
+                @remove-id="updateArray"
+                :perfil="perfil"
+            />
+        </ContentContainer>
     </MenuLayout>
 </template>
 
@@ -17,6 +19,7 @@ import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Datatable from "@/Components/Datatable.vue";
 import Title from "@/Components/Title.vue";
+import ContentContainer from "@/Components/ContentContainer.vue";
 import { ref } from "vue";
 
 const { professors: initialProfessors } = usePage().props;

@@ -3,7 +3,6 @@
         :value="data"
         tableStyle="min-width: 50rem"
         stripedRows
-        showGridlines
         ref="dt"
         removableSort
         v-model:filters="filters"

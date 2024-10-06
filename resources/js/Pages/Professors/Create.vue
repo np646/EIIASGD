@@ -1,8 +1,8 @@
 <template v-slot:slot-content>
     <MenuLayout>
         <Title :title="title" />
+        <ContentContainer>
         <form @submit.prevent="submit">
-            <div class="container">
                 <div class="row g-3 mb-4">
                     <div class="col-md-1"></div>
                     <div class="col">
@@ -42,8 +42,8 @@
                     </div>
                     <div class="col"></div>
                 </div>
-            </div>
         </form>
+    </ContentContainer>
     </MenuLayout>
 </template>
 <script setup>
@@ -54,6 +54,7 @@ import InputText from "primevue/inputtext";
 import Datepicker from "@/Components/Datepicker.vue";
 import Button from "primevue/button";
 import Title from "@/Components/Title.vue";
+import ContentContainer from "@/Components/ContentContainer.vue";
 
 const title = "Registrar nuevo docente";
 const selectedDate = ref(null);
@@ -80,11 +81,3 @@ const submit = () => {
         };
 };
 </script>
-
-<style scoped>
-.container {
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    padding-top: 10px;
-}
-</style>

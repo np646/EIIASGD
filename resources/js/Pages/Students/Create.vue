@@ -1,8 +1,8 @@
 <template v-slot:slot-content>
     <MenuLayout>
         <Title :title="title" />
-        <form @submit.prevent="submit">
-            <div class="container">
+        <ContentContainer>
+            <form @submit.prevent="submit">
                 <div class="row g-3 mb-4">
                     <div class="col-md-1"></div>
                     <div class="col">
@@ -54,8 +54,8 @@
                     </div>
                     <div class="col"></div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </ContentContainer>
     </MenuLayout>
 </template>
 <script setup>
@@ -67,6 +67,7 @@ import Datepicker from "@/Components/Datepicker.vue";
 import Select from "@/Components/Select.vue";
 import Button from "primevue/button";
 import Title from "@/Components/Title.vue";
+import ContentContainer from "@/Components/ContentContainer.vue";
 
 const title = "Registrar nuevo estudiante";
 
@@ -101,7 +102,6 @@ watch(selectedOption, () => {
     form.sex = selectedOption.value;
 });
 
-
 const submit = () => {
     form.post(route("students.store")),
         {
@@ -109,11 +109,3 @@ const submit = () => {
         };
 };
 </script>
-
-<style scoped>
-.container {
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    padding-top: 10px;
-}
-</style>

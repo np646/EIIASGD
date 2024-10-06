@@ -1,5 +1,5 @@
 <template>
-    <DataTable :value="data" stripedRows showGridlines tableStyle="min-width: 50rem">
+    <DataTable :value="data" stripedRows tableStyle="min-width: 50rem">
         <template #header>
             <div class="flex justify-between">
                 <div style="text-align: left">

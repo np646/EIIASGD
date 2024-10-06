@@ -1,6 +1,7 @@
 <template v-slot:slot-content>
     <MenuLayout>
         <Title :title="title" />
+    <ContentContainer>
         <Datatable
             :data="studentsRef"
             :columnHeaders="columnHeaders"
@@ -9,6 +10,7 @@
             @remove-id="updateArray"
             :perfil="perfil"
         />
+    </ContentContainer>
     </MenuLayout>
 </template>
 
@@ -17,6 +19,7 @@ import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Datatable from "@/Components/Datatable.vue";
 import Title from "@/Components/Title.vue";
+import ContentContainer from "@/Components/ContentContainer.vue";
 import { ref } from "vue";
 
 const { students: initialStudents } = usePage().props;

@@ -1,8 +1,12 @@
 <template>
     <nav class="navigation-bar">
         <div class="website-name">
-            <BIconList aria-label="Toggle navigation" id="toggle-sidebar" @click="$emit('toggleSidebar')"></BIconList>
-            <span>EIIASGD</span>
+            <div class="toggle-sidebar" @click="$emit('toggleSidebar')">
+                <BIconList aria-label="Toggle navigation" class="sidebar-menu-icon"></BIconList>
+            </div>
+            <div>
+                <img src="/img/logo-pucesi.jpg" />
+            </div>
             <form class="d-flex search-box" role="search">
                 <div class="position-relative">
                     <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" />
@@ -56,36 +60,51 @@ import "primeicons/primeicons.css";
 <style scoped>
 /* Navigation bar */
 .navigation-bar {
-    background-color: #ffffff;
     width: 100%;
     height: 60px;
     position: relative;
-    margin-bottom: 0px;
-    border-bottom: 1px solid #e9eaec;
+    border-bottom: 1px solid #cbd5e1;
+    background-color: white;
+
 }
 
 .navigation-bar .website-name {
     width: 100%;
     height: 45px;
-    color: #00356b;
-    /* color: #595a6c; */
+    color: #334155;
     display: flex;
     align-items: center;
 }
 
 .navigation-bar .website-name #toggle-sidebar {
+    min-height: 40px;
     min-width: 40px;
-    font-size: 30px;
     cursor: pointer;
     margin-left: 20px;
     margin-top: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+}
+.toggle-sidebar {
+    min-height: 40px;
+    min-width: 40px;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-menu-icon {
+    font-size: 25px;
 }
 
-.navigation-bar .website-name span {
+.navigation-bar .website-name img {
     margin-top: 15px;
     margin-left: 25px;
     margin-right: 35px;
-    font-size: 25px;
 }
 
 #search-icon {
@@ -116,33 +135,24 @@ import "primeicons/primeicons.css";
     margin-right: auto;
 }
 
-.btn-outline-secondary {
-    border-color: rgb(222, 226, 230);
-}
-
-.btn-outline-secondary:hover {
-    background-color: #2b5177;
-}
-
-.btn-outline-secondary:hover #search-icon {
-    color: #ffffff;
-}
-
 .search-box input {
-    width: 400px;
+    width: 500px;
+    height: 42px;
+    border-color: #cbd5e1;
 }
 .search-box input:focus {
     border-color: #00356b;
-    box-shadow: 0 0 0 2px #cadae7;
+    box-shadow: none;
     outline: none;
 }
 
 .position-relative input:focus ~ #search-icon {
     color: #00356b;
 }
+
 /* Profile */
 .profile {
-    margin-left: 20px;
+    margin-left: 50px;
     margin-top: 15px;
     margin-right: 20px;
 }
@@ -150,24 +160,23 @@ import "primeicons/primeicons.css";
 .profile,
 .profile button,
 .profile a {
-    color: #00356b;
+    color: #334155;
 }
 
 .profile .dropdown-menu {
-    border-color: #e9eaec;
+    border-color: #cbd5e1;
 }
 
 .profile .dropdown-item:hover {
-    background-color: #e9eaec;
-    color: #00356b;
+    background-color: #e2e8f0;
+    color: #334155;
 }
 
 .avatar {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    /* color: #595a6c; */
-    color: #00356b;
+    color: #334155;
     font-size: 20px;
     margin-right: 0px;
 }
@@ -176,6 +185,7 @@ import "primeicons/primeicons.css";
 .avatar:focus {
     color: #00356b;
 }
+
 /* Navigation bar <600px */
 .navigation-bar-min-ul {
     text-align: center;
@@ -185,7 +195,7 @@ import "primeicons/primeicons.css";
 }
 
 #navigation-bar-min-li {
-    border-bottom: 1px solid #dce0e8;
+    border-bottom: 1px solid #cbd5e1;
     padding-top: 1.5%;
     padding-bottom: 1.5%;
     background-color: #ffffff;
@@ -215,7 +225,7 @@ import "primeicons/primeicons.css";
     white-space: nowrap;
     font-size: 18px;
     text-align: center;
-    color: #00356b;
+    color: #334155;
 }
 
 /* Window size <600px */
@@ -228,7 +238,15 @@ import "primeicons/primeicons.css";
 @media (max-width: 600px) {
     .search-box input,
     .search-box button,
-    .search-box i {
+    #search-icon {
+        display: none;
+    }
+    img{
+        display: none;
+    }
+}
+@media (max-width:816px) {
+    img{
         display: none;
     }
 }

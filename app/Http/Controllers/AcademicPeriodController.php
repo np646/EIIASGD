@@ -1,5 +1,4 @@
 <?php
-// TODO: THIS HASN'T BEEN TESTED NOR CONFIRMED WORKING YET
 namespace App\Http\Controllers;
 
 use App\Models\AcademicPeriod;

@@ -66,13 +66,13 @@ const isActive = (item) => {
     flex-direction: column;
     justify-content: space-between;
     width: 226px;
-    height: 100%;
     overflow: hidden;
     padding: 20px 15px;
     background-color: rgb(255, 255, 255);
     transition: width 0.5s ease, background-color 0.3s ease, left 0.5s ease, margin-right 0.5s ease;
     z-index: 50;
-    border-right: 1px solid #e9eaec;
+    border-right: 1px solid #cbd5e1;
+    height: 100%;
 }
 
 .sidebar span {
@@ -99,16 +99,16 @@ const isActive = (item) => {
 }
 
 .sidebar .menu-items::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
 }
 
 .sidebar .menu-items::-webkit-scrollbar-thumb {
-    background-color: rgb(192, 192, 192);
+    background-color: #cbd5e1;
     border-radius: 5px;
 }
 
 .sidebar .menu-items::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(134, 134, 134);
+    background-color: #cbd5e1;
 }
 
 .sidebar .menu-items #menu-items-ul {
@@ -123,7 +123,8 @@ const isActive = (item) => {
     align-items: center;
     text-decoration: none;
     border-radius: 5px;
-    color: #00356b;
+    color: #334155;
+    /* color: #00356b; */
     padding-left: 17px;
     margin-bottom: 2px;
 }
@@ -168,7 +169,8 @@ const isActive = (item) => {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #00356b;
+    /* color: #00356b; */
+    color: #334155;
     padding: 10px 15px;
 }
 

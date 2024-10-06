@@ -1,36 +1,43 @@
 <!-- TODO: maybe swap this for a modal -->
 <template v-slot:slot-content>
     <MenuLayout>
-        <div class="profile-info">
-            <div>
-                <!-- TODO: this text is too big -->
-                <h1>Editar información de periodo</h1>
-                <form @submit.prevent="submit" class="row g-3">
-                    <div class="col-md-6">
-                        <label for="inputPeriodo" class="form-label">Periodo:</label>
-                        <input v-model="form.period" type="text" class="form-control" id="inputPeriodo" required />
+        <Title :title="title" />
+        <form @submit.prevent="submit">
+            <div class="container">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-1"></div>
+                    <div class="col">
+                        <label for="inputPeriodoAcademico" class="col-form-label">Periodo académico</label>
+                        <InputText v-model="form.period" type="text" class="form-control" id="inputPeriodoAcademico" required />
                     </div>
-                    <div class="col-md-6">
-                        <label for="inputAno" class="form-label">Año:</label>
-                        <input v-model="form.year" type="text" class="form-control" id="inputAno" required />
+                    <div class="col">
+                        <label for="inputAno" class="col-form-label">Año</label>
+                        <InputText v-model="form.year" type="text" class="form-control" id="inputAno" required />
                     </div>
-                    <!-- TODO: Send state by default -->
-                    <div>
-                        <label>Estado:</label>
-                        <input v-model="form.status" type="number" />
+                    <div class="col-md-1"></div>
+                </div>
+
+                <div class="row g-3 mt-2 mb-4">
+                    <div class="col"></div>
+                    <div class="col d-flex justify-content-center">
+                        <Button label="Guardar" icon="pi pi-check" type="submit" />
                     </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-                </form>
+                    <div class="col"></div>
+                </div>
             </div>
-        </div>
+        </form>
     </MenuLayout>
 </template>
 
 <script setup>
 import { useForm, usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
+import Button from "primevue/button";
+import Title from "@/Components/Title.vue";
+import InputText from "primevue/inputtext";
+
+const title = "Editar información del periodo académico";
+
 const { academicPeriod } = usePage().props;
 const form = useForm({
     period: academicPeriod.period,
@@ -43,10 +50,9 @@ const submit = () => {
 </script>
 
 <style scoped>
-/* TODO: should be global styles for the stuff inside slot */
-.profile-info {
-    max-width: 800px;
-    padding-top: 20px;
-    padding-left: 40px;
+.container {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding-top: 10px;
 }
 </style>

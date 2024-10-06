@@ -117,7 +117,7 @@ const submit = () => {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
     border: 1px solid #e2e8f0;
     border-radius: 5px;

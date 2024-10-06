@@ -10,7 +10,7 @@ class AcademicPeriodController extends Controller
 {
     public function index()
     {
-        $academicPeriods = AcademicPeriod::all();
+        $academicPeriods = AcademicPeriod::where('status', 1)->get();
         return Inertia::render('AcademicPeriods/Index', [
             'academicPeriods' => $academicPeriods
         ]);
@@ -41,13 +41,7 @@ class AcademicPeriodController extends Controller
     }
 
     public function update(Request $request, AcademicPeriod $academicPeriod)
-    { //TODO: Get update working from students
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:academicPeriods,email,' . $academicPeriod->id,
-            'age' => 'required|integer'
-        ]);
-
+    { 
         $academicPeriod->update($request->all());
         return redirect()->route('academicPeriods.index');
     }
@@ -56,5 +50,22 @@ class AcademicPeriodController extends Controller
     {
         $academicPeriod->delete();
         return redirect()->route('academicPeriods.index');
+    }
+
+    public function remove(Request $request, AcademicPeriod $academicPeriod)
+    {
+        $request->validate([
+            'status' => 'required|integer'
+        ]);
+
+        $academicPeriod->update($request->only('status'));
+        return redirect()->route('academicPeriods.index');
+    }
+
+    public function fetch()
+    {
+        $academicPeriods = AcademicPeriod ::where('status', 1)->get();
+        return response()->json($academicPeriods);
+
     }
 }

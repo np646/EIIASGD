@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AcademicPeriodController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserPermissionController;
 
 Route::get('/', function () {
@@ -64,8 +65,17 @@ Route::put('students/fetch', [StudentController::class, 'fetch'])->name('student
 
 //Professors
 Route::resource('professors', ProfessorController::class);
+Route::get('professors/{professor}/profile', [ProfessorController::class, 'profile'])->name('professors.profile');
+Route::put('professors/{professor}/remove', [ProfessorController::class, 'remove'])->name('professors.remove');
+Route::put('professors/fetch', [ProfessorController::class, 'fetch'])->name('professors.fetch');
 
 //Academic periods
 Route::resource('academicPeriods', AcademicPeriodController::class);
+Route::put('academicPeriods/{academicPeriod}/remove', [AcademicPeriodController::class, 'remove'])->name('academicPeriods.remove');
+Route::put('academicPeriods/fetch', [AcademicPeriodController::class, 'fetch'])->name('academicPeriods.fetch');
+
+//Settings
+Route::resource('settings', SettingsController::class);
+
 
 require __DIR__ . '/auth.php';

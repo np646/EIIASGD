@@ -10,7 +10,7 @@ class ProfessorController extends Controller
 {
     public function index()
     {
-        $professors = Professor::all();
+        $professors = Professor::where('status', 1)->get();
         return Inertia::render('Professors/Index', [
             'professors' => $professors
         ]);
@@ -44,13 +44,7 @@ class ProfessorController extends Controller
     }
 
     public function update(Request $request, Professor $professor)
-    { //TODO: Get update working from students
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:professors,email,' . $professor->id,
-            'age' => 'required|integer'
-        ]);
-
+    { 
         $professor->update($request->all());
         return redirect()->route('professors.index');
     }
@@ -59,5 +53,29 @@ class ProfessorController extends Controller
     {
         $professor->delete();
         return redirect()->route('professors.index');
+    }
+
+    public function profile(Professor $professor)
+    {
+        return Inertia::render('Professors/Profile', [
+            'professor' => $professor
+        ]);
+    }
+
+    public function remove(Request $request, Professor $professor)
+    {
+        $request->validate([
+            'status' => 'required|integer'
+        ]);
+
+        $professor->update($request->only('status'));
+        return redirect()->route('professors.index');
+    }
+
+    public function fetch()
+    {
+        $professors = Professor::where('status', 1)->get();
+        return response()->json($professors);
+
     }
 }

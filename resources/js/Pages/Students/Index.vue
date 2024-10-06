@@ -37,5 +37,3 @@ const updateArray = (removeId) => {
     studentsRef.value = studentsRef.value.filter((student) => student.id !== removeId);
 };
 </script>
-
-<style scoped></style>

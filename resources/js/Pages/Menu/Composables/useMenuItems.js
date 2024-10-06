@@ -27,6 +27,6 @@ export const useMenuItems = () => {
             ],
         },
         { id: "reportes", href: "/reportes", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
-        { id: "configuracion", href: "/configuracion", text: "Configuración", icon: markRaw(BIconGearFill) },
+        { id: "configuracion", href: route("settings.index"), text: "Configuración", icon: markRaw(BIconGearFill) },
     ]);
 };

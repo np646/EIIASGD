@@ -39,6 +39,7 @@ import { useMenuItems } from "@/Pages/Menu/Composables/useMenuItems";
 const menuItems = useMenuItems();
 const activeSubmenu = ref(null);
 const page = usePage();
+
 // To toggle sidebar and submenu
 const props = defineProps({
     isSidebarMini: Boolean,
@@ -53,6 +54,7 @@ const routeName = currentRoute.value.split("/");
 const isActive = (item) => {
     if (item.href.includes(routeName[1])) return true;
     if (item.subItems) {
+        //TODO: whena submenu is active/clicked the submenu closes, fix it so it stays open
         return item.subItems.some((subItem) => subItem.href.includes(routeName[1]));
     }
     return false;
@@ -169,7 +171,6 @@ const isActive = (item) => {
     display: flex;
     align-items: center;
     text-decoration: none;
-    /* color: #00356b; */
     color: #334155;
     padding: 10px 15px;
 }
@@ -182,6 +183,8 @@ const isActive = (item) => {
     height: 0;
     overflow: hidden;
     transition: height 0.3s ease;
+
+    margin-bottom: 2px;
 }
 
 .submenu-item.visible {

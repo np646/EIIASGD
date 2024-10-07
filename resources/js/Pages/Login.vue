@@ -143,7 +143,7 @@ onMounted(() => {
 body {
     font-size: 16px;
     line-height: 1.8;
-    background: rgb(242, 242, 242);
+    background: #f5f7fa;
     color: gray;
 }
 
@@ -228,7 +228,7 @@ body {
     text-align: center;
     white-space: nowrap;
     background-color: #e9ecef;
-    border: 1px solid #ced4da;
+    border: 1px solid #cbd5e1;
     border-radius: 0.25rem;
 }
 .input-group-prepend,

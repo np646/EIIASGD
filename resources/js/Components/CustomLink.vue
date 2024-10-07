@@ -1,7 +1,10 @@
 <template>
-        <Link :href="href"
-            ><h5>{{ title }}</h5></Link
-        ><br />
+    <Link :href="href">
+        <h5>
+            <span>{{ title }}</span>
+            &nbsp;<i class="pi pi-arrow-right"></i>
+        </h5>
+    </Link>
 </template>
 
 <script setup>
@@ -16,17 +19,30 @@ const props = defineProps({
 <style scoped>
 h5 {
     color: #00356b;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: padding-left 0.5s ease;
 }
-h5:hover {
-    color:blueviolet;
+h5:hover{
+    padding-left: 30px;
 }
-a {
+h5:hover span {
+    text-decoration: underline;
+}
+
+h5 i {
+    display: none;
     text-decoration: none;
 }
-a:hover {
-    color:blueviolet;
+
+h5:hover i {
+    display: inline;
 }
-a:visited {
+a:hover {
+    text-decoration: none;
+}
+a {
     text-decoration: none;
 }
 </style>

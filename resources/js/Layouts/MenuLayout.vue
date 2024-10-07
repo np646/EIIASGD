@@ -69,8 +69,6 @@ const userName = computed(() => page.props.auth.user.name);
     position:relative;
 }
 
-
-
 .main-content {
     display: flex;
 }

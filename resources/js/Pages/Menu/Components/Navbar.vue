@@ -5,7 +5,7 @@
                 <BIconList aria-label="Toggle navigation" class="sidebar-menu-icon"></BIconList>
             </div>
             <div>
-                <img src="/img/logo-pucesi.jpg" />
+                <!-- <img src="/img/logo-pucesi.jpg" /> -->
             </div>
             <form class="d-flex search-box" role="search">
                 <div class="position-relative">

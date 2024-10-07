@@ -11,5 +11,6 @@
     padding-top: 10px;
     width: 90%;
     background-color: white;
+    margin-bottom: 20px;
 }
 </style>

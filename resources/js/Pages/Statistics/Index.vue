@@ -10,5 +10,5 @@ import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 
-const title = "Reportes estadísticos";
+const title = "test2";
 </script>

@@ -20,7 +20,7 @@ const props = defineProps({
     
 }
 .container {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     padding-top: 10px;
     background-color: white;
@@ -28,13 +28,13 @@ const props = defineProps({
 }
 
 .line {
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--softer-border-color);
     flex-grow: 1;
     margin-left: 10px;
 }
 
 .title {
-    color: #00356b;
+    color: var(--main-color);
     padding:20px;
 }
 </style>

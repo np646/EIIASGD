@@ -70,10 +70,10 @@ const isActive = (item) => {
     width: 226px;
     overflow: hidden;
     padding: 20px 15px;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     transition: width 0.5s ease, background-color 0.3s ease, left 0.5s ease, margin-right 0.5s ease;
     z-index: 50;
-    border-right: 1px solid #cbd5e1;
+    border-right: 1px solid var(--border-color);
     height: 100%;
 }
 
@@ -105,12 +105,12 @@ const isActive = (item) => {
 }
 
 .sidebar .menu-items::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
+    background-color: var(--border-color);
     border-radius: 5px;
 }
 
 .sidebar .menu-items::-webkit-scrollbar-thumb:hover {
-    background-color: #cbd5e1;
+    background-color: var(--border-color);
 }
 
 .sidebar .menu-items #menu-items-ul {
@@ -125,20 +125,19 @@ const isActive = (item) => {
     align-items: center;
     text-decoration: none;
     border-radius: 5px;
-    color: #334155;
-    /* color: #00356b; */
+    color: var(--text-color);
     padding-left: 17px;
     margin-bottom: 2px;
 }
 
 .sidebar .menu-items a:hover {
-    background-color: #00356b;
-    color: #ffffff;
+    background-color: var(--main-color);
+    color: white;
 }
 
 .sidebar .menu-items a.active {
-    background-color: #00356b;
-    color: #ffffff;
+    background-color: var(--main-color);
+    color: white;
 }
 
 .sidebar .menu-items i {
@@ -171,7 +170,7 @@ const isActive = (item) => {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #334155;
+    color: var(--text-color);
     padding: 10px 15px;
 }
 

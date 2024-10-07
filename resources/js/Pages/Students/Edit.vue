@@ -51,7 +51,7 @@
                 <div class="row g-3 mt-2 mb-4">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                        <Button label="Guardar" icon="pi pi-check" type="submit" />
+                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success"/>
                     </div>
                     <div class="col"></div>
                 </div>

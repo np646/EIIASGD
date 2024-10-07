@@ -65,7 +65,7 @@ const userName = computed(() => page.props.auth.user.name);
 .body {
     height: 100vh;
     width: 100%;
-    background-color: #f5f7fa;
+    background-color: var(--background-color) ;
     position:relative;
 }
 

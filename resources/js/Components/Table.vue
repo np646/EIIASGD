@@ -11,7 +11,7 @@
         <Column :exportable="false" header="Editar" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Link :href="generateRoute('edit', slotProps.data.id)">
-                    <Button class="mr-2" icon="pi pi-pencil" outlined rounded />
+                    <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded />
                 </Link>
             </template>
         </Column>

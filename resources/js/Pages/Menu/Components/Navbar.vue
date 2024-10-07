@@ -63,35 +63,25 @@ import "primeicons/primeicons.css";
     width: 100%;
     height: 60px;
     position: relative;
-    border-bottom: 1px solid #cbd5e1;
+    border-bottom: 1px solid var(--border-color);
     background-color: white;
-
 }
 
 .navigation-bar .website-name {
     width: 100%;
     height: 45px;
-    color: #334155;
+    color: var(--text-color);
     display: flex;
     align-items: center;
 }
 
-.navigation-bar .website-name #toggle-sidebar {
-    min-height: 40px;
-    min-width: 40px;
-    cursor: pointer;
-    margin-left: 20px;
-    margin-top: 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 5px;
-}
 .toggle-sidebar {
     min-height: 40px;
     min-width: 40px;
     cursor: pointer;
     margin-left: 20px;
     margin-top: 15px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -118,7 +108,7 @@ import "primeicons/primeicons.css";
 }
 
 #search-icon:hover {
-    color: #00356b;
+    color: var(--main-color);
 }
 
 .position-relative {
@@ -138,16 +128,16 @@ import "primeicons/primeicons.css";
 .search-box input {
     width: 500px;
     height: 42px;
-    border-color: #cbd5e1;
+    border-color: var(--border-color);
 }
 .search-box input:focus {
-    border-color: #00356b;
+    border-color: var(--border-color-hover);
     box-shadow: none;
     outline: none;
 }
 
 .position-relative input:focus ~ #search-icon {
-    color: #00356b;
+    color: var(--main-color);
 }
 
 /* Profile */
@@ -160,30 +150,30 @@ import "primeicons/primeicons.css";
 .profile,
 .profile button,
 .profile a {
-    color: #334155;
+    color: var(--text-color);
 }
 
 .profile .dropdown-menu {
-    border-color: #cbd5e1;
+    border-color: var(--border-color);
 }
 
 .profile .dropdown-item:hover {
-    background-color: #e2e8f0;
-    color: #334155;
+    background-color: var(--softer-border-color);
+    color: var(--text-color);
 }
 
 .avatar {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    color: #334155;
+    color: var(--text-color);
     font-size: 20px;
     margin-right: 0px;
 }
 
 .avatar:hover,
 .avatar:focus {
-    color: #00356b;
+    color: var(--main-color);
 }
 
 /* Navigation bar <600px */
@@ -195,10 +185,10 @@ import "primeicons/primeicons.css";
 }
 
 #navigation-bar-min-li {
-    border-bottom: 1px solid #cbd5e1;
+    border-bottom: 1px solid var(--border-color);
     padding-top: 1.5%;
     padding-bottom: 1.5%;
-    background-color: #ffffff;
+    background-color: white;
 }
 
 #navigation-bar-min-li a {
@@ -206,7 +196,7 @@ import "primeicons/primeicons.css";
 }
 
 #navigation-bar-min-li:hover {
-    background-color: #00356b;
+    background-color: var(--main-color);
 }
 
 #navigation-bar-min-li:hover a span {
@@ -225,7 +215,7 @@ import "primeicons/primeicons.css";
     white-space: nowrap;
     font-size: 18px;
     text-align: center;
-    color: #334155;
+    color: var(--text-color);
 }
 
 /* Window size <600px */
@@ -241,12 +231,12 @@ import "primeicons/primeicons.css";
     #search-icon {
         display: none;
     }
-    img{
+    img {
         display: none;
     }
 }
-@media (max-width:816px) {
-    img{
+@media (max-width: 816px) {
+    img {
         display: none;
     }
 }

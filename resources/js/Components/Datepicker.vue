@@ -25,19 +25,3 @@ watch(date, (newDate) => {
     }
 });
 </script>
-
-<style>
-:root {
-    --general: #00356b;
-    --p-datepicker-dropdown-focus-ring-color: #00356b;
-    --p-datepicker-date-selected-background: #00356b;
-    --p-datepicker-date-focus-ring-color: #00356b;
-}
-
-.p-datepicker-input:focus-within {
-    border-color: var(--general) !important;
-}
-.p-datepicker-day-selected {
-    background-color: var(--general) !important;
-}
-</style>

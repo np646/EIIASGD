@@ -17,8 +17,8 @@ const props = defineProps({
 
 <style scoped>
 .btn-primary {
-    background-color: #00356b;
-    border-color: #00356b;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
     border-radius: 5px;
 }
 .btn-primary:hover,
@@ -27,8 +27,8 @@ const props = defineProps({
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
     color: #fff;
-    background-color:  #00356b;
-    border-color:  #00356b;
+    background-color:  var(--main-color);
+    border-color:  var(--main-color);
 }
 
 .open {

@@ -6,9 +6,7 @@
                     <div class="col-md-12 col-lg-10">
                         <div class="wrap d-md-flex">
                             <div class="container-image">
-                                <img
-                                    src="/img/login.jpg"
-                                />
+                                <img src="/img/login.jpg" />
                                 <div>
                                     <div class="top-left">
                                         <div class="text-overlay" style="font-size: 30px" ref="title">
@@ -143,7 +141,7 @@ onMounted(() => {
 body {
     font-size: 16px;
     line-height: 1.8;
-    background: #f5f7fa;
+    background: var(--background-color);
     color: gray;
 }
 
@@ -153,11 +151,11 @@ body {
 
 .wrap {
     width: 100%;
-    max-width: 1000px; /* Adjust as needed */
+    max-width: 1000px;
     margin: 0 auto;
-    background: #fff;
+    background: white;
     border-radius: 5px;
-    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 10px 34px -15px #0000003d;
     display: flex;
     overflow: hidden;
 }
@@ -178,7 +176,7 @@ body {
 .login-wrap {
     width: 50%;
     padding: 3rem;
-    background: #fff;
+    background: white;
 }
 
 .top-left {
@@ -190,7 +188,7 @@ body {
 .text-overlay {
     font-size: 24px;
     font-weight: bold;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .second-text {
@@ -200,7 +198,7 @@ body {
 }
 
 .second-text::first-letter {
-    color: rgb(68, 182, 227);
+    color: #44b6e3;
 }
 
 /* Form styles */
@@ -212,7 +210,7 @@ body {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #00356b;
+    color: var(--main-color);
     font-weight: 700;
 }
 
@@ -228,7 +226,7 @@ body {
     text-align: center;
     white-space: nowrap;
     background-color: #e9ecef;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--border-color);
     border-radius: 0.25rem;
 }
 .input-group-prepend,
@@ -248,8 +246,8 @@ body {
 
 .form-control {
     height: 48px;
-    background: #fff;
-    color: #000;
+    background: white;
+    color: black;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -258,12 +256,12 @@ body {
 .form-control:active {
     outline: none !important;
     box-shadow: none;
-    border: 1px solid #00356b;
+    border: 1px solid var(--main-color);
 }
 .btn.btn-primary {
-    background: #00356b !important;
-    border: 1px solid #00356b !important;
-    color: #fff !important;
+    background: var(--main-color) !important;
+    border: 1px solid var(--main-color) !important;
+    color: white !important;
     cursor: pointer;
     font-size: 15px;
     padding: 10px 20px;
@@ -287,7 +285,7 @@ body {
     }
 
     .container-image {
-        height: 200px; /* Adjust as needed */
+        height: 200px;
     }
 
     .login-wrap {

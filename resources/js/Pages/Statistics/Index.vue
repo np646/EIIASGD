@@ -2,18 +2,14 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <div class="w-25">
-                Global
-                <Chart type="line" :data="lineData" :options="lineOptions" class="h-[30rem]" />
+            <div class="mb-10">
+                <Chart type="line" :data="lineData" :options="lineOptions" class="h-[20rem]" />
             </div>
 
-            <div>
-                Periodo académico select
-                <div class="row g-3 mb-4">
-                    <div class="col-md-1"></div>
-                    <div class="col"></div>
-                    <div class="col">
-                        <label for="inputSelectPeriodo" class="col-form-label">Periodo</label>
+            <div class="d-flex justify-content-center mb-10">
+                <div class="row">
+                    <label for="inputSelectPeriodo" class="col-form-label text-center">Periodo</label>
+                    <div class="row">
                         <Select
                             class="w-100"
                             id="inputSelectPeriodo"
@@ -23,34 +19,38 @@
                             v-model="selectedOption"
                         />
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
             </div>
 
-            <div>
-                Tipo de titulación
-                <Chart type="doughnut" :data="doughnutData" :options="doughnutOptions" class="w-full md:w-[30rem]" />
+            <div class="d-flex justify-content-center text-center items-center mb-10">
+                <div class="col">
+                    Tipo de titulación
+                    <div class="d-flex justify-content-center text-center items-center">
+                        <Chart type="doughnut" :data="doughnutData" :options="doughnutOptions" class="w-50" />
+                    </div>
+                </div>
+
+                <div class="col">
+                    Línea de investigación
+                    <div class="d-flex justify-content-center text-center items-center">
+                        <Chart type="doughnut" :data="doughnutData1" :options="doughnutOptions1" class="w-50" />
+                    </div>
+                </div>
             </div>
 
-            <div>
-                Línea de investigación
-                <Chart type="doughnut" :data="doughnutData1" :options="doughnutOptions1" class="w-full md:w-[30rem]" />
-            </div>
+            <div class="d-flex justify-content-around text-center items-center" style="height: 400px">
+                <div class="w-50">
+                    <DataTable :value="graduates" class="w-full">
+                        <Column field="course" header="Carrera" />
+                        <Column field="female" header="Mujeres" />
+                        <Column field="male" header="Hombres" />
+                        <Column field="total" header="Total" />
+                    </DataTable>
+                </div>
 
-            <div>
-                Género
-                <DataTable :value="graduates" class="w-full">
-                    <Column field="course" header="Carrera" />
-                    <Column field="female" header="Mujeres" />
-                    <Column field="male" header="Hombres" />
-                    <Column field="total" header="Total" />
-                </DataTable>
-            </div>
-
-            <div>
-                Género gráfica
-
-                <Chart type="bar" :data="barData" :options="barOptions" class="h-[30rem]" />
+                <div class="d-flex h-full justify-content-center w-50">
+                    <Chart type="bar" :data="barData" :options="barOptions" class="w-full" />
+                </div>
             </div>
         </ContentContainer>
     </MenuLayout>
@@ -73,17 +73,17 @@ const title = "test2";
 // Line chart
 
 // onMounted(() => {
-    // lineData.value = setlineData();
-    // lineOptions.value = setlineOptions();
+// lineData.value = setlineData();
+// lineOptions.value = setlineOptions();
 
-    // doughnutData.value = setdoughnutData();
-    // doughnutOptions.value = setdoughnutOptions();
+// doughnutData.value = setdoughnutData();
+// doughnutOptions.value = setdoughnutOptions();
 
-    // doughnutData1.value = setdoughnutData1();
-    // doughnutOptions1.value = setdoughnutOptions1();
+// doughnutData1.value = setdoughnutData1();
+// doughnutOptions1.value = setdoughnutOptions1();
 
-    // barData.value = setbarData();
-    // barOptions.value = setbarOptions();
+// barData.value = setbarData();
+// barOptions.value = setbarOptions();
 // });
 
 const lineData = ref();
@@ -319,18 +319,16 @@ const setbarOptions = () => {
     };
 };
 
-
-
 //to avoid sidebar from opening on page load using onMount
 lineData.value = setlineData();
-    lineOptions.value = setlineOptions();
+lineOptions.value = setlineOptions();
 
-    doughnutData.value = setdoughnutData();
-    doughnutOptions.value = setdoughnutOptions();
+doughnutData.value = setdoughnutData();
+doughnutOptions.value = setdoughnutOptions();
 
-    doughnutData1.value = setdoughnutData1();
-    doughnutOptions1.value = setdoughnutOptions1();
+doughnutData1.value = setdoughnutData1();
+doughnutOptions1.value = setdoughnutOptions1();
 
-    barData.value = setbarData();
-    barOptions.value = setbarOptions();
+barData.value = setbarData();
+barOptions.value = setbarOptions();
 </script>

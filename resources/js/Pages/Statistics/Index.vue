@@ -2,7 +2,7 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <div class="mb-10">
+            <div class="m-10">
                 <Chart type="line" :data="lineData" :options="lineOptions" class="h-[20rem]" />
             </div>
 
@@ -26,14 +26,14 @@
                 <div class="col">
                     Tipo de titulación
                     <div class="d-flex justify-content-center text-center items-center">
-                        <Chart type="doughnut" :data="doughnutData" :options="doughnutOptions" class="w-50" />
+                        <Chart type="pie" :data="doughnutData" :options="doughnutOptions" class="w-50" />
                     </div>
                 </div>
 
                 <div class="col">
                     Línea de investigación
                     <div class="d-flex justify-content-center text-center items-center">
-                        <Chart type="doughnut" :data="doughnutData1" :options="doughnutOptions1" class="w-50" />
+                        <Chart type="pie" :data="doughnutData1" :options="doughnutOptions1" class="w-50" />
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@ import Column from "primevue/column";
 
 import { ref, watch, onMounted } from "vue";
 
-const title = "test2";
+const title = "Reportes estadísticos";
 
 // Line chart
 

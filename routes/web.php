@@ -80,22 +80,22 @@ Route::put('academicPeriods/{academicPeriod}/remove', [AcademicPeriodController:
 Route::put('academicPeriods/fetch', [AcademicPeriodController::class, 'fetch'])->name('academicPeriods.fetch');
 
 // Courses
-Route::resource('courses', CourseController::class);
+Route::resource('settings/courses', CourseController::class);
 Route::put('courses/{course}/remove', [CourseController::class, 'remove'])->name('courses.remove');
 Route::put('courses/fetch', [CourseController::class, 'fetch'])->name('courses.fetch');
 
 // Thesis areas
-Route::resource('thesisAreas', ThesisAreaController::class);
+Route::resource('settings/thesisAreas', ThesisAreaController::class);
 Route::put('thesisAreas/{thesisArea}/remove', [ThesisAreaController::class, 'remove'])->name('thesisAreas.remove');
 Route::put('thesisAreas/fetch', [ThesisAreaController::class, 'fetch'])->name('thesisAreas.fetch');
 
 // Roles
-Route::resource('roles', RoleController::class);
+Route::resource('settings/roles', RoleController::class);
 Route::put('roles/{role}/remove', [RoleController::class, 'remove'])->name('roles.remove');
 Route::put('roles/fetch', [RoleController::class, 'fetch'])->name('roles.fetch');
 
 // Permissions
-Route::resource('permissions', PermissionController::class);
+Route::resource('settings/permissions', PermissionController::class);
 Route::put('permissions/{permission}/remove', [PermissionController::class, 'remove'])->name('permissions.remove');
 Route::put('permissions/fetch', [PermissionController::class, 'fetch'])->name('permissions.fetch');
 

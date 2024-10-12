@@ -4,7 +4,7 @@
             <ul id="menu-items-ul">
                 <template v-for="(item, index) in menuItems" :key="item.href">
                     <li :id="item.id" :class="{ 'has-submenu': item.subItems, active: isActive(item) }" v-tooltip="isSidebarMini ? item.text : null">
-                        <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)" :class="{ active: isActive(item) }">
+                        <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
                             <component :is="item.icon"></component>
                             <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                         </a>
@@ -18,9 +18,9 @@
                             v-for="subItem in item.subItems"
                             :key="subItem.href"
                             class="submenu-item"
-                            :class="{ visible: activeSubmenu === item, active: isActive(subItem) }"
+                            :class="{ visible: isSubmenuVisible(item), active: isActive(subItem) }"
                         >
-                            <Link :href="subItem.href" :class="{ active: isActive(subItem) }" v-tooltip="isSidebarMini ? item.text : null">
+                            <Link :href="subItem.href" :class="{ active: isActive(subItem) }" v-tooltip="isSidebarMini ? subItem.text : null">
                                 <component :is="subItem.icon"></component>
                                 <span :class="{ hide: isSidebarMini }">{{ subItem.text }}</span>
                             </Link>
@@ -33,32 +33,78 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { useMenuItems } from "@/Pages/Menu/Composables/useMenuItems";
 const menuItems = useMenuItems();
-const activeSubmenu = ref(null);
 const page = usePage();
-
-// To toggle sidebar and submenu
+const currentRoute = computed(() => page.url);
+const activeSubmenu = ref(null);
+const isAnimating = ref(false);
 const props = defineProps({
     isSidebarMini: Boolean,
 });
 
-const toggleSubmenu = (item) => {
-    activeSubmenu.value = activeSubmenu.value === item ? null : item;
-};
+const routeName = computed(() => currentRoute.value.split("/"));
 
-const currentRoute = computed(() => page.url);
-const routeName = currentRoute.value.split("/");
+// If it's active it changes color
 const isActive = (item) => {
-    if (item.href.includes(routeName[1])) return true;
+    if (item.href.includes(routeName.value[1])) return true;
     if (item.subItems) {
-        //TODO: whena submenu is active/clicked the submenu closes, fix it so it stays open
-        return item.subItems.some((subItem) => subItem.href.includes(routeName[1]));
+        return item.subItems.some((subItem) => subItem.href.includes(routeName.value[1]));
     }
     return false;
 };
+
+const isSubmenuVisible = (item) => {
+    return activeSubmenu.value === item || isAnimating.value;
+};
+
+const toggleSubmenu = (item) => {
+    if (activeSubmenu.value === item) {
+        closeSubmenu();
+    } else {
+        activeSubmenu.value = item;
+        localStorage.setItem("activeSubmenu", JSON.stringify(item.text));
+    }
+};
+
+const closeSubmenu = () => {
+    isAnimating.value = true;
+    setTimeout(() => {
+        activeSubmenu.value = null;
+        isAnimating.value = false;
+        localStorage.removeItem("activeSubmenu");
+    });
+};
+
+const closeSubmenuIfOutside = () => {
+    if (activeSubmenu.value && !isActive(activeSubmenu.value)) {
+        closeSubmenu();
+    }
+};
+
+onMounted(() => {
+    const savedStateSubmenu = localStorage.getItem("activeSubmenu");
+    if (savedStateSubmenu !== null) {
+        const savedSubmenuText = JSON.parse(savedStateSubmenu);
+        const savedItem = menuItems.find((item) => item.text === savedSubmenuText);
+        if (savedItem) {
+            activeSubmenu.value = savedItem;
+        }
+    }
+
+    // To check if any subitem is active and open the submenu if so
+    menuItems.forEach((item) => {
+        if (item.subItems && item.subItems.some((subItem) => isActive(subItem))) {
+            activeSubmenu.value = item;
+        }
+    });
+
+    nextTick(() => {
+        closeSubmenuIfOutside();
+    });
+});
 </script>
 <style scoped>
 /* Sidebar */

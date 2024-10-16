@@ -109,18 +109,23 @@ onMounted(() => {
 <style scoped>
 /* Sidebar */
 .sidebar {
-    position: absolute;
+    /*position: absolute;*/
+    position: sticky;
+    top:60px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 226px;
-    overflow: hidden;
     padding: 20px 15px;
     background-color: white;
     transition: width 0.5s ease, background-color 0.3s ease, left 0.5s ease, margin-right 0.5s ease;
     z-index: 50;
     border-right: 1px solid var(--border-color);
-    height: 100%;
+    height: calc(100vh - 60px);
+    align-self: flex-start; 
+    overflow-y: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .sidebar span {
@@ -262,12 +267,16 @@ onMounted(() => {
     .sidebar .website-name {
         margin-bottom: 5px;
     }
+    .sidebar {
+        height: calc(100vh - 60px);
+    }   
 }
 
 @media (max-width: 600px) {
     .sidebar {
         position: fixed;
         left: -250px;
+        height: calc(100vh - 60px);
     }
 }
 </style>

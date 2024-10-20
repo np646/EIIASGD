@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+        <Head title="Estudiantes" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -61,6 +62,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import MenuLayout from "@/Layouts/MenuLayout.vue";

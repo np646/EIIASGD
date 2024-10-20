@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Áreas de titulación" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -8,6 +9,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
@@ -20,9 +22,7 @@ const title = "Areas de titulación";
 const { thesisAreas: initialThesisAreas } = usePage().props;
 const thesisAreasRef = ref([...initialThesisAreas]);
 const pageName = "thesisAreas";
-const columnHeaders = [
-    { field: "area", header: "Área" },
-];
+const columnHeaders = [{ field: "area", header: "Área" }];
 
 // Function to update the data array after a deletion is performed inside the datatable component
 const updateArray = (removeId) => {

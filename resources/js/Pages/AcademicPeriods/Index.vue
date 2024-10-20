@@ -1,13 +1,15 @@
 <template v-slot:slot-content>
+    <Head title="Periodos académicos" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-        <Table :data="academicPeriodsRef" :columnHeaders="columnHeaders" :pageName="pageName" @remove-id="updateArray"/>
+            <Table :data="academicPeriodsRef" :columnHeaders="columnHeaders" :pageName="pageName" @remove-id="updateArray" />
         </ContentContainer>
-   </MenuLayout>
+    </MenuLayout>
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
@@ -17,17 +19,16 @@ import { ref } from "vue";
 
 const title = "Periodos académicos";
 
-const {  academicPeriods: initialAcademicPeriods } = usePage().props;
-const  academicPeriodsRef = ref([...initialAcademicPeriods]);
+const { academicPeriods: initialAcademicPeriods } = usePage().props;
+const academicPeriodsRef = ref([...initialAcademicPeriods]);
 const pageName = "academicPeriods";
 const columnHeaders = [
     { field: "period", header: "Periodo" },
     { field: "year", header: "Año" },
-]
+];
 
 // Function to update the data array after a deletion is performed inside the datatable component
 const updateArray = (removeId) => {
-    academicPeriodsRef.value =  academicPeriodsRef.value.filter(( academicPeriod) =>  academicPeriod.id !== removeId);
+    academicPeriodsRef.value = academicPeriodsRef.value.filter((academicPeriod) => academicPeriod.id !== removeId);
 };
 </script>
-

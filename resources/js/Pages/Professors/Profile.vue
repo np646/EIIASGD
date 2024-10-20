@@ -1,4 +1,5 @@
 <template>
+    <Head title="Docentes" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -23,6 +24,7 @@
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Accordion from "primevue/accordion";
 import AccordionPanel from "primevue/accordionpanel";

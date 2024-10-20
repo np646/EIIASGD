@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Áreas de titulación" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -15,7 +16,7 @@
                 <div class="row g-3 mt-2 mb-4">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success"/>
+                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success" />
                     </div>
                     <div class="col"></div>
                 </div>
@@ -25,6 +26,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { useForm, usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Button from "primevue/button";

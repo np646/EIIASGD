@@ -5,6 +5,7 @@
             &nbsp;<i class="pi pi-arrow-right"></i>
         </h5>
     </Link>
+    <div class="line"></div>
 </template>
 
 <script setup>
@@ -23,14 +24,16 @@ h5 {
     padding-top: 10px;
     padding-bottom: 10px;
     transition: padding-left 0.5s ease;
+    border-radius: 5px;
 }
 h5:hover{
     padding-left: 30px;
+    
+    background-color: var(--softer-border-color);
 }
 h5:hover span {
-    text-decoration: underline;
+    text-decoration: none;
 }
-
 h5 i {
     display: none;
     text-decoration: none;
@@ -41,8 +44,13 @@ h5:hover i {
 }
 a:hover {
     text-decoration: none;
+    
 }
 a {
     text-decoration: none;
 }
+.line {
+    border-top: 1px solid var(--softer-border-color);
+}
+
 </style>

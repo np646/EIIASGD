@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Reportes estadísticos" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -189,6 +190,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";

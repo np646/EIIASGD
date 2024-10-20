@@ -1,4 +1,5 @@
 <template>
+    <Head title="Iniciar sesión" />
     <body>
         <section class="center-section">
             <div class="container">

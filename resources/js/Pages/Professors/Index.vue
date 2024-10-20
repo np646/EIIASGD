@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+        <Head title="Docentes" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -15,6 +16,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Datatable from "@/Components/Datatable.vue";
@@ -31,9 +33,9 @@ const perfil = true;
 const columnHeaders = [
     { field: "lastname", header: "Apellidos" },
     { field: "name", header: "Nombres" },
-    { field: "email", header: "Email" },
+    { field: "identification", header: "Identificación" },
 ];
-const globalFilters = ["lastname", "name", "email"];
+const globalFilters = ["lastname", "name", "identification"];
 
 // Function to update the data array after a deletion is performed inside the datatable component
 const updateArray = (removeId) => {

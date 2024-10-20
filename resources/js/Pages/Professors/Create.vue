@@ -1,8 +1,9 @@
 <template v-slot:slot-content>
+    <Head title="Docentes" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-        <form @submit.prevent="submit">
+            <form @submit.prevent="submit">
                 <div class="row g-3 mb-4">
                     <div class="col-md-1"></div>
                     <div class="col">
@@ -38,15 +39,16 @@
                 <div class="row g-3 mt-2 mb-4">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success"/>
+                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success" />
                     </div>
                     <div class="col"></div>
                 </div>
-        </form>
-    </ContentContainer>
+            </form>
+        </ContentContainer>
     </MenuLayout>
 </template>
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { useForm } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
@@ -58,7 +60,6 @@ import ContentContainer from "@/Components/ContentContainer.vue";
 
 const title = "Registrar nuevo docente";
 const selectedDate = ref(null);
-
 
 const form = useForm({
     name: "",

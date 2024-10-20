@@ -2,39 +2,49 @@
     <div class="mb-3">
         <ButtonGroup>
             <Button label="Editar" icon="pi pi-pencil" severity="contrast" size="small" @click="openDialog"></Button>
-            <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect"></Button>
         </ButtonGroup>
     </div>
     <div class="flex flex-col gap-4 justify-center h-full mb-3">
         <div class="grid grid-cols-12 gap-2 h-full">
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputInicio">Periodo de inicio</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-2 h-full" for="inputInicio">Periodo de inicio</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputInicio" size="small" fluid disabled value="2023-2024" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputFinalizacion">Periodo de finalización</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2">
+                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect"></Button>
+            </div>
+            <label class="flex items-center col-span-2 h-full" for="inputFinalizacion">Periodo de finalización</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputFinalizacion" size="small" fluid disabled value="2023-2024" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputEstado">Estado</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2">
+                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect"></Button>
+            </div>
+            <label class="flex items-center col-span-2 h-full" for="inputEstado">Estado</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputEstado" size="small" fluid disabled value="En proceso" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputLineaInvestigacion">Línea de investigación</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2"></div>
+            <label class="flex items-center col-span-2 h-full" for="inputLineaInvestigacion">Línea de investigación</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputLineaInvestigacion" size="small" fluid disabled value="SOFTWARE" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputAsesor">Asesor</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2"></div>
+            <label class="flex items-center col-span-2 h-full" for="inputAsesor">Asesor</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputAsesor" size="small" fluid disabled value="DOCENTE APELLIDO NOMBRE" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputLector1">Lector 1</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2"></div>
+            <label class="flex items-center col-span-2 h-full" for="inputLector1">Lector 1</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputLector1" size="small" fluid disabled value="DOCENTE1 APELLIDO NOMBRE" />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputLector2">Lector 2</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <div class="col-span-4 mb-2"></div>
+            <label class="flex items-center col-span-2 h-full" for="inputLector2">Lector 2</label>
+            <div class="col-span-6 mb-2">
                 <InputText id="inputLector2" size="small" fluid disabled value="DOCENTE2 APELLIDO NOMBRE" />
             </div>
+            <div class="col-span-4 mb-2"></div>
         </div>
     </div>
 

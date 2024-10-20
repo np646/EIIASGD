@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Estudiantes" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -50,7 +51,7 @@
                 <div class="row g-3 mt-2 mb-4">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success"/>
+                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success" />
                     </div>
                     <div class="col"></div>
                 </div>
@@ -59,6 +60,7 @@
     </MenuLayout>
 </template>
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { useForm } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import MenuLayout from "@/Layouts/MenuLayout.vue";

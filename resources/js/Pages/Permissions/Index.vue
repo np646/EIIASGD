@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Permisos" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -8,6 +9,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";

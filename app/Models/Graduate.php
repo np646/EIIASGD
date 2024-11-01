@@ -16,7 +16,7 @@ class Graduate extends Model
         'graduation_type', //MODALIDAD DE TITULACIÓN
         'thesis_name',
         'thesis_area',
-        'advisor_professor_id',
+        'advisor_id',
         'academic_period_end_id', // PERIODO QUE CURSÓ INTEGRACIÓN CURRICULAR
         'reader1_id',
         'reader2_id',

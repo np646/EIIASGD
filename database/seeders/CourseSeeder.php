@@ -22,6 +22,10 @@ class CourseSeeder extends Seeder
                 'name' => 'INGENIERÍA EN TECNOLOGÍAS DE LA INFORMACIÓN',
                 'banner_id' => 'C002',
             ],
+            [
+                'name' => 'INGENIERÍA EN SOFTWARE',
+                'banner_id' => 'C003',
+            ],
         ];
 
         foreach ($courses as $courseData) {

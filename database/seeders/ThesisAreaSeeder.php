@@ -15,13 +15,13 @@ class ThesisAreaSeeder extends Seeder
     {
         $thesisAreas = [
             [
-                'area' => 'SOFTWARE',
+                'area' => 'DOMÓTICA Y COMUNICACIONES',
             ],
             [
-                'area' => 'INTERNET DE LAS COSAS',
+                'area' => 'CULTURA ORGANIZACIONAL E INFORMÁTICA',
             ],
             [
-                'area' => 'CYBERSEGURIDAD',
+                'area' => 'INGENIERÍA DE SOFTWARE, INNOVACIÓN Y EMPRENDIMIENTO EN TICS',
             ],
         ];
 

@@ -48,7 +48,6 @@
                     </div>
                     <div class="col-md-1"></div>
                 </div>
-
                 <div class="row g-3 mt-2 mb-4">
                     <div class="col"></div>
                     <div class="col d-flex justify-content-center">

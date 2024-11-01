@@ -5,19 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Professor extends Model
+class GraduationType extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
     protected $fillable = [
-        'name',
-        'lastname',
-        'date_of_birth',
-        'identification',
-        'email',
-        'banner_code',
-        'sex',
+        'type',
         'status',
     ];
 }

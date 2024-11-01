@@ -17,6 +17,8 @@ class Student extends Model
         'email',
         'banner_code',
         'sex',
+        'course_id',
+        'academic_period_start_id',
         'status',
     ];
 

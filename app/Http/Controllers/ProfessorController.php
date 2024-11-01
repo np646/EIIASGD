@@ -30,6 +30,8 @@ class ProfessorController extends Controller
             'date_of_birth' => $params['date_of_birth'],
             'identification' => $params['identification'],
             'email' => $params['email'],
+            'banner_code' => $params['banner_code'],
+            'sex' => $params['sex'],
             'status' => $params['status']
         ];
         Professor::create($data);

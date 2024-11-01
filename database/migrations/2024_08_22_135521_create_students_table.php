@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('banner_code')->unique();
             $table->boolean('sex'); //0 - FEMALE, 1 MALE
+            $table->boolean('course_id'); 
+            $table->boolean('academic_period_start_id'); 
             $table->boolean('status')->default(true);
         });
     }

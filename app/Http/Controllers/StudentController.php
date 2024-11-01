@@ -46,6 +46,8 @@ class StudentController extends Controller
             'email' => $params['email'],
             'banner_code' => $params['banner_code'],
             'sex' => $params['sex'],
+            'course_id' => $params['course_id'],
+            'academic_period_start_id' => $params['academic_period_start_id'],
             'status' => $params['status']
         ];
         Student::create($data);

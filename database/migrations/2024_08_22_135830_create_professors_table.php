@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('identification')->unique();
             $table->string('email')->unique();
+            $table->string('banner_code')->unique();
+            $table->boolean('sex'); //0 - FEMALE, 1 MALE
             $table->boolean('status')->default(true);
         });
     }

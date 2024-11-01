@@ -21,7 +21,9 @@ class StudentSeeder extends Seeder
                 'identification' => '1001234564',
                 'sex' => '0',
                 'email' => 'est1@example.com',
-                'banner_code' => 'EST001'
+                'banner_code' => 'EST001',
+                'course_id' => '2',
+                'academic_period_start_id' => '2'
             ],
             [
                 'name' => 'EST2 NOMBRE',
@@ -30,7 +32,9 @@ class StudentSeeder extends Seeder
                 'identification' => '1001234565',
                 'sex' => '1',
                 'email' => 'est2@example.com',
-                'banner_code' => 'EST002'
+                'banner_code' => 'EST002',
+                'course_id' => '2',
+                'academic_period_start_id' => '2'
             ],
             [
                 'name' => 'EST3 NOMBRE',
@@ -39,7 +43,9 @@ class StudentSeeder extends Seeder
                 'identification' => '1001234566',
                 'sex' => '1',
                 'email' => 'est3@example.com',
-                'banner_code' => 'EST003'
+                'banner_code' => 'EST003',
+                'course_id' => '1',
+                'academic_period_start_id' => '2'
             ],
 
         ];

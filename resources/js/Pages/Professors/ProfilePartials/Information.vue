@@ -17,17 +17,29 @@
             <div class="col-span-12 md:col-span-10 mb-2">
                 <InputText v-model="form.identification" id="inputIdentificacion" size="small" fluid disabled />
             </div>
+            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputCodigoBanner">Código de banner</label>
+            <div class="col-span-12 md:col-span-10 mb-2">
+                <InputText v-model="form.banner_code" id="inputCodigoBanner" size="small" fluid disabled />
+            </div>
+            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputSexo">Sexo</label>
+            <div class="col-span-12 md:col-span-10 mb-2">
+                <InputText v-model="sex" id="inputSexo" size="small" fluid disabled />
+            </div>
+            
         </div>
     </div>
 </template>
 
 <script setup>
 import InputText from "primevue/inputtext";
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     professor: Object,
 });
+
+const sex = ref("");
 
 const form = useForm({
     name: props.professor.name,
@@ -35,6 +47,18 @@ const form = useForm({
     date_of_birth: props.professor.date_of_birth,
     identification: props.professor.identification,
     email: props.professor.email,
+    banner_code: props.professor.banner_code,
+    sex: sex,
 });
+
+function selectedSex() {
+    if (form.sex == 0) {
+        sex.value = "Femenino";
+    } else {
+        sex.value = "Masculino";
+    }
+}
+
+selectedSex();
 
 </script>

@@ -5,46 +5,61 @@
         </ButtonGroup>
     </div>
     <div class="flex flex-col gap-4 justify-center h-full mb-3">
-        <div class="grid grid-cols-12 gap-2 h-full">
-            <label class="flex items-center col-span-2 h-full" for="inputInicio">Periodo de inicio</label>
-            <div class="col-span-6 mb-2">
+        <div class="grid grid-cols-12 gap-3 h-full pl-4 pr-10">
+            <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio</label>
+            <div class="col-span-7 mb-2">
                 <InputText id="inputInicio" size="small" fluid disabled value="2023-2024" />
             </div>
-            <div class="col-span-4 mb-2">
-                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect"></Button>
+            <div class="col-span-2 mb-2">
+                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
             </div>
-            <label class="flex items-center col-span-2 h-full" for="inputFinalizacion">Periodo de finalización</label>
-            <div class="col-span-6 mb-2">
-                <InputText id="inputFinalizacion" size="small" fluid disabled value="2023-2024" />
+            <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
+            <div class="col-span-7 mb-2">
+                <InputText id="inputFinalizacion" size="small" fluid disabled value="2024-2025" />
             </div>
-            <div class="col-span-4 mb-2">
-                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect"></Button>
+            <div class="col-span-2 mb-2">
+                <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
             </div>
-            <label class="flex items-center col-span-2 h-full" for="inputEstado">Estado</label>
-            <div class="col-span-6 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputMatrícula" size="small" fluid disabled value="PRIMERA" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputAprobacion" size="small" fluid disabled value="10-07-2023" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputModalidad" size="small" fluid disabled value="PROYECTO DE INVESTIGACIÓN" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputTitulo" size="small" fluid disabled value="APLICACIÓN WEB DE GESTIÓN DOCUMENTAL" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputLinea" size="small" fluid disabled value="INGENIERÍA DE SOFTWARE, INNOVACIÓN Y EMPRENDIMIENTO EN TICS" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputAsesor" size="small" fluid disabled value="AGULLO JIMÉNEZ LUIS SEBASTIAN" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputLector1" size="small" fluid disabled value="MEJIAS MOLINERO ALEJANDRA NAROA" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputLector2" size="small" fluid disabled value="PERALES SALAS MAURICIO JAVIER" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
+            <div class="col-span-9 mb-2">
+                <InputText id="inputGraduacion" size="small" fluid disabled value="15-03-2025" />
+            </div>
+            <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
+            <div class="col-span-9 mb-2">
                 <InputText id="inputEstado" size="small" fluid disabled value="En proceso" />
             </div>
-            <div class="col-span-4 mb-2"></div>
-            <label class="flex items-center col-span-2 h-full" for="inputLineaInvestigacion">Línea de investigación</label>
-            <div class="col-span-6 mb-2">
-                <InputText id="inputLineaInvestigacion" size="small" fluid disabled value="SOFTWARE" />
-            </div>
-            <div class="col-span-4 mb-2"></div>
-            <label class="flex items-center col-span-2 h-full" for="inputAsesor">Asesor</label>
-            <div class="col-span-6 mb-2">
-                <InputText id="inputAsesor" size="small" fluid disabled value="DOCENTE APELLIDO NOMBRE" />
-            </div>
-            <div class="col-span-4 mb-2"></div>
-            <label class="flex items-center col-span-2 h-full" for="inputLector1">Lector 1</label>
-            <div class="col-span-6 mb-2">
-                <InputText id="inputLector1" size="small" fluid disabled value="DOCENTE1 APELLIDO NOMBRE" />
-            </div>
-            <div class="col-span-4 mb-2"></div>
-            <label class="flex items-center col-span-2 h-full" for="inputLector2">Lector 2</label>
-            <div class="col-span-6 mb-2">
-                <InputText id="inputLector2" size="small" fluid disabled value="DOCENTE2 APELLIDO NOMBRE" />
-            </div>
-            <div class="col-span-4 mb-2"></div>
         </div>
     </div>
 
@@ -132,8 +147,8 @@
             </Select>
         </div>
         <template #footer>
-            <Button label="Cancel" text severity="secondary" @click="closeDialog" autofocus />
-            <Button label="Save" severity="success" @click="closeDialog" autofocus />
+            <Button label="Cancelar" text severity="secondary" @click="closeDialog" autofocus />
+            <Button label="Guardar" severity="success" @click="closeDialog" autofocus />
         </template>
     </Dialog>
 </template>

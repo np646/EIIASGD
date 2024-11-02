@@ -2,12 +2,57 @@
     <Head title="Inicio" />
     <MenuLayout>
         <ContentContainer>
-           Bienvenido, {{user.name}} <br>
-           Sistema web de gestión documental <br>
-           Escuela de informática e inteligenica artificial
+            <div class="px-4 py-2">
+                <span class="font-semibold fs-1 mb-4"
+                    >Bienvenido, <span style="color: darkblue">{{ user.name }}<br /></span
+                ></span>
+                <span class="fs-5 mb-4">Sistema de gestión documental de la Escuela de Informática e Inteligencia Artificial de la PUCE-I<br /></span>
+            </div>
         </ContentContainer>
+        <ContentContainer >
+            <div class="px-4 py-2">
+                <span class="font-semibold fs-5"> <i style="color: darkblue" class="pi pi-calendar-clock"></i> {{ formattedDate }}</span>
+            </div>
+        </ContentContainer>
+
         <ContentContainer>
-            {{ formattedDate }}
+            <div class="py-2 pl-3">
+                <div class="row">
+                    <div class="col-9">
+                        <Chart type="line" :data="lineData" :options="lineOptions" class="h-[15rem]" />
+                    </div>
+                    <div class="col h-[15rem] d-flex flex-column justify-content-center">
+                        <div class="h-ful">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="row mb-2">
+                                        <span class="fs-5">Estudiantes</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="fw-bold fs-2">3050</span>
+                                    </div>
+                                </div>
+                                <div class="col d-flex justify-content-center align-items-center">
+                                    <i class="pi pi-user text-blue-600" style="font-size: 300%"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row mb-2">
+                                        <span class="fs-5">Graduados</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="fw-bold fs-2">1450</span>
+                                    </div>
+                                </div>
+                                <div class="col d-flex justify-content-center align-items-center">
+                                    <i class="pi pi-graduation-cap text-blue-600" style="font-size: 300%"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </ContentContainer>
     </MenuLayout>
 </template>
@@ -16,16 +61,74 @@
 import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import { computed } from 'vue';
+import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import 'primeicons/primeicons.css'
 const user = usePage().props.auth.user;
 
 const formattedDate = computed(() => {
-  const today = new Date();
-  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const dateString = today.toLocaleDateString('es-ES', options);
-  return `Hoy es ${dateString}`;
+    const today = new Date();
+    const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+    const dateString = today.toLocaleDateString("es-ES", options);
+    return `Hoy es ${dateString}`;
 });
-</script>
 
-<style lang="scss" scoped></style>
+import Chart from "primevue/chart";
+import { ref } from "vue";
+const lineData = ref();
+const lineOptions = ref();
+
+const setlineData = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+
+    return {
+        labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+        datasets: [
+            {
+                label: "Graduados",
+                data: [65, 65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40, 45],
+                fill: false,
+                borderColor: documentStyle.getPropertyValue("--p-cyan-500"),
+                tension: 0.4,
+            },
+        ],
+    };
+};
+const setlineOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue("--p-text-color");
+    const textColorSecondary = documentStyle.getPropertyValue("--p-text-muted-color");
+    const surfaceBorder = documentStyle.getPropertyValue("--p-content-border-color");
+
+    return {
+        maintainAspectRatio: false,
+        aspectRatio: 0.6,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary,
+                },
+                grid: {
+                    color: surfaceBorder,
+                },
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary,
+                },
+                grid: {
+                    color: surfaceBorder,
+                },
+            },
+        },
+    };
+};
+
+lineData.value = setlineData();
+lineOptions.value = setlineOptions();
+</script>

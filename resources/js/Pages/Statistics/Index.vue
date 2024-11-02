@@ -203,7 +203,7 @@ import SexChart from "./Partials/SexChart.vue";
 import GraduationTypeChart from "./Partials/GraduationTypeChart.vue";
 import ThesisAreaChart from "./Partials/ThesisAreaChart.vue";
 
-const title = "Reportes estadísticos";
+const title = "Reportes estadísticos DEBUG";
 
 // Period select
 const period = ref([

@@ -118,7 +118,7 @@ Route::get('/statistics', function () {
     return Inertia::render('Statistics/Index');
 });
 
-// Titulación
+// Titulación TODO: cambiar por lo que sea en inglés "seguimiento"
 Route::get('/files', function () {
     return Inertia::render('Graduation/Files');
 });
@@ -132,5 +132,25 @@ Route::get('/readers', function () {
 Route::get('/advisors', function () {
     return Inertia::render('Graduation/Advisors');
 });
+
+// Titulación 
+Route::get('/period', function () {
+    return Inertia::render('Graduation/Period');
+});
+// Titulación
+Route::get('/studentfiles', function () {
+    return Inertia::render('Graduation/StudentFiles');
+});
+
+// Titulación - reportes
+Route::get('/graduation/statistics', function () {
+    return Inertia::render('Graduation/Statistics/Statistics');
+});
+
+
+
+
+
+
 
 require __DIR__ . '/auth.php';

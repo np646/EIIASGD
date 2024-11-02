@@ -61,7 +61,7 @@ function toggleColor(index) {
     }
 }
 function redirect() {
-    router.visit("/");
+    router.visit("/period");
 }
 </script>
 

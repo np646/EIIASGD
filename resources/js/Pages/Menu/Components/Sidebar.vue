@@ -4,21 +4,29 @@
             <ul id="menu-items-ul">
                 <template v-for="(item, index) in menuItems" :key="item.href">
                     <li :id="item.id" :class="{ 'has-submenu': item.subItems, active: isActive(item) }" v-tooltip="isSidebarMini ? item.text : null">
-                        <a class="practicas-icon" v-if="item.text == 'Prácticas'" @click.prevent="toggleSubmenu(item)">
+                        <!-- Single template for all menu items with subItems -->
+                        <a v-if="item.subItems" class="menu-link" @click.prevent="toggleSubmenu(item)">
                             <component :is="item.icon"></component>
                             <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                         </a>
+
+                        <!-- Regular menu items without subItems -->
                         <Link v-else :href="item.href" :class="{ active: isActive(item) }">
                             <component :is="item.icon"></component>
                             <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
                         </Link>
                     </li>
+
+                    <!-- Submenu items -->
                     <template v-if="item.subItems">
                         <li
                             v-for="subItem in item.subItems"
                             :key="subItem.href"
                             class="submenu-item"
-                            :class="{ visible: isSubmenuVisible(item), active: isActive(subItem) }"
+                            :class="{
+                                visible: isSubmenuVisible(item),
+                                active: isActive(subItem),
+                            }"
                         >
                             <Link :href="subItem.href" :class="{ active: isActive(subItem) }" v-tooltip="isSidebarMini ? subItem.text : null">
                                 <component :is="subItem.icon"></component>
@@ -111,7 +119,7 @@ onMounted(() => {
 .sidebar {
     /*position: absolute;*/
     position: sticky;
-    top:60px;
+    top: 60px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -122,7 +130,7 @@ onMounted(() => {
     z-index: 50;
     border-right: 1px solid var(--border-color);
     height: calc(100vh - 60px);
-    align-self: flex-start; 
+    align-self: flex-start;
     overflow-y: auto;
     box-sizing: border-box;
     flex-shrink: 0;
@@ -269,7 +277,7 @@ onMounted(() => {
     }
     .sidebar {
         height: calc(100vh - 60px);
-    }   
+    }
 }
 
 @media (max-width: 600px) {

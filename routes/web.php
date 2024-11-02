@@ -119,8 +119,18 @@ Route::get('/statistics', function () {
 });
 
 // Titulación
-Route::get('/graduation', function () {
-    return Inertia::render('Graduation/Index');
+Route::get('/files', function () {
+    return Inertia::render('Graduation/Files');
+});
+
+// Titulación - lectores
+Route::get('/readers', function () {
+    return Inertia::render('Graduation/Readers');
+});
+
+// Titulación - asesores
+Route::get('/advisors', function () {
+    return Inertia::render('Graduation/Advisors');
 });
 
 require __DIR__ . '/auth.php';

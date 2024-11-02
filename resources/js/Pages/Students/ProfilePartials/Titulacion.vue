@@ -70,22 +70,33 @@
             </div>
         </template>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectInicio" class="font-semibold w-44">Periodo de inicio</label>
-            <Select class="w-100" id="selectInicio" :options="period" optionLabel="period" :placeholder="`Seleccione uno`" v-model="selectedPeriodStart" />
+            <label for="selectUInicio" class="font-semibold w-50">Periodo de inicio</label>
+            <Select class="w-100" id="selectUInicio" :options="period" optionLabel="period" :placeholder="`Seleccione uno`" v-model="selectedPeriodStart" />
         </div>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectFinalizacion" class="font-semibold w-44">Periodo de finalización</label>
-            <Select class="w-100" id="selectFinalizacion" :options="period" optionLabel="period" :placeholder="`Seleccione uno`" v-model="selectedPeriodEnd" />
+            <label for="selectUFinalizacion" class="font-semibold w-50">Periodo de Integración Curricular</label>
+            <Select class="w-100" id="selectUFinalizacion" :options="period" optionLabel="period" :placeholder="`Seleccione uno`" v-model="selectedPeriodEnd" />
         </div>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectEstado" class="font-semibold w-44">Estado</label>
-            <Select class="w-100" id="selectEstado" :options="status" optionLabel="status" :placeholder="`Seleccione uno`" v-model="selectedStatus" />
-        </div>
-        <div class="flex items-center gap-4 mb-4">
-            <label for="selectLineaInvestigacion" class="font-semibold w-44">Línea de investigación</label>
+            <label for="selectUMatricula" class="font-semibold w-50">Matrícula</label>
             <Select
                 class="w-100"
-                id="selectLineaInvestigacion"
+                id="selectUMatricula"
+                :options="period"
+                optionLabel="period"
+                :placeholder="`Seleccione uno`"
+                v-model="selectedRegistrationTimes"
+            />
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="inputUAprobacion" class="font-semibold w-50">Fecha de aprobación del plan</label>
+            <Datepicker  id="inputUAprobacion" required class="w-100"/>
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="selectULineaInvestigacion" class="font-semibold w-50">Modalidad de titulación</label>
+            <Select
+                class="w-100"
+                id="selectULineaInvestigacion"
                 :options="period"
                 optionLabel="period"
                 :placeholder="`Seleccione uno`"
@@ -93,8 +104,23 @@
             />
         </div>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectAsesor" class="font-semibold w-44">Asesor</label>
-            <Select v-model="selectedAssesor" id="selectAsesor" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
+            <label for="inputUTema" class="font-semibold w-50">Tema de tesis</label>
+            <InputText id="inputUTema" size="small" fluid/>
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="selectULineaInvestigacion" class="font-semibold w-50">Línea de investigación</label>
+            <Select
+                class="w-100"
+                id="selectULineaInvestigacion"
+                :options="period"
+                optionLabel="period"
+                :placeholder="`Seleccione uno`"
+                v-model="selectedLineOfResearch"
+            />
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="selectUAsesor" class="font-semibold w-50">Asesor</label>
+            <Select v-model="selectedAssesor" id="selectUAsesor" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
                 <template #value="slotProps">
                     <div v-if="slotProps.value" class="flex items-center">
                         <div>{{ slotProps.value.name }}</div>
@@ -111,8 +137,8 @@
             </Select>
         </div>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectLector1" class="font-semibold w-44">Lector 1 </label>
-            <Select v-model="selectedReader1" id="selectLector1" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
+            <label for="selectULector1" class="font-semibold w-50">Lector (I) </label>
+            <Select v-model="selectedReader1" id="selectULector1" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
                 <template #value="slotProps">
                     <div v-if="slotProps.value" class="flex items-center">
                         <div>{{ slotProps.value.name }}</div>
@@ -129,8 +155,8 @@
             </Select>
         </div>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectLector2" class="font-semibold w-44">Lector 2 </label>
-            <Select v-model="selectedReader2" id="selectLector2" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
+            <label for="selectULector2" class="font-semibold w-50">Lector (II) </label>
+            <Select v-model="selectedReader2" id="selectULector2" :options="professors" filter optionLabel="name" placeholder="Seleccione uno" class="w-100">
                 <template #value="slotProps">
                     <div v-if="slotProps.value" class="flex items-center">
                         <div>{{ slotProps.value.name }}</div>
@@ -145,6 +171,14 @@
                     </div>
                 </template>
             </Select>
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="inputUGraduacion" class="font-semibold w-50">Fecha de graduación</label>
+            <Datepicker  id="inputUGraduacion" required class="w-100"/>
+        </div>
+        <div class="flex items-center gap-4 mb-4">
+            <label for="selectUEstado" class="font-semibold w-50">Estado</label>
+            <Select class="w-100" id="selectUEstado" :options="status" optionLabel="status" :placeholder="`Seleccione uno`" v-model="selectedStatus" />
         </div>
         <template #footer>
             <Button label="Cancelar" text severity="secondary" @click="closeDialog" autofocus />
@@ -159,6 +193,7 @@ import InputText from "primevue/inputtext";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import Select from "primevue/select";
+import Datepicker from "@/Components/Datepicker.vue";
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 

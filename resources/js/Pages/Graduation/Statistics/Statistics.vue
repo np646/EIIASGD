@@ -4,11 +4,38 @@
         <Title :title="title" />
 
         <ContentContainer>
-            <Fechas />
-            <Resagados />
-            <Matricula />
-            <Caducidad/>
-           <Documentacion/>
+            <Accordion value="0">
+                <AccordionPanel value="0">
+                    <AccordionHeader>Graduados por fechas</AccordionHeader>
+                    <AccordionContent>
+                        <Fechas />
+                    </AccordionContent>
+                </AccordionPanel>
+                <AccordionPanel value="1">
+                    <AccordionHeader>Estudiantes resagados</AccordionHeader>
+                    <AccordionContent>
+                        <Resagados />
+                    </AccordionContent>
+                </AccordionPanel>
+                <AccordionPanel value="2">
+                    <AccordionHeader>Estudiantes en segunda o tercera matrícula</AccordionHeader>
+                    <AccordionContent>
+                        <Matricula />
+                    </AccordionContent>
+                </AccordionPanel>
+                <AccordionPanel value="3">
+                    <AccordionHeader>Estudiantes con plan de titulación por caducar</AccordionHeader>
+                    <AccordionContent>
+                        <Caducidad />
+                    </AccordionContent>
+                </AccordionPanel>
+                <AccordionPanel value="4">
+                    <AccordionHeader>Documentación entregada</AccordionHeader>
+                    <AccordionContent>
+                        <Documentacion />
+                    </AccordionContent>
+                </AccordionPanel>
+            </Accordion>
         </ContentContainer>
     </MenuLayout>
 </template>
@@ -23,6 +50,10 @@ import Fechas from "./Partials/Fechas.vue";
 import Matricula from "./Partials/Matricula.vue";
 import Caducidad from "./Partials/Caducidad.vue";
 import Documentacion from "./Partials/Documentacion.vue";
+import Accordion from "primevue/accordion";
+import AccordionPanel from "primevue/accordionpanel";
+import AccordionHeader from "primevue/accordionheader";
+import AccordionContent from "primevue/accordioncontent";
 
 const title = "Reportes estadísticos: Titulación";
 </script>

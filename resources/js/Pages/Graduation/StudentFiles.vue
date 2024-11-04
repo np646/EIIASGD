@@ -53,11 +53,20 @@
                         <template #body="slotProps">
                             <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openUpdateDialog(slotProps.data.id)" />
                             <Dialog v-model:visible="visibleUpdate" modal header="Cargar archivo" :style="{ width: '25rem' }">
-                                <span class="text-surface-500 dark:text-surface-400 block mb-8">¿Está seguro que desea continuar?</span>
                                 <form @submit.prevent="submit">
                                     <input value="0" class="form-control" id="inputStatus" required hidden />
-                                    <span>TODO: se debe colocar un file upload aquí y cambiar el ícono por uni de subir archivo</span>
-                                    <div class="flex justify-end gap-2">
+                                    <FileUpload
+                                        ref="fileupload"
+                                        mode="basic"
+                                        name="demo[]"
+                                        url="/api/upload"
+                                        accept="image/*"
+                                        :maxFileSize="1000000"
+                                        @upload="onUpload"
+                                        chooseLabel="Buscar"
+                                    />
+                                    <!-- <Button label="Upload" @click="upload" severity="secondary" /> -->
+                                    <div class="flex justify-end gap-2 mt-4">
                                         <Button type="button" label="Cancelar" severity="secondary" @click="visibleUpdate = false"></Button>
                                         <Button type="submit" label="Guardar" severity="success"></Button>
                                     </div>
@@ -100,6 +109,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { ref } from "vue";
 import Dialog from "primevue/dialog";
+import FileUpload from "primevue/fileupload";
 
 const requiredFiles = ref([
     { file: "Certificación internacional" },
@@ -123,5 +133,9 @@ const openDeleteDialog = (id) => {
 const visibleUpdate = ref(false);
 const openUpdateDialog = (id) => {
     visibleUpdate.value = true;
+};
+
+const onAdvancedUpload = () => {
+    toast.add({ severity: "info", summary: "Success", detail: "File Uploaded", life: 3000 });
 };
 </script>

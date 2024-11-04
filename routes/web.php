@@ -141,6 +141,10 @@ Route::get('/period', function () {
 Route::get('/studentfiles', function () {
     return Inertia::render('Graduation/StudentFiles');
 });
+// Titulación
+Route::get('/studentfolders', function () {
+    return Inertia::render('Graduation/StudentFolders');
+});
 
 // Titulación - reportes
 Route::get('/graduation/statistics', function () {

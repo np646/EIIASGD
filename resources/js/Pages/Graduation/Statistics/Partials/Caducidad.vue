@@ -1,8 +1,4 @@
 <template>
-
-    <div class="pl-5 pt-3">
-        <span class="font-semibold fs-5">Estudiantes con plan de titulación por caducar</span>
-    </div>
     <div class="col mb-4">
         <DataTable :value="graduates" class="w-full">
             <Column field="course" header="Carrera" />

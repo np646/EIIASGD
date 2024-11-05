@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             StudentSeeder::class,
             ProfessorSeeder::class,
             GraduationTypeSeeder::class,
+            GraduateSeeder::class,
         ]);
     }
 }

@@ -33,10 +33,6 @@
             <div class="col-span-12 md:col-span-10 mb-2">
                 <InputText v-model="form.course_id" id="inputCarrera" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputInicioEstudios">Inicio de estudios</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
-                <InputText v-model="form.academic_period_start_id" id="inputInicioEstudios" size="small" fluid disabled />
-            </div>
         </div>
     </div>
 </template>
@@ -59,7 +55,6 @@ const form = useForm({
     email: props.student.email,
     banner_code: props.student.banner_code,
     sex: sex,
-    academic_period_start_id: props.student.academic_period_start_id,
     course_id: props.student.course_id,
 });
 

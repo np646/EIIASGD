@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('graduates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); 
-            $table->foreignId('academic_period_start_id')->constrained('academic_periods')->onDelete('cascade'); 
-            $table->date('plan_approval_date');
-            $table->foreignId('graduation_type')->constrained('graduation_types')->onDelete('cascade'); 
-            $table->string('thesis_name')->unique();
-            $table->foreignId('thesis_area')->constrained('thesis_areas')->onDelete('cascade'); 
-            $table->foreignId('advisor_id')->constrained('professors')->onDelete('cascade');
-            $table->foreignId('academic_period_end_id')->constrained('academic_periods')->onDelete('cascade'); 
-            $table->foreignId('reader1_id')->constrained('professors')->onDelete('cascade');
-            $table->foreignId('reader2_id')->constrained('professors')->onDelete('cascade');
-            $table->date('graduation_date');
-            $table->integer('registration_times');
+            $table->foreignId('academic_period_start_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
+            $table->date('plan_approval_date')->nullable();
+            $table->foreignId('graduation_type')->nullable()->constrained('graduation_types')->onDelete('cascade'); 
+            $table->string('thesis_name')->unique()->nullable();
+            $table->foreignId('thesis_area')->nullable()->constrained('thesis_areas')->onDelete('cascade'); 
+            $table->foreignId('advisor_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->foreignId('academic_period_end_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
+            $table->foreignId('reader1_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->foreignId('reader2_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->date('graduation_date')->nullable();
+            $table->integer('registration_times')->nullable();
             $table->boolean('status')->default(true);
         });
     }

@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-col gap-4 justify-center h-full mb-3">
         <div class="grid grid-cols-12 gap-3 h-full pl-4 pr-10">
-            <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio</label>
+            <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
             <div class="col-span-7 mb-2">
                 <InputText id="inputInicio" size="small" fluid disabled value="2023-2024" />
             </div>
@@ -70,7 +70,7 @@
             </div>
         </template>
         <div class="flex items-center gap-4 mb-4">
-            <label for="selectUInicio" class="font-semibold w-50">Periodo de inicio</label>
+            <label for="selectUInicio" class="font-semibold w-50">Periodo de inicio de estudios</label>
             <Select class="w-100" id="selectUInicio" :options="period" optionLabel="period" :placeholder="`Seleccione uno`" v-model="selectedPeriodStart" />
         </div>
         <div class="flex items-center gap-4 mb-4">

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('banner_code')->unique();
             $table->boolean('sex'); //0 - FEMALE, 1 MALE
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade'); 
-            $table->foreignId('academic_period_start_id')->constrained('academic_periods')->onDelete('cascade'); 
             $table->boolean('status')->default(true);
         });
     }

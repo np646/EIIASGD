@@ -4,7 +4,7 @@
         <Title :title="`Asesores`" />
         <ContentContainer>
             <DataTable
-                :value="data"
+                :value="advisors"
                 tableStyle="min-width: 50rem"
                 stripedRows
                 ref="dt"
@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { Head } from "@inertiajs/vue3";
@@ -94,7 +95,8 @@ const data = [
 const columnHeaders = [
     { field: "professor", header: "Docente" },
     { field: "student", header: "Estudiante" },
-    { field: "period", header: "Período" },
+    { field: "start_period", header: "Inicio de titulación" },
+    { field: "end_period", header: "Integración curricular" },
     { field: "status", header: "Estado" },
 ];
 const globalFilters = ["lastname", "name", "identification"];
@@ -108,5 +110,12 @@ const generateRoute = (id = null) => {
 
 const props = defineProps({
     slotProps: Object,
+    advisors: {
+    type: Array,
+    required: true
+  }
 });
+
+const advisors = ref(usePage().props.advisors)
+
 </script>

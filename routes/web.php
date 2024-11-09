@@ -119,9 +119,9 @@ Route::get('/statistics', function () {
 });
 
 // Titulación TODO: cambiar por lo que sea en inglés "seguimiento"
-Route::get('/files', function () {
-    return Inertia::render('Graduation/Files');
-});
+// Route::get('/files', function () {
+//     return Inertia::render('Graduation/Files');
+// });
 
 // Titulación - lectores
 Route::get('/readers', function () {
@@ -129,18 +129,16 @@ Route::get('/readers', function () {
 });
 
 // Titulación - asesores
-Route::get('/advisors', function () {
-    return Inertia::render('Graduation/Advisors');
-});
+Route::get('/advisors', [ProfessorController::class, 'advisors'])->name('professors.advisors');
 
 // Titulación 
 Route::get('/period', function () {
     return Inertia::render('Graduation/Period');
 });
 // Titulación
-Route::get('/studentfiles', function () {
-    return Inertia::render('Graduation/StudentFiles');
-});
+// Route::get('/studentfiles', function () {
+//     return Inertia::render('Graduation/StudentFiles');
+// });
 // Titulación
 Route::get('/studentfolders', function () {
     return Inertia::render('Graduation/StudentFolders');
@@ -151,10 +149,12 @@ Route::get('/graduation/statistics', function () {
     return Inertia::render('Graduation/Statistics/Statistics');
 });
 
+/////////////////////////////////////////////////
+use App\Http\Controllers\FileController;
 
+Route::get('/studentfiles', [FileController::class, 'index'])->name('files.index');
+Route::post('/studentfiles', [FileController::class, 'store'])->name('files.store');
 
-
-
-
+/////////////////////////////////////////////////
 
 require __DIR__ . '/auth.php';

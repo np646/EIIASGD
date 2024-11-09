@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('graduation_files', function (Blueprint $table) {
+        Schema::create('graduate_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->string('international_cert_path');
-            $table->string('english_cert_path');
-            $table->string('community_internship_path');
-            $table->string('preprofessional_internship_path');
-            $table->string('graduation_type_path');
-            $table->string('readers_path');
-            $table->string('plan_approval_path');
-            $table->timestamps();
+            $table->string('international_cert_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('english_cert_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('community_internship_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('preprofessional_internship_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('graduation_type_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('readers_id')->nullable()->constrained('files')->onDelete('cascade');
+            $table->string('plan_approval_id')->nullable()->constrained('files')->onDelete('cascade');
         });
     }
 

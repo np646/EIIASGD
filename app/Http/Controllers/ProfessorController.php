@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Professor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ProfessorController extends Controller
@@ -46,7 +47,7 @@ class ProfessorController extends Controller
     }
 
     public function update(Request $request, Professor $professor)
-    { 
+    {
         $professor->update($request->all());
         return redirect()->route('professors.index');
     }
@@ -78,6 +79,29 @@ class ProfessorController extends Controller
     {
         $professors = Professor::where('status', 1)->get();
         return response()->json($professors);
+    }
 
+    public function advisors()
+    {
+        //TODO: get this logic working in the other modules
+        $query = DB::table('graduates')
+        ->whereNotNull('advisor_id')
+        ->join('students', 'graduates.student_id', '=', 'students.id')
+        ->join('academic_periods AS start_period', 'graduates.academic_period_start_id', '=', 'start_period.id')
+        ->join('academic_periods AS end_period', 'graduates.academic_period_end_id', '=', 'end_period.id')
+        ->join('professors', 'graduates.advisor_id', '=', 'professors.id')
+        ->select(
+            'graduates.*',
+            DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            'start_period.period AS start_period',
+            'end_period.period AS end_period',
+            DB::raw("CONCAT(professors.lastname, ' ', professors.name) AS professor")
+        )
+        ->get();
+    
+
+        return Inertia::render('Graduation/Advisors', [
+            'advisors' => $query
+        ]);
     }
 }

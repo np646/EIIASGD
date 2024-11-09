@@ -41,4 +41,6 @@ const globalFilters = ["lastname", "name", "identification"];
 const updateArray = (removeId) => {
     professorsRef.value = professorsRef.value.filter((professor) => professor.id !== removeId);
 };
+
+console.log(professorsRef);
 </script>

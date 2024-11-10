@@ -25,7 +25,8 @@ export const useMenuItems = () => {
             text: "Titulación",
             icon: markRaw(BIconMortarboardFill),
             subItems: [
-                { href: "/advisors", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
+                // { href: "/advisors", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
+                { href: "/studentfiles/A", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/readers", text: "Lectores", icon: markRaw(BIconBookFill) },
                 { href: "/files", text: "Seguimiento", icon: markRaw( BIconFileEarmarkTextFill) },
             ],

@@ -154,6 +154,20 @@ use App\Http\Controllers\FileController;
 
 Route::get('/studentfiles', [FileController::class, 'index'])->name('files.index');
 Route::post('/studentfiles', [FileController::class, 'store'])->name('files.store');
+Route::put('/files/update/{id}', [FileController::class, 'update'])->name('files.update');
+Route::delete('/files/delete/{id}', [FileController::class, 'destroy'])->name('files.destroy');
+Route::get('/files/download/{id}', [FileController::class, 'download'])->name('files.download');
+Route::get('/files/open/{id}', [FileController::class, 'open'])->name('files.open');
+
+
+// Route::prefix('studentfiles')->group(function () {
+//     Route::get('/{module}', [FileController::class, 'index'])->name('files.index');
+//     Route::post('/{module}', [FileController::class, 'store'])->name('files.store');
+//     Route::put('/{module}/update/{id}', [FileController::class, 'update'])->name('files.update');
+//     Route::delete('/{module}/delete/{id}', [FileController::class, 'destroy'])->name('files.destroy');
+//     Route::get('/{module}/download/{id}', [FileController::class, 'download'])->name('files.download');
+//     Route::get('/{module}/open/{id}', [FileController::class, 'open'])->name('files.open');
+// });
 
 /////////////////////////////////////////////////
 

@@ -7,31 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
 
 class FileController extends Controller
 {
     public function index()
     {
-        $files = File::all();
+        $items = File::all();
         return Inertia::render('Graduation/StudentFiles', [
-            'files' => $files,
+            'items' => $items,
         ]);
     }
 
-    public function show(File $file)
-    {
-        if (!$file->is_folder) {
-            abort(404, 'No es una carpeta válida');
-        }
-
-        $files = File::where('parent_id', $file->id)->get();
-
-        return inertia('Items/Show', [
-            'parent' => $file,
-            'items' => $files
-        ]);
-    }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -91,7 +79,6 @@ class FileController extends Controller
     {
         //TODO: file path should be stored by ids
         if ($file->parent_id) {
-            // Obtener la carpeta padre
             $parentItem = File::find($file->parent_id);
             return $parentItem ? $parentItem->path . '/' . $file->id : (string) $file->id;
         }
@@ -99,67 +86,54 @@ class FileController extends Controller
         return (string) $file->id;
     }
 
-    public function update(Request $request, File $file)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'file' => 'nullable|file',
+        $request->validate([
+            'name' => 'required|string|max:255',
         ]);
-
-        if ($request->hasFile('file')) {
-
-            $this->deleteFileFromStorage($file);
-
-            $this->storeFile($request, $file);
-        }
-        if (isset($validated['name'])) {
-            $file->name = $validated['name'];
-        }
-
+    
+        $file = File::findOrFail($id);
+        $file->name = $request->input('name');
+        $file->updated_by = Auth::id();
         $file->save();
-
-        return redirect()->route('files.index');
+    
+        return redirect()->back()->with('success', 'Archivo actualizado exitosamente.');
     }
-
-    public function move(Request $request, File $file)
+    
+    public function destroy($id)
     {
-        $validated = $request->validate([
-            'parent_id' => 'required|integer|exists:files,id',
-        ]);
-
-        $newParent = File::find($validated['parent_id']);
-
-        if (!$file->is_folder) {
-            $this->deleteFileFromStorage($file);
-
-            $newFilePath = "uploads/{$this->createPath($newParent)}";
-
-            $this->moveFileInStorage($file, $newFilePath);
-
-            $file->path = $newFilePath . '/' . basename($file->path);
-            $file->parent_id = $newParent->id;
-            $file->save();
-
-            return redirect()->route('files.index');
+        $file = File::findOrFail($id);
+    
+        if ($file->path && Storage::exists($file->path)) {
+            Storage::delete($file->path);
         }
-        return back()->withErrors('El item seleccionado no es un archivo válido.');
+    
+        $file->delete();
+    
+        return redirect()->back()->with('success', 'Archivo eliminado exitosamente.');
     }
-
-    public function deleteFileFromStorage(File $file)
+    
+    public function download($id)
     {
-        $oldPath = storage_path('app/' . $file->path);
-        if (file_exists($oldPath)) {
-            unlink($oldPath);
+        $file = File::findOrFail($id);
+        $path = storage_path('app/' . $file->path);
+    
+        if (file_exists($path)) {
+            return Response::download($path, basename($path));
         }
+    
+        return abort(404, 'Archivo no encontrado');
     }
-
-    public function moveFileInStorage(File $file, $newFilePath)
+    
+    public function open($id)
     {
-        $oldPath = storage_path('app/' . $file->path);
-        $newPath = storage_path('app/' . $newFilePath . '/' . basename($file->path));
-
-        if (file_exists($oldPath)) {
-            rename($oldPath, $newPath);
+        $file = File::findOrFail($id);
+        $path = storage_path('app/' . $file->path);
+    
+        if (file_exists($path)) {
+            return response()->file($path);
         }
+    
+        return abort(404, 'Archivo no encontrado');
     }
 }

@@ -6,84 +6,66 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
-use Inertia\Inertia;
-
 class FileController extends Controller
 {
-    public function index()
+    public function index($parentId = null)
     {
-        $items = File::all();
-        return Inertia::render('Graduation/StudentFiles', [
-            'items' => $items,
+        if (is_null($parentId)) {
+            $files = File::whereNull('parent_id')->get();
+        } else {
+            $files = File::where('parent_id', $parentId)->get();
+        }
+
+        return inertia('Graduation/StudentFiles', [
+            'files' => $files,
+            'parentId' => $parentId,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $parentId = null)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'is_folder' => 'required|boolean',
-            'parent_id' => 'nullable|integer|exists:files,id',
+            'file' => 'nullable|file',
         ]);
 
-        try {
-            $file = new File();
-            $file->name = $validated['name'];
-            $file->is_folder = $validated['is_folder'];
-            $file->parent_id = $validated['parent_id'] ?? null;
-            $file->created_by = Auth::id();
+        // Create file or folder in database
+        $file = new File();
+        $file->name = $request->name;
+        $file->is_folder = $request->is_folder;
+        $file->parent_id = $parentId ?: null;
+        $file->created_by = Auth::id();
 
-            if (!$file->is_folder && $request->hasFile('file')) {
-                $this->storeFile($request, $file);
-            } else {
-                $file->path = $this->createPath($file);
-            }
+        if ($parentId) {
+            $parentFile = File::find($parentId);
+            $parentPath = $parentFile->path;
+            $file->path = $parentPath . $parentFile->id . '/';
+        } else {
+            $file->level = 1;
+            $file->path = 'uploads/';
+        }
 
+        $file->save();
+
+        // Store the file
+        if ($request->hasFile('file')) {
+            $fileToUpload = $request->file('file');
+            $storagePath ="uploads/{$file->path}";
+            $filePath = "{$file->path}";
+
+            Storage::putFileAs($storagePath, $fileToUpload, $fileToUpload->getClientOriginalName());
+            $file->path = $filePath . $fileToUpload->getClientOriginalName();
             $file->save();
-
-            Log::info("Archivo o carpeta guardado exitosamente: {$file->name}");
-            return redirect()->route('files.index')->with('success', 'Archivo o carpeta creada exitosamente.');
-        } catch (\Exception $e) {
-            Log::error("Error al guardar el archivo o carpeta: {$e->getMessage()}");
-            return redirect()->back()->withErrors(['error' => 'No se pudo guardar el archivo o carpeta.']);
-        }
-    }
-
-    public function storeFile(Request $request, File $file)
-    {
-        try {
-            if ($request->hasFile('file')) {
-                $fileToUpload = $request->file('file');
-                $filePath = "uploads/" . $this->createPath($file);
-
-                Storage::disk('local')->putFileAs(
-                    $filePath,
-                    $fileToUpload,
-                    $fileToUpload->getClientOriginalName()
-                );
-
-                $file->path = $filePath . '/' . $fileToUpload->getClientOriginalName();
-
-                Log::info("Archivo subido exitosamente: {$file->path}");
-            } else {
-                Log::warning("El archivo no se recibió en la solicitud.");
-            }
-        } catch (\Exception $e) {
-            Log::error("Error al subir el archivo: {$e->getMessage()}");
-        }
-    }
-
-    public function createPath(File $file)
-    {
-        //TODO: file path should be stored by ids
-        if ($file->parent_id) {
-            $parentItem = File::find($file->parent_id);
-            return $parentItem ? $parentItem->path . '/' . $file->id : (string) $file->id;
         }
 
-        return (string) $file->id;
+        // Generate level   
+        $path = $file->path;
+        $pathSegments = explode('/', $path);
+        $file->level = count($pathSegments);
+        $file->save();
+
+        return redirect()->route('files.index', ['parentId' => $file->parent_id]);
     }
 
     public function update(Request $request, $id)
@@ -91,49 +73,35 @@ class FileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
-    
+
         $file = File::findOrFail($id);
         $file->name = $request->input('name');
         $file->updated_by = Auth::id();
         $file->save();
-    
-        return redirect()->back()->with('success', 'Archivo actualizado exitosamente.');
+
+        return redirect()->back()->with('success', 'Ha sido actualizado exitosamente.');
     }
-    
+
     public function destroy($id)
     {
         $file = File::findOrFail($id);
-    
         if ($file->path && Storage::exists($file->path)) {
             Storage::delete($file->path);
         }
-    
         $file->delete();
-    
-        return redirect()->back()->with('success', 'Archivo eliminado exitosamente.');
+
+        return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
     }
-    
+
     public function download($id)
     {
         $file = File::findOrFail($id);
-        $path = storage_path('app/' . $file->path);
-    
-        if (file_exists($path)) {
-            return Response::download($path, basename($path));
-        }
-    
-        return abort(404, 'Archivo no encontrado');
+        return response()->download(storage_path("app/uploads/{$file->path}"));
     }
-    
+
     public function open($id)
     {
         $file = File::findOrFail($id);
-        $path = storage_path('app/' . $file->path);
-    
-        if (file_exists($path)) {
-            return response()->file($path);
-        }
-    
-        return abort(404, 'Archivo no encontrado');
+        return response()->file(storage_path("app/uploads/{$file->path}"));
     }
 }

@@ -20,16 +20,16 @@ return new class extends Migration
             $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('set null');
             $table->string('path');
             $table->integer('level')->default(1);
-            $table->foreignId('created_by')->nullable();
-            $table->foreignId('updated_by')->nullable();
+            $table->foreignId('created_by')->nullable(); // TODO: should be constrained to users table
+            $table->foreignId('updated_by')->nullable(); // same as above
             $table->timestamps();
         });
 
 
         DB::table('files')->insert([
-            ['name' => 'TITULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '1', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
-            ['name' => 'VINCULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '2', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
-            ['name' => 'PREPROFESIONALES', 'is_folder' => true, 'parent_id' => null, 'path' => '3', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
+            ['name' => 'TITULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
+            ['name' => 'VINCULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
+            ['name' => 'PREPROFESIONALES', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
         ]);
     }
 

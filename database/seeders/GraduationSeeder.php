@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Graduate;
+use App\Models\Graduation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class GraduateSeeder extends Seeder
+class GraduationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class GraduateSeeder extends Seeder
     public function run(): void
     {
 
-        $graduates = [
+        $graduations = [
             [
                 'student_id' => '1',
                 'academic_period_start_id' => '7',
@@ -157,8 +157,8 @@ class GraduateSeeder extends Seeder
             ],
         ];
 
-        foreach ($graduates as $graduateData) {
-            Graduate::create($graduateData);
+        foreach ($graduations as $graduationData) {
+            Graduation::create($graduationData);
         }
     }
 }

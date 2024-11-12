@@ -52,10 +52,10 @@ const form = useForm({
 });
 
 function selectedSex() {
-    if (form.sex == 0) {
-        sex.value = "Femenino";
+    if (props.professor.sex == 0) {
+        sex.value = "FEMENINO";
     } else {
-        sex.value = "Masculino";
+        sex.value = "MASCULINO";
     }
 }
 

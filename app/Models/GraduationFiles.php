@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GraduateFiles extends Model
+class GraduationFiles extends Model
 {
     use HasFactory;
     public $timestamps = false;

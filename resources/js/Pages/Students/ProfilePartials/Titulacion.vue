@@ -8,7 +8,7 @@
         <div class="grid grid-cols-12 gap-3 h-full pl-4 pr-10">
             <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
             <div class="col-span-7 mb-2">
-                <InputText id="inputInicio" size="small" fluid disabled value="2023-2024" />
+                <InputText id="inputInicio" size="small" fluid disabled  v-model="form.start_period"/>
             </div>
             <div class="col-span-2 mb-2">
                 <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
@@ -202,6 +202,7 @@ const props = defineProps({
     period: Object,
     professors: Object,
     status: Object,
+    slotProps: Object,
 });
 
 const visible = ref(false);
@@ -225,4 +226,21 @@ const selectedAssesor = ref(null);
 const selectedReader1 = ref(null);
 const selectedReader2 = ref(null);
 const selectedLineOfResearch = ref(null);
+
+
+import { usePage } from "@inertiajs/vue3";
+console.log(usePage().props.graduation);
+
+
+import { useForm } from "@inertiajs/vue3";
+
+const graduationArray = ref(usePage().props.graduation)
+const graduation = graduationArray.value[0];
+
+const form = useForm({
+    start_period: graduation.start_period,
+});
+
+console.log(graduation.advisor_id)
+
 </script>

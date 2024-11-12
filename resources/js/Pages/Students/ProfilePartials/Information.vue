@@ -31,7 +31,7 @@
             </div>
             <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputCarrera">Carrera</label>
             <div class="col-span-12 md:col-span-10 mb-2">
-                <InputText v-model="form.course_id" id="inputCarrera" size="small" fluid disabled />
+                <InputText v-model="form.course_name" id="inputCarrera" size="small" fluid disabled />
             </div>
         </div>
     </div>
@@ -55,16 +55,15 @@ const form = useForm({
     email: props.student.email,
     banner_code: props.student.banner_code,
     sex: sex,
-    course_id: props.student.course_id,
+    course_name: props.student.course_name,
 });
 
 function selectedSex() {
-    if (form.sex == 0) {
-        sex.value = "Femenino";
+    if (props.student == 0) {
+        sex.value = "FEMENINO";
     } else {
-        sex.value = "Masculino";
+        sex.value = "MASCULINO";
     }
 }
-
 selectedSex();
 </script>

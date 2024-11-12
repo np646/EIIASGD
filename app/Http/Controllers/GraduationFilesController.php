@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GraduateFiles;
+use App\Models\GraduationFiles;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class GraduateFilesController extends Controller
+class GraduationFilesController extends Controller
 {
     public function index()
     {
-        $graduateFiles = GraduateFiles::where('status', 1)->get();
-        return Inertia::render('GraduateFiles/Index', [
-            'graduateFiles' => $graduateFiles
+        $graduationFiles = GraduationFiles::where('status', 1)->get();
+        return Inertia::render('GraduationFiles/Index', [
+            'graduationFiles' => $graduationFiles
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('GraduateFiles/Create');
+        return Inertia::render('GraduationFiles/Create');
     }
 
     public function store(Request $request)
@@ -34,42 +34,42 @@ class GraduateFilesController extends Controller
             'readers_id' => $params['readers_id'],
             'plan_approval_id' => $params['plan_approval_id'],
         ];
-        GraduateFiles::create($data);
+        GraduationFiles::create($data);
         return redirect()->route('graduateFiles.index');
     }
 
-    public function edit(GraduateFiles $graduateFile)
+    public function edit(GraduationFiles $graduationFile)
     {
-        return Inertia::render('GraduateFiles/Edit', [
-            'graduateFile' => $graduateFile
+        return Inertia::render('GraduationFiles/Edit', [
+            'graduationFile' => $graduationFile
         ]);
     }
 
-    public function update(Request $request, GraduateFiles $graduateFile)
+    public function update(Request $request, GraduationFiles $graduationFile)
     {
-        $graduateFile->update($request->all());
-        return redirect()->route('graduateFiles.index');
+        $graduationFile->update($request->all());
+        return redirect()->route('graduationFiles.index');
     }
 
-    public function destroy(GraduateFiles $graduateFile)
+    public function destroy(GraduationFiles $graduateFile)
     {
         $graduateFile->delete();
         return redirect()->route('graduateFiles.index');
     }
 
-    public function remove(Request $request, GraduateFiles $graduateFile)
+    public function remove(Request $request, GraduationFiles $graduationFile)
     {
         $request->validate([
             'status' => 'required|integer'
         ]);
 
-        $graduateFile->update($request->only('status'));
-        return redirect()->route('graduateFiles.index');
+        $graduationFile->update($request->only('status'));
+        return redirect()->route('graduationFiles.index');
     }
 
     public function fetch()
     {
-        $graduateFiles = GraduateFiles::where('status', 1)->get();
-        return response()->json($graduateFiles);
+        $graduationFiles = GraduationFiles::where('status', 1)->get();
+        return response()->json($graduationFiles);
     }
 }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('graduate_files', function (Blueprint $table) {
+        Schema::create('graduation_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->string('international_cert_id')->nullable()->constrained('files')->onDelete('cascade');

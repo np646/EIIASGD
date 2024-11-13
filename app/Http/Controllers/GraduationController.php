@@ -92,6 +92,7 @@ class GraduationController extends Controller
             ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
             ->select(
                 'graduations.*',
+                // ADD STUDENT NAME + LASTNAME TO DISPLAY IN TITLE
                 'graduation_types.type AS type',
                 'thesis_areas.area AS area',
                 'start_period.period AS start_period',
@@ -102,6 +103,10 @@ class GraduationController extends Controller
             )
             ->get();
 
-            return $query;
+        // return $query;
+
+        return Inertia::render('Graduation/Process/Index', [
+            'graduation' => $query
+        ]);
     }
 }

@@ -24,7 +24,11 @@ class StudentController extends Controller
 
     public function create()
     {
-        return Inertia::render('Students/Create');
+        $courseController = new CourseController();
+        $courses = $courseController->fetch();
+        return Inertia::render('Students/Create', [
+            'courses' => $courses
+        ]);
     }
 
     public function store(Request $request)
@@ -53,7 +57,6 @@ class StudentController extends Controller
             'banner_code' => $params['banner_code'],
             'sex' => $params['sex'],
             'course_id' => $params['course_id'],
-            'academic_period_start_id' => $params['academic_period_start_id'],
             'status' => $params['status']
         ];
         Student::create($data);
@@ -128,5 +131,22 @@ class StudentController extends Controller
     {
         $students = Student::where('status', 1)->get();
         return response()->json($students);
+    }
+
+
+    public function graduation(Student $student)
+    {
+        $student = Student::where('students.id', $student->id)
+            ->join('courses', 'course_id', '=', 'courses.id')
+            ->select('students.*', 'courses.name AS course_name')
+            ->first();
+
+        $graduationController = new GraduationController();
+        $graduation = $graduationController->graduation($student->id);
+
+        return Inertia::render('Students/Process/Graduation/Index', [
+            'student' => $student,
+            'graduation' => $graduation
+        ]);
     }
 }

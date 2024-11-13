@@ -151,6 +151,7 @@ Route::get('/graduation/statistics', function () {
 
 /////////////////////////////////////////////////
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GraduationController;
 
 Route::get('/studentfiles', [FileController::class, 'index'])->name('files.index');
 Route::get('/studentfiles/{parentId?}', [FileController::class, 'index'])->name('files.index');
@@ -169,6 +170,15 @@ Route::get('/files/open/{id}', [FileController::class, 'open']);
 //     Route::get('/{module}/download/{id}', [FileController::class, 'download'])->name('files.download');
 //     Route::get('/{module}/open/{id}', [FileController::class, 'open'])->name('files.open');
 // });
+
+
+/////////////////////////////////////////////////
+// Titulación - estado del proceso /students
+Route::get('/students/{student}/process/graduation', [StudentController::class, 'graduation'])->name('students.graduation');
+
+
+Route::get('/graduation/process/{student}', [GraduationController::class, 'graduation'])->name('graduation.graduation');
+
 
 /////////////////////////////////////////////////
 

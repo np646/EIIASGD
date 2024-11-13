@@ -13,8 +13,12 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::where('status', 1)->get();
+
+        $courseController = new CourseController();
+        $courses = $courseController->fetch();
         return Inertia::render('Students/Index', [
-            'students' => $students
+            'students' => $students,
+            'courses' => $courses
         ]);
     }
 
@@ -58,8 +62,16 @@ class StudentController extends Controller
 
     public function edit(Student $student)
     {
+        $student = Student::where('students.id', $student->id)
+        ->join('courses', 'students.course_id', '=', 'courses.id')
+        ->select('students.*', 'courses.name as course_name',)
+        ->first();
+
+        $courseController = new CourseController();
+        $courses = $courseController->fetch();
         return Inertia::render('Students/Edit', [
-            'student' => $student
+            'student' => $student,
+            'courses' => $courses
         ]);
     }
 

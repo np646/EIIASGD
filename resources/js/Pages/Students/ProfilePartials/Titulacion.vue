@@ -15,50 +15,50 @@
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
             <div class="col-span-7 mb-2">
-                <InputText id="inputFinalizacion" size="small" fluid disabled value="2024-2025" />
+                <InputText id="inputFinalizacion" size="small" fluid disabled v-model="form.end_period"/>
             </div>
             <div class="col-span-2 mb-2">
                 <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputMatrícula" size="small" fluid disabled value="PRIMERA" />
+                <InputText id="inputMatrícula" size="small" fluid disabled v-model="form.registration_times" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputAprobacion" size="small" fluid disabled value="10-07-2023" />
+                <InputText id="inputAprobacion" size="small" fluid disabled v-model="form.approval_date" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputModalidad" size="small" fluid disabled value="PROYECTO DE INVESTIGACIÓN" />
+                <InputText id="inputModalidad" size="small" fluid disabled v-model="form.type" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputTitulo" size="small" fluid disabled value="APLICACIÓN WEB DE GESTIÓN DOCUMENTAL" />
+                <InputText id="inputTitulo" size="small" fluid disabled v-model="form.thesis_name" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputLinea" size="small" fluid disabled value="INGENIERÍA DE SOFTWARE, INNOVACIÓN Y EMPRENDIMIENTO EN TICS" />
+                <InputText id="inputLinea" size="small" fluid disabled v-model="form.area"/>
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputAsesor" size="small" fluid disabled value="AGULLO JIMÉNEZ LUIS SEBASTIAN" />
+                <InputText id="inputAsesor" size="small" fluid disabled v-model="form.advisor" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputLector1" size="small" fluid disabled value="MEJIAS MOLINERO ALEJANDRA NAROA" />
+                <InputText id="inputLector1" size="small" fluid disabled v-model="form.reader1" />
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputLector2" size="small" fluid disabled value="PERALES SALAS MAURICIO JAVIER" />
+                <InputText id="inputLector2" size="small" fluid disabled v-model="form.reader2"/>
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputGraduacion" size="small" fluid disabled value="15-03-2025" />
+                <InputText id="inputGraduacion" size="small" fluid disabled v-model="form.graduation_date"/>
             </div>
             <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
             <div class="col-span-9 mb-2">
-                <InputText id="inputEstado" size="small" fluid disabled value="En proceso" />
+                <InputText id="inputEstado" size="small" fluid disabled v-model="form.status" />
             </div>
         </div>
     </div>
@@ -239,6 +239,17 @@ const graduation = graduationArray.value[0];
 
 const form = useForm({
     start_period: graduation.start_period,
+    end_period: graduation.end_period,
+    advisor: graduation.advisor_name,
+    reader1: graduation.reader1_name,
+    reader2: graduation.reader2_name,
+    area: graduation.area,
+    registration_times: graduation.registration_times,
+    approval_date: graduation.plan_approval_date,
+    type: graduation.type,
+    thesis_name: graduation.thesis_name,
+    graduation_date: graduation.graduation_date,
+    status: graduation.status,
 });
 
 console.log(graduation.advisor_id)

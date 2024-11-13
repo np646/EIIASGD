@@ -65,6 +65,6 @@ class CourseController extends Controller
     public function fetch()
     {
         $courses = Course::where('status', 1)->get();
-        return response()->json($courses);
+        return $courses;
     }
 }

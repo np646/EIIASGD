@@ -101,6 +101,7 @@ class GraduationController extends Controller
 
     public function edit($student_id)
     {
+        // TODO: create just one method to return this sentence
         $query = Graduation::where('student_id', $student_id)
             ->join('students', 'graduations.student_id', '=', 'students.id')
             ->join('graduation_types', 'graduations.graduation_type', '=', 'graduation_types.id')
@@ -136,4 +137,28 @@ class GraduationController extends Controller
         return redirect()->route('graduation.index');
     }
 
+    public function professorProcesses($professor_id)
+    {
+        /*
+        $professorId = 123; // The ID you're passing to check the role 
+
+$results = DB::table('graduates') 
+->select('graduates.*', DB::raw(" 
+CASE 
+WHEN graduates.asesor_id = $professorId THEN 'ASSESOR' 
+WHEN graduates.reader1_id = $professorId THEN 'READER 1' 
+WHEN graduates.reader2_id = $professorId THEN 'READER 2' 
+ELSE 'UNKNOWN' 
+END AS role ")) 
+->join('students', 'graduates.student_id', '=', 'students.id') ->join('professors', function($join) use ($professorId) { 
+$join->on('graduates.asesor_id', '=', 'professors.id') 
+->orOn('graduates.reader1_id', '=', 'professors.id') 
+->orOn('graduates.reader2_id', '=', 'professors.id'); 
+}) 
+->where('graduates.status', 'active') 
+->get();
+
+
+        */
+    }
 }

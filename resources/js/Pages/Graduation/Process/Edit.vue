@@ -3,59 +3,71 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Proceso de titulación`"></Subtitle>
+            <Subtitle :title="`Actualizar información del proceso de titulación`"></Subtitle>
             <div class="px-5 pt-3">
                 <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
-                    <div class="grid grid-cols-12 gap-3 h-full">
-                        <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputInicio" size="small" fluid v-model="form.start_period" />
+                    <form @submit.prevent="submit">
+                        <div class="grid grid-cols-12 gap-3 h-full">
+                            <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputInicio" size="small" fluid v-model="form.start_period" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputFinalizacion" size="small" fluid v-model="form.end_period" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputMatrícula" size="small" fluid v-model="registration_times" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputAprobacion" size="small" fluid v-model="form.approval_date" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputModalidad" size="small" fluid v-model="form.type" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputTitulo" size="small" fluid v-model="form.thesis_name" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputLinea" size="small" fluid v-model="form.area" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputAsesor" size="small" fluid v-model="form.advisor" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputLector1" size="small" fluid v-model="form.reader1" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputLector2" size="small" fluid v-model="form.reader2" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputGraduacion" size="small" fluid v-model="form.graduation_date" />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
+                            <div class="col-span-9 mb-2">
+                                <InputText id="inputEstado" size="small" fluid v-model="form.status" />
+                            </div>
+                            <div class="col-span-12 my-2">
+                                <div class="row">
+                                    <div class="col-6 d-flex justify-content-center">
+                                        <Button label="Cancelar" icon="pi pi-times" type="button" severity="secondary" @click="cancel" />
+                                    </div>
+                                    <div class="col-6 d-flex justify-content-center">
+                                        <Button label="Guardar" icon="pi pi-check" type="submit" severity="success" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputFinalizacion" size="small" fluid v-model="form.end_period" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputMatrícula" size="small" fluid v-model="registration_times" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputAprobacion" size="small" fluid v-model="form.approval_date" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputModalidad" size="small" fluid v-model="form.type" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputTitulo" size="small" fluid v-model="form.thesis_name" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputLinea" size="small" fluid v-model="form.area" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputAsesor" size="small" fluid v-model="form.advisor" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputLector1" size="small" fluid v-model="form.reader1" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputLector2" size="small" fluid v-model="form.reader2" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputGraduacion" size="small" fluid v-model="form.graduation_date" />
-                        </div>
-                        <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputEstado" size="small" fluid v-model="form.status" />
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </ContentContainer>
@@ -68,7 +80,6 @@ import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import Subtitle from "@/Components/Subtitle.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import ButtonGroup from "primevue/buttongroup";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import { ref } from "vue";
@@ -99,20 +110,22 @@ const form = useForm({
 const title = graduation.student_name;
 
 function selectedRegistrationTimes() {
-    // TODO: change to switch case
-    if (graduation.registration_times == 1) {
-        registration_times.value = "PRIMERA";
-    } else if (graduation.registration_times == 2){
-        registration_times.value = "SEGUNDA";
-    }else if (graduation.registration_times == 3){
-        registration_times.value = "TERCERA";
+    switch (graduation.registration_times) {
+        case 1:
+            registration_times.value = "PRIMERA";
+            break;
+        case 2:
+            registration_times.value = "SEGUNDA";
+            break;
+        case 3:
+            registration_times.value = "TERCERA";
+            break;
     }
 }
 
 selectedRegistrationTimes();
 
-function redirect() {
-    router.visit("/graduation/process/edit/"+graduation.id);
+function cancel() {
+    router.visit("/graduation/process/" + graduation.id);
 }
-
 </script>

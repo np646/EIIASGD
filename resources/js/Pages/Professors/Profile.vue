@@ -3,22 +3,12 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Accordion multiple>
-                <AccordionPanel value="0">
-                    <AccordionHeader>Información personal</AccordionHeader>
-                    <AccordionContent>
-                        <Information :professor="professor" />
-                    </AccordionContent>
-                </AccordionPanel>
-
-                <!-- TODO: Información quemada -->
-                <AccordionPanel value="1">
-                    <AccordionHeader>Titulación</AccordionHeader>
-                    <AccordionContent>
-                        <Titulacion :professor="professor" :students="students" />
-                    </AccordionContent>
-                </AccordionPanel>
-            </Accordion>
+            <Subtitle :title="`Información personal`"></Subtitle>
+            <Information :professor="professor" />
+        </ContentContainer>
+        <ContentContainer>
+            <Subtitle :title="`Procesos de titulación activos`"></Subtitle>
+            <Graduation :professor="professor" :students="students" />
         </ContentContainer>
     </MenuLayout>
 </template>
@@ -26,12 +16,9 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
-import Accordion from "primevue/accordion";
-import AccordionPanel from "primevue/accordionpanel";
-import AccordionHeader from "primevue/accordionheader";
-import AccordionContent from "primevue/accordioncontent";
+import Subtitle from "@/Components/Subtitle.vue";
 import Information from "./ProfilePartials/Information.vue";
-import Titulacion from "./ProfilePartials/Titulacion.vue";
+import Graduation from "./ProfilePartials/Graduation.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import { usePage } from "@inertiajs/vue3";

@@ -28,7 +28,7 @@
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputMatrícula" size="small" fluid disabled  v-model="registration_times" />
+                            <InputText id="inputMatrícula" size="small" fluid disabled v-model="registration_times" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
                         <div class="col-span-9 mb-2">
@@ -110,13 +110,16 @@ const form = useForm({
 const title = graduation.student_name;
 
 function selectedRegistrationTimes() {
-    // TODO: change to switch case
-    if (graduation.registration_times == 1) {
-        registration_times.value = "PRIMERA";
-    } else if (graduation.registration_times == 2){
-        registration_times.value = "SEGUNDA";
-    }else if (graduation.registration_times == 3){
-        registration_times.value = "TERCERA";
+    switch (graduation.registration_times) {
+        case 1:
+            registration_times.value = "PRIMERA";
+            break;
+        case 2:
+            registration_times.value = "SEGUNDA";
+            break;
+        case 3:
+            registration_times.value = "TERCERA";
+            break;
     }
 }
 
@@ -127,6 +130,6 @@ function redirect() {
 }
 
 function edit() {
-    router.visit("/graduation/process/edit/"+graduation.student_id);
+    router.visit("/graduation/process/edit/" + graduation.student_id);
 }
 </script>

@@ -1,36 +1,36 @@
 <template>
     <div class="flex flex-col gap-4 justify-center h-full mb-3">
-        <div class="grid grid-cols-12 gap-2 h-full">
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputApellidos">Apellidos</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+        <div class="grid grid-cols-12 gap-3 h-full">
+            <label class="flex items-center col-span-3 h-full" for="inputApellidos">Apellidos</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.lastname" id="inputApellidos" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputNombres">Nombres</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputNombres">Nombres</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.name" id="inputNombres" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputEmail">Email</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputEmail">Email</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.email" id="inputEmail" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputIdentificacion">Identificación</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputIdentificacion">Identificación</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.identification" id="inputIdentificacion" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputCodigoBanner">Código de banner</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputCodigoBanner">Código de banner</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.banner_code" id="inputCodigoBanner" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputFechaDeNacimiento">Fecha de nacimiento</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputFechaDeNacimiento">Fecha de nacimiento</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.date_of_birth" id="inputFechaDeNacimiento" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputSexo">Sexo</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputSexo">Sexo</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="sex" id="inputSexo" size="small" fluid disabled />
             </div>
-            <label class="flex items-center col-span-12 md:col-span-2 md:mb-0 h-full" for="inputCarrera">Carrera</label>
-            <div class="col-span-12 md:col-span-10 mb-2">
+            <label class="flex items-center col-span-3 h-full" for="inputCarrera">Carrera</label>
+            <div class="col-span-9 mb-2">
                 <InputText v-model="form.course_name" id="inputCarrera" size="small" fluid disabled />
             </div>
         </div>

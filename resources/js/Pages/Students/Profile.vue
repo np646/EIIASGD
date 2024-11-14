@@ -3,78 +3,92 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Accordion multiple>
-                <AccordionPanel value="0">
-                    <AccordionHeader>Información personal</AccordionHeader>
-                    <AccordionContent>
-                        <Information :student="student"></Information>
-                    </AccordionContent>
-                </AccordionPanel>
-
-                <!-- TODO: Información quemada -->
-                <AccordionPanel value="1">
-                    <AccordionHeader>Titulación</AccordionHeader>
-                    <AccordionContent>
-                        <Titulacion :student="student" :period="periodo" :professors="professors" :status="status"></Titulacion>
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="2">
-                    <AccordionHeader>Prácticas de servicio comunitario</AccordionHeader>
-                    <AccordionContent>
-                        <Vinculacion :student="student" :period="periodo" :status="status"></Vinculacion>
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="3">
-                    <AccordionHeader>Prácticas preprofesionales</AccordionHeader>
-                    <AccordionContent>
-                        <Preprofesionales :student="student" :period="periodo" :status="status"></Preprofesionales>
-                    </AccordionContent>
-                </AccordionPanel>
-            </Accordion>
+            <Subtitle :title="`Información personal`"></Subtitle>
+            <Information :student="student" class="px-5 pt-4"></Information>
+        </ContentContainer>
+        <ContentContainer>
+            <Subtitle :title="`Ver procesos`"></Subtitle>
+            <div class="pb-4 pt-3 px-5">
+                <div class="row">
+                    <div class="col d-flex flex-column justify-content-center">
+                        <Link :href="url" class="content-wrapper">
+                            <div class="row p-3">
+                                <div class="col text-center">
+                                    <div class="row mb-2">
+                                        <BIconMortarboardFill style="font-size: 30px; color: var(--main-color)" />
+                                    </div>
+                                    <div class="row">
+                                        <span class="fw-bold fs-5">Titulación</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div class="col d-flex flex-column justify-content-center">
+                        <Link href="/dashboard" class="content-wrapper">
+                            <div class="row p-3">
+                                <div class="col text-center">
+                                    <div class="row mb-2">
+                                        <BIconPersonRaisedHand style="font-size: 30px; color: var(--main-color)" />
+                                    </div>
+                                    <div class="row">
+                                        <span class="fw-bold fs-5">Vinculación</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div class="col d-flex flex-column justify-content-center">
+                        <Link href="/dashboard" class="content-wrapper">
+                            <div class="row p-3">
+                                <div class="col text-center">
+                                    <div class="row mb-2">
+                                        <BIconPersonWorkspace style="font-size: 30px; color: var(--main-color)" />
+                                    </div>
+                                    <div class="row">
+                                        <span class="fw-bold fs-5">Preprofesionales</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </ContentContainer>
     </MenuLayout>
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
-import Accordion from "primevue/accordion";
-import AccordionPanel from "primevue/accordionpanel";
-import AccordionHeader from "primevue/accordionheader";
-import AccordionContent from "primevue/accordioncontent";
-import Titulacion from "./ProfilePartials/Titulacion.vue";
+import Subtitle from "@/Components/Subtitle.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Information from "./ProfilePartials/Information.vue";
-import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import Vinculacion from "./ProfilePartials/Vinculacion.vue";
-import Preprofesionales from "./ProfilePartials/Preprofesionales.vue";
+import { Link } from "@inertiajs/vue3";
+import { BIconMortarboardFill, BIconPersonWorkspace, BIconPersonRaisedHand } from "bootstrap-icons-vue";
 
 const { student } = usePage().props;
 const title = student?.lastname + " " + student?.name;
-
-const periodo = ref([
-    { id: 0, period: "2024-2025" },
-    { id: 1, period: "2023-2024" },
-]);
-
-const professors = ref([
-    { id: 1, name: "John Smith" },
-    { id: 2, name: "Jane Doe" },
-    { id: 3, name: "Emily Johnson" },
-    { id: 4, name: "DMichael Brown" },
-    { id: 5, name: "Linda Davis" },
-    { id: 6, name: "William Wilson" },
-    { id: 7, name: "Elizabeth Martinez" },
-    { id: 8, name: "David Anderson" },
-    { id: 9, name: "Susan Taylor" },
-    { id: 10, name: "Robert Thomas" },
-]);
-
-const status = ref([
-    { id: 0, status: "En proceso" },
-    { id: 1, status: "Finalizado" },
-    { id: 2, status: "Cancelado" },
-]);
+const url = "/graduation/process/" + student?.id;
 </script>
+<style scoped>
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-wrapper:hover {
+    /* TODO: change background color */
+    background-color: #e0dcdc; 
+    transform: scale(1.05);
+    cursor: pointer;
+}
+</style>

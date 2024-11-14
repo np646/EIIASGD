@@ -17,7 +17,6 @@ const props = defineProps({
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    
 }
 .container {
     border: 1px solid var(--border-color);
@@ -30,7 +29,8 @@ const props = defineProps({
 .line {
     border-top: 1px solid var(--softer-border-color);
     flex-grow: 1;
-    margin-left: 10px;
+    margin-right: 32px;
+    margin-bottom:10px;
 }
 
 .title {

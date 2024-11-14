@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             StudentSeeder::class,
             ProfessorSeeder::class,
+            GraduationStatusSeeder::class,
             GraduationTypeSeeder::class,
             GraduationSeeder::class,
         ]);

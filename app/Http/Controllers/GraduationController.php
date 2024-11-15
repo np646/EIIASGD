@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Graduation;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -66,7 +67,7 @@ class GraduationController extends Controller
         return response()->json($graduations);
     }
 
-    public function graduation($student_id)
+    public function fetchById($student_id)
     {
         $query = Graduation::where('student_id', $student_id)
             ->join('students', 'graduations.student_id', '=', 'students.id')
@@ -91,8 +92,12 @@ class GraduationController extends Controller
                 'graduation_statuses.name as status_name'
             )
             ->get();
+        return $query;
+    }
 
-        // return $query;
+    public function graduation($student_id)
+    {
+        $query = $this->fetchById($student_id);
 
         return Inertia::render('Graduation/Process/Index', [
             'graduation' => $query
@@ -101,64 +106,58 @@ class GraduationController extends Controller
 
     public function edit($student_id)
     {
-        // TODO: create just one method to return this sentence
-        $query = Graduation::where('student_id', $student_id)
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('graduation_types', 'graduations.graduation_type', '=', 'graduation_types.id')
-            ->join('thesis_areas', 'graduations.thesis_area', '=', 'thesis_areas.id')
-            ->join('professors AS advisor', 'graduations.advisor_id', '=', 'advisor.id')
-            ->join('professors AS reader1', 'graduations.reader1_id', '=', 'reader1.id')
-            ->join('professors AS reader2', 'graduations.reader2_id', '=', 'reader2.id')
-            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
-            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
-            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
-            ->select(
-                'graduations.*',
-                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student_name"),
-                'graduation_types.type AS type',
-                'thesis_areas.area AS area',
-                'start_period.period AS start_period',
-                'end_period.period AS end_period',
-                DB::raw("CONCAT(advisor.lastname, ' ', advisor.name) AS advisor_name"),
-                DB::raw("CONCAT(reader1.lastname, ' ', reader1.name) AS reader1_name"),
-                DB::raw("CONCAT(reader2.lastname, ' ', reader2.name) AS reader2_name"),
-                'graduation_statuses.name as status_name'
-            )
-            ->get();
+        $graduation = $this->fetchById($student_id);
+
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
+        $typeController = new GraduationTypeController();
+        $types = $typeController->fetch();
+
+        $areaController = new ThesisAreaController();
+        $areas = $areaController->fetch();
+
+        $professorController = new ProfessorController();
+        $professors = $professorController->fetch();
+
+        $statusController = new GraduationStatusController();
+        $statuses = $statusController->fetch();
 
         return Inertia::render('Graduation/Process/Edit', [
-            'graduation' => $query
+            'graduation' => $graduation,
+            'periods' => $periods,
+            'types' => $types,
+            'areas' => $areas,
+            'professors' => $professors,
+            'statuses' => $statuses
         ]);
     }
 
     public function update(Request $request, Graduation $graduation)
     {
         $graduation->update($request->all());
-        return redirect()->route('graduation.index');
+        return redirect()->route('graduation.graduation', [$graduation->id]);
     }
 
     public function professorProcesses($professor_id)
     {
-        /*
-        $professorId = 123; // The ID you're passing to check the role 
+        // 1 - SIN INICIAR
+        // 2 - ACTIVO 
+        $query = Graduation::where('graduations.status', 1)
+            ->select('graduations.*', DB::raw(" 
+            CASE 
+            WHEN graduations.advisor_id = $professor_id THEN 'ASESOR' 
+            WHEN graduations.reader1_id = $professor_id THEN 'LECTOR(I)' 
+            WHEN graduations.reader2_id = $professor_id THEN 'LECTOR(II)' 
+            END AS role "))
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('professors', function ($join) use ($professor_id) {
+                $join->on('graduations.advisor_id', '=', 'professors.id')
+                    ->orOn('graduations.reader1_id', '=', 'professors.id')
+                    ->orOn('graduations.reader2_id', '=', 'professors.id');
+            })
+            ->get();
 
-$results = DB::table('graduates') 
-->select('graduates.*', DB::raw(" 
-CASE 
-WHEN graduates.asesor_id = $professorId THEN 'ASSESOR' 
-WHEN graduates.reader1_id = $professorId THEN 'READER 1' 
-WHEN graduates.reader2_id = $professorId THEN 'READER 2' 
-ELSE 'UNKNOWN' 
-END AS role ")) 
-->join('students', 'graduates.student_id', '=', 'students.id') ->join('professors', function($join) use ($professorId) { 
-$join->on('graduates.asesor_id', '=', 'professors.id') 
-->orOn('graduates.reader1_id', '=', 'professors.id') 
-->orOn('graduates.reader2_id', '=', 'professors.id'); 
-}) 
-->where('graduates.status', 'active') 
-->get();
-
-
-        */
+            return $query;
     }
 }

@@ -60,8 +60,11 @@ class ProfessorController extends Controller
 
     public function profile(Professor $professor)
     {
+        $graduationController = new GraduationController();
+        $processes = $graduationController->professorProcesses($professor->id);
         return Inertia::render('Professors/Profile', [
-            'professor' => $professor
+            'professor' => $professor,
+            'processes' => $processes
         ]);
     }
 
@@ -77,8 +80,10 @@ class ProfessorController extends Controller
 
     public function fetch()
     {
-        $professors = Professor::where('status', 1)->get();
-        return response()->json($professors);
+        $professors = Professor::where('status', 1)
+        ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
+        ->get();
+        return $professors;
     }
 
     public function advisors()

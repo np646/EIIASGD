@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use Inertia\Inertia;
 
-use Illuminate\Support\Facades\DB;
-
 class StudentController extends Controller
 {
     public function index()
@@ -133,20 +131,4 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
-
-    public function graduation(Student $student)
-    {
-        $student = Student::where('students.id', $student->id)
-            ->join('courses', 'course_id', '=', 'courses.id')
-            ->select('students.*', 'courses.name AS course_name')
-            ->first();
-
-        $graduationController = new GraduationController();
-        $graduation = $graduationController->graduation($student->id);
-
-        return Inertia::render('Students/Process/Graduation/Index', [
-            'student' => $student,
-            'graduation' => $graduation
-        ]);
-    }
 }

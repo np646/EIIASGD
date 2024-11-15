@@ -174,13 +174,12 @@ Route::get('/files/open/{id}', [FileController::class, 'open']);
 
 /////////////////////////////////////////////////
 // Titulación - estado del proceso /students
-Route::get('/students/{student}/process/graduation', [StudentController::class, 'graduation'])->name('students.graduation');
 
-/// this is the one im using from now on
 Route::get('/graduation/process/{student}', [GraduationController::class, 'graduation'])->name('graduation.graduation');
 
 Route::get('/graduation/process/edit/{student}', [GraduationController::class, 'edit'])->name('graduation.edit');
 
+Route::put('/graduation/process/update/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
 
 /////////////////////////////////////////////////
 

@@ -64,6 +64,6 @@ class ThesisAreaController extends Controller
     public function fetch()
     {
         $thesisAreas = ThesisArea::where('status', 1)->get();
-        return response()->json($thesisAreas);
+        return $thesisAreas;
     }
 }

@@ -64,7 +64,7 @@ class AcademicPeriodController extends Controller
     public function fetch()
     {
         $academicPeriods = AcademicPeriod ::where('status', 1)->get();
-        return response()->json($academicPeriods);
+        return $academicPeriods;
 
     }
 }

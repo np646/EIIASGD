@@ -10,51 +10,93 @@
                         <div class="grid grid-cols-12 gap-3 h-full">
                             <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputInicio" size="small" fluid v-model="form.start_period" />
+                                <Select id="inputInicio" v-model="selectedStartPeriod" :options="periods" optionLabel="period" class="w-100" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputFinalizacion" size="small" fluid v-model="form.end_period" />
+                                <Select id="inputFinalizacion" v-model="selectedEndPeriod" :options="periods" optionLabel="period" class="w-100" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputMatrícula" size="small" fluid v-model="registration_times" />
+                                <Select id="inputMatrícula" v-model="selectedTimes" :options="registrationTimes" optionLabel="name" class="w-100" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputAprobacion" size="small" fluid v-model="form.approval_date" />
+                                <Datepicker v-model="form.plan_approval_date" id="inputAprobacion" required />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputModalidad" size="small" fluid v-model="form.type" />
+                                <Select id="inputModalidad" v-model="selectedType" :options="types" optionLabel="type" class="w-100" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputTitulo" size="small" fluid v-model="form.thesis_name" />
+                                <InputText id="inputTitulo" fluid v-model="form.thesis_name" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputLinea" size="small" fluid v-model="form.area" />
+                                <Select id="inputLinea" v-model="selectedArea" :options="areas" optionLabel="area" class="w-100" />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputAsesor" size="small" fluid v-model="form.advisor" />
+                                <Select v-model="selectedAdvisor" id="inputAsesor" :options="professors" filter optionLabel="name" class="w-100">
+                                    <template #value="slotProps">
+                                        <div v-if="slotProps.value" class="flex items-center">
+                                            <div>{{ slotProps.value.name }}</div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex items-center">
+                                            <div>{{ slotProps.option.name }}</div>
+                                        </div>
+                                    </template>
+                                </Select>
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputLector1" size="small" fluid v-model="form.reader1" />
+                                <Select v-model="selectedReader1" id="inputLector1" :options="professors" filter optionLabel="name" class="w-100">
+                                    <template #value="slotProps">
+                                        <div v-if="slotProps.value" class="flex items-center">
+                                            <div>{{ slotProps.value.name }}</div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex items-center">
+                                            <div>{{ slotProps.option.name }}</div>
+                                        </div>
+                                    </template>
+                                </Select>
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputLector2" size="small" fluid v-model="form.reader2" />
+                                <Select v-model="selectedReader2" id="inputLector2" :options="professors" filter optionLabel="name" class="w-100">
+                                    <template #value="slotProps">
+                                        <div v-if="slotProps.value" class="flex items-center">
+                                            <div>{{ slotProps.value.name }}</div>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                    <template #option="slotProps">
+                                        <div class="flex items-center">
+                                            <div>{{ slotProps.option.name }}</div>
+                                        </div>
+                                    </template>
+                                </Select>
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputGraduacion" size="small" fluid v-model="form.graduation_date" />
+                                <Datepicker v-model="form.graduation_date" id="inputGraduacion" required />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
                             <div class="col-span-9 mb-2">
-                                <InputText id="inputEstado" size="small" fluid v-model="form.status" />
+                                <Select id="inputEstado" v-model="selectedStatus" :options="statuses" optionLabel="name" class="w-100" />
                             </div>
                             <div class="col-span-12 my-2">
                                 <div class="row">
@@ -82,7 +124,10 @@ import Subtitle from "@/Components/Subtitle.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { ref } from "vue";
+import Datepicker from "@/Components/Datepicker.vue";
+import Select from "@/Components/Select.vue";
+import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
+import { ref, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 
@@ -91,41 +136,106 @@ import { useForm } from "@inertiajs/vue3";
 const graduationArray = ref(usePage().props.graduation);
 const graduation = graduationArray.value[0];
 
+const periods = ref(usePage().props.periods);
+const types = ref(usePage().props.types);
+const areas = ref(usePage().props.areas);
+const professors = ref(usePage().props.professors);
+const statuses = ref(usePage().props.statuses);
+
 const registration_times = ref("");
+
 const form = useForm({
-    start_period: graduation.start_period,
-    end_period: graduation.end_period,
-    advisor: graduation.advisor_name,
-    reader1: graduation.reader1_name,
-    reader2: graduation.reader2_name,
-    area: graduation.area,
+    academic_period_start_id: graduation.academic_period_start_id,
+    academic_period_end_id: graduation.academic_period_end_id,
+    advisor_id: graduation.advisor_name,
+    reader1_id: graduation.reader1_name,
+    reader2_id: graduation.reader2_name,
+    thesis_area: graduation.thesis_area,
     registration_times: registration_times,
-    approval_date: graduation.plan_approval_date,
-    type: graduation.type,
+    plan_approval_date: graduation.plan_approval_date,
+    graduation_type: graduation.graduation_type,
     thesis_name: graduation.thesis_name,
     graduation_date: graduation.graduation_date,
-    status: graduation.status_name,
+    status: graduation.status,
 });
 
 const title = graduation.student_name;
 
-function selectedRegistrationTimes() {
-    switch (graduation.registration_times) {
-        case 1:
-            registration_times.value = "PRIMERA";
-            break;
-        case 2:
-            registration_times.value = "SEGUNDA";
-            break;
-        case 3:
-            registration_times.value = "TERCERA";
-            break;
-    }
-}
+const selectedStartPeriod = ref(null);
+selectedStartPeriod.value = useComputeSelectedOption(graduation.academic_period_start_id, periods);
+form.academic_period_start_id = selectedStartPeriod.value.id;
 
-selectedRegistrationTimes();
+watch(selectedStartPeriod, () => {
+    form.academic_period_start_id = selectedStartPeriod.value;
+});
+
+const selectedEndPeriod = ref(null);
+selectedEndPeriod.value = useComputeSelectedOption(graduation.academic_period_end_id, periods);
+form.academic_period_end_id = selectedEndPeriod.value.id;
+
+watch(selectedEndPeriod, () => {
+    form.academic_period_end_id = selectedEndPeriod.value;
+});
+
+const registrationTimes = ref([
+    { id: 1, name: "PRIMERA" },
+    { id: 2, name: "SEGUNDA" },
+    { id: 3, name: "TERCERA" },
+]);
+const selectedTimes = ref(null);
+selectedTimes.value = useComputeSelectedOption(graduation.registration_times, registrationTimes);
+form.registration_times = selectedTimes.value.id;
+watch(selectedTimes, () => {
+    form.registration_times = selectedTimes.value;
+});
+
+const selectedType = ref(null);
+selectedType.value = useComputeSelectedOption(graduation.graduation_type, types);
+form.graduation_type = selectedType.value.id;
+watch(selectedType, () => {
+    form.graduation_type = selectedType.value;
+});
+
+const selectedArea = ref(null);
+selectedArea.value = useComputeSelectedOption(graduation.thesis_area, areas);
+form.thesis_area = selectedArea.value.id;
+watch(selectedArea, () => {
+    form.thesis_area = selectedArea.value;
+});
+
+const selectedAdvisor = ref(null);
+selectedAdvisor.value = useComputeSelectedOption(graduation.advisor_id, professors);
+form.advisor_id = selectedAdvisor.value.id;
+watch(selectedAdvisor, () => {
+    form.advisor_id = selectedAdvisor.value;
+});
+
+const selectedReader1 = ref(null);
+selectedReader1.value = useComputeSelectedOption(graduation.reader1_id, professors);
+form.reader1_id = selectedReader1.value.id;
+watch(selectedReader1, () => {
+    form.reader1_id = selectedReader1.value;
+});
+
+const selectedReader2 = ref(null);
+selectedReader2.value = useComputeSelectedOption(graduation.reader2_id, professors);
+form.reader2_id = selectedReader2.value.id;
+watch(selectedReader2, () => {
+    form.reader2_id = selectedReader2.value;
+});
+
+const selectedStatus = ref(null);
+selectedStatus.value = useComputeSelectedOption(graduation.status, statuses);
+form.status = selectedStatus.value.id;
+watch(selectedStatus, () => {
+    form.status = selectedStatus.value;
+});
 
 function cancel() {
     router.visit("/graduation/process/" + graduation.id);
+}
+
+function submit() {
+    form.put("/graduation/process/update/" + graduation.id);
 }
 </script>

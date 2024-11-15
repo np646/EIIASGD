@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\GraduationType;
@@ -39,7 +40,7 @@ class GraduationTypeController extends Controller
     }
 
     public function update(Request $request, GraduationType $graduationType)
-    { 
+    {
         $graduationType->update($request->all());
         return redirect()->route('graduationTypes.index');
     }
@@ -62,8 +63,7 @@ class GraduationTypeController extends Controller
 
     public function fetch()
     {
-        $graduationTypes = GraduationType ::where('status', 1)->get();
-        return response()->json($graduationTypes);
-
+        $graduationTypes = GraduationType::where('status', 1)->get();
+        return $graduationTypes;
     }
 }

@@ -128,8 +128,7 @@ Route::get('/readers', function () {
     return Inertia::render('Graduation/Readers');
 });
 
-// Titulación - asesores
-Route::get('/advisors', [ProfessorController::class, 'advisors'])->name('professors.advisors');
+
 
 // Titulación 
 Route::get('/period', function () {
@@ -181,6 +180,10 @@ Route::get('/graduation/process/edit/{student}', [GraduationController::class, '
 
 Route::put('/graduation/process/update/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
 
+
+// Titulación - asesores
+Route::get('/advisors', [GraduationController::class, 'advisors'])->name('graduation.advisors');
+Route::get('/readers', [GraduationController::class, 'readers'])->name('graduation.readers');
 /////////////////////////////////////////////////
 
 require __DIR__ . '/auth.php';

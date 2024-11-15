@@ -85,28 +85,4 @@ class ProfessorController extends Controller
         ->get();
         return $professors;
     }
-
-    public function advisors()
-    {
-        //TODO: get this logic working in the other modules
-        $query = DB::table('graduations')
-        ->whereNotNull('advisor_id')
-        ->join('students', 'graduations.student_id', '=', 'students.id')
-        ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
-        ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
-        ->join('professors', 'graduations.advisor_id', '=', 'professors.id')
-        ->select(
-            'graduations.*',
-            DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
-            'start_period.period AS start_period',
-            'end_period.period AS end_period',
-            DB::raw("CONCAT(professors.lastname, ' ', professors.name) AS professor")
-        )
-        ->get();
-    
-
-        return Inertia::render('Graduation/Advisors', [
-            'advisors' => $query
-        ]);
-    }
 }

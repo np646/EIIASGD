@@ -29,6 +29,11 @@
                 </template>
                 <template #empty> No se han encontrado los datos. </template>
                 <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
+                <Column field="status_name" header="Estado" :sortable="true">
+                    <template #body="slotProps">
+                        <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
+                    </template>
+                </Column>
                 <Column :exportable="false" header="Ver estudiante" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
                     <template #body="slotProps">
                         <Link :href="generateRoute(slotProps.data.id)">
@@ -57,6 +62,7 @@ import InputText from "primevue/inputtext";
 import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import Button from "primevue/button";
+import Tag from "primevue/tag";
 
 const filters = ref();
 const initFilters = () => {
@@ -66,38 +72,12 @@ const initFilters = () => {
 };
 
 initFilters();
-const data = [
-    {
-        id: 1,
-        student: "PEREZ SUAREZ JOSÉ EMILIO",
-        professor: "DOMINGUEZ GUERRA MARÍA JOSÉ",
-        period: "2021-2022",
-        status: "ACTIVO",
-    },
-    
-    {
-        id: 2,
-        student: "SORIA GARCIA JUAN CARLOS",
-        professor: "DOMINGUEZ GUERRA MARÍA JOSÉ",
-        period: "2021-2022",
-        status: "ACTIVO",
-    },
-    {
-        id: 3,
-        student: "PEREZ SUAREZ JOSÉ EMILIO",
-        professor: "PRADO GONZALEZ JUAN DANIEL",
-        period: "2020-2021",
-        status: "INACTIVO",
-    },
-
-];
 
 const columnHeaders = [
     { field: "professor", header: "Docente" },
     { field: "student", header: "Estudiante" },
     { field: "start_period", header: "Inicio de titulación" },
     { field: "end_period", header: "Integración curricular" },
-    { field: "status", header: "Estado" },
 ];
 const globalFilters = ["lastname", "name", "identification"];
 
@@ -118,4 +98,16 @@ const props = defineProps({
 
 const advisors = ref(usePage().props.advisors)
 
+const getSeverity = (status) => {
+    switch (status) {
+        case 1:
+            return "success";
+        case 2:
+            return "info"; 
+        case 3:
+            return "danger";
+        case 4:
+            return "secondary";
+    }
+};
 </script>

@@ -141,23 +141,27 @@ class GraduationController extends Controller
 
     public function professorProcesses($professor_id)
     {
-        // 1 - SIN INICIAR
-        // 2 - ACTIVO 
-        $query = Graduation::where('graduations.status', 1)
-            ->select('graduations.*', DB::raw(" 
-            CASE 
-            WHEN graduations.advisor_id = $professor_id THEN 'ASESOR' 
-            WHEN graduations.reader1_id = $professor_id THEN 'LECTOR(I)' 
-            WHEN graduations.reader2_id = $professor_id THEN 'LECTOR(II)' 
-            END AS role "))
+        $query = Graduation::where(function ($q) use ($professor_id) {
+            $q->where('graduations.advisor_id', $professor_id)
+                ->orWhere('graduations.reader1_id', $professor_id)
+                ->orWhere('graduations.reader2_id', $professor_id);
+        })
+            ->select(
+                'graduations.*',
+                'graduation_statuses.name as status_name',
+                DB::raw(" 
+                CASE 
+                WHEN graduations.advisor_id = $professor_id THEN 'ASESOR' 
+                WHEN graduations.reader1_id = $professor_id THEN 'LECTOR(I)' 
+                WHEN graduations.reader2_id = $professor_id THEN 'LECTOR(II)' 
+                END AS role"),
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student_name"),
+                'students.identification'
+            )
             ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('professors', function ($join) use ($professor_id) {
-                $join->on('graduations.advisor_id', '=', 'professors.id')
-                    ->orOn('graduations.reader1_id', '=', 'professors.id')
-                    ->orOn('graduations.reader2_id', '=', 'professors.id');
-            })
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->get();
 
-            return $query;
+        return $query;
     }
 }

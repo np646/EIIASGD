@@ -14,9 +14,6 @@ class GraduationStatusSeeder extends Seeder
     {
         $status = [
             [
-                'name' => 'SIN INICIAR',
-            ],
-            [
                 'name' => 'ACTIVO',
             ],
             [
@@ -24,6 +21,9 @@ class GraduationStatusSeeder extends Seeder
             ],
             [
                 'name' => 'SIN TERMINAR',
+            ],
+            [
+                'name' => 'SIN INICIAR',
             ],
         ];
 

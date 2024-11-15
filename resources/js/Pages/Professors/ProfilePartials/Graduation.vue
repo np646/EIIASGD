@@ -1,10 +1,15 @@
 <template>
     <div class="px-5 pt-4">
         <div class="flex flex-col gap-4 justify-center h-full mb-3">
-            <DataTable :value="props.processes" class="w-full">
-                <Column field="student" header="Estudiante" />
-                <Column field="identification" header="Cédula" />
-                <Column field="role" header="Responsabilidad" />
+            <DataTable :value="processes" class="w-full" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
+                <Column field="student_name" header="Estudiante" sortable/>
+                <Column field="identification" header="Cédula" sortable/>
+                <Column field="role" header="Responsabilidad" sortable/>
+                <Column field="status_name" header="Estado" :sortable="true">
+                    <template #body="slotProps">
+                        <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
+                    </template>
+                </Column>
             </DataTable>
         </div>
     </div>
@@ -13,13 +18,22 @@
 <script setup>
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
 
-const props = defineProps({
-    professor: Object,
-    period: Object,
-    students: Object,
-    status: Object,
-    processes: Object,
-});
+import Tag from "primevue/tag";
 
+const processes = ref(usePage().props.processes);
+const getSeverity = (status) => {
+    switch (status) {
+        case 1:
+            return "success";
+        case 2:
+            return "info"; 
+        case 3:
+            return "danger";
+        case 4:
+            return "warn";
+    }
+};
 </script>

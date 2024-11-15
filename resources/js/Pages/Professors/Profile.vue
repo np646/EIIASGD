@@ -7,7 +7,7 @@
             <Information :professor="professor" />
         </ContentContainer>
         <ContentContainer>
-            <Subtitle :title="`Procesos de titulación activos`"></Subtitle>
+            <Subtitle :title="`Procesos de titulación`"></Subtitle>
             <Graduation :professor="professor" :students="processes" />
         </ContentContainer>
     </MenuLayout>
@@ -28,6 +28,6 @@ const { professor } = usePage().props;
 const processes = ref(usePage().props.processes);
 
 
-console.log(processes)
+
 const title = professor?.lastname + " " + professor?.name;
 </script>

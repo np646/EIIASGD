@@ -3,10 +3,10 @@
     <MenuLayout>
         <ContentContainer>
             <div class="px-4 py-2">
-                <span class="font-semibold fs-1 mb-4"
+                <span class="font-semibold fs-3 mb-4"
                     >Bienvenido, <span style="color: darkblue">{{ user.name }}<br /></span
                 ></span>
-                <span class="fs-5 mb-4">Sistema de gestión documental de la Escuela de Informática e Inteligencia Artificial de la PUCE-I<br /></span>
+                <span class="fs-6 mb-4">Sistema de gestión documental de la Escuela de Informática e Inteligencia Artificial de la PUCE-I<br /></span>
             </div>
         </ContentContainer>
         <ContentContainer >
@@ -29,7 +29,7 @@
                                         <span class="fs-5">Estudiantes</span>
                                     </div>
                                     <div class="row">
-                                        <span class="fw-bold fs-2">3050</span>
+                                        <span class="fw-bold fs-3">3050</span>
                                     </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center">
@@ -42,7 +42,7 @@
                                         <span class="fs-5">Graduados</span>
                                     </div>
                                     <div class="row">
-                                        <span class="fw-bold fs-2">1450</span>
+                                        <span class="fw-bold fs-3">1450</span>
                                     </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center">

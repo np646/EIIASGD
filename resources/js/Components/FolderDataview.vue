@@ -1,5 +1,5 @@
 <template>
-    <DataView :value="data" :layout="layout" paginator :rows="5">
+    <DataView :value="data" :layout="layout" paginator :rows="8">
         <template #header>
             <div class="flex justify-end">
                 <SelectButton v-model="layout" :options="options" :allowEmpty="false">
@@ -11,7 +11,7 @@
         </template>
         <template #grid="slotProps">
             <div class="grid grid-cols-12 gap-4">
-                <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-3 p-2" @dblclick="redirect">
+                <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-3 p-2" @dblclick="redirect(item.id)">
                     <div
                         class="border rounded flex flex-col"
                         style="height: 180px; cursor: pointer; user-select: none"
@@ -38,7 +38,7 @@
                                     line-clamp: 1.2;
                                 "
                             >
-                                {{ item.periodo }}
+                                {{ item[field]}}
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                         <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
                             <div class="flex flex-row md:flex-col justify-between items-start gap-2">
                                 <div>
-                                    <div class="text-medium font-medium mt-2">{{ item.periodo }}</div>
+                                    <div class="text-medium font-medium mt-2">{{ item[field]}}</div>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +83,9 @@ const clickedIndex = ref(null);
 
 const props = defineProps({
     data: Object,
+    field: String,
+    urlStart: String,
+    urlEnd: String,
 });
 
 const options = ["list", "grid"];
@@ -95,9 +98,9 @@ function toggleColor(index) {
         clickedIndex.value = index;
     }
 }
-function redirect() {
-// router.visit("/studentfolders");
-    router.visit("/studentfiles");
+function redirect(id) {
+    const url = props.urlStart + id + props.urlEnd;
+    router.visit(url);
 }
 </script>
 

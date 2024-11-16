@@ -217,4 +217,31 @@ class GraduationController extends Controller
             'readers' => $query
         ]);
     }
+
+    public function periods()
+    {
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
+        return Inertia::render('Graduation/Documents/Periods', [
+            'periods' => $periods
+        ]);
+    }
+
+    public function studentsInPeriod($period_id)
+    {
+        $query = Graduation::where('graduations.academic_period_start_id', $period_id)
+            ->orWhere('graduations.academic_period_end_id', $period_id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.id',
+                'graduations.student_id',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->orderBy('graduations.status', 'asc')
+            ->get();
+        return Inertia::render('Graduation/Documents/Students', [
+            'students' => $query
+        ]);
+    }
 }

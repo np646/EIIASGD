@@ -28,7 +28,7 @@ export const useMenuItems = () => {
                 // { href: "/advisors", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/studentfiles/A", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/readers", text: "Lectores", icon: markRaw(BIconBookFill) },
-                { href: "/files", text: "Seguimiento", icon: markRaw( BIconFileEarmarkTextFill) },
+                { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw( BIconFileEarmarkTextFill) },
             ],
         },
         {

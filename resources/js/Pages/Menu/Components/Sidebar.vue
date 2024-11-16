@@ -210,7 +210,7 @@ onMounted(() => {
     width: 80px;
 }
 
-.practicas-icon {
+.menu-link {
     cursor: pointer;
 }
 

@@ -67,9 +67,11 @@ class GraduationFilesController extends Controller
         return redirect()->route('graduationFiles.index');
     }
 
-    public function fetch()
+    public function studentFiles($student_id)
     {
-        $graduationFiles = GraduationFiles::where('status', 1)->get();
-        return response()->json($graduationFiles);
+        $query = GraduationFiles::where('student_id', $student_id)->get();
+        return Inertia::render('Graduation/Documents/Files', [
+            'files' => $query
+        ]);
     }
 }

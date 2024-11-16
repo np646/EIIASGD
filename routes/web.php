@@ -151,6 +151,7 @@ Route::get('/graduation/statistics', function () {
 /////////////////////////////////////////////////
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\GraduationController;
+use App\Http\Controllers\GraduationFilesController;
 
 Route::get('/studentfiles', [FileController::class, 'index'])->name('files.index');
 Route::get('/studentfiles/{parentId?}', [FileController::class, 'index'])->name('files.index');
@@ -184,6 +185,15 @@ Route::put('/graduation/process/update/{graduation}', [GraduationController::cla
 // Titulación - asesores
 Route::get('/advisors', [GraduationController::class, 'advisors'])->name('graduation.advisors');
 Route::get('/readers', [GraduationController::class, 'readers'])->name('graduation.readers');
+
+// FILE MANAGEMENT
+Route::get('/graduation/documents/periods', [GraduationController::class, 'periods'])->name('graduation.periods');
+Route::get('/graduation/documents/{period}/students', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
+Route::get('/graduation/documents/{student}/files', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
+
+Route::get('/oldfiles', function () {
+  return Inertia::render('Graduation/OldFiles');
+  });
 /////////////////////////////////////////////////
 
 require __DIR__ . '/auth.php';

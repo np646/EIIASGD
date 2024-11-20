@@ -79,7 +79,10 @@ const handleFileChange = (event) => {
 const uploadFile = () => {
     form.parent_id = parentId.value;
 
-    form.post(route("files.store", { parentId: parentId.value }), {
+    form.post(route('graduationfiles.storeFile', { 
+    parentId: 1,
+    student_id: 1
+}), {
         onSuccess: () => {
             alert("Archivo o carpeta subido con éxito");
             form.reset();

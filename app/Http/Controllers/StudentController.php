@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -64,9 +65,9 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         $student = Student::where('students.id', $student->id)
-        ->join('courses', 'students.course_id', '=', 'courses.id')
-        ->select('students.*', 'courses.name as course_name',)
-        ->first();
+            ->join('courses', 'students.course_id', '=', 'courses.id')
+            ->select('students.*', 'courses.name as course_name',)
+            ->first();
 
         $courseController = new CourseController();
         $courses = $courseController->fetch();
@@ -131,4 +132,13 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
+    public function fetchById($student_id)
+    {
+        $query = Student::where('id', $student_id)
+            ->select('id', 
+            DB::raw("CONCAT(lastname, ' ', name) AS fullname"),
+            'identification')
+            ->first();
+            return response()->json($query ? $query->toArray() : []);
+    }
 }

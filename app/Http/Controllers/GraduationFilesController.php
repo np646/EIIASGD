@@ -6,6 +6,8 @@ use App\Models\GraduationFiles;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use Illuminate\Support\Facades\DB;
+
 class GraduationFilesController extends Controller
 {
     public function index()
@@ -69,9 +71,24 @@ class GraduationFilesController extends Controller
 
     public function studentFiles($student_id)
     {
-        $query = GraduationFiles::where('student_id', $student_id)->get();
+        $files = GraduationFiles::where('student_id', $student_id)->get();
+        $studentController = new StudentController();
+        $student = $studentController->fetchById($student_id);
         return Inertia::render('Graduation/Documents/Files', [
-            'files' => $query
+            'files' => $files,
+            'student' => $student
         ]);
+    }
+
+    public function storeFile(Request $request, $parentId, $student_id)
+    {
+        $fileController = new FileController();
+        $fileController->store($request, $parentId);
+        $fileId = $fileController->getLastId();
+       
+        
+        DB::table('graduation_files')
+        ->where('student_id', 1)
+        ->update(['english_cert_id' => $fileId]);
     }
 }

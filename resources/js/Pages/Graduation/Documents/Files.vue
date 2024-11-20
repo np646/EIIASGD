@@ -19,10 +19,10 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="row mb-2">
-                                            <span class="fs-6">PEREZ SUAREZ JOSÉ EMILIO</span>
+                                            <span class="fs-6">{{ student.original.fullname }}</span>
                                         </div>
                                         <div class="row mb-2">
-                                            <span class="fs-6">1001234567</span>
+                                            <span class="fs-6">{{ student.original.identification }}</span>
                                         </div>
                                         <div class="row">
                                             <ButtonGroup>
@@ -43,28 +43,20 @@
                     <Column header="Documentación" field="file" />
                     <Column :exportable="false" header="Abrir" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
                         <template #body="slotProps">
-                            <Link>
+                            <!-- <Link>
                                 <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
-                            </Link>
+                            </Link> -->
                         </template>
                     </Column>
                     <Column :exportable="false" header="Cargar" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
                         <template #body="slotProps">
                             <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openUpdateDialog(slotProps.data.id)" />
                             <Dialog v-model:visible="visibleUpdate" modal header="Cargar archivo" :style="{ width: '25rem' }">
-                                <form @submit.prevent="submit">
-                                    <input value="0" class="form-control" id="inputStatus" required hidden />
-                                    <FileUpload
-                                        ref="fileupload"
-                                        mode="basic"
-                                        name="demo[]"
-                                        url="/api/upload"
-                                        accept="image/*"
-                                        :maxFileSize="1000000"
-                                        @upload="onUpload"
-                                        chooseLabel="Buscar"
-                                    />
-                                    <!-- <Button label="Upload" @click="upload" severity="secondary" /> -->
+                                <form @submit.prevent="uploadFile">
+                                    <div>
+                                        <input v-model="form.name" type="text" placeholder="Nombre del archivo o carpeta" required />
+                                    </div>
+                                    <input ref="fileInput" type="file" @change="handleFileChange" />
                                     <div class="flex justify-end gap-2 mt-4">
                                         <Button type="button" label="Cancelar" severity="secondary" @click="visibleUpdate = false"></Button>
                                         <Button type="submit" label="Guardar" severity="success"></Button>
@@ -108,6 +100,24 @@ import Column from "primevue/column";
 import { ref } from "vue";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
+import { usePage } from "@inertiajs/vue3";
+
+const form = useForm({
+    name: "",
+    is_folder: false,
+    parent_id: null,
+    file: null,
+});
+
+const fileInput = ref(null);
+
+const handleFileChange = (event) => {
+    form.file = event.target.files[0];
+    console.log("Selected file:", form.file); // Log the file
+};
+
+const student = usePage().props.student;
+const files = usePage().props.files;
 
 const requiredFiles = ref([
     { file: "Certificación internacional" },
@@ -119,7 +129,7 @@ const requiredFiles = ref([
     { file: "Solicitud de asignación de lectores" },
 ]);
 function redirect() {
-    router.visit("/dashboard");
+    router.visit("/graduation/process/" + student.original.id);
 }
 const visibleDelete = ref(false);
 const removeId = ref(null);
@@ -135,5 +145,25 @@ const openUpdateDialog = (id) => {
 
 const onAdvancedUpload = () => {
     toast.add({ severity: "info", summary: "Success", detail: "File Uploaded", life: 3000 });
+};
+
+const uploadFile = () => {
+    form.post(
+        route("graduationfiles.storeFile", {
+            parentId: 1,
+            student_id: 1,
+        }), {
+        onSuccess: () => {
+            alert("Archivo o carpeta subido con éxito");
+            form.reset();
+            if (fileInput.value) {
+                fileInput.value.value = null;
+            }
+        },
+        onError: (errors) => {
+            console.error("Error al subir el archivo:", errors);
+            alert("Error al subir el archivo");
+        },
+    });
 };
 </script>

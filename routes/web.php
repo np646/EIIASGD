@@ -191,9 +191,22 @@ Route::get('/graduation/documents/periods', [GraduationController::class, 'perio
 Route::get('/graduation/documents/{period}/students', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
 Route::get('/graduation/documents/{student}/files', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
 
-Route::get('/oldfiles', function () {
-  return Inertia::render('Graduation/OldFiles');
-  });
+Route::get('/studentfiles/{parentId?}', [FileController::class, 'index'])->name('files.index');
+Route::post('/studentfiles/{parentId}', [FileController::class, 'store'])->name('files.store');
+Route::post('/files/{parentId}/{student_id}', [GraduationFilesController::class, 'storeFile'])->name('graduationfiles.storeFile');
+
+
+Route::post('/graduation/files/{parentId}', [FileController::class, 'store'])->name('files.store');
+Route::put('/files/update/{id}', [FileController::class, 'update']);
+Route::delete('/files/delete/{id}', [FileController::class, 'destroy']);
+Route::get('/files/download/{id}', [FileController::class, 'download']);
+Route::get('/files/open/{id}', [FileController::class, 'open']);
+
+
+// ya no se usa
+// Route::get('/oldfiles', function () {
+//   return Inertia::render('Graduation/OldFiles');
+//   });
 /////////////////////////////////////////////////
 
 require __DIR__ . '/auth.php';

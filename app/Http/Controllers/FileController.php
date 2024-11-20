@@ -65,11 +65,13 @@ class FileController extends Controller
         $file->level = count($pathSegments);
         $file->save();
 
-        return redirect()->route('files.index', ['parentId' => $file->parent_id]);
+        //return redirect()->route('files.index', ['parentId' => $file->parent_id]);
+       // return redirect()->back()->with('success', 'Ha sido creado exitosamente.');
     }
 
     public function update(Request $request, $id)
     {
+        // This method only works to change the filename in the database
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -103,5 +105,10 @@ class FileController extends Controller
     {
         $file = File::findOrFail($id);
         return response()->file(storage_path("app/uploads/{$file->path}"));
+    }
+
+    public function getLastId(){
+        $fileId = File::latest()->pluck('id')->first();        
+        return $fileId;
     }
 }

@@ -103,5 +103,3 @@ function redirect(id) {
     router.visit(url);
 }
 </script>
-
-<style scoped></style>

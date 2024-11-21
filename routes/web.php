@@ -193,7 +193,8 @@ Route::get('/graduation/documents/{student}/files', [GraduationFilesController::
 
 Route::get('/studentfiles/{parentId?}', [FileController::class, 'index'])->name('files.index');
 Route::post('/studentfiles/{parentId}', [FileController::class, 'store'])->name('files.store');
-Route::post('/files/{parentId}/{student_id}', [GraduationFilesController::class, 'storeFile'])->name('graduationfiles.storeFile');
+
+Route::post('/files/{parentId}', [GraduationFilesController::class, 'storeFile'])->name('graduationfiles.storeFile');
 
 
 Route::post('/graduation/files/{parentId}', [FileController::class, 'store'])->name('files.store');

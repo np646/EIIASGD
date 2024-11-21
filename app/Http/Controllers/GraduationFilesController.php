@@ -80,15 +80,14 @@ class GraduationFilesController extends Controller
         ]);
     }
 
-    public function storeFile(Request $request, $parentId, $student_id)
+    public function storeFile(Request $request, $parentId)
     {
         $fileController = new FileController();
         $fileController->store($request, $parentId);
         $fileId = $fileController->getLastId();
-       
-        
-        DB::table('graduation_files')
-        ->where('student_id', 1)
-        ->update(['english_cert_id' => $fileId]);
+
+        $graduationFile = GraduationFiles::where('student_id', $request['student_id'])->first();
+        $graduationFile->english_cert_id = $fileId;
+        $graduationFile->save();
     }
 }

@@ -35,6 +35,7 @@ class FileController extends Controller
         $file->name = $request->name;
         $file->is_folder = $request->is_folder;
         $file->parent_id = $parentId ?: null;
+        $file->student_id = $request->student_id;
         $file->created_by = Auth::id();
 
         if ($parentId) {

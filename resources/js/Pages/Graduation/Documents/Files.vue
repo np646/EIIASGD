@@ -53,10 +53,21 @@
                             <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openUpdateDialog(slotProps.data.id)" />
                             <Dialog v-model:visible="visibleUpdate" modal header="Cargar archivo" :style="{ width: '25rem' }">
                                 <form @submit.prevent="uploadFile">
-                                    <div>
-                                        <input v-model="form.name" type="text" placeholder="Nombre del archivo o carpeta" required />
-                                    </div>
-                                    <input ref="fileInput" type="file" @change="handleFileChange" />
+                                    <InputGroup>
+                                        <InputGroupAddon class="p-0">
+                                            <FileUpload
+                                                chooseLabel="Buscar"
+                                                mode="basic"
+                                                @select="onFileSelect"
+                                                customUpload
+                                                auto
+                                                severity="secondary"
+                                                class="p-button-text"
+                                            />
+                                        </InputGroupAddon>
+                                        <InputText type="text" v-model="form.name" fluid disabled />
+                                    </InputGroup>
+
                                     <div class="flex justify-end gap-2 mt-4">
                                         <Button type="button" label="Cancelar" severity="secondary" @click="visibleUpdate = false"></Button>
                                         <Button type="submit" label="Guardar" severity="success"></Button>
@@ -101,23 +112,24 @@ import { ref } from "vue";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import { usePage } from "@inertiajs/vue3";
+import InputText from "primevue/inputtext";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
+
+const fileInput = ref(null);
+
+const student = usePage().props.student;
+const files = usePage().props.files;
 
 const form = useForm({
     name: "",
     is_folder: false,
     parent_id: null,
     file: null,
+    student_id: student.original.id,
 });
 
-const fileInput = ref(null);
 
-const handleFileChange = (event) => {
-    form.file = event.target.files[0];
-    console.log("Selected file:", form.file); // Log the file
-};
-
-const student = usePage().props.student;
-const files = usePage().props.files;
 
 const requiredFiles = ref([
     { file: "Certificación internacional" },
@@ -143,27 +155,39 @@ const openUpdateDialog = (id) => {
     visibleUpdate.value = true;
 };
 
-const onAdvancedUpload = () => {
-    toast.add({ severity: "info", summary: "Success", detail: "File Uploaded", life: 3000 });
-};
-
 const uploadFile = () => {
     form.post(
         route("graduationfiles.storeFile", {
             parentId: 1,
-            student_id: 1,
-        }), {
-        onSuccess: () => {
-            alert("Archivo o carpeta subido con éxito");
-            form.reset();
-            if (fileInput.value) {
-                fileInput.value.value = null;
-            }
-        },
-        onError: (errors) => {
-            console.error("Error al subir el archivo:", errors);
-            alert("Error al subir el archivo");
-        },
-    });
+        }),
+        {
+            onSuccess: () => {
+                alert("Archivo o carpeta subido con éxito");
+                form.reset();
+                if (fileInput.value) {
+                    fileInput.value.value = null;
+                }
+            },
+            onError: (errors) => {
+                console.error("Error al subir el archivo:", errors);
+                alert("Error al subir el archivo");
+            },
+        }
+    );
 };
+
+const src = ref(null);
+
+function onFileSelect(event) {
+    const file = event.files[0];
+    form.file = file;
+    form.name = file.name;
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+        src.value = e.target.result;
+    };
+    console.log("Selected file:", file); 
+    reader.readAsDataURL(file);
+}
 </script>

@@ -14,6 +14,7 @@ import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import FolderDataview from "@/Components/FolderDataview.vue";
+import { useModuleStore } from '@/stores/module';
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
 
@@ -22,8 +23,15 @@ const title = "Titulación";
 
 const periods = ref(usePage().props.periods);
 
+
+function setModule(){
+    const moduleStore = useModuleStore();
+    moduleStore.setModuleId(1); // TITULACIÓN
+}
+
+setModule();
+
 function selectedItem(id) {
-    console.log("SELECTED PERIOD: " + id);
     const url = "/graduation/documents/" + id + "/students";
     router.visit(url);
 }

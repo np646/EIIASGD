@@ -6,6 +6,7 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+
 class FileController extends Controller
 {
     public function index($parentId = null)
@@ -37,6 +38,7 @@ class FileController extends Controller
         $file->parent_id = $parentId ?: null;
         $file->student_id = $request->student_id;
         $file->created_by = Auth::id();
+        $file->updated_by = Auth::id();
 
         if ($parentId) {
             $parentFile = File::find($parentId);
@@ -52,7 +54,7 @@ class FileController extends Controller
         // Store the file
         if ($request->hasFile('file')) {
             $fileToUpload = $request->file('file');
-            $storagePath ="uploads/{$file->path}";
+            $storagePath = "uploads/{$file->path}";
             $filePath = "{$file->path}";
 
             Storage::putFileAs($storagePath, $fileToUpload, $fileToUpload->getClientOriginalName());
@@ -67,7 +69,7 @@ class FileController extends Controller
         $file->save();
 
         //return redirect()->route('files.index', ['parentId' => $file->parent_id]);
-       // return redirect()->back()->with('success', 'Ha sido creado exitosamente.');
+        // return redirect()->back()->with('success', 'Ha sido creado exitosamente.');
     }
 
     public function update(Request $request, $id)
@@ -85,13 +87,44 @@ class FileController extends Controller
         return redirect()->back()->with('success', 'Ha sido actualizado exitosamente.');
     }
 
-    public function destroy($id)
+    public function destroy($student_id, $index, $file_id)
     {
-        $file = File::findOrFail($id);
+        $file = File::findOrFail($file_id);
         if ($file->path && Storage::exists($file->path)) {
             Storage::delete($file->path);
         }
         $file->delete();
+
+        $graduationFilesController = new GraduationFilesController();
+        $graduation_file = $graduationFilesController->fetchByStudentId($student_id);
+        $columnName = "";
+
+        switch ($index) {
+            case 1:
+                $columnName = "international_cert_id";
+                break;
+            case 2:
+                $columnName = "english_cert_id";
+                break;
+            case 3:
+                $columnName = "community_internship_id";
+                break;
+            case 4:
+                $columnName = "preprofessional_internship_id";
+                break;
+            case 5:
+                $columnName = "graduation_type_id";
+                break;
+            case 6:
+                $columnName = "readers_id";
+                break;
+            case 7:
+                $columnName = "plan_approval_id";
+                break;
+        };
+        $graduation_file->update([$columnName => null]);
+
+        $graduation_file->save();
 
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
     }
@@ -102,14 +135,15 @@ class FileController extends Controller
         return response()->download(storage_path("app/uploads/{$file->path}"));
     }
 
-    public function open($id)
+    public function open($file_id)
     {
-        $file = File::findOrFail($id);
+        $file = File::findOrFail($file_id);
         return response()->file(storage_path("app/uploads/{$file->path}"));
     }
 
-    public function getLastId(){
-        $fileId = File::latest()->pluck('id')->first();        
+    public function getLastId()
+    {
+        $fileId = File::latest()->pluck('id')->first();
         return $fileId;
     }
 }

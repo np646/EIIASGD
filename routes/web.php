@@ -199,9 +199,9 @@ Route::post('/files/{parentId}', [GraduationFilesController::class, 'storeFile']
 
 Route::post('/graduation/files/{parentId}', [FileController::class, 'store'])->name('files.store');
 Route::put('/files/update/{id}', [FileController::class, 'update']);
-Route::delete('/files/delete/{id}', [FileController::class, 'destroy']);
+Route::delete('/files/delete/{student_id}/{index}/{file_id}', [FileController::class, 'destroy'])->name('files.destroy');
 Route::get('/files/download/{id}', [FileController::class, 'download']);
-Route::get('/files/open/{id}', [FileController::class, 'open']);
+Route::get('/files/open/{file_id}', [FileController::class, 'open']);
 
 
 // ya no se usa

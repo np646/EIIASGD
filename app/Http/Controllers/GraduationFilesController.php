@@ -71,9 +71,22 @@ class GraduationFilesController extends Controller
 
     public function studentFiles($student_id)
     {
-        $files = GraduationFiles::where('student_id', $student_id)->get();
         $studentController = new StudentController();
         $student = $studentController->fetchById($student_id);
+        $files = GraduationFiles::where('student_id', $student_id)->first();
+        $fileArray = json_decode($files, true);
+
+        $files = [
+            ["id" => 1, "file" => "Certificación internacional", "file_id" =>$fileArray['international_cert_id']],
+            ["id" => 2, "file" => "Certificación de inglés", "file_id" =>$fileArray['english_cert_id']],
+            ["id" => 3, "file" => "Certificación de prácticas de Vinculación", "file_id" =>$fileArray['community_internship_id']],
+            ["id" => 4, "file" => "Certificación de prácticas Preprofesionales", "file_id" =>$fileArray['preprofessional_internship_id']],
+            ["id" => 5, "file" => "Solicitud de modalidad de titulación", "file_id" =>$fileArray['graduation_type_id']],
+            ["id" => 6, "file" => "Solicitud de asignación de lectores", "file_id" =>$fileArray['readers_id']],
+            ["id" => 7, "file" => "Solicitud de aprobación de plan de titulación", "file_id" =>$fileArray['plan_approval_id']],
+
+        ];
+
         return Inertia::render('Graduation/Documents/Files', [
             'files' => $files,
             'student' => $student
@@ -115,5 +128,10 @@ class GraduationFilesController extends Controller
         };
 
         $graduationFile->save();
+    }
+
+    public function fetchByStudentId($student_id)
+    {
+        return GraduationFiles::find($student_id);
     }
 }

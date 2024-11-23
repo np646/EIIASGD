@@ -23,6 +23,12 @@ import Aura from "@primevue/themes/aura";
 
 import Tooltip from "primevue/tooltip";
 
+// To use Pinia
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 
@@ -53,6 +59,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(BootstrapIconsPlugin)
+            .use(pinia)
             .use(PrimeVue, {
                 theme: {
                     preset: MyPreset,

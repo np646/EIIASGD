@@ -74,7 +74,6 @@
 
 <script setup>
 import DataView from "primevue/dataview";
-import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import SelectButton from "primevue/selectbutton";
 const layout = ref("grid");

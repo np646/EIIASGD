@@ -39,7 +39,7 @@
         </ContentContainer>
         <ContentContainer>
             <div class="flex flex-col gap-4 justify-center h-full mb-3">
-                <DataTable :value="requiredFiles" class="w-full">
+                <DataTable :value="requiredFiles" dataKey="id" class="w-full">
                     <Column header="Documentación" field="file" />
                     <Column :exportable="false" header="Abrir" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
                         <template #body="slotProps">
@@ -116,6 +116,10 @@ import InputText from "primevue/inputtext";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 
+
+
+
+
 const fileInput = ref(null);
 
 const student = usePage().props.student;
@@ -127,18 +131,17 @@ const form = useForm({
     parent_id: null,
     file: null,
     student_id: student.original.id,
+    graduation_files_id: null,
 });
 
-
-
 const requiredFiles = ref([
-    { file: "Certificación internacional" },
-    { file: "Certificación de inglés" },
-    { file: "Certificación de prácticas de Vinculación" },
-    { file: "Certificación de prácticas Preprofesionales" },
-    { file: "Solicitud de modalidad de titulación" },
-    { file: "Solicitud de aprobación de plan de titulación" },
-    { file: "Solicitud de asignación de lectores" },
+    { id: 1, file: "Certificación internacional" },
+    { id: 2, file: "Certificación de inglés" },
+    { id: 3, file: "Certificación de prácticas de Vinculación" },
+    { id: 4, file: "Certificación de prácticas Preprofesionales" },
+    { id: 5, file: "Solicitud de modalidad de titulación" },
+    { id: 6, file: "Solicitud de aprobación de plan de titulación" },
+    { id: 7, file: "Solicitud de asignación de lectores" },
 ]);
 function redirect() {
     router.visit("/graduation/process/" + student.original.id);
@@ -153,6 +156,7 @@ const openDeleteDialog = (id) => {
 const visibleUpdate = ref(false);
 const openUpdateDialog = (id) => {
     visibleUpdate.value = true;
+    form.graduation_files_id = id;
 };
 
 const uploadFile = () => {
@@ -187,7 +191,8 @@ function onFileSelect(event) {
     reader.onload = async (e) => {
         src.value = e.target.result;
     };
-    console.log("Selected file:", file); 
+    console.log("Selected file:", file);
     reader.readAsDataURL(file);
 }
+
 </script>

@@ -11,7 +11,7 @@
         </template>
         <template #grid="slotProps">
             <div class="grid grid-cols-12 gap-4">
-                <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-3 p-2" @dblclick="redirect(item.id)">
+                <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-3 p-2" @dblclick="$emit('selected-item', item.id)">
                     <div
                         class="border rounded flex flex-col"
                         style="height: 180px; cursor: pointer; user-select: none"
@@ -48,7 +48,7 @@
 
         <template #list="slotProps">
             <div class="flex flex-col">
-                <div v-for="(item, index) in slotProps.items" :key="index" @dblclick="redirect">
+                <div v-for="(item, index) in slotProps.items" :key="index" @dblclick="$emit('selected-item', item.id)">
                     <div
                         class="flex flex-col sm:flex-row sm:items-center p-3 gap-3"
                         :class="{ 'border-t border-surface-200 dark:border-surface-700': index !== 0, 'bg-blue-100': clickedIndex === index }"
@@ -84,8 +84,6 @@ const clickedIndex = ref(null);
 const props = defineProps({
     data: Object,
     field: String,
-    urlStart: String,
-    urlEnd: String,
 });
 
 const options = ["list", "grid"];
@@ -98,8 +96,7 @@ function toggleColor(index) {
         clickedIndex.value = index;
     }
 }
-function redirect(id) {
-    const url = props.urlStart + id + props.urlEnd;
-    router.visit(url);
-}
+
+const emit = defineEmits(["selected-item"])
+
 </script>

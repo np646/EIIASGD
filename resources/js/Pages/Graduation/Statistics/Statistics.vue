@@ -4,6 +4,10 @@
         <Title :title="title" />
 
         <ContentContainer>
+            <Select v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Seleccione un tipo" class="w-full md:w-56" />
+
+
+
             <Accordion value="0">
                 <AccordionPanel value="0">
                     <AccordionHeader>Graduados por fechas</AccordionHeader>
@@ -54,6 +58,19 @@ import Accordion from "primevue/accordion";
 import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
+import Select from 'primevue/select';
 
 const title = "Reportes estadísticos: Titulación";
+
+
+import { ref } from "vue";
+
+const selectedCity = ref();
+const cities = ref([
+    { name: 'Graduados por fechas', code: 'NY' },
+    { name: 'Estudiantes resagados', code: 'RM' },
+    { name: 'Estudiantes en segunda o tercera matrícula', code: 'LDN' },
+    { name: 'Estudiantes con plan por caducar', code: 'IST' },
+    { name: 'Documentación entregada', code: 'PRS' }
+]);
 </script>

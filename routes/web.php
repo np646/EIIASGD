@@ -144,7 +144,7 @@ Route::get('/studentfolders', function () {
 });
 
 // Titulación - reportes
-Route::get('/graduation/statistics', function () {
+Route::get('/statistics/graduation', function () {
     return Inertia::render('Graduation/Statistics/Statistics');
 });
 
@@ -205,9 +205,20 @@ Route::get('/files/open/{file_id}', [FileController::class, 'open']);
 
 
 // REVIEWERS: ADVISORS AND READERS
-// Route::get('/reviewers', [GraduationController::class, 'reviewersByStudents'])->name('graduation.reviewersByStudents');
+Route::get('/reviewers', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
+// Route::get('/reviewersByStudents', [GraduationController::class, 'reviewersByStudents']);
 // Route::get('/reviewers', [GraduationController::class, 'reviewersByProfessors'])->name('graduation.reviewersByProfessors');
-Route::get('/reviewers', [GraduationController::class, 'professorAsAdvisor'])->name('graduation.professorAsAdvisor');
+Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])
+    ->name('graduation.getReviewersByStudents');
+Route::get('/get-reviewers-by-professors', [GraduationController::class, 'getReviewersByProfessors'])
+    ->name('graduation.getReviewersByProfessors');
+
+Route::get('/reviewers/processes/professor/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
+
+Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getProcessesAsAdvisor'])
+    ->name('graduation.getProcessesAsAdvisor');
+Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getProcessesAsReader'])
+    ->name('graduation.getProcessesAsReader');
 
 // ya no se usa
 // Route::get('/oldfiles', function () {

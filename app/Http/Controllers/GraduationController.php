@@ -245,7 +245,12 @@ class GraduationController extends Controller
         ]);
     }
 
-    public function reviewersByStudents()
+    public function reviewers()
+    {
+        return Inertia::render('Graduation/Reviewers/Index');
+    }
+
+    public function getReviewersByStudents()
     {
         $graduations = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
             ->join('professors AS advisors', 'graduations.advisor_id', '=', 'advisors.id')
@@ -259,12 +264,15 @@ class GraduationController extends Controller
                 DB::raw("CONCAT(reader2s.lastname, ' ', reader2s.name) AS reader2")
             )
             ->get();
-        return Inertia::render('Graduation/Reviewers/Partials/Students', [
-            'graduations' => $graduations
-        ]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['graduations' => $graduations]);
+        }
+
+        return back()->with(['graduations' => $graduations]);
     }
 
-    public function reviewersByProfessors()
+    public function getReviewersByProfessors()
     {
         $professors = Graduation::select(
             'professors.id',
@@ -286,16 +294,19 @@ class GraduationController extends Controller
             ->groupBy('professors.id', 'professor')
             ->get();
 
-        return Inertia::render('Graduation/Reviewers/Partials/Professors', [
-            'professors' => $professors
-        ]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['professors' => $professors]);
+        }
+
+        return back()->with(['professors' => $professors]);
     }
 
-    public function professorAsAdvisor()
+    public function professorAsAdvisor($professor_id)
     {
         $query = Graduation::where(
             'advisor_id',
-            1
+            $professor_id
         )->select(
             'graduations.*',
             DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
@@ -305,8 +316,61 @@ class GraduationController extends Controller
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->get();
 
-            return Inertia::render('Graduation/Reviewers/Partials/AsAdvisor', [
-                'advisors' => $query
-            ]);
+        return Inertia::render('Graduation/Reviewers/Partials/AsAdvisor', [
+            'advisors' => $query
+        ]);
+    }
+
+    public function processesByProfessor($id)
+    {
+
+        return Inertia::render('Graduation/Reviewers/Processes', [
+            'professor_id' => $id
+        ]);
+    }
+
+    public function getProcessesAsAdvisor($professor_id)
+    {
+        $query = Graduation::where(
+            'advisor_id',
+            $professor_id
+        )->select(
+            'graduations.*',
+            DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            'graduation_statuses.name as status_name',
+        )
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->get();
+
+        
+            if (request()->wantsJson()) {
+                return response()->json(['processes' => $query]);
+            }
+    
+            return back()->with(['processes' => $query]);
+    }
+
+    public function getProcessesAsReader($professor_id)
+    {
+        $query = Graduation::where(function ($q) use ($professor_id) {
+            $q->where('graduations.advisor_id', $professor_id)
+                ->orWhere('graduations.reader1_id', $professor_id)
+                ->orWhere('graduations.reader2_id', $professor_id);
+        })->select(
+            'graduations.*',
+            DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            'graduation_statuses.name as status_name',
+        )
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->get();
+
+        
+            if (request()->wantsJson()) {
+                return response()->json(['processes' => $query]);
+            }
+    
+            return back()->with(['processes' => $query]);
     }
 }

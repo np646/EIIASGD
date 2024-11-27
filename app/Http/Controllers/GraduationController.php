@@ -244,4 +244,69 @@ class GraduationController extends Controller
             'students' => $query
         ]);
     }
+
+    public function reviewersByStudents()
+    {
+        $graduations = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('professors AS advisors', 'graduations.advisor_id', '=', 'advisors.id')
+            ->join('professors AS reader1s', 'graduations.reader1_id', '=', 'reader1s.id')
+            ->join('professors AS reader2s', 'graduations.reader2_id', '=', 'reader2s.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                DB::raw("CONCAT(advisors.lastname, ' ', advisors.name) AS advisor"),
+                DB::raw("CONCAT(reader1s.lastname, ' ', reader1s.name) AS reader1"),
+                DB::raw("CONCAT(reader2s.lastname, ' ', reader2s.name) AS reader2")
+            )
+            ->get();
+        return Inertia::render('Graduation/Reviewers/Partials/Students', [
+            'graduations' => $graduations
+        ]);
+    }
+
+    public function reviewersByProfessors()
+    {
+        $professors = Graduation::select(
+            'professors.id',
+            DB::raw("CONCAT(professors.lastname, ' ', professors.name) AS professor"),
+            DB::raw('
+            COUNT(CASE WHEN graduations.advisor_id = professors.id THEN 1 END) AS advisor_count,
+            COUNT(CASE WHEN graduations.reader1_id = professors.id THEN 1 END) +
+            COUNT(CASE WHEN graduations.reader2_id = professors.id THEN 1 END) AS reader_count,
+            COUNT(CASE WHEN graduations.advisor_id = professors.id AND graduations.status != 1 THEN 1 END) AS advisor_not_graduated_count,
+            COUNT(CASE WHEN graduations.reader1_id = professors.id AND graduations.status != 1 THEN 1 END) +
+            COUNT(CASE WHEN graduations.reader2_id = professors.id AND graduations.status != 1 THEN 1 END) AS reader_not_graduated_count
+        ')
+        )
+            ->join('professors', function ($join) {
+                $join->on('professors.id', '=', 'graduations.advisor_id')
+                    ->orOn('professors.id', '=', 'graduations.reader1_id')
+                    ->orOn('professors.id', '=', 'graduations.reader2_id');
+            })
+            ->groupBy('professors.id', 'professor')
+            ->get();
+
+        return Inertia::render('Graduation/Reviewers/Partials/Professors', [
+            'professors' => $professors
+        ]);
+    }
+
+    public function professorAsAdvisor()
+    {
+        $query = Graduation::where(
+            'advisor_id',
+            1
+        )->select(
+            'graduations.*',
+            DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            'graduation_statuses.name as status_name',
+        )
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->get();
+
+            return Inertia::render('Graduation/Reviewers/Partials/AsAdvisor', [
+                'advisors' => $query
+            ]);
+    }
 }

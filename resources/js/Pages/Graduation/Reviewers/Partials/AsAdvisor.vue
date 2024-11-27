@@ -1,7 +1,7 @@
 <template v-slot:slot-content>
-    <Head title="Asesores" />
+    <Head title="Evaluadores" />
     <MenuLayout>
-        <Title :title="`Asesores`" />
+        <Title :title="`Evaluadores`" />
         <ContentContainer>
             <DataTable
                 :value="advisors"
@@ -37,7 +37,7 @@
                 <Column :exportable="false" header="Ver estudiante" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
                     <template #body="slotProps">
                         <Link :href="generateRoute(slotProps.data.id)">
-                            <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
+                            <Button class="mr-2" icon="pi pi-search-plus" severity="success" outlined rounded />
                         </Link>
                     </template>
                 </Column>
@@ -74,26 +74,20 @@ const initFilters = () => {
 initFilters();
 
 const columnHeaders = [
-    { field: "professor", header: "Docente" },
     { field: "student", header: "Estudiante" },
-    { field: "start_period", header: "Inicio de titulación" },
-    { field: "end_period", header: "Integración curricular" },
+    { field: "thesis_name", header: "Tema" },
 ];
-const globalFilters = ["professor", "student", "start_period", "end_period"];
+const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
 
 const generateRoute = (id = null) => {
     if (id) {
-        return route(`students.profile`, id);
+        return route(`graduation.graduation`, id);
     }
     return route(`students.profile`);
 };
 
 const props = defineProps({
     slotProps: Object,
-    advisors: {
-    type: Array,
-    required: true
-  }
 });
 
 const advisors = ref(usePage().props.advisors)
@@ -107,7 +101,7 @@ const getSeverity = (status) => {
         case 3:
             return "danger";
         case 4:
-            return "secondary";
+            return "warn";
     }
 };
 </script>

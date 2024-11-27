@@ -1,10 +1,10 @@
 <template v-slot:slot-content>
-    <Head title="Asesores" />
+    <Head title="Evaluadores" />
     <MenuLayout>
-        <Title :title="`Asesores`" />
+        <Title :title="`Como docente`" />
         <ContentContainer>
             <DataTable
-                :value="advisors"
+                :value="professors"
                 tableStyle="min-width: 50rem"
                 stripedRows
                 ref="dt"
@@ -29,15 +29,10 @@
                 </template>
                 <template #empty> No se han encontrado los datos. </template>
                 <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
-                <Column field="status_name" header="Estado" :sortable="true">
-                    <template #body="slotProps">
-                        <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
-                    </template>
-                </Column>
-                <Column :exportable="false" header="Ver estudiante" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
+                <Column :exportable="false" header="Detalles" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
                     <template #body="slotProps">
                         <Link :href="generateRoute(slotProps.data.id)">
-                            <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
+                            <Button class="mr-2" icon="pi pi-search-plus" severity="success" outlined rounded />
                         </Link>
                     </template>
                 </Column>
@@ -62,7 +57,6 @@ import InputText from "primevue/inputtext";
 import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import Button from "primevue/button";
-import Tag from "primevue/tag";
 
 const filters = ref();
 const initFilters = () => {
@@ -75,39 +69,23 @@ initFilters();
 
 const columnHeaders = [
     { field: "professor", header: "Docente" },
-    { field: "student", header: "Estudiante" },
-    { field: "start_period", header: "Inicio de titulación" },
-    { field: "end_period", header: "Integración curricular" },
+    { field: "advisor_count", header: "Asesorías totales" },
+    { field: "reader_count", header: "Lectorías totales" },
+    { field: "advisor_not_graduated_count", header: "Asesorados no graduados" },
+    { field: "reader_not_graduated_count", header: "Lectorías no graduados" },
 ];
-const globalFilters = ["professor", "student", "start_period", "end_period"];
+const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
 
 const generateRoute = (id = null) => {
     if (id) {
-        return route(`students.profile`, id);
+        return route(`graduation.graduation`, id);
     }
     return route(`students.profile`);
 };
 
 const props = defineProps({
     slotProps: Object,
-    advisors: {
-    type: Array,
-    required: true
-  }
 });
 
-const advisors = ref(usePage().props.advisors)
-
-const getSeverity = (status) => {
-    switch (status) {
-        case 1:
-            return "success";
-        case 2:
-            return "info"; 
-        case 3:
-            return "danger";
-        case 4:
-            return "secondary";
-    }
-};
+const professors = ref(usePage().props.professors)
 </script>

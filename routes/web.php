@@ -204,6 +204,11 @@ Route::get('/files/download/{id}', [FileController::class, 'download']);
 Route::get('/files/open/{file_id}', [FileController::class, 'open']);
 
 
+// REVIEWERS: ADVISORS AND READERS
+// Route::get('/reviewers', [GraduationController::class, 'reviewersByStudents'])->name('graduation.reviewersByStudents');
+// Route::get('/reviewers', [GraduationController::class, 'reviewersByProfessors'])->name('graduation.reviewersByProfessors');
+Route::get('/reviewers', [GraduationController::class, 'professorAsAdvisor'])->name('graduation.professorAsAdvisor');
+
 // ya no se usa
 // Route::get('/oldfiles', function () {
 //   return Inertia::render('Graduation/OldFiles');

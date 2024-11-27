@@ -26,8 +26,8 @@ export const useMenuItems = () => {
             icon: markRaw(BIconMortarboardFill),
             subItems: [
                 // { href: "/advisors", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
-                { href: "/studentfiles/A", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
-                { href: "/readers", text: "Lectores", icon: markRaw(BIconBookFill) },
+                { href: "/studentfiles/A", text: "File DEBUG", icon: markRaw(BIconPersonCheckFill) },
+                { href: "/reviewers", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw( BIconFileEarmarkTextFill) },
             ],
         },
@@ -40,7 +40,7 @@ export const useMenuItems = () => {
                 { href: "/preprofessional", text: "Preprofesionales", icon: markRaw(BIconPersonWorkspace) },
             ],
         },
-        { id: "reportes", href: "/statistics", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
+        { id: "reportes", href: "/statistics", text: "Reportes DEBUG", icon: markRaw(BIconClipboardDataFill) },
         { id: "configuracion", href: route("settings.index"), text: "Configuración", icon: markRaw(BIconGearFill) },
     ]);
 };

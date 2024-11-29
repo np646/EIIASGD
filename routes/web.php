@@ -104,10 +104,14 @@ Route::put('permissions/{permission}/remove', [PermissionController::class, 'rem
 Route::put('permissions/fetch', [PermissionController::class, 'fetch'])->name('permissions.fetch');
 
 // Users
-Route::resource('settings/users', UserController::class);
-Route::get('api/users', [UserController::class, 'apiIndex']); // New API route
+Route::prefix('api')->group(function () {
+    Route::get('/users', [UserController::class, 'apiIndex']);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
+});
 
-
+Route::get('/settings/users', [UserController::class, 'index'])->name('users.index');
 // Settings
 Route::resource('settings', SettingsController::class);
 

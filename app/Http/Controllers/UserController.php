@@ -3,70 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
+
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::get();
-        return Inertia::render('Users/Index', [
-            'users' => $users
-        ]);
+        return Inertia::render('Users/Index');
     }
 
     public function apiIndex()
     {
         return response()->json(User::all());
     }
-    public function fetch()
-    {
-        $users = User::get();
-        return response()->json($users);
-    }
-
-    public function create()
-    {
-        $userController = new UserController();
-        $users = $userController->fetch();
-        return Inertia::render('Users/Create', [
-            'users' => $users
-        ]);
-    }
 
     public function store(Request $request)
     {
-        $params = $request->all();
-        $data = [
-            'name' => $params['name'],
-            'email' => $params['lastname'],
-            'status' => $params['status']
-        ];
-        User::create($data);
-        return redirect()->route('users.index');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'status' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::create($request->all());
+        return response()->json($user, 201);
     }
 
     public function update(Request $request, User $user)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'status' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $user->update($request->all());
-        return redirect()->route('users.index');
+        return response()->json($user);
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index');
+        return response()->json(null, 204);
     }
-
-    public function remove(Request $request, User $user)
-    {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $user->update($request->only('status'));
-        return redirect()->route('users.index');
-    }
-
 }

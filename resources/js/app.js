@@ -20,6 +20,7 @@ import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 import PrimeVue from "primevue/config";
 import { definePreset } from '@primevue/themes';
 import Aura from "@primevue/themes/aura";
+import ToastService from 'primevue/toastservice';
 
 import Tooltip from "primevue/tooltip";
 
@@ -73,6 +74,7 @@ createInertiaApp({
                     firstDayOfWeek: 1,
                 },
             })
+            .use(ToastService)
             .directive("tooltip", Tooltip)
             .mount(el);
     },

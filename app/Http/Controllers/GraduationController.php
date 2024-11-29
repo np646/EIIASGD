@@ -343,12 +343,12 @@ class GraduationController extends Controller
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->get();
 
-        
-            if (request()->wantsJson()) {
-                return response()->json(['processes' => $query]);
-            }
-    
-            return back()->with(['processes' => $query]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['processes' => $query]);
+        }
+
+        return back()->with(['processes' => $query]);
     }
 
     public function getProcessesAsReader($professor_id)
@@ -366,11 +366,25 @@ class GraduationController extends Controller
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->get();
 
-        
-            if (request()->wantsJson()) {
-                return response()->json(['processes' => $query]);
-            }
-    
-            return back()->with(['processes' => $query]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['processes' => $query]);
+        }
+
+        return back()->with(['processes' => $query]);
+    }
+
+    //statistics
+    public function getStudentsRetaking()
+    {
+        $query = Graduation::where('registration_times', '>', 1)
+            ->whereNot('status', 1) // TODO: STABLISH WHICH STASTUS IS FOR GRADUATES? 
+            ->get();
+
+        if (request()->wantsJson()) {
+            return response()->json(['processes' => $query]);
+        }
+
+        return back()->with(['processes' => $query]);
     }
 }

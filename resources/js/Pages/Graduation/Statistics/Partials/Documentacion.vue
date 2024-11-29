@@ -1,4 +1,5 @@
 <template>
+    Documentación entregada
     <div class="col">
         <DataTable :value="graduates" class="w-full">
             <Column field="course" header="Carrera" />

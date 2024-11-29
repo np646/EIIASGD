@@ -24,8 +24,6 @@ import Button from "primevue/button";
 import ButtonGroup from "primevue/buttongroup";
 import Students from "./Partials/Students.vue";
 import Professors from "./Partials/Professors.vue";
-import AsAdvisor from "./Partials/AsAdvisor.vue";
-
 
 const activeComponent = ref('students')
 </script>

@@ -1,4 +1,5 @@
 <template>
+    Estudiantes en segunda o tercera matrícula
     <div class="col mb-4">
         <DataTable :value="graduates" class="w-full">
             <Column field="course" header="Carrera" />

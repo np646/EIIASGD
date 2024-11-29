@@ -4,42 +4,12 @@
         <Title :title="title" />
 
         <ContentContainer>
-            <Select v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Seleccione un tipo" class="w-full md:w-56" />
-
-
-
-            <Accordion value="0">
-                <AccordionPanel value="0">
-                    <AccordionHeader>Graduados por fechas</AccordionHeader>
-                    <AccordionContent>
-                        <Fechas />
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="1">
-                    <AccordionHeader>Estudiantes resagados</AccordionHeader>
-                    <AccordionContent>
-                        <Resagados />
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="2">
-                    <AccordionHeader>Estudiantes en segunda o tercera matrícula</AccordionHeader>
-                    <AccordionContent>
-                        <Matricula />
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="3">
-                    <AccordionHeader>Estudiantes con plan de titulación por caducar</AccordionHeader>
-                    <AccordionContent>
-                        <Caducidad />
-                    </AccordionContent>
-                </AccordionPanel>
-                <AccordionPanel value="4">
-                    <AccordionHeader>Documentación entregada</AccordionHeader>
-                    <AccordionContent>
-                        <Documentacion />
-                    </AccordionContent>
-                </AccordionPanel>
-            </Accordion>
+            <Select v-model="activeComponent" :options="options" optionLabel="name" placeholder="Seleccione un tipo" class="w-full md:w-56" />
+            <Fechas v-if="activeComponent.value === 'fechas'" />
+            <Resagados v-if="activeComponent.value === 'resagados'" />
+            <Matricula v-if="activeComponent.value === 'matricula'" />
+            <Caducidad v-if="activeComponent.value === 'caducidad'" />
+            <Documentacion v-if="activeComponent.value === 'documentacion'" />
         </ContentContainer>
     </MenuLayout>
 </template>
@@ -54,23 +24,18 @@ import Fechas from "./Partials/Fechas.vue";
 import Matricula from "./Partials/Matricula.vue";
 import Caducidad from "./Partials/Caducidad.vue";
 import Documentacion from "./Partials/Documentacion.vue";
-import Accordion from "primevue/accordion";
-import AccordionPanel from "primevue/accordionpanel";
-import AccordionHeader from "primevue/accordionheader";
-import AccordionContent from "primevue/accordioncontent";
-import Select from 'primevue/select';
-
+import Select from "primevue/select";
+import { ref, watch } from "vue";
 const title = "Reportes estadísticos: Titulación";
 
+const activeComponent = ref("fechas");
 
-import { ref } from "vue";
-
-const selectedCity = ref();
-const cities = ref([
-    { name: 'Graduados por fechas', code: 'NY' },
-    { name: 'Estudiantes resagados', code: 'RM' },
-    { name: 'Estudiantes en segunda o tercera matrícula', code: 'LDN' },
-    { name: 'Estudiantes con plan por caducar', code: 'IST' },
-    { name: 'Documentación entregada', code: 'PRS' }
+const options = ref([
+    { name: "Graduados por fechas", value: "fechas" },
+    { name: "Estudiantes resagados", value: "resagados" },
+    { name: "Estudiantes en segunda o tercera matrícula", value: "matricula" },
+    { name: "Estudiantes con plan por caducar", value: "caducidad" },
+    { name: "Documentación entregada", value: "documentacion" },
 ]);
+
 </script>

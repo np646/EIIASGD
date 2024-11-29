@@ -16,6 +16,10 @@ use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\ThesisAreaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\GraduationController;
+use App\Http\Controllers\GraduationFilesController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -99,6 +103,11 @@ Route::resource('settings/permissions', PermissionController::class);
 Route::put('permissions/{permission}/remove', [PermissionController::class, 'remove'])->name('permissions.remove');
 Route::put('permissions/fetch', [PermissionController::class, 'fetch'])->name('permissions.fetch');
 
+// Users
+Route::resource('settings/users', UserController::class);
+Route::get('api/users', [UserController::class, 'apiIndex']); // New API route
+
+
 // Settings
 Route::resource('settings', SettingsController::class);
 
@@ -149,9 +158,7 @@ Route::get('/statistics/graduation', function () {
 });
 
 /////////////////////////////////////////////////
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\GraduationController;
-use App\Http\Controllers\GraduationFilesController;
+
 
 Route::get('/studentfiles', [FileController::class, 'index'])->name('files.index');
 Route::get('/studentfiles/{parentId?}', [FileController::class, 'index'])->name('files.index');
@@ -225,5 +232,8 @@ Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getPr
 //   return Inertia::render('Graduation/OldFiles');
 //   });
 /////////////////////////////////////////////////
+
+// Users
+
 
 require __DIR__ . '/auth.php';

@@ -7,7 +7,7 @@
                         <!-- Single template for all menu items with subItems -->
                         <a v-if="item.subItems" class="menu-link" @click.prevent="toggleSubmenu(item)">
                             <component :is="item.icon"></component>
-                            <span :class="{ hide: isSidebarMini }">{{ item.text }}</span>
+                            <span :class="{ hide: isSidebarMini }">{{ item.text }} <i v-if="isSubmenuVisible(item)" class="pi pi-angle-down"></i> <i v-else class="pi pi-angle-right"></i></span>
                         </a>
 
                         <!-- Regular menu items without subItems -->
@@ -112,6 +112,7 @@ onMounted(() => {
     nextTick(() => {
         closeSubmenuIfOutside();
     });
+
 });
 </script>
 <style scoped>
@@ -214,8 +215,6 @@ onMounted(() => {
     cursor: pointer;
 }
 
-/* Prácticas submenu */
-
 .submenu ul {
     list-style-type: none;
     padding-left: 0;
@@ -241,25 +240,26 @@ onMounted(() => {
     height: 0;
     overflow: hidden;
     transition: height 0.3s ease;
-
-    margin-bottom: 2px;
 }
 
 .submenu-item.visible {
     height: 45px;
+    margin-bottom: 2px;
 }
 
 .submenu-item a {
     display: flex;
     align-items: center;
+    background-color: var(--softer-border-color);
 }
 
-.has-submenu {
-    position: relative;
+.submenu-item.active a {
+    border-left:none;
 }
 
-.has-submenu.active::after {
-    transform: translateY(-50%) rotate(180deg);
+.pi{
+    position: absolute;
+    right: 10px;
 }
 
 .has-submenu {

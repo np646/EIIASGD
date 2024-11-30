@@ -13,6 +13,7 @@
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
         :perfil="perfil"
+        class="custom-datatable p-datatable-striped"
     >
         <template #header>
             <div class="flex justify-between">
@@ -131,3 +132,11 @@ const submit = () => {
     }
 };
 </script>
+<style>
+.custom-datatable tbody tr:nth-child(odd) {
+    background-color: var(--primary-color-50);
+}
+.custom-datatable tbody tr:nth-child(even) {
+    background-color: var(--primary-color-100);
+}
+</style>

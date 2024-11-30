@@ -4,8 +4,8 @@
         <Title :title="`Evaluadores`" />
         <ContentContainer>
             <ButtonGroup>
-                <Button @click="activeComponent = 'students'" label="Por estudiante" icon="pi pi-user" severity="contrast" />
-                <Button @click="activeComponent = 'professors'" label="Por docente" icon="pi pi-users" severity="contrast" />
+                <Button @click="activeComponent = 'students'" label="Por estudiante" icon="pi pi-user" />
+                <Button @click="activeComponent = 'professors'" label="Por docente" icon="pi pi-users" />
             </ButtonGroup>
             <Students v-if="activeComponent === 'students'" />
             <Professors v-if="activeComponent === 'professors'" />

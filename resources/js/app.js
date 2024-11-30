@@ -18,39 +18,45 @@ import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 
 // To use PrimeVue
 import PrimeVue from "primevue/config";
-import { definePreset } from '@primevue/themes';
+import { definePreset } from "@primevue/themes";
 import Aura from "@primevue/themes/aura";
-import ToastService from 'primevue/toastservice';
+import ToastService from "primevue/toastservice";
 
 import Tooltip from "primevue/tooltip";
 
 // To use Pinia
-import { createPinia } from 'pinia';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
-
 const MyPreset = definePreset(Aura, {
     semantic: {
         primary: {
-            50: '{slate.50}',
-            100: '{slate.100}',
-            200: '{slate.200}',
-            300: '{slate.300}',
-            400: '{slate.400}',
-            500: '{slate.500}',
-            600: '{slate.600}',
-            700: '{slate.700}',
-            800: '{slate.800}',
-            900: '{slate.900}',
-            950: '{slate.950}'
-        }
-    }
+            50: "var(--primary-color-50)",
+            100: "var(--primary-color-100)",
+            200: "var(--primary-color-200)",
+            300: "var(--primary-color-300)",
+            400: "var(--primary-color-400)",
+            500: "var(--primary-color-500)",
+            600: "var(--primary-color-600)",
+            700: "var(--primary-color-700)",
+            800: "var(--primary-color-800)",
+            900: "var(--primary-color-900)",
+            950: "var(--primary-color-950)",
+        },
+    },
+    components: {
+        inputtext: {
+            disabled: {
+                color: "var(--p-inputtext-color)",
+                background: "var(--p-inputtext-background)",
+            },
+        },
+    },
 });
-
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

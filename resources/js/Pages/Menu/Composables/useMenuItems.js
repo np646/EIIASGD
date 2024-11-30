@@ -10,8 +10,7 @@ import {
     BIconPersonWorkspace,
     BIconPersonRaisedHand,
     BIconFileEarmarkTextFill,
-    BIconEyeFill,
-    BIconBookFill,
+    BIconCaretDownSquareFill,
     BIconPersonCheckFill
 } from "bootstrap-icons-vue";
 
@@ -25,8 +24,6 @@ export const useMenuItems = () => {
             text: "Titulación",
             icon: markRaw(BIconMortarboardFill),
             subItems: [
-                // { href: "/advisors", text: "Asesores", icon: markRaw(BIconPersonCheckFill) },
-                { href: "/studentfiles/A", text: "File DEBUG", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/reviewers", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw( BIconFileEarmarkTextFill) },
                 { href: "/statistics/graduation", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
@@ -41,7 +38,6 @@ export const useMenuItems = () => {
                 { href: "/preprofessional", text: "Preprofesionales", icon: markRaw(BIconPersonWorkspace) },
             ],
         },
-        { id: "reportes", href: "/statistics", text: "Reportes DEBUG", icon: markRaw(BIconClipboardDataFill) },
         { id: "configuracion", href: route("settings.index"), text: "Configuración", icon: markRaw(BIconGearFill) },
     ]);
 };

@@ -9,5 +9,15 @@
     --softer-border-color: #e2e8f0;
     --text-color: #334155;
     --background-color:  #f5f7fa;
-    --test:pink;
+    --primary-color-50: #e8f0f8;
+    --primary-color-100: #c9dcef;
+    --primary-color-200: #98bde0;
+    --primary-color-300: #649acb;
+    --primary-color-400: #346ea9;
+    --primary-color-500: #00356b;
+    --primary-color-600: #002d5d;
+    --primary-color-700: #00254e;
+    --primary-color-800: #001c3e;
+    --primary-color-900: #00122f;
+    --primary-color-950: #000a1f;
 }

@@ -7,9 +7,15 @@
             <div class="px-5 pt-3">
                 <div class="mb-3">
                     <ButtonGroup>
-                        <Button label="Editar información" icon="pi pi-pencil" severity="contrast" size="small" @click="edit"></Button>
+                        <Button
+                            label="Editar información"
+                            icon="pi pi-pencil"
+                            size="small"
+                            @click="edit"
+                        ></Button>
                     </ButtonGroup>
                 </div>
+
                 <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
                     <div class="grid grid-cols-12 gap-3 h-full">
                         <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>

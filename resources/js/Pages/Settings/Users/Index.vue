@@ -63,6 +63,5 @@ const handleItemUpdated = (updatedItem) => {
     }
 };
 
-
 onMounted(fetchItems);
 </script>

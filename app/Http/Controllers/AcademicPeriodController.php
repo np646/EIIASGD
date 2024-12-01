@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\AcademicPeriod;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class AcademicPeriodController extends Controller
 {
@@ -22,14 +24,18 @@ class AcademicPeriodController extends Controller
 
     public function store(Request $request)
     {
-        $params = $request->all();
-        $data = [
-            'period' => $params['period'],
-            'year' => $params['year'],
-            'status' => $params['status']
-        ];
-        AcademicPeriod::create($data);
-        return redirect()->route('academicPeriods.index');
+        $validator = Validator::make($request->all(), [
+            'period' => 'required|string|max:255',
+            'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+            'status' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $period = AcademicPeriod::create($request->all());
+        return response()->json($period, 201);
     }
 
     public function edit(AcademicPeriod $academicPeriod)
@@ -39,16 +45,25 @@ class AcademicPeriodController extends Controller
         ]);
     }
 
-    public function update(Request $request, AcademicPeriod $academicPeriod)
-    { 
-        $academicPeriod->update($request->all());
-        return redirect()->route('academicPeriods.index');
+    public function update(Request $request, AcademicPeriod $period)
+    {
+        $validator = Validator::make($request->all(), [
+            'period' => 'required|string|max:255',
+            'year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $period->update($request->all());
+        return response()->json($period);
     }
 
-    public function destroy(AcademicPeriod $academicPeriod)
+    public function destroy(AcademicPeriod $period)
     {
-        $academicPeriod->delete();
-        return redirect()->route('academicPeriods.index');
+        $period->delete();
+        return response()->json(null, 204);
     }
 
     public function remove(Request $request, AcademicPeriod $academicPeriod)
@@ -63,8 +78,12 @@ class AcademicPeriodController extends Controller
 
     public function fetch()
     {
-        $academicPeriods = AcademicPeriod ::where('status', 1)->get();
+        $academicPeriods = AcademicPeriod::where('status', 1)->get();
         return $academicPeriods;
+    }
 
+    public function apiIndex()
+    {
+        return response()->json(AcademicPeriod::all());
     }
 }

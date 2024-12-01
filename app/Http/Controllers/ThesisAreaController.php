@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ThesisArea;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class ThesisAreaController extends Controller
 {
@@ -23,13 +24,17 @@ class ThesisAreaController extends Controller
 
     public function store(Request $request)
     {
-        $params = $request->all();
-        $data = [
-            'area' => $params['area'],
-            'status' => $params['status']
-        ];
-        ThesisArea::create($data);
-        return redirect()->route('thesisAreas.index');
+        $validator = Validator::make($request->all(), [
+            'area' => 'required|string|max:255',
+            'status' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $area = ThesisArea::create($request->all());
+        return response()->json($area, 201);
     }
 
     public function edit(ThesisArea $thesisArea)
@@ -39,16 +44,24 @@ class ThesisAreaController extends Controller
         ]);
     }
 
-    public function update(Request $request, ThesisArea $thesisArea)
+    public function update(Request $request, ThesisArea $area)
     {
-        $thesisArea->update($request->all());
-        return redirect()->route('thesisAreas.index');
+        $validator = Validator::make($request->all(), [
+            'area' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $area->update($request->all());
+        return response()->json($area);
     }
 
-    public function destroy(ThesisArea $thesisArea)
+    public function destroy(ThesisArea $area)
     {
-        $thesisArea->delete();
-        return redirect()->route('thesisAreas.index');
+        $area->delete();
+        return response()->json(null, 204);
     }
 
     public function remove(Request $request, ThesisArea $thesisArea)
@@ -65,5 +78,10 @@ class ThesisAreaController extends Controller
     {
         $thesisAreas = ThesisArea::where('status', 1)->get();
         return $thesisAreas;
+    }
+
+    public function apiIndex()
+    {
+        return response()->json(ThesisArea::all());
     }
 }

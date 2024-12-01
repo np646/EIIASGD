@@ -25,10 +25,10 @@ h5 {
     padding-bottom: 10px;
     transition: padding-left 0.5s ease;
     border-radius: 5px;
+    margin-top: 10px;
 }
 h5:hover{
     padding-left: 30px;
-    
     background-color: var(--softer-border-color);
 }
 h5:hover span {

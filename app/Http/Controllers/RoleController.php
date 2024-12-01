@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+
 
 class RoleController extends Controller
 {
@@ -23,13 +25,17 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $params = $request->all();
-        $data = [
-            'name' => $params['name'],
-            'status' => $params['status']
-        ];
-        Role::create($data);
-        return redirect()->route('roles.index');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'status' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $role = Role::create($request->all());
+        return response()->json($role, 201);
     }
 
     public function edit(Role $role)
@@ -41,14 +47,22 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $role->update($request->all());
-        return redirect()->route('roles.index');
+        return response()->json($role);
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('roles.index');
+        return response()->json(null, 204);
     }
 
     public function remove(Request $request, Role $role)
@@ -65,5 +79,10 @@ class RoleController extends Controller
     {
         $roles = Role::where('status', 1)->get();
         return response()->json($roles);
+    }
+
+    public function apiIndex()
+    {
+        return response()->json(Role::all());
     }
 }

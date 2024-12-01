@@ -78,27 +78,63 @@ Route::get('professors/{professor}/profile', [ProfessorController::class, 'profi
 Route::put('professors/{professor}/remove', [ProfessorController::class, 'remove'])->name('professors.remove');
 Route::put('professors/fetch', [ProfessorController::class, 'fetch'])->name('professors.fetch');
 
+//////////------------------------------------//////////
+
+// SETTINGS MODULE
 // Academic periods
-Route::resource('academicPeriods', AcademicPeriodController::class);
-Route::put('academicPeriods/{academicPeriod}/remove', [AcademicPeriodController::class, 'remove'])->name('academicPeriods.remove');
-Route::put('academicPeriods/fetch', [AcademicPeriodController::class, 'fetch'])->name('academicPeriods.fetch');
+Route::prefix('api')->group(function () {
+    Route::get('/academic-periods', [AcademicPeriodController::class, 'apiIndex']);
+    Route::post('/academic-periods', [AcademicPeriodController::class, 'store']);
+    Route::put('/academic-periods/{period}', [AcademicPeriodController::class, 'update']);
+    Route::delete('/academic-periods/{period}', [AcademicPeriodController::class, 'destroy']);
+});
+Route::get('/settings/academic-periods', [AcademicPeriodController::class, 'index'])->name('academicPeriods.index');
+
+Route::put('academic-periods/{academicPeriod}/remove', [AcademicPeriodController::class, 'remove'])->name('academicPeriods.remove');
+Route::put('academic-periods/fetch', [AcademicPeriodController::class, 'fetch'])->name('academicPeriods.fetch');
 
 // Courses
+Route::prefix('api')->group(function () {
+    Route::get('/courses', [CourseController::class, 'apiIndex']);
+    Route::post('/courses', [CourseController::class, 'store']);
+    Route::put('/courses/{course}', [CourseController::class, 'update']);
+    Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
+});
+
 Route::resource('settings/courses', CourseController::class);
-Route::put('courses/{course}/remove', [CourseController::class, 'remove'])->name('courses.remove');
-Route::put('courses/fetch', [CourseController::class, 'fetch'])->name('courses.fetch');
+
 
 // Thesis areas
-Route::resource('settings/thesisAreas', ThesisAreaController::class);
-Route::put('thesisAreas/{thesisArea}/remove', [ThesisAreaController::class, 'remove'])->name('thesisAreas.remove');
-Route::put('thesisAreas/fetch', [ThesisAreaController::class, 'fetch'])->name('thesisAreas.fetch');
+Route::prefix('api')->group(function () {
+    Route::get('/thesis-areas', [ThesisAreaController::class, 'apiIndex']);
+    Route::post('/thesis-areas', [ThesisAreaController::class, 'store']);
+    Route::put('/thesis-areas/{area}', [ThesisAreaController::class, 'update']);
+    Route::delete('/thesis-areas/{area}', [ThesisAreaController::class, 'destroy']);
+});
+Route::get('/settings/thesis-areas', [ThesisAreaController::class, 'index'])->name('thesisAreas.index');
 
 // Roles
+
+Route::prefix('api')->group(function () {
+    Route::get('/roles', [RoleController::class, 'apiIndex']);
+    Route::post('/roles', [RoleController::class, 'store']);
+    Route::put('/roles/{role}', [RoleController::class, 'update']);
+    Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
+});
+
 Route::resource('settings/roles', RoleController::class);
 Route::put('roles/{role}/remove', [RoleController::class, 'remove'])->name('roles.remove');
 Route::put('roles/fetch', [RoleController::class, 'fetch'])->name('roles.fetch');
 
 // Permissions
+
+Route::prefix('api')->group(function () {
+    Route::get('/permissions', [PermissionController::class, 'apiIndex']);
+    Route::post('/permissions', [PermissionController::class, 'store']);
+    Route::put('/permissions/{permission}', [PermissionController::class, 'update']);
+    Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy']);
+});
+
 Route::resource('settings/permissions', PermissionController::class);
 Route::put('permissions/{permission}/remove', [PermissionController::class, 'remove'])->name('permissions.remove');
 Route::put('permissions/fetch', [PermissionController::class, 'fetch'])->name('permissions.fetch');
@@ -114,6 +150,7 @@ Route::prefix('api')->group(function () {
 Route::get('/settings/users', [UserController::class, 'index'])->name('users.index');
 // Settings
 Route::resource('settings', SettingsController::class);
+//////////------------------------------------//////////
 
 // Temporary routes for testing
 // Prácticas de vinculación

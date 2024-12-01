@@ -38,11 +38,16 @@
             <span class="text-surface-500 dark:text-surface-400 block mb-8"> ¿Está seguro que desea continuar? </span>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="showDeleteDialog = false" />
-                <Button type="button" label="Eliminar" severity="danger" @click="deleteUser" />
+                <Button type="button" label="Eliminar" severity="danger" @click="deleteItem" />
             </div>
         </Dialog>
 
         <EditUserModal v-if="pageName === 'users'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditAreaModal v-if="pageName === 'thesis-areas'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditCourseModal v-if="pageName === 'courses'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditPeriodModal v-if="pageName === 'academic-periods'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditRoleModal v-if="pageName === 'roles'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditPermissionModal v-if="pageName === 'permissions'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
@@ -62,13 +67,17 @@ import { useToast } from "primevue/usetoast";
 import ModalButtonSlide from "@/Components/ModalButtonSlide.vue";
 
 import EditUserModal from "../Users/EditUserModal.vue";
+import EditAreaModal from "../ThesisAreas/EditAreaModal.vue";
+import EditCourseModal from "../Courses/EditCourseModal.vue";
+import EditPeriodModal from "../AcademicPeriods/EditPeriodModal.vue";
+import EditRoleModal from "../Roles/EditRoleModal.vue";
+import EditPermissionModal from "../Permissions/EditPermissionModal.vue";
 
 const props = defineProps({
     columnHeaders: Array,
     data: Array,
     pageName: String,
     globalFilters: Array,
-    cargando: Boolean,
 });
 
 const pageName = props.pageName;
@@ -94,9 +103,9 @@ const openDeleteDialog = (id) => {
     showDeleteDialog.value = true;
 };
 
-const deleteUser = async () => {
+const deleteItem = async () => {
     try {
-        await axios.delete(`/api/users/${itemToDelete.value}`);
+        await axios.delete(`/api/${props.pageName}/${itemToDelete.value}`);
         emit("item-deleted", itemToDelete.value);
         showDeleteDialog.value = false;
         toast.add({
@@ -121,8 +130,8 @@ const openEditDialog = (itemData) => {
     showEditModal.value = true;
 };
 
-const handleItemUpdated = (updatedUser) => {
-    emit("item-updated", updatedUser);
+const handleItemUpdated = (updatedItem) => {
+    emit("item-updated", updatedItem);
 };
 </script>
 <style>

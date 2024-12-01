@@ -3,32 +3,67 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Table :data="academicPeriodsRef" :columnHeaders="columnHeaders" :pageName="pageName" @remove-id="updateArray" />
+            <CreatePeriodModal v-model="showCreateModal" @item-created="handleItemCreated" />
+            <SettingsDatatable
+                :data="items"
+                :columnHeaders="columnHeaders"
+                :pageName="pageName"
+                @item-deleted="handleItemDeleted"
+                @item-updated="handleItemUpdated"
+                @open-create-modal="showCreateModal = true"
+                :globalFilters="globalFilters"
+            />
         </ContentContainer>
     </MenuLayout>
 </template>
 
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
-import Table from "@/Components/Table.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import { ref } from "vue";
+import SettingsDatatable from '../Partials/SettingsDatatable.vue';
+import CreatePeriodModal from './CreatePeriodModal.vue';
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
 
 const title = "Periodos académicos";
 
-const { academicPeriods: initialAcademicPeriods } = usePage().props;
-const academicPeriodsRef = ref([...initialAcademicPeriods]);
-const pageName = "academicPeriods";
+const items = ref([]);
+const pageName = "academic-periods";
+const showCreateModal = ref(false);
+
 const columnHeaders = [
-    { field: "period", header: "Periodo" },
+    { field: "period", header: "Periodo académico" },
     { field: "year", header: "Año" },
 ];
+const globalFilters = ["period", "year"];
 
-// Function to update the data array after a deletion is performed inside the datatable component
-const updateArray = (removeId) => {
-    academicPeriodsRef.value = academicPeriodsRef.value.filter((academicPeriod) => academicPeriod.id !== removeId);
+const fetchItems = async () => {
+    try {
+        const response = await axios.get("/api/academic-periods");
+        items.value = response.data;
+    } catch (error) {
+        console.error("Error fetching items:", error);
+    }
 };
+
+const handleItemCreated = (newItem) => {
+    items.value.push(newItem);
+    showCreateModal.value = false;
+};
+
+const handleItemDeleted = (itemId) => {
+    items.value = items.value.filter((item) => item.id !== itemId);
+};
+
+const handleItemUpdated = (updatedItem) => {
+    const index = items.value.findIndex((item) => item.id === updatedItem.id);
+    if (index !== -1) {
+        items.value[index] = updatedItem;
+    }
+};
+
+onMounted(fetchItems);
 </script>

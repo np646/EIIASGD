@@ -3,29 +3,65 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Table :data="permissionsRef" :columnHeaders="columnHeaders" :pageName="pageName" @remove-id="updateArray" />
+            <CreatePermissionModal v-model="showCreateModal" @item-created="handleItemCreated" />
+            <SettingsDatatable
+                :data="items"
+                :columnHeaders="columnHeaders"
+                :pageName="pageName"
+                @item-deleted="handleItemDeleted"
+                @item-updated="handleItemUpdated"
+                @open-create-modal="showCreateModal = true"
+                :globalFilters="globalFilters"
+            />
         </ContentContainer>
     </MenuLayout>
 </template>
 
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { usePage } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
-import Table from "@/Components/Table.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import { ref } from "vue";
+import SettingsDatatable from '../Partials/SettingsDatatable.vue';
+import CreatePermissionModal from './CreatePermissionModal.vue';
+import axios from "axios";
+import { ref, onMounted } from "vue";
 
 const title = "Permisos";
 
-const { permissions: initialPermissions } = usePage().props;
-const permissionsRef = ref([...initialPermissions]);
+const items = ref([]);
 const pageName = "permissions";
-const columnHeaders = [{ field: "name", header: "Permiso" }];
+const showCreateModal = ref(false);
 
-// Function to update the data array after a deletion is performed inside the datatable component
-const updateArray = (removeId) => {
-    permissionsRef.value = permissionsRef.value.filter((permission) => permission.id !== removeId);
+const columnHeaders = [
+    { field: "name", header: "Permiso" },
+];
+const globalFilters = ["name"];
+
+const fetchItems = async () => {
+    try {
+        const response = await axios.get("/api/permissions");
+        items.value = response.data;
+    } catch (error) {
+        console.error("Error fetching items:", error);
+    }
 };
+
+const handleItemCreated = (newItem) => {
+    items.value.push(newItem);
+    showCreateModal.value = false;
+};
+
+const handleItemDeleted = (itemId) => {
+    items.value = items.value.filter((item) => item.id !== itemId);
+};
+
+const handleItemUpdated = (updatedItem) => {
+    const index = items.value.findIndex((item) => item.id === updatedItem.id);
+    if (index !== -1) {
+        items.value[index] = updatedItem;
+    }
+};
+
+onMounted(fetchItems);
 </script>

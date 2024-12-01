@@ -11,14 +11,14 @@ class ThesisAreaController extends Controller
     public function index()
     {
         $thesisAreas = ThesisArea::where('status', 1)->get();
-        return Inertia::render('ThesisAreas/Index', [
+        return Inertia::render('Settings/ThesisAreas/Index', [
             'thesisAreas' => $thesisAreas
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('ThesisAreas/Create');
+        return Inertia::render('Settings/ThesisAreas/Create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class ThesisAreaController extends Controller
 
     public function edit(ThesisArea $thesisArea)
     {
-        return Inertia::render('ThesisAreas/Edit', [
+        return Inertia::render('Settings/ThesisAreas/Edit', [
             'thesisArea' => $thesisArea
         ]);
     }

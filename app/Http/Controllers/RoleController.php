@@ -11,14 +11,14 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::where('status', 1)->get();
-        return Inertia::render('Roles/Index', [
+        return Inertia::render('Settings/Roles/Index', [
             'roles' => $roles
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Roles/Create');
+        return Inertia::render('Settings/Roles/Create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        return Inertia::render('Roles/Edit', [
+        return Inertia::render('Settings/Roles/Edit', [
             'role' => $role
         ]);
     }

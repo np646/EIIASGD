@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper container">
-        <h3 class="title">{{ title }}</h3>
+        <h4 class="title">{{ title }}</h4>
         <div class="line"></div>
     </div>
 </template>
@@ -35,6 +35,6 @@ const props = defineProps({
 
 .title {
     color: var(--main-color);
-    padding:20px;
+    padding: 5px 20px;
 }
 </style>

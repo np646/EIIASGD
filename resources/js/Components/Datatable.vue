@@ -133,9 +133,7 @@ const submit = () => {
 };
 </script>
 <style>
-.custom-datatable tbody tr:nth-child(odd) {
-    background-color: var(--primary-color-50);
-}
+
 .custom-datatable tbody tr:nth-child(even) {
     background-color: var(--primary-color-100);
 }

@@ -17,7 +17,7 @@
         <template #header>
             <div class="flex justify-between">
                 <div style="text-align: left">
-                    <ModalButton @click="$emit('open-create-modal')" />
+                    <ModalButtonSlide @click="$emit('open-create-modal')" />
                 </div>
                 <IconField>
                     <InputIcon>
@@ -27,17 +27,13 @@
                 </IconField>
             </div>
         </template>
-        <template #empty> No se han encontrado los datos. </template>
-
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable />
-
         <Column :exportable="false" header="Acciones" bodyStyle="text-align: center" headerStyle="width: 8rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openEditDialog(slotProps.data)" />
                 <Button icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
             </template>
         </Column>
-
         <Dialog v-model:visible="showDeleteDialog" modal header="Eliminar" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8"> ¿Está seguro que desea continuar? </span>
             <div class="flex justify-end gap-2">
@@ -46,12 +42,12 @@
             </div>
         </Dialog>
 
-        <EditUserModal v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditUserModal v-if="pageName === 'users'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref} from "vue";
 import axios from "axios";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -60,17 +56,22 @@ import Dialog from "primevue/dialog";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
+
 import { FilterMatchMode } from "@primevue/core/api";
 import { useToast } from "primevue/usetoast";
-import EditUserModal from "./EditUserModal.vue";
-import ModalButton from "./ModalButtonSlide.vue";
+import ModalButtonSlide from "@/Components/ModalButtonSlide.vue";
+
+import EditUserModal from "../Users/EditUserModal.vue";
 
 const props = defineProps({
     columnHeaders: Array,
     data: Array,
     pageName: String,
     globalFilters: Array,
+    cargando: Boolean,
 });
+
+const pageName = props.pageName;
 
 const filters = ref();
 const initFilters = () => {
@@ -126,6 +127,6 @@ const handleItemUpdated = (updatedUser) => {
 </script>
 <style>
 .p-datatable tbody tr:nth-child(even) {
-    --p-datatable-row-striped-background: var(--primary-color-50);
+    --p-datatable-row-striped-background: rgb(237, 237, 252);
 }
 </style>

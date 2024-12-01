@@ -1,6 +1,6 @@
 <template>
     <Dialog :visible="modelValue" @update:visible="$emit('update:modelValue', $event)" modal header="Crear Usuario" :style="{ width: '30rem' }">
-        <form @submit.prevent="createUser" class="flex flex-col gap-4">
+        <form @submit.prevent="createItem" class="flex flex-col gap-4">
             <div class="field">
                 <label for="name">Nombre</label>
                 <InputText id="name" v-model="form.name" required class="w-full" />
@@ -35,7 +35,7 @@ const props = defineProps({
     modelValue: Boolean,
 });
 
-const emit = defineEmits(["update:modelValue", "user-created"]);
+const emit = defineEmits(["update:modelValue", "item-created"]);
 
 const toast = useToast();
 const loading = ref(false);
@@ -46,24 +46,23 @@ const form = ref({
     status: 1,
 });
 
-const createUser = async () => {
+const createItem = async () => {
     loading.value = true;
     try {
         const response = await axios.post("/api/users", form.value);
-        emit("user-created", response.data);
+        emit("item-created", response.data);
         toast.add({
             severity: "success",
             summary: "Success",
-            detail: "Usuario creado exitosamente",
+            detail: "Ha sido creado exitosamente",
             life: 3000,
         });
         closeModal();
     } catch (error) {
-        console.error("Error creating user:", error);
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible crear el usuario",
+            detail: "No fue posible crear el usuario.",
             life: 3000,
         });
     } finally {

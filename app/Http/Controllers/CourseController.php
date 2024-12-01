@@ -11,14 +11,14 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::where('status', 1)->get();
-        return Inertia::render('Courses/Index', [
+        return Inertia::render('Settings/Courses/Index', [
             'courses' => $courses
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Courses/Create');
+        return Inertia::render('Settings/Courses/Create');
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        return Inertia::render('Courses/Edit', [
+        return Inertia::render('Settings/Courses/Edit', [
             'course' => $course
         ]);
     }

@@ -11,14 +11,14 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::where('status', 1)->get();
-        return Inertia::render('Permissions/Index', [
+        return Inertia::render('Settings/Permissions/Index', [
             'permissions' => $permissions
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Permissions/Create');
+        return Inertia::render('Settings/Permissions/Create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
-        return Inertia::render('Permissions/Edit', [
+        return Inertia::render('Settings/Permissions/Edit', [
             'permission' => $permission
         ]);
     }

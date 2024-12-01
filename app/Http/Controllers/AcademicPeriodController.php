@@ -10,14 +10,14 @@ class AcademicPeriodController extends Controller
     public function index()
     {
         $academicPeriods = AcademicPeriod::where('status', 1)->get();
-        return Inertia::render('AcademicPeriods/Index', [
+        return Inertia::render('Settings/AcademicPeriods/Index', [
             'academicPeriods' => $academicPeriods
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('AcademicPeriods/Create');
+        return Inertia::render('Settings/AcademicPeriods/Create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class AcademicPeriodController extends Controller
 
     public function edit(AcademicPeriod $academicPeriod)
     {
-        return Inertia::render('AcademicPeriods/Edit', [
+        return Inertia::render('Settings/AcademicPeriods/Edit', [
             'academicPeriod' => $academicPeriod
         ]);
     }

@@ -137,7 +137,7 @@ const deleteItem = async () => {
 };
 </script>
 <style>
-.custom-datatable tbody tr:nth-child(even) {
-    background-color: var(--primary-color-100);
+:root {
+    --p-datatable-row-striped-background: var(--softer-border-color);
 }
 </style>

@@ -1,12 +1,24 @@
 <template v-slot:slot-content>
     <Head title="Procesos activos" />
     <MenuLayout>
-        <Title :title="`Procesos activos`" />
+        <Title :title="professor" />
         <ContentContainer>
-            <ButtonGroup>
-                <Button @click="activeComponent = 'advisor'" label="Asesorías" icon="pi pi-user" severity="contrast" />
-                <Button @click="activeComponent = 'reader'" label="Lectorías" icon="pi pi-users" severity="contrast" />
-            </ButtonGroup>
+            <div class="py-3 d-flex justify-content-center">
+                <ButtonGroup>
+                    <Button
+                        @click="activeComponent = 'advisor'"
+                        label="Asesorías"
+                        icon="pi pi-user"
+                        :class="{ 'active-button': activeComponent === 'advisor' }"
+                    />
+                    <Button
+                        @click="activeComponent = 'reader'"
+                        label="Lectorías"
+                        icon="pi pi-users"
+                        :class="{ 'active-button': activeComponent === 'reader' }"
+                    />
+                </ButtonGroup>
+            </div>
             <AsAdvisor v-if="activeComponent === 'advisor'" :id="professor_id" />
             <AsReader v-if="activeComponent === 'reader'" :id="professor_id" />
         </ContentContainer>
@@ -29,6 +41,13 @@ import { usePage } from "@inertiajs/vue3";
 const activeComponent = ref("advisor");
 
 const professor_id = ref(usePage().props.professor_id).value;
+const professor = ref(usePage().props.professor);
 
-console.log("id: " + professor_id);
+console.log("id: " + professor);
 </script>
+
+<style>
+.active-button {
+    background-color: var(--p-primary-hover-color);
+}
+</style>

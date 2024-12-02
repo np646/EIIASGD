@@ -1,6 +1,4 @@
 <template v-slot:slot-content>
-    <hr />
-    <h4> Por estudiante </h4>
     <DataTable
         :value="graduations"
         tableStyle="min-width: 50rem"
@@ -14,6 +12,7 @@
         :rows="5"
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
+        class="custom-datatable p-datatable-striped"
     >
         <template #header>
             <div class="flex justify-between">
@@ -21,7 +20,7 @@
                     <InputIcon>
                         <i class="pi pi-search" />
                     </InputIcon>
-                    <InputText v-model="filters['global'].value" placeholder="Buscar" class="border-color" />
+                    <InputText v-model="filters['global'].value" placeholder="Filtrar por estudiante" class="border-color" />
                 </IconField>
             </div>
         </template>
@@ -38,13 +37,8 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
-import { Head } from "@inertiajs/vue3";
-import MenuLayout from "@/Layouts/MenuLayout.vue";
-import Title from "@/Components/Title.vue";
-import ContentContainer from "@/Components/ContentContainer.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import IconField from "primevue/iconfield";
@@ -53,7 +47,6 @@ import InputText from "primevue/inputtext";
 import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import Button from "primevue/button";
-import { router } from "@inertiajs/vue3";
 
 const filters = ref();
 const initFilters = () => {
@@ -71,7 +64,7 @@ const columnHeaders = [
     { field: "reader1", header: "Lector I" },
     { field: "reader2", header: "Lector II" },
 ];
-const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
+const globalFilters = ["student"];
 
 const generateRoute = (id = null) => {
     if (id) {
@@ -100,3 +93,8 @@ onMounted(() => {
     fetchData();
 });
 </script>
+<style>
+:root {
+    --p-datatable-row-striped-background: var(--softer-border-color);
+}
+</style>

@@ -13,24 +13,24 @@
                             size="small"
                             @click="edit"
                         ></Button>
+                        <Button
+                            label="Ver documentación"
+                            icon="pi pi-file"
+                            size="small"
+                            @click="documents"
+                        ></Button>
                     </ButtonGroup>
                 </div>
 
                 <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
                     <div class="grid grid-cols-12 gap-3 h-full">
                         <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de titulación</label>
-                        <div class="col-span-7 mb-2">
+                        <div class="col-span-9 mb-2">
                             <InputText id="inputInicio" size="small" fluid disabled v-model="form.start_period" />
                         </div>
-                        <div class="col-span-2 mb-2">
-                            <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
-                        </div>
                         <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
-                        <div class="col-span-7 mb-2">
+                        <div class="col-span-9 mb-2">
                             <InputText id="inputFinalizacion" size="small" fluid disabled v-model="form.end_period" />
-                        </div>
-                        <div class="col-span-2 mb-2">
-                            <Button label="Ir a carpeta" icon="pi pi-external-link" severity="contrast" size="small" @click="redirect" fluid></Button>
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
                         <div class="col-span-9 mb-2">
@@ -131,8 +131,8 @@ function selectedRegistrationTimes() {
 
 selectedRegistrationTimes();
 
-function redirect() {
-    router.visit("/");
+function documents() {
+    router.visit("/graduation/documents/" + graduation.student_id + "/files");
 }
 
 function edit() {

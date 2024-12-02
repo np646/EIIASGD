@@ -3,10 +3,6 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Información personal`"></Subtitle>
-            <Information :student="student" class="px-5 pt-4"></Information>
-        </ContentContainer>
-        <ContentContainer>
             <Subtitle :title="`Ver procesos`"></Subtitle>
             <div class="pb-4 pt-3 px-5">
                 <div class="row">
@@ -55,6 +51,10 @@
                 </div>
             </div>
         </ContentContainer>
+        <ContentContainer>
+            <Subtitle :title="`Información personal`"></Subtitle>
+            <Information :student="student" class="px-5 pt-4"></Information>
+        </ContentContainer>
     </MenuLayout>
 </template>
 
@@ -86,8 +86,7 @@ const url = "/graduation/process/" + student?.id;
 }
 
 .content-wrapper:hover {
-    /* TODO: change background color */
-    background-color: #e0dcdc; 
+    background-color: var(--softer-border-color); 
     transform: scale(1.05);
     cursor: pointer;
 }

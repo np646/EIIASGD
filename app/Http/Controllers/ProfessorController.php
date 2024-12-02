@@ -85,6 +85,13 @@ class ProfessorController extends Controller
             ->get();
         return $professors;
     }
+    public function fetchById($id)
+    {
+        $professors = Professor::where('id', $id)
+            ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
+            ->first();
+            return response()->json($professors);
+    }
 
     public function apiIndex()
     {

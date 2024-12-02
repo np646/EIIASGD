@@ -323,9 +323,12 @@ class GraduationController extends Controller
 
     public function processesByProfessor($id)
     {
+        $professorController = new ProfessorController();
+        $professor = $professorController->fetchById($id);
 
         return Inertia::render('Graduation/Reviewers/Processes', [
-            'professor_id' => $id
+            'professor_id' => $id,
+            'professor' => $professor
         ]);
     }
 

@@ -1,8 +1,4 @@
 <template v-slot:slot-content>
-<hr>
-<h4>
-    Por docente
-</h4>
     <DataTable
         :value="professors"
         tableStyle="min-width: 50rem"
@@ -16,6 +12,7 @@
         :rows="5"
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
+        class="custom-datatable p-datatable-striped"
     >
         <template #header>
             <div class="flex justify-between">
@@ -23,7 +20,7 @@
                     <InputIcon>
                         <i class="pi pi-search" />
                     </InputIcon>
-                    <InputText v-model="filters['global'].value" placeholder="Buscar" class="border-color" />
+                    <InputText v-model="filters['global'].value" placeholder="Filtrar por docente" class="border-color" />
                 </IconField>
             </div>
         </template>
@@ -40,13 +37,8 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
-import { Head } from "@inertiajs/vue3";
-import MenuLayout from "@/Layouts/MenuLayout.vue";
-import Title from "@/Components/Title.vue";
-import ContentContainer from "@/Components/ContentContainer.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import IconField from "primevue/iconfield";
@@ -72,7 +64,7 @@ const columnHeaders = [
     { field: "advisor_not_graduated_count", header: "Asesorados no graduados" },
     { field: "reader_not_graduated_count", header: "Lectorías no graduados" },
 ];
-const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
+const globalFilters = ["professor"];
 
 const generateRoute = (id = null) => {
     if (id) {
@@ -81,24 +73,28 @@ const generateRoute = (id = null) => {
     return route(`students.profile`);
 };
 
+import axios from "axios";
 
-import axios from 'axios'
-
-const professors = ref([])
-const loading = ref(true)
+const professors = ref([]);
+const loading = ref(true);
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(route('graduation.getReviewersByProfessors'))
-        professors.value = response.data.professors
-        loading.value = false
+        const response = await axios.get(route("graduation.getReviewersByProfessors"));
+        professors.value = response.data.professors;
+        loading.value = false;
     } catch (error) {
-        console.error('Error fetching professors:', error)
-        loading.value = false
+        console.error("Error fetching professors:", error);
+        loading.value = false;
     }
-}
+};
 
 onMounted(() => {
-    fetchData()
-})
+    fetchData();
+});
 </script>
+<style>
+:root {
+    --p-datatable-row-striped-background: var(--softer-border-color);
+}
+</style>

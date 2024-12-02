@@ -41,13 +41,8 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
-import { Head } from "@inertiajs/vue3";
-import MenuLayout from "@/Layouts/MenuLayout.vue";
-import Title from "@/Components/Title.vue";
-import ContentContainer from "@/Components/ContentContainer.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import IconField from "primevue/iconfield";
@@ -59,12 +54,11 @@ import Button from "primevue/button";
 import Tag from "primevue/tag";
 
 const props = defineProps({
-   id: {
-    type: String,
-    required: true
-    }
+    id: {
+        type: String,
+        required: true,
+    },
 });
-
 
 const filters = ref();
 const initFilters = () => {
@@ -79,7 +73,7 @@ const columnHeaders = [
     { field: "student", header: "Estudiante" },
     { field: "thesis_name", header: "Tema" },
 ];
-const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
+const globalFilters = ["student", "thesis_name"];
 
 const generateRoute = (id = null) => {
     if (id) {
@@ -101,27 +95,23 @@ const getSeverity = (status) => {
     }
 };
 
-import axios from 'axios'
+import axios from "axios";
 
-const processes = ref([])
-const loading = ref(true)
+const processes = ref([]);
+const loading = ref(true);
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(route('graduation.getProcessesAsAdvisor', props.id))
-        processes.value = response.data.processes
-        loading.value = false
+        const response = await axios.get(route("graduation.getProcessesAsAdvisor", props.id));
+        processes.value = response.data.processes;
+        loading.value = false;
     } catch (error) {
-        console.error('Error fetching processes:', error)
-        loading.value = false
+        console.error("Error fetching processes:", error);
+        loading.value = false;
     }
-}
+};
 
 onMounted(() => {
-    fetchData()
-})
-
-
-
-
+    fetchData();
+});
 </script>

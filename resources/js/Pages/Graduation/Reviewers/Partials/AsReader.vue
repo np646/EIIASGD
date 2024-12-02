@@ -41,13 +41,8 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
-import { Head } from "@inertiajs/vue3";
-import MenuLayout from "@/Layouts/MenuLayout.vue";
-import Title from "@/Components/Title.vue";
-import ContentContainer from "@/Components/ContentContainer.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import IconField from "primevue/iconfield";
@@ -78,7 +73,7 @@ const columnHeaders = [
     { field: "student", header: "Estudiante" },
     { field: "thesis_name", header: "Tema" },
 ];
-const globalFilters = ["student", "graduation_date", "advisor", "reader1", "reader2"];
+const globalFilters = ["student", "thesis_name"];
 
 const generateRoute = (id = null) => {
     if (id) {

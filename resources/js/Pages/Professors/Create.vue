@@ -4,56 +4,49 @@
         <Title :title="title" />
         <ContentContainer>
             <form @submit.prevent="submit">
-                <div class="row g-3 mb-4">
-                    <div class="col-md-1"></div>
-                    <div class="col">
+                <div class="row g-3 mb-4 px-5 pt-4">
+                    <div class="col-6">
                         <label for="inputApellidos" class="col-form-label">Apellidos</label>
                         <InputText class="form-control" v-model="form.lastname" id="inputApellidos" required />
                     </div>
-                    <div class="col">
+                    <div class="col-6">
                         <label for="inputNombres" class="col-form-label">Nombres</label>
                         <InputText class="form-control" v-model="form.name" id="inputNombres" required />
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-1"></div>
-                    <div class="col">
+                <div class="row g-3 mb-4 px-5">
+                    <div class="col-12">
                         <label for="inputEmail" class="col-form-label">Email</label>
                         <InputText class="form-control" v-model="form.email" type="email" id="inputEmail" required />
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-1"></div>
-                    <div class="col">
+                <div class="row g-3 mb-4 px-5">
+                    <div class="col-6">
                         <label for="inputIdentificacion" class="col-form-label">Identificación</label>
                         <InputText class="form-control" v-model="form.identification" id="inputIdentificacion" required />
                     </div>
-                    <div class="col">
+                    <div class="col-6">
+                        <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
+                        <Datepicker v-model="form.date_of_birth" id="inputFechaDeNacimiento" required />
+                    </div>
+                </div>
+                <div class="row g-3 mb-4 px-5">
+                    <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
                         <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
                     </div>
-                    <div class="col-md-1"></div>
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-1"></div>
-                    <div class="col">
-                        <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
-                        <Datepicker v-model="selectedDate" id="inputFechaDeNacimiento" required />
-                    </div>
-                    <div class="col">
+                    <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" :placeholder="placeholder" v-model="selectedOption" />
+                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" placeholder="Seleccione uno" />
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
-                <div class="row g-3 mt-2 mb-4">
-                    <div class="col"></div>
+                <div class="row g-3 mt-2 mb-4 px-5">
+                    <div class="col d-flex justify-content-center">
+                        <Button label="Cancelar" icon="pi pi-times" type="button" severity="secondary" @click="cancel" />
+                    </div>
                     <div class="col d-flex justify-content-center">
                         <Button label="Guardar" icon="pi pi-check" type="submit" severity="success" />
                     </div>
-                    <div class="col"></div>
                 </div>
             </form>
         </ContentContainer>
@@ -61,7 +54,7 @@
 </template>
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import InputText from "primevue/inputtext";
@@ -75,13 +68,12 @@ const title = "Registrar nuevo docente";
 const selectedDate = ref(null);
 
 const sex = ref([
-    { id: 0, sex: "Femenino" },
-    { id: 1, sex: "Masculino" },
+    { id: 0, sex: "FEMENINO" },
+    { id: 1, sex: "MASCULINO" },
 ]);
 
-const selectedOption = ref(null);
 const label = "sex";
-const placeholder = "Seleccione uno";
+const selectedSex = ref(null);
 
 const form = useForm({
     name: "",
@@ -89,12 +81,15 @@ const form = useForm({
     date_of_birth: selectedDate,
     identification: "",
     email: "",
+    banner_code: "",
+    sex: selectedSex,
     status: 1,
 });
 
-// Watch for changes in selectedOption value
-watch(selectedOption, () => {
-    form.sex = selectedOption.value;
+// To get the selected sex option
+
+watch(selectedSex, () => {
+    form.sex = selectedSex.value;
 });
 
 // Watch for changes in selectedDate value
@@ -107,5 +102,8 @@ const submit = () => {
         {
             onFinish: () => form.reset(),
         };
+};
+const cancel = () => {
+    router.visit("/professors");
 };
 </script>

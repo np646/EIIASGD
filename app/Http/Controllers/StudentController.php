@@ -97,7 +97,7 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         $student->delete();
-        return redirect()->route('students.index');
+        return response()->json(null, 204);
     }
 
     public function profile(Student $student)
@@ -135,10 +135,24 @@ class StudentController extends Controller
     public function fetchById($student_id)
     {
         $query = Student::where('id', $student_id)
-            ->select('id', 
-            DB::raw("CONCAT(lastname, ' ', name) AS fullname"),
-            'identification')
+            ->select(
+                'id',
+                DB::raw("CONCAT(lastname, ' ', name) AS fullname"),
+                'identification'
+            )
             ->first();
-            return response()->json($query ? $query->toArray() : []);
+        return response()->json($query ? $query->toArray() : []);
+    }
+
+    public function apiIndex()
+    {
+        return response()->json(Student::all());
+    }
+
+    public function totalStudents()
+    {
+        $query = Student::where('status', 1)
+            ->count();
+        return response()->json($query);
     }
 }

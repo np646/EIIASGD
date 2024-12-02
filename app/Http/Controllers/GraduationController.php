@@ -387,4 +387,22 @@ class GraduationController extends Controller
 
         return back()->with(['processes' => $query]);
     }
+
+    public function totalGraduated()
+    {
+        $query = Graduation::where('status', 2)
+            ->count();
+        return response()->json($query);
+    }
+
+    public function studentsGraduatedPerYear()
+    {
+        $query = Graduation::selectRaw('YEAR(graduation_date) as year, COUNT(*) as total_graduated')
+            ->where('status', 2)
+            ->groupBy(DB::raw('YEAR(graduation_date)'))
+            ->orderBy('year', 'asc')
+            ->get();
+
+        return response()->json($query);
+    }
 }

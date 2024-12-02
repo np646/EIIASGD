@@ -10,8 +10,9 @@ import {
     BIconPersonWorkspace,
     BIconPersonRaisedHand,
     BIconFileEarmarkTextFill,
-    BIconCaretDownSquareFill,
-    BIconPersonCheckFill
+    BIconPersonCheckFill,
+    BIconCalendarWeekFill,
+    BIconFileEarmarkPersonFill,
 } from "bootstrap-icons-vue";
 
 export const useMenuItems = () => {
@@ -24,8 +25,10 @@ export const useMenuItems = () => {
             text: "Titulación",
             icon: markRaw(BIconMortarboardFill),
             subItems: [
+                { href: "/by-students", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
+                { href: "/by-period", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
                 { href: "/reviewers", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
-                { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw( BIconFileEarmarkTextFill) },
+                { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw(BIconFileEarmarkTextFill) },
                 { href: "/statistics/graduation", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
             ],
         },

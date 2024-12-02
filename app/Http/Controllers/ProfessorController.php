@@ -55,7 +55,7 @@ class ProfessorController extends Controller
     public function destroy(Professor $professor)
     {
         $professor->delete();
-        return redirect()->route('professors.index');
+        return response()->json(null, 204);
     }
 
     public function profile(Professor $professor)
@@ -81,8 +81,13 @@ class ProfessorController extends Controller
     public function fetch()
     {
         $professors = Professor::where('status', 1)
-        ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
-        ->get();
+            ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
+            ->get();
         return $professors;
+    }
+
+    public function apiIndex()
+    {
+        return response()->json(Professor::all());
     }
 }

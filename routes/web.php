@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\DashboardController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,10 +34,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 //Original log in and welcome routes
@@ -71,13 +75,19 @@ Route::resource('students', StudentController::class);
 Route::get('students/{student}/profile', [StudentController::class, 'profile'])->name('students.profile');
 Route::put('students/{student}/remove', [StudentController::class, 'remove'])->name('students.remove');
 Route::put('students/fetch', [StudentController::class, 'fetch'])->name('students.fetch');
-
+Route::prefix('api')->group(function () {
+    Route::get('/students', [StudentController::class, 'apiIndex']);
+    Route::delete('/students/{student}', [StudentController::class, 'destroy']);
+});
 // Professors
 Route::resource('professors', ProfessorController::class);
 Route::get('professors/{professor}/profile', [ProfessorController::class, 'profile'])->name('professors.profile');
 Route::put('professors/{professor}/remove', [ProfessorController::class, 'remove'])->name('professors.remove');
 Route::put('professors/fetch', [ProfessorController::class, 'fetch'])->name('professors.fetch');
-
+Route::prefix('api')->group(function () {
+    Route::get('/professors', [ProfessorController::class, 'apiIndex']);
+    Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
+});
 //////////------------------------------------//////////
 
 // SETTINGS MODULE
@@ -122,7 +132,9 @@ Route::prefix('api')->group(function () {
     Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
 });
 
-Route::resource('settings/roles', RoleController::class);
+// Route::resource('settings/roles', RoleController::class);
+Route::get('/settings/roles', [RoleController::class, 'index'])->name('roles.index');
+
 Route::put('roles/{role}/remove', [RoleController::class, 'remove'])->name('roles.remove');
 Route::put('roles/fetch', [RoleController::class, 'fetch'])->name('roles.fetch');
 
@@ -135,7 +147,8 @@ Route::prefix('api')->group(function () {
     Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy']);
 });
 
-Route::resource('settings/permissions', PermissionController::class);
+//Route::resource('settings/permissions', PermissionController::class);
+Route::get('/settings/permissions', [PermissionController::class, 'index'])->name('permissions.index');
 Route::put('permissions/{permission}/remove', [PermissionController::class, 'remove'])->name('permissions.remove');
 Route::put('permissions/fetch', [PermissionController::class, 'fetch'])->name('permissions.fetch');
 

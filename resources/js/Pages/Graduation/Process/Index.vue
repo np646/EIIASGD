@@ -18,7 +18,7 @@
 
                 <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
                     <div class="grid grid-cols-12 gap-3 h-full">
-                        <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
+                        <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de titulación</label>
                         <div class="col-span-7 mb-2">
                             <InputText id="inputInicio" size="small" fluid disabled v-model="form.start_period" />
                         </div>

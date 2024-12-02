@@ -9,7 +9,7 @@
                 <span class="fs-6 mb-4">Sistema de gestión documental de la Escuela de Informática e Inteligencia Artificial de la PUCE-I<br /></span>
             </div>
         </ContentContainer>
-        <ContentContainer >
+        <ContentContainer>
             <div class="px-4 py-2">
                 <span class="font-semibold fs-5"> <i style="color: darkblue" class="pi pi-calendar-clock"></i> {{ formattedDate }}</span>
             </div>
@@ -29,11 +29,11 @@
                                         <span class="fs-5">Estudiantes</span>
                                     </div>
                                     <div class="row">
-                                        <span class="fw-bold fs-3">3050</span>
+                                        <span class="fw-bold fs-3" style="color: var(--celeste)">{{ totalStudents }}</span>
                                     </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center">
-                                    <i class="pi pi-user text-blue-600" style="font-size: 300%"></i>
+                                    <i class="pi pi-user" style="font-size: 300%; color: var(--main-color)"></i>
                                 </div>
                             </div>
                             <div class="row">
@@ -42,11 +42,11 @@
                                         <span class="fs-5">Graduados</span>
                                     </div>
                                     <div class="row">
-                                        <span class="fw-bold fs-3">1450</span>
+                                        <span class="fw-bold fs-3" style="color: var(--celeste)">{{ totalGraduated }}</span>
                                     </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center">
-                                    <i class="pi pi-graduation-cap text-blue-600" style="font-size: 300%"></i>
+                                    <i class="pi pi-graduation-cap" style="font-size: 300%; color: var(--main-color)"></i>
                                 </div>
                             </div>
                         </div>
@@ -63,9 +63,13 @@ import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import 'primeicons/primeicons.css'
+import "primeicons/primeicons.css";
 const user = usePage().props.auth.user;
 
+const totalStudents = usePage().props.students.original;
+const totalGraduated = usePage().props.graduated.original;
+const graduatedPerYear = usePage().props.graduatedPerYear.original;
+console.log(usePage().props.graduatedPerYear.original);
 const formattedDate = computed(() => {
     const today = new Date();
     const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
@@ -78,17 +82,20 @@ import { ref } from "vue";
 const lineData = ref();
 const lineOptions = ref();
 
+const labels = graduatedPerYear.map((item) => item.year);
+const data = graduatedPerYear.map((item) => item.total_graduated);
+
 const setlineData = () => {
     const documentStyle = getComputedStyle(document.documentElement);
 
     return {
-        labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+        labels: labels,
         datasets: [
             {
                 label: "Graduados",
-                data: [65, 65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40, 45],
+                data: data,
                 fill: false,
-                borderColor: documentStyle.getPropertyValue("--p-cyan-500"),
+                borderColor: documentStyle.getPropertyValue("--p-green-500"),
                 tension: 0.4,
             },
         ],

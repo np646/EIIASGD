@@ -39,22 +39,19 @@
                 </Link>
             </template>
         </Column>
-        <Column :exportable="false" header="Eliminar"  bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
+        <Column :exportable="false" header="Eliminar" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
-                <Dialog v-model:visible="visible" modal header="Eliminar" :style="{ width: '25rem' }">
-                    <span class="text-surface-500 dark:text-surface-400 block mb-8">¿Está seguro que desea continuar?</span>
-                    <form @submit.prevent="submit">
-                        <input value="0" class="form-control" id="inputStatus" required hidden />
-                        <div class="flex justify-end gap-2">
-                            <Button type="button" label="Cancelar" severity="secondary" @click="visible = false"></Button>
-                            <Button type="submit" label="Eliminar" severity="danger"></Button>
-                        </div>
-                    </form>
+                <Dialog v-model:visible="showDeleteDialog" modal header="Eliminar" :style="{ width: '25rem' }">
+                    <span class="text-surface-500 dark:text-surface-400 block mb-8"> ¿Está seguro que desea continuar? </span>
+                    <div class="flex justify-end gap-2">
+                        <Button type="button" label="Cancelar" severity="secondary" @click="showDeleteDialog = false" />
+                        <Button type="button" label="Eliminar" severity="danger" @click="deleteItem" />
+                    </div>
                 </Dialog>
             </template>
         </Column>
-        <Column  v-if=perfil :exportable="false" header="Perfil" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
+        <Column :exportable="false" header="Perfil" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
                 <Link :href="generateRoute('profile', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
@@ -65,7 +62,7 @@
 </template>
 
 <script setup>
-import { Link, useForm } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 import { ref, defineEmits } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -77,8 +74,9 @@ import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import ButtonSlide from "./ButtonSlide.vue";
 import Dialog from "primevue/dialog";
+import { useToast } from "primevue/usetoast";
+import axios from "axios";
 
-const visible = ref(false);
 const filters = ref();
 const initFilters = () => {
     filters.value = {
@@ -98,7 +96,6 @@ const props = defineProps({
 initFilters();
 
 // To generate routes based on page name
-const removeId = ref(null);
 const generateRoute = (action, id = null) => {
     if (id) {
         return route(`${props.pageName}.${action}`, id);
@@ -107,33 +104,39 @@ const generateRoute = (action, id = null) => {
 };
 
 // To delete
-const emit = defineEmits(["remove-id"]);
+const emit = defineEmits(["item-deleted"]);
 
-const form = useForm({
-    status: 0,
-});
-
+const toast = useToast();
+const showDeleteDialog = ref(false);
+const itemToDelete = ref(null);
 const openDeleteDialog = (id) => {
-    removeId.value = id;
-    visible.value = true;
+    itemToDelete.value = id;
+    showDeleteDialog.value = true;
 };
 
-const submit = () => {
-    if (removeId.value !== null) {
-        form.put(generateRoute("remove", removeId.value), {
-            onSuccess: () => {
-                emit("remove-id", removeId.value);
-                removeId.value = null;
-                visible.value = false;
-            },
+const deleteItem = async () => {
+    try {
+        await axios.delete(`/api/${props.pageName}/${itemToDelete.value}`);
+        emit("item-deleted", itemToDelete.value);
+        showDeleteDialog.value = false;
+        toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Ha sido eliminado exitosamente.",
+            life: 3000,
         });
-    } else {
-        console.error("No fue posible eliminar el ID.");
+    } catch (error) {
+        console.error("No fue posible eliminar el usuario. ", error);
+        toast.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No fue posible eliminar el usuario.",
+            life: 3000,
+        });
     }
 };
 </script>
 <style>
-
 .custom-datatable tbody tr:nth-child(even) {
     background-color: var(--primary-color-100);
 }

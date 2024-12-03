@@ -3,6 +3,8 @@
     <MenuLayout>
         <Title :title="professor" />
         <ContentContainer>
+            
+            <Subtitle title="Procesos activos"/>
             <div class="py-3 d-flex justify-content-center">
                 <ButtonGroup>
                     <Button
@@ -37,13 +39,13 @@ import ButtonGroup from "primevue/buttongroup";
 import AsAdvisor from "./Partials/AsAdvisor.vue";
 import AsReader from "./Partials/AsReader.vue";
 import { usePage } from "@inertiajs/vue3";
+import Subtitle from "@/Components/Subtitle.vue";
 
 const activeComponent = ref("advisor");
 
 const professor_id = ref(usePage().props.professor_id).value;
-const professor = ref(usePage().props.professor);
+const professor = usePage().props.professor.original.name;
 
-console.log("id: " + professor);
 </script>
 
 <style>

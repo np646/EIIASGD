@@ -3,6 +3,7 @@
     <MenuLayout>
         <Title :title="`Evaluadores`" />
         <ContentContainer>
+            <Subtitle title="Lectorías y asesorías"/>
             <div class="py-3 d-flex justify-content-center">
                 <ButtonGroup>
                     <Button
@@ -37,6 +38,7 @@ import Button from "primevue/button";
 import ButtonGroup from "primevue/buttongroup";
 import Students from "./Partials/Students.vue";
 import Professors from "./Partials/Professors.vue";
+import Subtitle from "@/Components/Subtitle.vue";
 
 const activeComponent = ref("students");
 </script>

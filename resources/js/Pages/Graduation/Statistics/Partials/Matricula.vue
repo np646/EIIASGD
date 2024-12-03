@@ -1,5 +1,5 @@
 <template>
-    Estudiantes en segunda o tercera matrícula
+    <Subtitle title="Estudiantes en segunda o tercera matrícula" />
     <div class="col mb-4">
         <DataTable :value="graduates" class="w-full">
             <Column field="course" header="Carrera" />
@@ -14,6 +14,7 @@
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { ref } from "vue";
+import Subtitle from "@/Components/Subtitle.vue";
 
 const graduates = ref([
     { id: 0, course: "INGENIERÍA EN SISTEMAS", female: "50", male: "50", total: "100" },

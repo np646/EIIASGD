@@ -9,6 +9,9 @@
                 </SelectButton>
             </div>
         </template>
+        <template #empty>
+            <div class="pl-5">No se han encontrado los datos.</div>
+        </template>
         <template #grid="slotProps">
             <div class="grid grid-cols-12 gap-4">
                 <div v-for="(item, index) in slotProps.items" :key="index" class="col-span-3 p-2" @dblclick="$emit('selected-item', item.id)">
@@ -38,7 +41,7 @@
                                     line-clamp: 1.2;
                                 "
                             >
-                                {{ item[field]}}
+                                {{ item[field] }}
                             </div>
                         </div>
                     </div>
@@ -61,7 +64,7 @@
                         <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
                             <div class="flex flex-row md:flex-col justify-between items-start gap-2">
                                 <div>
-                                    <div class="text-medium font-medium mt-2">{{ item[field]}}</div>
+                                    <div class="text-medium font-medium mt-2">{{ item[field] }}</div>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +99,5 @@ function toggleColor(index) {
     }
 }
 
-const emit = defineEmits(["selected-item"])
-
+const emit = defineEmits(["selected-item"]);
 </script>

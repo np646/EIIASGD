@@ -1,49 +1,7 @@
 <template>
-    <Head title="Estudiantes" />
+    <Head title="Documentos de titulación" />
     <MenuLayout>
-        <ContentContainer>
-            <div>
-                <div class="pl-5">
-                    <div class="row h-[8rem]">
-                        <div class="col-2 d-flex flex-column justify-content-center">
-                            <div class="h-ful">
-                                <div class="row">
-                                    <div class="col d-flex justify-content-center align-items-center">
-                                        <BIconPersonFill style="font-size: 100px" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-10 d-flex flex-column justify-content-center">
-                            <div class="h-ful">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="row mb-2">
-                                            <span class="fs-6">{{ student.original.fullname }}</span>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <span class="fs-6">{{ student.original.identification }}</span>
-                                        </div>
-                                        <div class="row">
-                                            <ButtonGroup>
-                                                <Button label="Ir a perfil" icon="pi pi-user" severity="contrast" size="small" @click="visitProfile"></Button>
-                                                <Button
-                                                    label="Ir a proceso de graduación"
-                                                    icon="pi pi-graduation-cap"
-                                                    severity="contrast"
-                                                    size="small"
-                                                    @click="visitGraduation"
-                                                ></Button>
-                                            </ButtonGroup>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ContentContainer>
+        <Information />
         <ContentContainer>
             <div class="flex flex-col gap-4 justify-center h-full mb-3">
                 <DataTable :value="files" dataKey="id" class="w-full">
@@ -124,9 +82,7 @@ import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Button from "primevue/button";
-import ButtonGroup from "primevue/buttongroup";
 import { router } from "@inertiajs/vue3";
-import { BIconPersonFill } from "bootstrap-icons-vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { ref } from "vue";
@@ -137,6 +93,7 @@ import InputText from "primevue/inputtext";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import { useModuleStore } from "@/stores/module";
+import Information from "./Partials/Information.vue";
 
 const moduleStore = useModuleStore();
 const moduleId = moduleStore.moduleId;
@@ -145,7 +102,6 @@ const fileInput = ref(null);
 
 const student = usePage().props.student;
 const files = usePage().props.files;
-
 const form = useForm({
     name: "",
     is_folder: false,
@@ -155,12 +111,6 @@ const form = useForm({
     graduation_files_id: null,
 });
 
-function visitGraduation() {
-    router.visit("/graduation/process/" + student.original.id);
-}
-function visitProfile() {
-    router.visit("/students/" + student.original.id + "/profile");
-}
 
 const removeId = ref(null);
 const indexRef = ref(null);
@@ -169,7 +119,7 @@ const visibleDelete = ref(false);
 const openDeleteDialog = (index, file_id) => {
     console.log(index, file_id);
     indexRef.value = index;
-    removeId.value = file_id; 
+    removeId.value = file_id;
     visibleDelete.value = true;
 };
 

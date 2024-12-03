@@ -134,11 +134,13 @@ class StudentController extends Controller
 
     public function fetchById($student_id)
     {
-        $query = Student::where('id', $student_id)
+        $query = Student::where('students.id', $student_id)
+        ->join('courses', 'course_id', '=', 'courses.id')
             ->select(
-                'id',
-                DB::raw("CONCAT(lastname, ' ', name) AS fullname"),
-                'identification'
+                'students.id',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS fullname"),
+                'identification',
+                'courses.name AS course_name'
             )
             ->first();
         return response()->json($query ? $query->toArray() : []);

@@ -10,11 +10,9 @@
                         <Link :href="url" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
-                                    <div class="row mb-2">
-                                        <BIconMortarboardFill style="font-size: 30px; color: var(--main-color)" />
-                                    </div>
-                                    <div class="row">
-                                        <span class="fw-bold fs-5">Titulación</span>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <BIconMortarboardFill class="fs-5 me-2" style="color: var(--main-color)" />
+                                        <span class="fw-bold fs-6">Titulación</span>
                                     </div>
                                 </div>
                             </div>
@@ -24,11 +22,9 @@
                         <Link href="/dashboard" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
-                                    <div class="row mb-2">
-                                        <BIconPersonRaisedHand style="font-size: 30px; color: var(--main-color)" />
-                                    </div>
-                                    <div class="row">
-                                        <span class="fw-bold fs-5">Vinculación</span>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <BIconPersonRaisedHand class="fs-5 me-2" style="color: var(--main-color)" />
+                                        <span class="fw-bold fs-6">Vinculación</span>
                                     </div>
                                 </div>
                             </div>
@@ -38,11 +34,9 @@
                         <Link href="/dashboard" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
-                                    <div class="row mb-2">
-                                        <BIconPersonWorkspace style="font-size: 30px; color: var(--main-color)" />
-                                    </div>
-                                    <div class="row">
-                                        <span class="fw-bold fs-5">Preprofesionales</span>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <BIconPersonWorkspace class="fs-5 me-2" style="color: var(--main-color)" />
+                                        <span class="fw-bold fs-6">Preprofesionales</span>
                                     </div>
                                 </div>
                             </div>
@@ -83,10 +77,11 @@ const url = "/graduation/process/" + student?.id;
     transition: background-color 0.3s, transform 0.3s;
     text-decoration: none;
     color: inherit;
+    width: 200px;
 }
 
 .content-wrapper:hover {
-    background-color: var(--softer-border-color); 
+    background-color: var(--softer-border-color);
     transform: scale(1.05);
     cursor: pointer;
 }

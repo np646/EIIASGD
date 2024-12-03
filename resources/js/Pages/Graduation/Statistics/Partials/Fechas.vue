@@ -1,5 +1,5 @@
 <template>
-    Graduados por fechas
+    <Subtitle title="Graduados por fechas" />
     <div class="d-flex justify-content-center items-center p-3 mb-3">
         <div class="w-50">
             <div class="col">
@@ -49,6 +49,7 @@ import { ref } from "vue";
 import DatePicker from "primevue/datepicker";
 import FloatLabel from 'primevue/floatlabel';
 import { FilterMatchMode } from "@primevue/core/api";
+import Subtitle from "@/Components/Subtitle.vue";
 
 const graduates = ref([
     { id: 0, course: "INGENIERÍA EN SISTEMAS", female: "50", male: "50", total: "100" },

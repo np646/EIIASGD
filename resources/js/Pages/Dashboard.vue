@@ -95,7 +95,7 @@ const setlineData = () => {
                 label: "Graduados",
                 data: data,
                 fill: false,
-                borderColor: documentStyle.getPropertyValue("--p-green-500"),
+                borderColor: documentStyle.getPropertyValue("--celeste"),
                 tension: 0.4,
             },
         ],

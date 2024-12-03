@@ -11,6 +11,8 @@
                     </div>
                 </div>
             </div>
+
+            <span v-if="activeComponent.value != null"> Generado el: {{ formattedDate }}</span>
             <Fechas v-if="activeComponent.value === 'fechas'" />
             <Resagados v-if="activeComponent.value === 'resagados'" />
             <Matricula v-if="activeComponent.value === 'matricula'" />
@@ -32,9 +34,10 @@ import Caducidad from "./Partials/Caducidad.vue";
 import Documentacion from "./Partials/Documentacion.vue";
 import Select from "primevue/select";
 import { ref, watch } from "vue";
+import {useGetDate} from "@/Composables/useGetDate";
 const title = "Reportes estadísticos de titulación";
 
-const activeComponent = ref("fechas");
+const activeComponent = ref("");
 
 const options = ref([
     { name: "Graduados por fechas", value: "fechas" },
@@ -43,4 +46,6 @@ const options = ref([
     { name: "Estudiantes con plan por caducar", value: "caducidad" },
     { name: "Documentación entregada", value: "documentacion" },
 ]);
+
+const  formattedDate  = useGetDate;
 </script>

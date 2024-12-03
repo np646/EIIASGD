@@ -27,9 +27,9 @@ export const useMenuItems = () => {
             subItems: [
                 { href: "/by-students", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
                 { href: "/by-period", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
-                { href: "/reviewers", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
+                { href: "/graduation/reviewers", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
                 { href: "/graduation/documents/periods", text: "Documentos", icon: markRaw(BIconFileEarmarkTextFill) },
-                { href: "/statistics/graduation", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
+                { href: "/graduation/statistics", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
             ],
         },
         {

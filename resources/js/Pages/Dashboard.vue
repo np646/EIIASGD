@@ -11,7 +11,7 @@
         </ContentContainer>
         <ContentContainer>
             <div class="px-4 py-2">
-                <span class="font-semibold fs-5"> <i style="color: darkblue" class="pi pi-calendar-clock"></i> {{ formattedDate }}</span>
+                <span class="font-semibold fs-5"> <i style="color: darkblue" class="pi pi-calendar-clock"></i> Hoy es {{ formattedDate }}</span>
             </div>
         </ContentContainer>
 
@@ -61,21 +61,16 @@
 import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import "primeicons/primeicons.css";
+import { useGetDate } from "@/Composables/useGetDate";
+
 const user = usePage().props.auth.user;
 
 const totalStudents = usePage().props.students.original;
 const totalGraduated = usePage().props.graduated.original;
 const graduatedPerYear = usePage().props.graduatedPerYear.original;
-console.log(usePage().props.graduatedPerYear.original);
-const formattedDate = computed(() => {
-    const today = new Date();
-    const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
-    const dateString = today.toLocaleDateString("es-ES", options);
-    return `Hoy es ${dateString}`;
-});
+const formattedDate = useGetDate;
 
 import Chart from "primevue/chart";
 import { ref } from "vue";

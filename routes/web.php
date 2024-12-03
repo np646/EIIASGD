@@ -207,8 +207,13 @@ Route::get('/studentfolders', function () {
 });
 
 // Titulación - reportes
-Route::get('/statistics/graduation', function () {
+Route::get('/graduation/statistics', function () {
     return Inertia::render('Graduation/Statistics/Statistics');
+});
+
+Route::prefix('api')->group(function () {
+    Route::get('/graduation/statistics/plans-due-to-expire', [GraduationController::class, 'getPlansDueToExpire']);
+    Route::get('/graduation/statistics/registration-times', [GraduationController::class, 'getRegistrationTimes']);
 });
 
 /////////////////////////////////////////////////
@@ -266,7 +271,7 @@ Route::get('/files/open/{file_id}', [FileController::class, 'open']);
 
 
 // REVIEWERS: ADVISORS AND READERS
-Route::get('/reviewers', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
+Route::get('/graduation/reviewers', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
 // Route::get('/reviewersByStudents', [GraduationController::class, 'reviewersByStudents']);
 // Route::get('/reviewers', [GraduationController::class, 'reviewersByProfessors'])->name('graduation.reviewersByProfessors');
 Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])

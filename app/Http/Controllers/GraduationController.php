@@ -408,4 +408,42 @@ class GraduationController extends Controller
 
         return response()->json($query);
     }
+
+    public function getPlansDueToExpire()
+    {
+        /*$query = Graduation::whereNotNull('academic_period_start_id')
+            ->whereNull('academic_period_end_id')
+            ->where('plan_approval_date', '>', now())
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+*/
+
+        //to test, currently there is no data to test the query above
+        $query = Graduation::whereNotNull('academic_period_start_id')
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+        return response()->json($query);
+    }
+
+    public function getRegistrationTimes()
+    {
+        $query = Graduation::where('registration_times', '>', 1)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+        return response()->json($query);
+    }
+
+    
 }

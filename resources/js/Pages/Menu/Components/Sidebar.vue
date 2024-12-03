@@ -7,7 +7,9 @@
                         <!-- Single template for all menu items with subItems -->
                         <a v-if="item.subItems" class="menu-link" @click.prevent="toggleSubmenu(item)">
                             <component :is="item.icon"></component>
-                            <span :class="{ hide: isSidebarMini }">{{ item.text }} <i v-if="isSubmenuVisible(item)" class="pi pi-angle-down"></i> <i v-else class="pi pi-angle-right"></i></span>
+                            <span :class="{ hide: isSidebarMini }"
+                                >{{ item.text }} <i v-if="isSubmenuVisible(item)" class="pi pi-angle-down"></i> <i v-else class="pi pi-angle-right"></i
+                            ></span>
                         </a>
 
                         <!-- Regular menu items without subItems -->
@@ -57,7 +59,13 @@ const routeName = computed(() => currentRoute.value.split("/"));
 
 // If it's active it changes color
 const isActive = (item) => {
-    if (item.href.includes(routeName.value[1])) return true;
+    if (routeName.value[1] === "graduation" || routeName.value[1] === "community" || routeName.value[1] === "preprofessional") {
+        if (item.href.includes(routeName.value[2])) {
+            return true;
+        }
+    } else if (item.href.includes(routeName.value[1])) {
+        return true;
+    }
     if (item.subItems) {
         return item.subItems.some((subItem) => subItem.href.includes(routeName.value[1]));
     }
@@ -112,7 +120,6 @@ onMounted(() => {
     nextTick(() => {
         closeSubmenuIfOutside();
     });
-
 });
 </script>
 <style scoped>
@@ -254,10 +261,10 @@ onMounted(() => {
 }
 
 .submenu-item.active a {
-    border-left:none;
+    border-left: none;
 }
 
-.pi{
+.pi {
     position: absolute;
     right: 10px;
 }

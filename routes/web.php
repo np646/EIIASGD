@@ -214,6 +214,7 @@ Route::get('/graduation/statistics', function () {
 Route::prefix('api')->group(function () {
     Route::get('/graduation/statistics/plans-due-to-expire', [GraduationController::class, 'getPlansDueToExpire']);
     Route::get('/graduation/statistics/registration-times', [GraduationController::class, 'getRegistrationTimes']);
+    Route::get('/graduation/statistics/graduates-by-date/{start}/{end}', [GraduationController::class, 'getGraduatesByDate']);
 });
 
 /////////////////////////////////////////////////

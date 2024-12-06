@@ -24,7 +24,7 @@
     </div>
     <div class="col mb-4">
         <DataTable
-            :value="graduates"
+            :value="students"
             tableStyle="min-width: 50rem"
             stripedRows
             ref="dt"
@@ -39,31 +39,53 @@
         >
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
         </DataTable>
+
+        {{ startDate }}
     </div>
 </template>
 
 <script setup>
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 import DatePicker from "primevue/datepicker";
-import FloatLabel from 'primevue/floatlabel';
+import FloatLabel from "primevue/floatlabel";
 import { FilterMatchMode } from "@primevue/core/api";
 import Subtitle from "@/Components/Subtitle.vue";
+import axios from "axios";
 
-const graduates = ref([
-    { id: 0, course: "INGENIERÍA EN SISTEMAS", female: "50", male: "50", total: "100" },
-    { id: 1, course: "TECNOLOGÍAS DE LA INFORMACIÓN", female: "50", male: "50", total: "100" },
-    { id: 1, course: "INGENIERÍA DE SOFTWARE", female: "50", male: "50", total: "100" },
-]);
-const columnHeaders = [
-    { field: "course", header: "Apellidos" },
-    { field: "female", header: "Nombres" },
-    { field: "male", header: "Identificación" },
-];
-const globalFilters = ["course", "female", "male"];
 const startDate = ref(null);
 const endDate = ref(null);
+const students = ref([]);
+const loading = ref(false);
+
+const formatedStartDate = computed(() => startDate.value?.toISOString().split("T")[0] || "");
+const formatedEndDate = computed(() => endDate.value?.toISOString().split("T")[0] || "");
+
+const fetchStudents = async () => {
+    if (!formatedStartDate.value || !formatedEndDate.value) {
+        students.value = [];
+        return;
+    }
+
+    loading.value = true;
+    try {
+        const response = await axios.get(`/api/graduation/statistics/graduates-by-date/${formatedStartDate.value}/${formatedEndDate.value}`);
+        students.value = response.data;
+        console.log("Fetched students:", response.data);
+    } catch (error) {
+        console.error("Error fetching students:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+watch([formatedStartDate, formatedEndDate], fetchStudents);
+const columnHeaders = [
+    { field: "student", header: "Estudiante" },
+    { field: "graduation_date", header: "Fecha de graduación" },
+];
+const globalFilters = ["student", "graduation_date"];
 const filters = ref();
 const initFilters = () => {
     filters.value = {

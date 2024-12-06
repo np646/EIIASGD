@@ -445,5 +445,16 @@ class GraduationController extends Controller
         return response()->json($query);
     }
 
-    
+    public function getGraduatesByDate($start, $end)
+    {
+        $query = Graduation::where('graduations.status', 2)
+            ->whereBetween('graduation_date', [$start, $end])
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+        return response()->json($query);
+    }
 }

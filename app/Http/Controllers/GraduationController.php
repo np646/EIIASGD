@@ -457,4 +457,19 @@ class GraduationController extends Controller
             ->get();
         return response()->json($query);
     }
+    public function students()
+    {
+        $query = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
+        ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'graduation_statuses.name as status_name'
+            )
+            ->get();
+
+        return Inertia::render('Graduation/Students', [
+            'students' => $query
+        ]);
+    }
 }

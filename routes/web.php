@@ -287,10 +287,11 @@ Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getP
 Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getProcessesAsReader'])
     ->name('graduation.getProcessesAsReader');
 
-// ya no se usa
-// Route::get('/oldfiles', function () {
-//   return Inertia::render('Graduation/OldFiles');
-//   });
+
+
+Route::get('/graduation/documents/students', [GraduationController::class, 'Students'])->name('graduation.students');
+Route::get('/graduation/documents/{student}/files', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
+
 /////////////////////////////////////////////////
 
 // Users

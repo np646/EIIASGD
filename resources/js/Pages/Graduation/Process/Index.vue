@@ -7,18 +7,8 @@
             <div class="px-5 pt-3">
                 <div class="mb-3">
                     <ButtonGroup>
-                        <Button
-                            label="Editar información"
-                            icon="pi pi-pencil"
-                            size="small"
-                            @click="edit"
-                        ></Button>
-                        <Button
-                            label="Ver documentación"
-                            icon="pi pi-file"
-                            size="small"
-                            @click="documents"
-                        ></Button>
+                        <Button label="Editar información" icon="pi pi-pencil" size="small" @click="edit"></Button>
+                        <Button label="Ver documentación" icon="pi pi-file" size="small" @click="documents"></Button>
                     </ButtonGroup>
                 </div>
 
@@ -132,10 +122,12 @@ function selectedRegistrationTimes() {
 selectedRegistrationTimes();
 
 function documents() {
-    router.visit("/graduation/documents/" + graduation.student_id + "/files");
+    const url = route("graduationFiles.studentFiles", { student: graduation.id });
+    router.visit(url);
 }
 
 function edit() {
-    router.visit("/graduation/process/edit/" + graduation.student_id);
+    const url = route("graduation.processEdit", { student: graduation.student_id });
+    router.visit(url);
 }
 </script>

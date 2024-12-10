@@ -21,7 +21,7 @@ const title = "Titulación";
 const students = ref(usePage().props.students);
 
 function selectedItem(id) {
-    const url = "/graduation/documents/" + id + "/files";
+    const url = route("graduationFiles.studentFiles", { student: id });
     router.visit(url);
 }
 </script>

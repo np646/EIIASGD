@@ -1,7 +1,6 @@
 <template>
     <MenuLayout>
         <Title :title="title" />
-        <BreadcrumbTitle />
         <ContentContainer>
             <CreateUserModal v-model="showCreateModal" @item-created="handleItemCreated" />
             <SettingsDatatable
@@ -25,11 +24,10 @@ import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import CreateUserModal from "./CreateUserModal.vue";
 import SettingsDatatable from "../Partials/SettingsDatatable.vue";
-import BreadcrumbTitle from "@/Components/BreadcrumbTitle.vue";
 
 const title = "Usuarios";
 const items = ref([]);
-const pageName = "users";
+const pageName = "usuarios";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -40,7 +38,7 @@ const globalFilters = ["name", "email"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/users");
+        const response = await axios.get("/api/usuarios");
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

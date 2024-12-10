@@ -42,7 +42,7 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/courses", form.value);
+        const response = await axios.post("/api/carreras", form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",

@@ -108,6 +108,6 @@ const submit = () => {
 };
 
 const cancel = () => {
-    router.visit("/students");
+    router.visit(route('students.index'));
 };
 </script>

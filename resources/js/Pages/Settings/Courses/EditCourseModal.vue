@@ -55,7 +55,7 @@ watch(
 const updateItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.put(`/api/courses/${props.itemData.id}`, form.value);
+        const response = await axios.put(`/api/carreras/${props.itemData.id}`, form.value);
         emit("item-updated", response.data);
         console.log("response", response.data);
         console.log("form", form.value);

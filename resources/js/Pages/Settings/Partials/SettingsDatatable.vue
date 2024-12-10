@@ -42,12 +42,12 @@
             </div>
         </Dialog>
 
-        <EditUserModal v-if="pageName === 'users'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditAreaModal v-if="pageName === 'thesis-areas'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditCourseModal v-if="pageName === 'courses'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPeriodModal v-if="pageName === 'academic-periods'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditUserModal v-if="pageName === 'usuarios'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditAreaModal v-if="pageName === 'areas-titulacion'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditCourseModal v-if="pageName === 'carreras'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditPeriodModal v-if="pageName === 'periodos-academicos'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditRoleModal v-if="pageName === 'roles'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPermissionModal v-if="pageName === 'permissions'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditPermissionModal v-if="pageName === 'permisos'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 

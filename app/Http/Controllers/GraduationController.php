@@ -136,7 +136,7 @@ class GraduationController extends Controller
     public function update(Request $request, Graduation $graduation)
     {
         $graduation->update($request->all());
-        return redirect()->route('graduation.graduation', [$graduation->id]);
+        return redirect()->route('graduation.process', [$graduation->id]);
     }
 
     public function professorProcesses($professor_id)

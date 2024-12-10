@@ -30,7 +30,7 @@ import { ref, onMounted } from "vue";
 const title = "Permisos";
 
 const items = ref([]);
-const pageName = "permissions";
+const pageName = "permisos";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -40,7 +40,7 @@ const globalFilters = ["name"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/permissions");
+        const response = await axios.get("/api/permisos");
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

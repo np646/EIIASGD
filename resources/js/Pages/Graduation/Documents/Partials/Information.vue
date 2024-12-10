@@ -47,10 +47,12 @@ import Subtitle from "@/Components/Subtitle.vue";
 const student = usePage().props.student;
 
 function visitGraduation() {
-    router.visit("/graduation/process/" + student.original.id);
+    const url = route('graduation.process', { student: student.original.id});
+    router.visit(url);
 }
 function visitProfile() {
-    router.visit("/students/" + student.original.id + "/profile");
+    const url = route('students.profile', { student: student.original.id});
+    router.visit(url);
 }
 </script>
 <style>

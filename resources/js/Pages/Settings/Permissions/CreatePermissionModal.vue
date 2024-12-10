@@ -37,7 +37,7 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/permissions", form.value);
+        const response = await axios.post("/api/permisos", form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",

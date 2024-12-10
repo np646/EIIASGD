@@ -18,6 +18,10 @@
                 <div class="col-span-9 mb-2">
                     <InputText v-model="form.identification" id="inputIdentificacion" size="small" fluid disabled />
                 </div>
+                <label class="flex items-center col-span-3 h-full" for="inputEmail">Fecha de nacimiento</label>
+                <div class="col-span-9 mb-2">
+                    <InputText v-model="form.date_of_birth" id="inputFechaDeNacimiento" size="small" fluid disabled />
+                </div>
                 <label class="flex items-center col-span-3 h-full" for="inputCodigoBanner">Código de banner</label>
                 <div class="col-span-9 mb-2">
                     <InputText v-model="form.banner_code" id="inputCodigoBanner" size="small" fluid disabled />

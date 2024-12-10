@@ -28,7 +28,7 @@ const columnHeaders = [
 const globalFilters = ["lastname", "name", "identification"];
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/students");
+        const response = await axios.get("/api/estudiantes");
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

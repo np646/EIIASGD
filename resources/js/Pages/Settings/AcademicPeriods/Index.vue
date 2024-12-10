@@ -31,7 +31,7 @@ import { ref, onMounted } from "vue";
 const title = "Periodos académicos";
 
 const items = ref([]);
-const pageName = "academic-periods";
+const pageName = "periodos-academicos";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -42,7 +42,7 @@ const globalFilters = ["period", "year"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/academic-periods");
+        const response = await axios.get("/api/periodos-academicos");
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

@@ -94,12 +94,12 @@ class StudentController extends Controller
         return redirect()->route('students.index');
     }
 
-    public function destroy(Student $student)
+    public function destroy($id)
     {
+        $student = Student::findOrFail($id);
         $student->delete();
         return response()->json(null, 204);
     }
-
     public function profile(Student $student)
     {
         $student = Student::where('students.id', $student->id)
@@ -135,7 +135,7 @@ class StudentController extends Controller
     public function fetchById($student_id)
     {
         $query = Student::where('students.id', $student_id)
-        ->join('courses', 'course_id', '=', 'courses.id')
+            ->join('courses', 'course_id', '=', 'courses.id')
             ->select(
                 'students.id',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS fullname"),

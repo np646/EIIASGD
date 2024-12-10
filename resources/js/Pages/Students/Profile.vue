@@ -65,7 +65,7 @@ import { BIconMortarboardFill, BIconPersonWorkspace, BIconPersonRaisedHand } fro
 
 const { student } = usePage().props;
 const title = student?.lastname + " " + student?.name;
-const url = "/graduation/process/" + student?.id;
+const url = route('graduation.process', { student: student?.id });
 </script>
 <style scoped>
 .content-wrapper {

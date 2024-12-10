@@ -63,7 +63,7 @@ watch(
 const updateItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.put(`/api/users/${props.itemData.id}`, form.value);
+        const response = await axios.put(`/api/usuarios/${props.itemData.id}`, form.value);
         emit("item-updated", response.data);
         toast.add({
             severity: "success",

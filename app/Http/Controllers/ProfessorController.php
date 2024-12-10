@@ -52,8 +52,9 @@ class ProfessorController extends Controller
         return redirect()->route('professors.index');
     }
 
-    public function destroy(Professor $professor)
+    public function destroy($id)
     {
+        $professor = Professor::findOrFail($id);
         $professor->delete();
         return response()->json(null, 204);
     }

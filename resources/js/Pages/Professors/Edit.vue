@@ -32,8 +32,8 @@
                 </div>
                 <div class="row g-3 mb-4 px-5">
                     <div class="col-6">
-                        <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
-                        <Datepicker v-model="form.date_of_birth" id="inputFechaDeNacimiento" required />
+                        <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
+                        <Datepicker v-model="form.banner_code" id="inputCodigoBanner" required />
                     </div>
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
@@ -107,6 +107,6 @@ const submit = () => {
     form.put(route("professors.update", professor.id));
 };
 const cancel = () => {
-    router.visit("/professors");
+    router.visit(route("professors.index"));
 };
 </script>

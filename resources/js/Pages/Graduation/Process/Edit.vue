@@ -232,10 +232,12 @@ watch(selectedStatus, () => {
 });
 
 function cancel() {
-    router.visit("/graduation/process/" + graduation.id);
+    const url = route('graduation.process', { student: graduation.id});
+    router.visit(url);
 }
 
 function submit() {
-    form.put("/graduation/process/update/" + graduation.id);
+    const url = route('graduation.update', { graduation: graduation.id});
+    form.put(url);
 }
 </script>

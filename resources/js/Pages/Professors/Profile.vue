@@ -3,11 +3,11 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Información personal`"></Subtitle>
+            <Subtitle :title="`Información personal`" class="pt-3"></Subtitle>
             <Information :professor="professor" />
         </ContentContainer>
         <ContentContainer>
-            <Subtitle :title="`Procesos de titulación`"></Subtitle>
+            <Subtitle :title="`Procesos de titulación`" class="pt-3"></Subtitle>
             <Graduation :professor="professor" :students="processes" />
         </ContentContainer>
     </MenuLayout>

@@ -4,7 +4,7 @@
         <Title :title="title" />
         <ContentContainer>
             <form @submit.prevent="submit">
-                <div class="row g-3 mb-4 px-5 pt-4">
+                <div class="row g-3 px-3 py-3">
                     <div class="col-6">
                         <label for="inputApellidos" class="col-form-label">Apellidos</label>
                         <InputText class="form-control" v-model="form.lastname" id="inputApellidos" required />
@@ -14,7 +14,7 @@
                         <InputText class="form-control" v-model="form.name" id="inputNombres" required />
                     </div>
                 </div>
-                <div class="row g-3 mb-4 px-5">
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputEmail" class="col-form-label">Email</label>
                         <InputText class="form-control" v-model="form.email" type="email" id="inputEmail" required />
@@ -24,7 +24,7 @@
                         <InputText class="form-control" v-model="form.identification" id="inputIdentificacion" required />
                     </div>
                 </div>
-                <div class="row g-3 mb-4 px-5">
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
                         <Datepicker v-model="form.date_of_birth" id="inputFechaDeNacimiento" required />
@@ -34,7 +34,7 @@
                         <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" />
                     </div>
                 </div>
-                <div class="row g-3 mb-4 px-5">
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
                         <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
@@ -44,7 +44,7 @@
                         <Select id="inputSelectCarrera" v-model="selectedCourse" :options="courses" optionLabel="name" class="w-100" />
                     </div>
                 </div>
-                <div class="row g-3 mt-2 mb-4 px-5">
+                <div class="row g-3 py-3 px-3">
                     <div class="col d-flex justify-content-center">
                         <Button label="Cancelar" icon="pi pi-times" type="button" severity="secondary" @click="cancel" />
                     </div>

@@ -3,25 +3,24 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <div class="row g-3 mb-4">
-                <div class="col-md-1"></div>
-                <div class="col">
-                    <label for="inputUsuario" class="col-form-label">Usuario</label>
-                    <InputText class="form-control" v-model="user.name" id="inputUsuario" required disabled />
+            <div class="px-3 pb-3 pt-1">
+                <div class="row">
+                    <div class="grid grid-cols-12 gap-3 h-full"></div>
+                    <div class="col">
+                        <label for="inputUsuario" class="col-form-label">Usuario</label>
+                        <InputText class="form-control" v-model="user.name" id="inputUsuario" required disabled />
+                    </div>
+                    <div class="col">
+                        <label for="inputRol" class="col-form-label">Rol</label>
+                        <InputText class="form-control" v-model="user.roles" id="inputRol" required disabled />
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="inputRol" class="col-form-label">Rol</label>
-                    <InputText class="form-control" v-model="user.roles" id="inputRol" required disabled />
+                <div class="row">
+                    <div class="col-span-6">
+                        <label for="inputEmail" class="col-form-label">Email</label>
+                        <InputText type="email" class="form-control" v-model="user.email" id="inputEmail" required disabled />
+                    </div>
                 </div>
-                <div class="col-md-1"></div>
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-1"></div>
-                <div class="col">
-                    <label for="inputEmail" class="col-form-label">Email</label>
-                    <InputText type="email" class="form-control" v-model="user.email" id="inputEmail" required disabled />
-                </div>
-                <div class="col-md-1"></div>
             </div>
         </ContentContainer>
     </MenuLayout>

@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5 pt-4 pb-2" >
+    <div class="wrapper">
         <span class="font-semibold fs-6">{{ title }}</span>
         <div class="line"></div>
     </div>
@@ -15,5 +15,8 @@ const props = defineProps({
 .line {
     border-top: 1px solid var(--softer-border-color);
     margin-top: 10px;
+}
+.wrapper {
+    padding: 5px 0.85rem;
 }
 </style>

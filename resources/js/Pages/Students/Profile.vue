@@ -4,8 +4,8 @@
         <Title :title="title" />
         <ContentContainer>
             <Subtitle :title="`Ver procesos`"></Subtitle>
-            <div class="pb-4 pt-3 px-5">
-                <div class="row">
+            <div class="py-3 d-flex justify-content-center ">
+                <div class="row gap-5">
                     <div class="col d-flex flex-column justify-content-center">
                         <Link :href="url" class="content-wrapper">
                             <div class="row p-3">
@@ -45,9 +45,9 @@
                 </div>
             </div>
         </ContentContainer>
-        <ContentContainer>
-            <Subtitle :title="`Información personal`"></Subtitle>
-            <Information :student="student" class="px-5 pt-4"></Information>
+        <ContentContainer >
+            <Subtitle :title="`Información personal`" class="pt-3"></Subtitle>
+            <Information :student="student"></Information>
         </ContentContainer>
     </MenuLayout>
 </template>

@@ -1,6 +1,6 @@
 <template>
-    <div class="px-5 pt-4">
-        <div class="flex flex-col gap-4 justify-center h-full mb-3">
+    <div class="py-3">
+        <div class="flex flex-col gap-4 justify-center h-full">
             <DataTable :value="processes" class="w-full" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
                 <Column field="student_name" header="Estudiante" sortable/>
                 <Column field="identification" header="Cédula" sortable/>

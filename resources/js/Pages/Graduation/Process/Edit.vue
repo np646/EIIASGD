@@ -3,9 +3,9 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Actualizar información del proceso de titulación`"></Subtitle>
-            <div class="px-5 pt-3">
-                <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
+            <Subtitle :title="`Actualizar información del proceso de titulación`" class="pt-3"></Subtitle>
+            <div class="px-3 pt-3">
+                <div class="flex flex-col gap-4 justify-center h-full mb-3">
                     <form @submit.prevent="submit">
                         <div class="grid grid-cols-12 gap-3 h-full">
                             <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
@@ -98,7 +98,7 @@
                             <div class="col-span-9 mb-2">
                                 <Select id="inputEstado" v-model="selectedStatus" :options="statuses" optionLabel="name" class="w-100" />
                             </div>
-                            <div class="col-span-12 my-2">
+                            <div class="col-span-12 mt-2">
                                 <div class="row">
                                     <div class="col-6 d-flex justify-content-center">
                                         <Button label="Cancelar" icon="pi pi-times" type="button" severity="secondary" @click="cancel" />

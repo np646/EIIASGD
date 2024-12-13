@@ -77,7 +77,7 @@ const globalFilters = ["student", "thesis_name"];
 
 const generateRoute = (id = null) => {
     if (id) {
-        return route(`graduation.graduation`, id);
+        return route(`graduation.process`, id);
     }
     return route(`students.profile`);
 };

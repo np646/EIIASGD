@@ -39,6 +39,7 @@ use App\Http\Controllers\UserController;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+// Login: Iniciar sesión
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
@@ -51,10 +52,12 @@ Route::get('/', function () {
     ]);
 });
 
+// Dashboard: Inicio
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inicio', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+// User profile: Perfil de usuario
 Route::middleware('auth')->group(function () {
     //TODO: review: users cannot change user info
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -62,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Students
+// Students: Estudiantes
 Route::get('estudiantes', [StudentController::class, 'index'])->name('students.index');
 Route::get('estudiantes/crear', [StudentController::class, 'create'])->name('students.create');
 Route::get('estudiantes/editar/{student}', [StudentController::class, 'edit'])->name('students.edit');
@@ -76,7 +79,7 @@ Route::prefix('api')->group(function () {
     Route::delete('/estudiantes/{id}', [StudentController::class, 'destroy'])->name('api.students.destroy');
 });
 
-// Professors
+// Professors: Docentes
 Route::get('docentes', [ProfessorController::class, 'index'])->name('professors.index');
 Route::get('docentes/crear', [ProfessorController::class, 'create'])->name('professors.create');
 Route::get('docentes/editar/{professor}', [ProfessorController::class, 'edit'])->name('professors.edit');
@@ -93,7 +96,7 @@ Route::prefix('api')->group(function () {
 //////////------------------------------------//////////
 // SETTINGS MODULE START
 
-// Academic periods
+// Academic periods: Periodos académicos
 Route::prefix('api')->group(function () {
     Route::get('/periodos-academicos', [AcademicPeriodController::class, 'apiIndex']);
     Route::post('/periodos-academicos', [AcademicPeriodController::class, 'store']);
@@ -102,7 +105,7 @@ Route::prefix('api')->group(function () {
 });
 Route::get('/configuracion/periodos-academicos', [AcademicPeriodController::class, 'index'])->name('academicPeriods.index');
 
-// Courses
+// Courses: Carreras
 Route::prefix('api')->group(function () {
     Route::get('/carreras', [CourseController::class, 'apiIndex']);
     Route::post('/carreras', [CourseController::class, 'store']);
@@ -111,7 +114,7 @@ Route::prefix('api')->group(function () {
 });
 Route::get('/configuracion/carreras', [CourseController::class, 'index'])->name('courses.index');
 
-// Thesis areas
+// Thesis areas: Áreas de titulación
 Route::prefix('api')->group(function () {
     Route::get('/areas-titulacion', [ThesisAreaController::class, 'apiIndex']);
     Route::post('/areas-titulacion', [ThesisAreaController::class, 'store']);
@@ -129,7 +132,7 @@ Route::prefix('api')->group(function () {
 });
 Route::get('/configuracion/roles', [RoleController::class, 'index'])->name('roles.index');
 
-// Permissions
+// Permissions: Permisos
 //TODO: check if permissions are needed at all
 Route::prefix('api')->group(function () {
     Route::get('/permisos', [PermissionController::class, 'apiIndex']);
@@ -139,7 +142,7 @@ Route::prefix('api')->group(function () {
 });
 Route::get('/configuracion/permisos', [PermissionController::class, 'index'])->name('permissions.index');
 
-// Users
+// Users: Usuarios
 Route::prefix('api')->group(function () {
     Route::get('/usuarios', [UserController::class, 'apiIndex']);
     Route::post('/usuarios', [UserController::class, 'store']);
@@ -148,34 +151,49 @@ Route::prefix('api')->group(function () {
 });
 Route::get('/configuracion/usuarios', [UserController::class, 'index'])->name('users.index');
 
-// Settings
+// Settings: Configuración
 Route::get('/configuracion', [SettingsController::class, 'index'])->name('settings.index');
 
 // SETTINGS MODULE END
+
 //////////------------------------------------//////////
 
+// GRADUATIONS MODULE START
+
+//Graduation by students: Titulación por estudiantes
+Route::get('/titulacion/estudiantes', [GraduationController::class, 'Students'])->name('graduation.students');
+
+//Graduation process by student: Proceso de titulación por estudiante
+Route::get('/titulacion/proceso/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
+Route::get('/titulacion/proceso/editar/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
+Route::put('/titulacion/proceso/actualizar/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
+
+// Reviewers: Evaluadores
+Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
+Route::get('/titulacion/evaluadores/docente/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
+Route::prefix('api/titulacion/evaluadores')->group(function () {
+    Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])
+        ->name('graduation.getReviewersByStudents');
+    Route::get('/get-reviewers-by-professors', [GraduationController::class, 'getReviewersByProfessors'])
+        ->name('graduation.getReviewersByProfessors');
+    Route::get('/reviewers/processes/professor/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
+    Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getProcessesAsAdvisor'])
+        ->name('graduation.getProcessesAsAdvisor');
+    Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getProcessesAsReader'])
+        ->name('graduation.getProcessesAsReader');
+});
+
+// Graduation statistics: Reportes de titulación
+Route::get('/titulacion/reportes', [GraduationController::class, 'statistics'])->name('graduation.statistics');
+Route::prefix('api/titulacion/reportes')->group(function () {
+    Route::get('/planes-por-caducar', [GraduationController::class, 'getPlansDueToExpire']);
+    Route::get('/numero-de-matricula', [GraduationController::class, 'getRegistrationTimes']);
+    Route::get('/graduados-por-fecha/{start}/{end}', [GraduationController::class, 'getGraduatesByDate']);
+});
+
+
 // ALL ROUTES AFTER THIS POINT HAVE NOT BEEN FIXED NOR CHANGED TO SPANISH YET
-
-// Titulación 
-// Reportes
-Route::get('/graduation/statistics', function () {
-    return Inertia::render('Graduation/Statistics/Statistics');
-});
-Route::prefix('api')->group(function () {
-    Route::get('/graduation/statistics/plans-due-to-expire', [GraduationController::class, 'getPlansDueToExpire']);
-    Route::get('/graduation/statistics/registration-times', [GraduationController::class, 'getRegistrationTimes']);
-    Route::get('/graduation/statistics/graduates-by-date/{start}/{end}', [GraduationController::class, 'getGraduatesByDate']);
-});
-
 /////////////////////////////////////////////////
-
-// Titulación - estado del proceso 
-
-Route::get('/graduation/process/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
-
-Route::get('/graduation/process/edit/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
-
-Route::put('/graduation/process/update/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
 
 // FILE MANAGEMENT
 Route::get('/graduation/documents/periods', [GraduationController::class, 'periods'])->name('graduation.periods');
@@ -189,22 +207,6 @@ Route::delete('/files/delete/{student_id}/{index}/{file_id}', [FileController::c
 Route::get('/files/download/{id}', [FileController::class, 'download']);
 Route::get('/files/open/{file_id}', [FileController::class, 'open']);
 
-
-// REVIEWERS: ADVISORS AND READERS
-Route::get('/graduation/reviewers', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
-Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])
-    ->name('graduation.getReviewersByStudents');
-Route::get('/get-reviewers-by-professors', [GraduationController::class, 'getReviewersByProfessors'])
-    ->name('graduation.getReviewersByProfessors');
-Route::get('/reviewers/processes/professor/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
-Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getProcessesAsAdvisor'])
-    ->name('graduation.getProcessesAsAdvisor');
-Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getProcessesAsReader'])
-    ->name('graduation.getProcessesAsReader');
-
-
-Route::get('/graduation/documents/students', [GraduationController::class, 'Students'])->name('graduation.students');
-Route::get('/graduation/documents/{student}/files', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
 
 /////////////////////////////////////////////////
 

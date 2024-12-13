@@ -21,7 +21,7 @@ const loading = ref(true);
 
 onMounted(async () => {
     try {
-        const response = await axios.get("/api/graduation/statistics/plans-due-to-expire");
+        const response = await axios.get("/api/titulacion/reportes/planes-por-caducar");
         students.value = response.data;
     } catch (error) {
         console.error("Error fetching students:", error);

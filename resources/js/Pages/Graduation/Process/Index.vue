@@ -3,64 +3,63 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Proceso de titulación`"></Subtitle>
-            <div class="px-5 pt-3">
-                <div class="mb-3">
+            <Subtitle :title="`Proceso de titulación`" class="pt-3"></Subtitle>
+            <div class="p-3">
+                <div>
                     <ButtonGroup>
                         <Button label="Editar información" icon="pi pi-pencil" size="small" @click="edit"></Button>
                         <Button label="Ver documentación" icon="pi pi-file" size="small" @click="documents"></Button>
                     </ButtonGroup>
                 </div>
-
-                <div class="flex flex-col gap-4 justify-center h-full mb-3 pt-3">
+                <div class="flex flex-col gap-4 justify-center h-full pt-4">
                     <div class="grid grid-cols-12 gap-3 h-full">
                         <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de titulación</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputInicio" size="small" fluid disabled v-model="form.start_period" />
+                            <InputText id="inputInicio" fluid disabled v-model="form.start_period" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputFinalizacion">Periodo de Integración Curricular</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputFinalizacion" size="small" fluid disabled v-model="form.end_period" />
+                            <InputText id="inputFinalizacion" fluid disabled v-model="form.end_period" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputMatricula">Matrícula</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputMatrícula" size="small" fluid disabled v-model="registration_times" />
+                            <InputText id="inputMatrícula" fluid disabled v-model="registration_times" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAprobacion">Fecha de aprobación del plan</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputAprobacion" size="small" fluid disabled v-model="form.approval_date" />
+                            <InputText id="inputAprobacion" fluid disabled v-model="form.approval_date" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputModalidad">Modalidad de titulación</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputModalidad" size="small" fluid disabled v-model="form.type" />
+                            <InputText id="inputModalidad" fluid disabled v-model="form.type" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputTitulo">Título de tesis</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputTitulo" size="small" fluid disabled v-model="form.thesis_name" />
+                            <InputText id="inputTitulo" fluid disabled v-model="form.thesis_name" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputLinea">Línea de investigación</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputLinea" size="small" fluid disabled v-model="form.area" />
+                            <InputText id="inputLinea" fluid disabled v-model="form.area" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAsesor">Asesor</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputAsesor" size="small" fluid disabled v-model="form.advisor" />
+                            <InputText id="inputAsesor" fluid disabled v-model="form.advisor" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputLector1" size="small" fluid disabled v-model="form.reader1" />
+                            <InputText id="inputLector1" fluid disabled v-model="form.reader1" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputLector2" size="small" fluid disabled v-model="form.reader2" />
+                            <InputText id="inputLector2" fluid disabled v-model="form.reader2" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
                         <div class="col-span-9 mb-2">
-                            <InputText id="inputGraduacion" size="small" fluid disabled v-model="form.graduation_date" />
+                            <InputText id="inputGraduacion" fluid disabled v-model="form.graduation_date" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
-                        <div class="col-span-9 mb-2">
-                            <InputText id="inputEstado" size="small" fluid disabled v-model="form.status" />
+                        <div class="col-span-9">
+                            <InputText id="inputEstado" fluid disabled v-model="form.status" />
                         </div>
                     </div>
                 </div>

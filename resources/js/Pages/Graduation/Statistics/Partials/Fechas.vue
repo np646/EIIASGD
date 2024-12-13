@@ -70,7 +70,7 @@ const fetchStudents = async () => {
 
     loading.value = true;
     try {
-        const response = await axios.get(`/api/graduation/statistics/graduates-by-date/${formatedStartDate.value}/${formatedEndDate.value}`);
+        const response = await axios.get(`/api/titulacion/reportes/graduados-por-fecha/${formatedStartDate.value}/${formatedEndDate.value}`);
         students.value = response.data;
         console.log("Fetched students:", response.data);
     } catch (error) {

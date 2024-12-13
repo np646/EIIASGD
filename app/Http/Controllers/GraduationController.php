@@ -10,12 +10,9 @@ use Inertia\Inertia;
 
 class GraduationController extends Controller
 {
-    public function index()
+    public function statistics()
     {
-        $graduationTypes = Graduation::where('status', 1)->get();
-        return Inertia::render('Graduation/Index', [
-            'graduation' => $graduationTypes
-        ]);
+        return Inertia::render('Graduation/Statistics/Index', []);
     }
 
     public function create()
@@ -460,7 +457,7 @@ class GraduationController extends Controller
     public function students()
     {
         $query = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
-        ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),

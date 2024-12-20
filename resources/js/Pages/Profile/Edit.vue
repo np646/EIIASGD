@@ -4,7 +4,7 @@
         <Title :title="title" />
         <ContentContainer>
             <div class="px-3 pb-3 pt-1">
-                <div class="row">
+                <div class="row pb-3">
                     <div class="grid grid-cols-12 gap-3 h-full"></div>
                     <div class="col">
                         <label for="inputUsuario" class="col-form-label">Usuario</label>

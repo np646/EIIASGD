@@ -25,7 +25,7 @@ export const useMenuItems = () => {
             text: "Titulación",
             icon: markRaw(BIconMortarboardFill),
             subItems: [
-                { href: route("graduation.students"), text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
+                { href:"/titulacion/estudiantes", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
                 { href: route("graduation.periods"), text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
                 { href: route("graduation.reviewers"), text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
                 { href: route("graduation.statistics"), text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
@@ -36,7 +36,7 @@ export const useMenuItems = () => {
             text: "Vinculación",
             icon: markRaw(BIconPersonRaisedHand),
             subItems: [
-                { href: "/", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
+                { href: "/estudiantes", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
                 { href: "/", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
                 { href: "/", text: "Proyectos", icon: markRaw(BIconSuitcaseLgFill) },
             ],

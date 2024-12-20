@@ -57,8 +57,43 @@ const props = defineProps({
 
 const routeName = computed(() => currentRoute.value.split("/"));
 
+// Current URL as a string
+const currentPath = computed(() => usePage().url);
+const splitPath = computed(() => currentPath.value.split("/").filter(Boolean));
+
+console.log("current path: " + currentPath.value);
+
+
+const isActive3 = (items) => {
+//     menuItems.forEach((item) => {
+//     // Log the main item
+//     console.log(item.href); // Or item.id if you'd like to log the ID
+//     if (item.href === currentPath.value) {
+//         console.log("OOOOOOOThis item is active");
+//         return true;
+//     }
+//     else if (item.subItems && Array.isArray(item.subItems)) {
+//         item.subItems.forEach((subItem) => {
+//             if (subItem.href === currentPath.value) {
+//                 console.log("WAAAAAAAAAAAThis item is active");
+//                 return true;
+//             }
+//             console.log(`  SubItem: ${subItem.href}`); // Log the subItem text or any other property
+//         });
+//     }
+//     else{
+//         return false;
+//     }
+// });
+
+
+console.log(items);  // Or item.id if you'd like to log the ID
+
+};
+
 // If it's active it changes color
-const isActive = (item) => {
+const isActive2 = (item) => {
+    //previously working
     if (routeName.value[1] === "graduation" || routeName.value[1] === "community" || routeName.value[1] === "preprofessional") {
         if (item.href.includes(routeName.value[2])) {
             return true;
@@ -70,6 +105,33 @@ const isActive = (item) => {
         return item.subItems.some((subItem) => subItem.href.includes(routeName.value[1]));
     }
     return false;
+};
+
+
+const isActive = (item) => {
+    if (item.href.includes(currentPath.value)) {
+        return true;
+    }
+    else if (item.subItems) {
+        return item.subItems.some((subItem) => subItem.href.includes(currentPath.value));
+    }
+    return false;
+
+    /*
+    const isActive = (item) => {
+    // Check if the currentPath matches exactly with the item's href
+    if (item.href === currentPath.value) {
+        return true;
+    }
+    else if (item.subItems) {
+        // Check if any subItem's href matches exactly with the currentPath
+        return item.subItems.some((subItem) => subItem.href === currentPath.value);
+    }
+    return false;
+};
+
+    
+    */
 };
 
 const isSubmenuVisible = (item) => {

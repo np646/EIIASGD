@@ -66,28 +66,28 @@ Route::middleware('auth')->group(function () {
 });
 
 // Students: Estudiantes
-Route::get('estudiantes', [StudentController::class, 'index'])->name('students.index');
-Route::get('estudiantes/crear', [StudentController::class, 'create'])->name('students.create');
-Route::get('estudiantes/editar/{student}', [StudentController::class, 'edit'])->name('students.edit');
-Route::put('estudiantes/actualizar/{student}', [StudentController::class, 'update'])->name('students.update');
-Route::post('estudiantes/guardar', [StudentController::class, 'store'])->name('students.store');
-Route::get('estudiantes/{student}/perfil', [StudentController::class, 'profile'])->name('students.profile');
-Route::put('estudiantes/{student}/quitar', [StudentController::class, 'remove'])->name('students.remove');
-Route::put('estudiantes/buscar', [StudentController::class, 'fetch'])->name('students.fetch');
+Route::get('/estudiantes', [StudentController::class, 'index'])->name('students.index');
+Route::get('/estudiantes/crear', [StudentController::class, 'create'])->name('students.create');
+Route::get('/estudiantes/editar/{student}', [StudentController::class, 'edit'])->name('students.edit');
+Route::put('/estudiantes/actualizar/{student}', [StudentController::class, 'update'])->name('students.update');
+Route::post('/estudiantes/guardar', [StudentController::class, 'store'])->name('students.store');
+Route::get('/estudiantes/{student}/perfil', [StudentController::class, 'profile'])->name('students.profile');
+Route::put('/estudiantes/{student}/quitar', [StudentController::class, 'remove'])->name('students.remove');
+Route::put('/estudiantes/buscar', [StudentController::class, 'fetch'])->name('students.fetch');
 Route::prefix('api')->group(function () {
     Route::get('/estudiantes', [StudentController::class, 'apiIndex'])->name('api.students.index');
     Route::delete('/estudiantes/{id}', [StudentController::class, 'destroy'])->name('api.students.destroy');
 });
 
 // Professors: Docentes
-Route::get('docentes', [ProfessorController::class, 'index'])->name('professors.index');
-Route::get('docentes/crear', [ProfessorController::class, 'create'])->name('professors.create');
-Route::get('docentes/editar/{professor}', [ProfessorController::class, 'edit'])->name('professors.edit');
-Route::put('docentes/actualizar/{professor}', [ProfessorController::class, 'update'])->name('professors.update');
-Route::post('docentes/guardar', [ProfessorController::class, 'store'])->name('professors.store');
-Route::get('docentes/{professor}/perfil', [ProfessorController::class, 'profile'])->name('professors.profile');
-Route::put('docentes/{professor}/quitar', [ProfessorController::class, 'remove'])->name('professors.remove');
-Route::put('docentes/buscar', [ProfessorController::class, 'fetch'])->name('professors.fetch');
+Route::get('/docentes', [ProfessorController::class, 'index'])->name('professors.index');
+Route::get('/docentes/crear', [ProfessorController::class, 'create'])->name('professors.create');
+Route::get('/docentes/editar/{professor}', [ProfessorController::class, 'edit'])->name('professors.edit');
+Route::put('/docentes/actualizar/{professor}', [ProfessorController::class, 'update'])->name('professors.update');
+Route::post('/docentes/guardar', [ProfessorController::class, 'store'])->name('professors.store');
+Route::get('/docentes/{professor}/perfil', [ProfessorController::class, 'profile'])->name('professors.profile');
+Route::put('/docentes/{professor}/quitar', [ProfessorController::class, 'remove'])->name('professors.remove');
+Route::put('/docentes/buscar', [ProfessorController::class, 'fetch'])->name('professors.fetch');
 Route::prefix('api')->group(function () {
     Route::get('/docentes', [ProfessorController::class, 'apiIndex'])->name('api.professors.index');
     Route::delete('/docentes/{id}', [ProfessorController::class, 'destroy'])->name('api.professors.destroy');
@@ -164,9 +164,9 @@ Route::get('/configuracion', [SettingsController::class, 'index'])->name('settin
 Route::get('/titulacion/estudiantes', [GraduationController::class, 'Students'])->name('graduation.students');
 
 //Graduation process by student: Proceso de titulación por estudiante
-Route::get('/titulacion/proceso/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
-Route::get('/titulacion/proceso/editar/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
-Route::put('/titulacion/proceso/actualizar/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
+Route::get('/titulacion/estudiantes/proceso/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
+Route::get('/titulacion/estudiantes/proceso/editar/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
+Route::put('/titulacion/estudiantes/proceso/actualizar/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
 
 // Reviewers: Evaluadores
 Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
@@ -192,14 +192,15 @@ Route::prefix('api/titulacion/reportes')->group(function () {
 });
 
 
-// ALL ROUTES AFTER THIS POINT HAVE NOT BEEN FIXED NOR CHANGED TO SPANISH YET
-/////////////////////////////////////////////////
+
 
 // FILE MANAGEMENT
-Route::get('/graduation/documents/periods', [GraduationController::class, 'periods'])->name('graduation.periods');
-Route::get('/graduation/documents/{period}/students', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
-Route::get('/graduation/documents/{student}/files', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
+Route::get('/titulacion/periodos-academicos', [GraduationController::class, 'periods'])->name('graduation.periods');
+Route::get('/titulacion/periodos-academicos/{period}/estudiantes', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
+Route::get('/titulacion/estudiantes/{student}/documentos', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
 
+// ALL ROUTES AFTER THIS POINT HAVE NOT BEEN FIXED NOR CHANGED TO SPANISH YET
+/////////////////////////////////////////////////
 Route::post('/files/{parentId}', [GraduationFilesController::class, 'storeFile'])->name('graduationfiles.storeFile');
 Route::post('/graduation/files/{parentId}', [FileController::class, 'store'])->name('files.store');
 Route::put('/files/update/{id}', [FileController::class, 'update']);

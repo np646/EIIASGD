@@ -131,7 +131,7 @@ const openUpdateDialog = (id) => {
 
 const uploadFile = () => {
     form.post(
-        route("graduationfiles.storeFile", {
+        route("graduationFiles.storeFile", {
             parentId: 1,
         }),
         {
@@ -166,14 +166,20 @@ function onFileSelect(event) {
 }
 
 function openFile(file_id) {
-    window.open(`/files/open/${file_id}`, "_blank");
+    const fileUrl = route('files.open', { file_id: file_id });
+    window.open(fileUrl, "_blank");
 }
-
 const deleteFile = async () => {
     const student_id = student.original.id;
 
+    const url = route('files.destroyGraduation', {
+        student_id: student_id,
+        index: indexRef.value,
+        file_id: removeId.value
+    });
+
     try {
-        await router.delete(`/files/delete/${student_id}/${indexRef.value}/${removeId.value}`);
+        await router.delete(url);
         alert("Archivo eliminado exitosamente.");
         visibleDelete.value = false;
     } catch (error) {

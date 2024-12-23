@@ -18,7 +18,7 @@ import { usePage } from "@inertiajs/vue3";
 import StudentsDatatable from "./Partials/StudentsDatatable.vue";
 
 const items = usePage().props.students;
-const pageName = "students";
+const pageName = "graduationFiles";
 
 const title = "Estudiantes";
 const columnHeaders = [

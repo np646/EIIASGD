@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Graduation;
-use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -13,49 +12,6 @@ class GraduationController extends Controller
     public function statistics()
     {
         return Inertia::render('Graduation/Statistics/Index', []);
-    }
-
-    public function create()
-    {
-        return Inertia::render('Graduation/Create');
-    }
-
-    public function store(Request $request)
-    {
-        $params = $request->all();
-        $data = [
-            'student_id' => $params['student_id'],
-            'academic_period_start_id' => $params['academic_period_start_id'],
-            'plan_approval_date' => $params['plan_approval_date'],
-            'graduation_type' => $params['graduation_type'],
-            'thesis_name' => $params['thesis_name'],
-            'thesis_area' => $params['thesis_area'],
-            'advisor_id' => $params['advisor_id'],
-            'academic_period_end_id' => $params['academic_period_end_id'],
-            'reader1_id' => $params['reader1_id'],
-            'reader2_id' => $params['reader2_id'],
-            'graduation_date' => $params['graduation_date'],
-            'registration_times' => $params['registration_times'],
-            'status' => $params['status']
-        ];
-        Graduation::create($data);
-        return redirect()->route('graduates.index');
-    }
-
-    public function destroy(Graduation $graduate)
-    {
-        $graduate->delete();
-        return redirect()->route('graduation.index');
-    }
-
-    public function remove(Request $request, Graduation $graduation)
-    {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $graduation->update($request->only('status'));
-        return redirect()->route('graduation.index');
     }
 
     public function fetch()
@@ -237,7 +193,7 @@ class GraduationController extends Controller
             )
             ->orderBy('graduations.status', 'asc')
             ->get();
-        return Inertia::render('Graduation/Documents/Students', [
+        return Inertia::render('Graduation/Documents/StudentsInPeriod', [
             'students' => $query
         ]);
     }

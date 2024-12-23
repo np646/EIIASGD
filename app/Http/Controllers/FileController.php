@@ -9,19 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
 {
-    public function index($parentId = null)
-    {
-        if (is_null($parentId)) {
-            $files = File::whereNull('parent_id')->get();
-        } else {
-            $files = File::where('parent_id', $parentId)->get();
-        }
-
-        return inertia('Graduation/StudentFiles', [
-            'files' => $files,
-            'parentId' => $parentId,
-        ]);
-    }
 
     public function store(Request $request, $parentId = null)
     {
@@ -67,9 +54,6 @@ class FileController extends Controller
         $pathSegments = explode('/', $path);
         $file->level = count($pathSegments);
         $file->save();
-
-        //return redirect()->route('files.index', ['parentId' => $file->parent_id]);
-        // return redirect()->back()->with('success', 'Ha sido creado exitosamente.');
     }
 
     public function update(Request $request, $id)
@@ -87,7 +71,27 @@ class FileController extends Controller
         return redirect()->back()->with('success', 'Ha sido actualizado exitosamente.');
     }
 
-    public function destroy($student_id, $index, $file_id)
+    public function download($id)
+    {
+        $file = File::findOrFail($id);
+        return response()->download(storage_path("app/uploads/{$file->path}"));
+    }
+
+    public function open($file_id)
+    {
+        $file = File::findOrFail($file_id);
+        return response()->file(storage_path("app/uploads/{$file->path}"));
+    }
+
+    public function getLastId()
+    {
+        $fileId = File::latest()->pluck('id')->first();
+        return $fileId;
+    }
+
+    // For graduation files
+
+    public function destroyGraduation($student_id, $index, $file_id)
     {
         $file = File::findOrFail($file_id);
         if ($file->path && Storage::exists($file->path)) {
@@ -127,23 +131,5 @@ class FileController extends Controller
         $graduation_file->save();
 
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
-    }
-
-    public function download($id)
-    {
-        $file = File::findOrFail($id);
-        return response()->download(storage_path("app/uploads/{$file->path}"));
-    }
-
-    public function open($file_id)
-    {
-        $file = File::findOrFail($file_id);
-        return response()->file(storage_path("app/uploads/{$file->path}"));
-    }
-
-    public function getLastId()
-    {
-        $fileId = File::latest()->pluck('id')->first();
-        return $fileId;
     }
 }

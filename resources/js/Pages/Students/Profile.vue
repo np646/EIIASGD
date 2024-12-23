@@ -36,7 +36,7 @@
                                 <div class="col text-center">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <BIconPersonWorkspace class="fs-5 me-2" style="color: var(--main-color)" />
-                                        <span class="fw-bold fs-6">Preprofesionales</span>
+                                        <span class="fw-bold fs-6">Laborales</span>
                                     </div>
                                 </div>
                             </div>

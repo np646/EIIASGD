@@ -37,8 +37,8 @@ export const useMenuItems = () => {
             icon: markRaw(BIconPersonRaisedHand),
             subItems: [
                 { href: "/vinculacion/estudiantes", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
-                { href: "/", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
-                { href: "/", text: "Proyectos", icon: markRaw(BIconSuitcaseLgFill) },
+                { href: "/vinculacion/periodos-academicos", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
+                { href: "/vinculacion/proyectos", text: "Proyectos", icon: markRaw(BIconSuitcaseLgFill) },
             ],
         },
         {
@@ -46,8 +46,8 @@ export const useMenuItems = () => {
             text: "Laborales",
             icon: markRaw(BIconPersonWorkspace),
             subItems: [
-                { href: "/", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
-                { href: "/", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
+                { href: "/laborales/estudiantes", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
+                { href: "/laborales/periodos-academicos", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
             ],
         },
         { id: "configuracion", href: "/configuracion", text: "Configuración", icon: markRaw(BIconGearFill) },

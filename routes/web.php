@@ -11,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AcademicPeriodController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\CommunityFilesController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserPermissionController;
@@ -20,6 +22,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\GraduationController;
 use App\Http\Controllers\GraduationFilesController;
+use App\Http\Controllers\PreprofessionalController;
+use App\Http\Controllers\PreprofessionalFilesController;
 use App\Http\Controllers\UserController;
 
 
@@ -160,13 +164,19 @@ Route::get('/configuracion', [SettingsController::class, 'index'])->name('settin
 
 // GRADUATIONS MODULE START
 
-//Graduation by students: Titulación por estudiantes
+// Graduation by students: Titulación por estudiantes
 Route::get('/titulacion/estudiantes', [GraduationController::class, 'Students'])->name('graduation.students');
 
-//Graduation process by student: Proceso de titulación por estudiante
+// Graduation process by student: Proceso de titulación por estudiante
 Route::get('/titulacion/estudiantes/proceso/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
 Route::get('/titulacion/estudiantes/proceso/editar/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
 Route::put('/titulacion/estudiantes/proceso/actualizar/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
+
+// Graduation process by academic period: Proceso de titulación por periodo académico
+Route::get('/titulacion/periodos-academicos', [GraduationController::class, 'periods'])->name('graduation.periods');
+Route::get('/titulacion/periodos-academicos/{period}/estudiantes', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
+Route::get('/titulacion/estudiantes/{student}/documentos', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
+
 
 // Reviewers: Evaluadores
 Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
@@ -192,34 +202,51 @@ Route::prefix('api/titulacion/reportes')->group(function () {
 });
 
 
+// File management: Gestión de archivos
 
+// General file management: Gestión de archivos en general
+Route::put('/documentos/actualizar/{id}', [FileController::class, 'update'])->name('files.update');
+Route::get('/documentos/descargar/{id}', [FileController::class, 'download'])->name('files.download');
+Route::get('/documentos/abrir/{file_id}', [FileController::class, 'open'])->name('files.open');
+Route::post('/documentos/guardar/{parentId}', [FileController::class, 'store'])->name('files.store');
 
-// FILE MANAGEMENT
-Route::get('/titulacion/periodos-academicos', [GraduationController::class, 'periods'])->name('graduation.periods');
-Route::get('/titulacion/periodos-academicos/{period}/estudiantes', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
-Route::get('/titulacion/estudiantes/{student}/documentos', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
+// For graduation files: Para archivos de titulación
+Route::post('/documentos/titulacion/{parentId}', [GraduationFilesController::class, 'storeFile'])->name('graduationFiles.storeFile');
+Route::delete('/documentos/titulacion/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyGraduation'])->name('files.destroyGraduation');
 
-// ALL ROUTES AFTER THIS POINT HAVE NOT BEEN FIXED NOR CHANGED TO SPANISH YET
-/////////////////////////////////////////////////
-Route::post('/files/{parentId}', [GraduationFilesController::class, 'storeFile'])->name('graduationfiles.storeFile');
-Route::post('/graduation/files/{parentId}', [FileController::class, 'store'])->name('files.store');
-Route::put('/files/update/{id}', [FileController::class, 'update']);
-Route::delete('/files/delete/{student_id}/{index}/{file_id}', [FileController::class, 'destroy'])->name('files.destroy');
-Route::get('/files/download/{id}', [FileController::class, 'download']);
-Route::get('/files/open/{file_id}', [FileController::class, 'open']);
-
+// GRADUATIONS MODULE END
 
 /////////////////////////////////////////////////
 
 // Temporary routes for testing
 // Prácticas de vinculación
-Route::get('/community', function () {
-    return Inertia::render('Internships/Community/Index');
-});
+Route::get('/vinculacion/estudiantes', [CommunityController::class, 'Students'])->name('community.students');
+
+// Community internship process by student: Proceso de prácticas de vinculación por estudiante
+Route::get('/vinculacion/estudiantes/proceso/{student}', [CommunityController::class, 'graduation'])->name('community.process');
+Route::get('/vinculacion/estudiantes/proceso/editar/{student}', [CommunityController::class, 'edit'])->name('community.processEdit');
+Route::put('/vinculacion/estudiantes/proceso/actualizar/{graduation}', [CommunityController::class, 'update'])->name('community.update');
+
+// Community internship by academic period: Proceso de prácticas de vinculación por periodo académico
+Route::get('/vinculacion/periodos-academicos', [CommunityController::class, 'periods'])->name('community.periods');
+Route::get('/vinculacion/periodos-academicos/{period}/estudiantes', [CommunityController::class, 'studentsInPeriod'])->name('community.studentsInPeriod');
+Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityFilesController::class, 'studentFiles'])->name('communityFiles.studentFiles');
+
+Route::get('/vinculacion/proyectos', [CommunityController::class, 'projects'])->name('community.projects');
+
 
 // Prácticas preprofesionales
-Route::get('/preprofessional', function () {
-    return Inertia::render('Internships/Preprofessional/Index');
-});
+Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');
 
+// Preprofessional internship process by student: Proceso de prácticas preprofesionales por estudiante
+Route::get('/laborales/estudiantes/proceso/{student}', [PreprofessionalController::class, 'graduation'])->name('preprofessional.process');
+Route::get('/laborales/estudiantes/proceso/editar/{student}', [PreprofessionalController::class, 'edit'])->name('preprofessional.processEdit');
+Route::put('/laborales/estudiantes/proceso/actualizar/{graduation}', [PreprofessionalController::class, 'update'])->name('preprofessional.update');
+
+// Preprofessional internship process by academic period: Proceso de prácticas preprofesionales por periodo académico
+Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 'periods'])->name('preprofessional.periods');
+Route::get('/laborales/periodos-academicos/{period}/estudiantes', [PreprofessionalController::class, 'studentsInPeriod'])->name('preprofessional.studentsInPeriod');
+Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalFilesController::class, 'studentFiles'])->name('preprofessionalFiles.studentFiles');
+
+///////////
 require __DIR__ . '/auth.php';

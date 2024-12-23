@@ -33,9 +33,9 @@
                 <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
             </template>
         </Column>
-        <Column :exportable="false" header="Perfil" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
+        <Column :exportable="false" header="Documentos" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
-                <Link :href="generateRoute('profile', slotProps.data.id)">
+                <Link :href="generateRoute('studentFiles', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
                 </Link>
             </template>
@@ -74,7 +74,7 @@ const props = defineProps({
 
 initFilters();
 
-// To generate routes based on page name
+// To generate routes for student files
 const generateRoute = (action, id = null) => {
     if (id) {
         return route(`${props.pageName}.${action}`, id);

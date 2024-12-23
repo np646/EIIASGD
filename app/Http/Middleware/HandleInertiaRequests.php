@@ -27,6 +27,8 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+    /*
+    ORIGINAL FUNCTION
     public function share(Request $request): array
     {
         return [
@@ -35,5 +37,21 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
         ];
-    }
+    }*/
+
+    // For authentication
+    public function share(Request $request): array
+{
+    return [
+        
+        'auth' => [
+            'user' => $request->user() ? [
+                'id' => $request->user()->id,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
+                'roles' => $request->user()->roles->pluck('name'),
+            ] : null,
+        ],
+    ];
+}
 }

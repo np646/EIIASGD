@@ -21,4 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+    // For route authentication
+    public const HOME = '/dashboard';
 }

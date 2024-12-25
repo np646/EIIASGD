@@ -42,7 +42,7 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/periodos-academicos", form.value);
+        const response = await axios.post(route('api.academicPeriods.store'), form.value);
         emit("item-created", response.data);
         
         console.log("response", response.data);

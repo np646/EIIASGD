@@ -49,7 +49,7 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/usuarios", form.value);
+        const response = await axios.post(route('api.users.store'), form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",

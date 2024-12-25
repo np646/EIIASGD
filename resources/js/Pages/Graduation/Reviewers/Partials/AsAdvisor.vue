@@ -102,7 +102,7 @@ const loading = ref(true);
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(route("graduation.getProcessesAsAdvisor", props.id));
+        const response = await axios.get(route("api.graduation.getProcessesAsAdvisor", props.id));
         processes.value = response.data.processes;
         loading.value = false;
     } catch (error) {

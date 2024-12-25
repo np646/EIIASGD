@@ -27,7 +27,7 @@ import SettingsDatatable from "../Partials/SettingsDatatable.vue";
 
 const title = "Usuarios";
 const items = ref([]);
-const pageName = "usuarios";
+const pageName = "users";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -38,7 +38,7 @@ const globalFilters = ["name", "email"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/usuarios");
+        const response = await axios.get(route("api.users.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

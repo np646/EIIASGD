@@ -30,7 +30,7 @@ import { ref, onMounted } from "vue";
 
 const title = "Areas de titulación";
 const items = ref([]);
-const pageName = "areas-titulacion";
+const pageName = "thesisAreas";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -40,7 +40,7 @@ const globalFilters = ["area"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/areas-titulacion");
+        const response = await axios.get(route("api.thesisAreas.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

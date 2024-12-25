@@ -38,7 +38,7 @@ const globalFilters = ["name"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/roles");
+        const response = await axios.get(route("api.roles.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

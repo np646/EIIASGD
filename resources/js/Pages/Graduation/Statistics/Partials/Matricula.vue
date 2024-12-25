@@ -20,7 +20,7 @@ const loading = ref(true);
 
 onMounted(async () => {
     try {
-        const response = await axios.get("/api/titulacion/reportes/numero-de-matricula");
+        const response = await axios.get(route("api.graduation.registrationTimes"));
         students.value = response.data;
     } catch (error) {
         console.error("Error fetching students:", error);

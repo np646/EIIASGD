@@ -30,7 +30,7 @@ import { ref, onMounted } from "vue";
 const title = "Carreras";
 
 const items = ref([]);
-const pageName = "carreras";
+const pageName = "courses";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -41,7 +41,7 @@ const globalFilters = ["name", "banner_id"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/carreras");
+        const response = await axios.get(route("api.courses.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

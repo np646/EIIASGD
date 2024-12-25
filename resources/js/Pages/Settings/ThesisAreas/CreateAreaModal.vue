@@ -37,7 +37,7 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/areas-titulacion", form.value);
+        const response = await axios.post(route('api.thesisAreas.store'), form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",

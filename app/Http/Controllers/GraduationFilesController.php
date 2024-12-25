@@ -13,6 +13,12 @@ class GraduationFilesController extends Controller
     {
         $studentController = new StudentController();
         $student = $studentController->fetchById($student_id);
+        return Inertia::render('Graduation/Documents/Files', [
+            'student' => $student
+        ]);
+    }
+    public function apiStudentFiles($student_id)
+    {
         $files = GraduationFiles::where('student_id', $student_id)->first();
         $fileArray = json_decode($files, true);
 
@@ -27,10 +33,11 @@ class GraduationFilesController extends Controller
 
         ];
 
-        return Inertia::render('Graduation/Documents/Files', [
-            'files' => $files,
-            'student' => $student
-        ]);
+        if (request()->wantsJson()) {
+            return response()->json(['files' => $files]);
+        }
+
+        return back()->with(['files' => $files]);
     }
 
     public function storeFile(Request $request, $parentId)

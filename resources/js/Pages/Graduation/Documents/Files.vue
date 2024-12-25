@@ -4,7 +4,7 @@
         <Information />
         <ContentContainer>
             <div class="flex flex-col gap-4 justify-center h-full mb-3">
-                <DataTable :value="files" dataKey="id" class="w-full">
+                <DataTable :value="items" dataKey="id" class="w-full">
                     <Column header="Documentación" field="file" />
                     <Column :exportable="false" header="Abrir" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
                         <template #body="slotProps">
@@ -85,7 +85,7 @@ import Button from "primevue/button";
 import { router } from "@inertiajs/vue3";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import { usePage } from "@inertiajs/vue3";
@@ -94,6 +94,7 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import { useModuleStore } from "@/stores/module";
 import Information from "./Partials/Information.vue";
+import axios from "axios";
 
 const moduleStore = useModuleStore();
 const moduleId = moduleStore.moduleId;
@@ -136,6 +137,7 @@ const uploadFile = () => {
         }),
         {
             onSuccess: () => {
+                fetchItems();
                 alert("Archivo cargado con éxito");
                 form.reset();
                 if (fileInput.value) {
@@ -181,6 +183,7 @@ const deleteFile = async () => {
     try {
         await router.delete(url);
         alert("Archivo eliminado exitosamente.");
+        fetchItems();
         visibleDelete.value = false;
     } catch (error) {
         console.error("Error al eliminar:", error);
@@ -188,4 +191,16 @@ const deleteFile = async () => {
         visibleDelete.value = false;
     }
 };
+
+const items = ref([]);
+const student_id = student.original.id;
+const fetchItems = async () => {
+    try {
+        const response = await axios.get(route("api.graduationFiles.studentFiles", student_id));
+        items.value = response.data.files;
+    } catch (error) {
+        console.error("Error fetching items:", error);
+    }
+};
+onMounted(fetchItems);
 </script>

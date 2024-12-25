@@ -330,20 +330,23 @@ class GraduationController extends Controller
         return back()->with(['processes' => $query]);
     }
 
-    //statistics
-    public function getStudentsRetaking()
+    public function students()
     {
-        $query = Graduation::where('registration_times', '>', 1)
-            ->whereNot('status', 1) // TODO: STABLISH WHICH STASTUS IS FOR GRADUATES? 
+        $query = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'graduation_statuses.name as status_name'
+            )
             ->get();
 
-        if (request()->wantsJson()) {
-            return response()->json(['processes' => $query]);
-        }
-
-        return back()->with(['processes' => $query]);
+        return Inertia::render('Graduation/Students', [
+            'students' => $query
+        ]);
     }
 
+    // Statistics in dashboard
     public function totalGraduated()
     {
         $query = Graduation::where('status', 2)
@@ -362,37 +365,49 @@ class GraduationController extends Controller
         return response()->json($query);
     }
 
+    // Statistics module
+
+    //is this one being used ever?
+    public function getStudentsRetaking()
+    {
+        $query = Graduation::where('registration_times', '>', 1)
+            ->get();
+
+        if (request()->wantsJson()) {
+            return response()->json(['processes' => $query]);
+        }
+
+        return back()->with(['processes' => $query]);
+    }
+
     public function getPlansDueToExpire()
     {
-        /*$query = Graduation::whereNotNull('academic_period_start_id')
-            ->whereNull('academic_period_end_id')
-            ->where('plan_approval_date', '>', now())
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->select(
-                'graduations.*',
-                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
-            )
-            ->get();
-*/
-
-        //to test, currently there is no data to test the query above
         $query = Graduation::whereNotNull('academic_period_start_id')
+            ->whereNot('graduations.status', 2)
+            ->whereNull('academic_period_end_id')
             ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'start_period.period AS start_period',
+                DB::raw("CASE WHEN DATEDIFF(now(), plan_approval_date) > 365 THEN 'Sí' ELSE 'No' END AS is_delayed")
             )
             ->get();
+
         return response()->json($query);
     }
 
     public function getRegistrationTimes()
     {
         $query = Graduation::where('registration_times', '>', 1)
+            ->whereNot('graduations.status', 2)
             ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'end_period.period AS end_period',
             )
             ->get();
         return response()->json($query);
@@ -409,20 +424,5 @@ class GraduationController extends Controller
             )
             ->get();
         return response()->json($query);
-    }
-    public function students()
-    {
-        $query = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
-            ->select(
-                'graduations.*',
-                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
-                'graduation_statuses.name as status_name'
-            )
-            ->get();
-
-        return Inertia::render('Graduation/Students', [
-            'students' => $query
-        ]);
     }
 }

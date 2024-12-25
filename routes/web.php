@@ -200,6 +200,7 @@ Route::prefix('api/titulacion/reportes')->group(function () {
     Route::get('/planes-por-caducar', [GraduationController::class, 'getPlansDueToExpire'])->name('api.graduation.plansDueToExpire');
     Route::get('/numero-de-matricula', [GraduationController::class, 'getRegistrationTimes'])->name('api.graduation.registrationTimes');
     Route::get('/graduados-por-fecha/{start}/{end}', [GraduationController::class, 'getGraduatesByDate'])->name('api.graduation.graduatesByDate');
+    Route::get('/documentacion-entregada', [GraduationFilesController::class, 'getSentDocummentation'])->name('api.graduationFiles.sentDocummentation');
 });
 
 

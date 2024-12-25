@@ -3,20 +3,19 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <div class="pt-3 d-flex justify-content-center">
-                <div class="col text-center">
-                    <div class="d-flex flex-column align-items-center justify-content-center">
-                        <span class="fw-bold fs-6 mb-2">Seleccionar el tipo de reporte</span>
-                        <Select v-model="activeComponent" :options="options" optionLabel="name" class="w-full md:w-56" />
+            <div class="p-3 d-flex justify-content-start">
+                <div class="col">
+                    <div class="d-flex align-items-center">
+                        <span class="fw-bold fs-6 mb-2 me-2">Seleccionar el tipo de reporte</span>
+                        <Select v-model="activeComponent" :options="options" optionLabel="name" class="w-auto" style="min-width: 150px" />
                     </div>
                 </div>
             </div>
 
-            <span v-if="activeComponent.value != null"> Generado el: {{ formattedDate }}</span>
+            <span v-if="activeComponent.value != null"> Generado el: {{ formattedDate }} a las {{ formattedTime }}</span>
             <Fechas v-if="activeComponent.value === 'fechas'" />
-            <Resagados v-if="activeComponent.value === 'resagados'" />
             <Matricula v-if="activeComponent.value === 'matricula'" />
-            <Caducidad v-if="activeComponent.value === 'caducidad'" />
+            <Rezagados v-if="activeComponent.value === 'rezagados'" />
             <Documentacion v-if="activeComponent.value === 'documentacion'" />
         </ContentContainer>
     </MenuLayout>
@@ -27,25 +26,25 @@ import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import Resagados from "./Partials/Resagados.vue";
+import Rezagados from "./Partials/Rezagados.vue";
 import Fechas from "./Partials/Fechas.vue";
 import Matricula from "./Partials/Matricula.vue";
-import Caducidad from "./Partials/Caducidad.vue";
 import Documentacion from "./Partials/Documentacion.vue";
 import Select from "primevue/select";
 import { ref, watch } from "vue";
-import {useGetDate} from "@/Composables/useGetDate";
+import { useGetDate } from "@/Composables/useGetDate";
+import { useGetTime } from "@/Composables/useGetTime";
 const title = "Reportes estadísticos de titulación";
 
 const activeComponent = ref("");
 
 const options = ref([
     { name: "Graduados por fechas", value: "fechas" },
-    { name: "Estudiantes resagados", value: "resagados" },
+    { name: "Estudiantes rezagados", value: "rezagados" },
     { name: "Estudiantes en segunda o tercera matrícula", value: "matricula" },
-    { name: "Estudiantes con plan por caducar", value: "caducidad" },
     { name: "Documentación entregada", value: "documentacion" },
 ]);
 
-const  formattedDate  = useGetDate;
+const formattedDate = useGetDate;
+const formattedTime = useGetTime;
 </script>

@@ -3,7 +3,12 @@
     <div class="col mb-4">
         <DataTable :value="students" class="w-full">
             <Column field="student" header="Estudiante" />
-            <Column field="registration_times" header="Número de matrícula" />
+            <Column field="end_period" header="Periodo de Integración Curricular" />
+            <Column field="registration_times" header="Número de matrícula">
+                <template #body="slotProps">
+                    <label>{{ getRegistrationTimes(slotProps.data.registration_times) }}</label>
+                </template>
+            </Column>
         </DataTable>
     </div>
 </template>
@@ -28,4 +33,15 @@ onMounted(async () => {
         loading.value = false;
     }
 });
+
+const getRegistrationTimes = (times) => {
+    switch (times) {
+        case 1:
+            return "PRIMERA MATRÍCULA";
+        case 2:
+            return "SEGUNDA MATRÍCULA";
+        case 3:
+            return "TERCERA MATRÍCULA";
+    }
+};
 </script>

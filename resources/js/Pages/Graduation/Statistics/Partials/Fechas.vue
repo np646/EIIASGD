@@ -1,5 +1,11 @@
 <template>
+
+<div class="pt-3 d-flex justify-content-between">
     <Subtitle title="Graduados por fechas" />
+  <span class="fw-bold fs-6">GOODBYE</span>
+</div>
+
+
     <div class="d-flex justify-content-center items-center p-3 mb-3">
         <div class="w-50">
             <div class="col">
@@ -39,8 +45,6 @@
         >
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
         </DataTable>
-
-        {{ startDate }}
     </div>
 </template>
 

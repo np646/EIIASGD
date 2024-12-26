@@ -1,10 +1,7 @@
 <template>
-
-<div class="pt-3 d-flex justify-content-between">
-    <Subtitle title="Graduados por fechas" />
-  <span class="fw-bold fs-6">GOODBYE</span>
-</div>
-
+    <div class="p-3 d-flex justify-content-start">
+        <span class="fw-medium fs-6">Reporte generado el {{ currentDate }} a las {{ currentTime }}</span>
+    </div>
 
     <div class="d-flex justify-content-center items-center p-3 mb-3">
         <div class="w-50">
@@ -51,12 +48,17 @@
 <script setup>
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import DatePicker from "primevue/datepicker";
 import FloatLabel from "primevue/floatlabel";
 import { FilterMatchMode } from "@primevue/core/api";
-import Subtitle from "@/Components/Subtitle.vue";
 import axios from "axios";
+
+import { useGetDate } from "@/Composables/useGetDate";
+import { useGetTime } from "@/Composables/useGetTime";
+
+const currentDate = ref("");
+const currentTime = ref("");
 
 const startDate = ref(null);
 const endDate = ref(null);
@@ -74,7 +76,7 @@ const fetchStudents = async () => {
 
     loading.value = true;
     try {
-        const response = await axios.get(route('api.graduation.graduatesByDate', { start: formatedStartDate.value, end: formatedEndDate.value }));
+        const response = await axios.get(route("api.graduation.graduatesByDate", { start: formatedStartDate.value, end: formatedEndDate.value }));
         students.value = response.data;
         console.log("Fetched students:", response.data);
     } catch (error) {
@@ -97,4 +99,14 @@ const initFilters = () => {
     };
 };
 initFilters();
+
+onMounted(() => {
+    currentDate.value = useGetDate;
+    currentTime.value = useGetTime;
+});
 </script>
+<style>
+:root {
+    --p-datatable-row-striped-background: var(--softer-border-color);
+}
+</style>

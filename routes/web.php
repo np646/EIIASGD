@@ -186,7 +186,7 @@ Route::prefix('api/titulacion/evaluadores')->group(function () {
     Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])
         ->name('api.graduation.getReviewersByStudents');
     Route::get('/get-reviewers-by-professors', [GraduationController::class, 'getReviewersByProfessors'])
-        ->name('api-graduation.getReviewersByProfessors');
+        ->name('api.graduation.getReviewersByProfessors');
     Route::get('/reviewers/processes/professor/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
     Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getProcessesAsAdvisor'])
         ->name('api.graduation.getProcessesAsAdvisor');

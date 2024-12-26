@@ -1,7 +1,9 @@
 <template>
-    <Subtitle title="Estudiantes en segunda o tercera matrícula" />
+     <div class="p-3 d-flex justify-content-start">
+        <span class="fw-medium fs-6">Reporte generado el {{ currentDate }} a las {{ currentTime }}</span>
+    </div>
     <div class="col mb-4">
-        <DataTable :value="students" class="w-full">
+        <DataTable :value="students" class="w-full" stripedRows paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
             <Column field="student" header="Estudiante" />
             <Column field="end_period" header="Periodo de Integración Curricular" />
             <Column field="registration_times" header="Número de matrícula">
@@ -19,6 +21,12 @@ import Column from "primevue/column";
 import Subtitle from "@/Components/Subtitle.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
+
+import { useGetDate } from "@/Composables/useGetDate";
+import { useGetTime } from "@/Composables/useGetTime";
+
+const currentDate = ref("");
+const currentTime = ref("");
 
 const students = ref([]);
 const loading = ref(true);
@@ -44,4 +52,14 @@ const getRegistrationTimes = (times) => {
             return "TERCERA MATRÍCULA";
     }
 };
+
+onMounted(() => {
+    currentDate.value = useGetDate;
+    currentTime.value = useGetTime;
+});
 </script>
+<style>
+:root {
+    --p-datatable-row-striped-background: var(--softer-border-color);
+}
+</style>

@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('internship_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('banner_code')->unique();
-            $table->boolean('status')->default(true);
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('internship_statuses');
     }
 };

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             GraduationStatusSeeder::class,
             GraduationTypeSeeder::class,
             GraduationSeeder::class,
+            InternshipStatusSeeder::class,
         ]);
     }
 }

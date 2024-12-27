@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\CommunityInternship;
+use App\Models\Graduation;
+use App\Models\GraduationFiles;
+use App\Models\PreprofessionalInternship;
 use App\Models\Student;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,6 +28,7 @@ class StudentSeeder extends Seeder
                 'email' => 'mjdominguez@pucesi.edu.ec',
                 'banner_code' => 'EST001',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JUAN DANIEL',
@@ -34,6 +39,7 @@ class StudentSeeder extends Seeder
                 'email' => 'jdprado@pucesi.edu.ec',
                 'banner_code' => 'EST002',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JOSÉ EMILIO',
@@ -44,6 +50,7 @@ class StudentSeeder extends Seeder
                 'email' => 'jmperez@pucesi.edu.ec',
                 'banner_code' => 'EST003',
                 'course_id' => '1',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JUAN CARLOS',
@@ -54,6 +61,7 @@ class StudentSeeder extends Seeder
                 'email' => 'jcgarcia@pucesi.edu.ec',
                 'banner_code' => 'EST004',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'MAURICIO HECTOR',
@@ -64,6 +72,7 @@ class StudentSeeder extends Seeder
                 'email' => 'mhgutierrez@pucesi.edu.ec',
                 'banner_code' => 'EST005',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JUANA ALICIA',
@@ -74,6 +83,7 @@ class StudentSeeder extends Seeder
                 'email' => 'jaalvarez@pucesi.edu.ec',
                 'banner_code' => 'EST006',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'CLAUDIA GRACIELA',
@@ -84,6 +94,7 @@ class StudentSeeder extends Seeder
                 'email' => 'cgjimenez@pucesi.edu.ec',
                 'banner_code' => 'EST007',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'SERGIO HORACIO',
@@ -94,6 +105,7 @@ class StudentSeeder extends Seeder
                 'email' => 'shruiz@pucesi.edu.ec',
                 'banner_code' => 'EST008',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JUAN ANTONIO',
@@ -104,6 +116,7 @@ class StudentSeeder extends Seeder
                 'email' => 'jasanchez@pucesi.edu.ec',
                 'banner_code' => 'EST009',
                 'course_id' => '2',
+                'academic_period_start_id' => '10',
             ],
             [
                 'name' => 'JOSÉ FRANCISCO',
@@ -114,12 +127,27 @@ class StudentSeeder extends Seeder
                 'email' => 'jflopez@pucesi.edu.ec',
                 'banner_code' => 'EST010',
                 'course_id' => '3',
+                'academic_period_start_id' => '10',
             ],
 
         ];
 
         foreach ($students as $studentData) {
-            Student::create($studentData);
+            $student = Student::create($studentData);
+            
+            // Graduation::create([
+            //     'student_id' => $student->id,
+            // ]);
+            GraduationFiles::create([
+                'student_id' => $student->id,
+            ]);
+            CommunityInternship::create([
+                'student_id' => $student->id,
+            ]);
+            PreprofessionalInternship::create([
+                'student_id' => $student->id,
+            ]);
         }
+        
     }
 }

@@ -197,7 +197,7 @@ Route::prefix('api/titulacion/evaluadores')->group(function () {
 // Graduation statistics: Reportes de titulación
 Route::get('/titulacion/reportes', [GraduationController::class, 'statistics'])->name('graduation.statistics');
 Route::prefix('api/titulacion/reportes')->group(function () {
-    Route::get('/planes-por-caducar', [GraduationController::class, 'getPlansDueToExpire'])->name('api.graduation.plansDueToExpire');
+    Route::get('/rezagados', [GraduationController::class, 'getDelayedStudents'])->name('api.graduation.delayedStudents');
     Route::get('/numero-de-matricula', [GraduationController::class, 'getRegistrationTimes'])->name('api.graduation.registrationTimes');
     Route::get('/graduados-por-fecha/{start}/{end}', [GraduationController::class, 'getGraduatesByDate'])->name('api.graduation.graduatesByDate');
     Route::get('/documentacion-entregada', [GraduationFilesController::class, 'getSentDocummentation'])->name('api.graduationFiles.sentDocummentation');
@@ -232,7 +232,7 @@ Route::put('/vinculacion/estudiantes/proceso/actualizar/{graduation}', [Communit
 // Community internship by academic period: Proceso de prácticas de vinculación por periodo académico
 Route::get('/vinculacion/periodos-academicos', [CommunityController::class, 'periods'])->name('community.periods');
 Route::get('/vinculacion/periodos-academicos/{period}/estudiantes', [CommunityController::class, 'studentsInPeriod'])->name('community.studentsInPeriod');
-Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityFilesController::class, 'studentFiles'])->name('communityFiles.studentFiles');
+Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityController::class, 'studentFiles'])->name('communityFiles.studentFiles');
 
 Route::get('/vinculacion/proyectos', [CommunityController::class, 'projects'])->name('community.projects');
 
@@ -248,7 +248,7 @@ Route::put('/laborales/estudiantes/proceso/actualizar/{graduation}', [Preprofess
 // Preprofessional internship process by academic period: Proceso de prácticas preprofesionales por periodo académico
 Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 'periods'])->name('preprofessional.periods');
 Route::get('/laborales/periodos-academicos/{period}/estudiantes', [PreprofessionalController::class, 'studentsInPeriod'])->name('preprofessional.studentsInPeriod');
-Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalFilesController::class, 'studentFiles'])->name('preprofessionalFiles.studentFiles');
+Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalController::class, 'studentFiles'])->name('preprofessionalFiles.studentFiles');
 
 ///////////
 require __DIR__ . '/auth.php';

@@ -27,7 +27,7 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'banner_id' => 'required|string|max:255',
+            'banner_code' => 'required|string|max:255',
             'status' => 'required|integer'
         ]);
 
@@ -50,7 +50,7 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'banner_id' => 'required|string|max:255',
+            'banner_code' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {

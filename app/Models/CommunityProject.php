@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class CommunityProject extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'banner_code',
+        'academic_period_id',
+        'project_report_id',
         'status',
     ];
 }

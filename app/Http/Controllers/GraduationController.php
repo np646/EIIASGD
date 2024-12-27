@@ -380,9 +380,9 @@ class GraduationController extends Controller
         return back()->with(['processes' => $query]);
     }
 
-    public function getPlansDueToExpire()
+    public function getDelayedStudents()
     {
-        $query = Graduation::whereNotNull('academic_period_start_id')
+        $query = Graduation::whereNotNull('graduations.academic_period_start_id')
             ->whereNot('graduations.status', 2)
             ->whereNull('academic_period_end_id')
             ->join('students', 'graduations.student_id', '=', 'students.id')

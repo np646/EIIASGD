@@ -15,33 +15,39 @@
                     </div>
                 </div>
                 <div class="row g-3 pb-3 px-3">
-                    <div class="col-6">
+                    <div class="col-12">
                         <label for="inputEmail" class="col-form-label">Email</label>
                         <InputText class="form-control" v-model="form.email" type="email" id="inputEmail" required />
                     </div>
+                </div>
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputIdentificacion" class="col-form-label">Identificación</label>
                         <InputText class="form-control" v-model="form.identification" id="inputIdentificacion" required />
                     </div>
-                </div>
-                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputFechaDeNacimiento" class="col-form-label">Fecha de nacimiento</label>
                         <Datepicker v-model="form.date_of_birth" id="inputFechaDeNacimiento" required />
                     </div>
+                </div>
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
                         <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" />
                     </div>
-                </div>
-                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
                         <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
                     </div>
+                </div>
+                <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectCarrera" class="col-form-label">Carrera</label>
                         <Select id="inputSelectCarrera" v-model="selectedCourse" :options="courses" optionLabel="name" class="w-100" />
+                    </div>
+                    <div class="col-6">
+                        <label for="inputInicio" class="col-form-label">Periodo de inicio de estudios</label>
+                        <Select id="inputInicio" v-model="selectedStartPeriod" :options="periods" optionLabel="period" class="w-100" />
                     </div>
                 </div>
                 <div class="row g-3 py-3 px-3">
@@ -84,6 +90,7 @@ const form = useForm({
     banner_code: student.banner_code,
     sex: student.sex,
     course_id: student.course_id,
+    academic_period_start_id: student.academic_period_start_id,
 });
 
 // To load sex from student object and update it to the selected option
@@ -112,6 +119,17 @@ const submit = () => {
 };
 
 const cancel = () => {
-    router.visit(route('students.index'));
+    router.visit(route("students.index"));
 };
+
+
+const periods = ref(usePage().props.periods);
+
+const selectedStartPeriod = ref(null);
+selectedStartPeriod.value = useComputeSelectedOption(student.academic_period_start_id, periods);
+form.academic_period_start_id = selectedStartPeriod.value.id;
+
+watch(selectedStartPeriod, () => {
+    form.academic_period_start_id = selectedStartPeriod.value;
+});
 </script>

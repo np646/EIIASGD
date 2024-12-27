@@ -6,8 +6,8 @@
                 <InputText id="edit-name" v-model="form.name" required class="w-full" />
             </div>
             <div class="field">
-                <label for="edit-bannerid">Código de banner</label>
-                <InputText id="edit-bannerid" v-model="form.banner_id" required class="w-full" />
+                <label for="edit-bannerCode">Código de banner</label>
+                <InputText id="edit-bannerCode" v-model="form.banner_code" required class="w-full" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
@@ -39,7 +39,7 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    banner_id: "",
+    banner_code: "",
 });
 
 watch(
@@ -80,7 +80,7 @@ const updateItem = async () => {
 };
 
 const closeModal = () => {
-    form.value = { name: "", banner_id: "" };
+    form.value = { name: "", banner_code: "" };
     emit("update:modelValue", false);
 };
 </script>

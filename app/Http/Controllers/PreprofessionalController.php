@@ -18,7 +18,6 @@ class PreprofessionalController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-       
         return Inertia::render('Internships/Preprofessional/Documents/StudentsInPeriod');
     }
 

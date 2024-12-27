@@ -35,9 +35,9 @@ const showCreateModal = ref(false);
 
 const columnHeaders = [
     { field: "name", header: "Carrera" },
-    { field: "banner_id", header: "Código de Banner" },
+    { field: "banner_code", header: "Código de Banner" },
 ];
-const globalFilters = ["name", "banner_id"];
+const globalFilters = ["name", "banner_code"];
 
 const fetchItems = async () => {
     try {

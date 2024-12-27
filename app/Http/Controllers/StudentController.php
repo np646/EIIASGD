@@ -25,8 +25,12 @@ class StudentController extends Controller
     {
         $courseController = new CourseController();
         $courses = $courseController->fetch();
+
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
         return Inertia::render('Students/Create', [
-            'courses' => $courses
+            'courses' => $courses,
+            'periods' => $periods
         ]);
     }
 
@@ -56,6 +60,7 @@ class StudentController extends Controller
             'banner_code' => $params['banner_code'],
             'sex' => $params['sex'],
             'course_id' => $params['course_id'],
+            'academic_period_start_id' => $params['academic_period_start_id'],
             'status' => $params['status']
         ];
         Student::create($data);
@@ -71,9 +76,14 @@ class StudentController extends Controller
 
         $courseController = new CourseController();
         $courses = $courseController->fetch();
+
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
         return Inertia::render('Students/Edit', [
             'student' => $student,
-            'courses' => $courses
+            'courses' => $courses,
+            'periods' => $periods
         ]);
     }
 
@@ -110,9 +120,13 @@ class StudentController extends Controller
         $graduationController = new GraduationController();
         $graduation = $graduationController->graduation($student->id);
 
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
         return Inertia::render('Students/Profile', [
             'student' => $student,
-            'graduation' => $graduation
+            'graduation' => $graduation,
+            'periods' => $periods
         ]);
     }
 

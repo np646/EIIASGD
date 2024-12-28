@@ -25,7 +25,7 @@
                             <div class="row">
                                 <ButtonGroup>
                                     <Button label="Ir a perfil" icon="pi pi-user" size="small" @click="visitProfile"></Button>
-                                    <Button label="Ir a proceso de prácticas laborales" icon="pi pi-graduation-cap" size="small" @click="visitGraduation"></Button>
+                                    <Button label="Ir a proceso de prácticas laborales" icon="pi pi-graduation-cap" size="small" @click="visitProcess"></Button>
                                 </ButtonGroup>
                             </div>
                         </div>
@@ -46,8 +46,8 @@ import { usePage } from "@inertiajs/vue3";
 import Subtitle from "@/Components/Subtitle.vue";
 const student = usePage().props.student;
 
-function visitGraduation() {
-    const url = route('graduation.process', { student: student.original.id});
+function visitProcess() {
+    const url = route('preprofessional.process', { student: student.original.id});
     router.visit(url);
 }
 function visitProfile() {

@@ -241,9 +241,9 @@ Route::get('/vinculacion/proyectos', [CommunityController::class, 'projects'])->
 Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');
 
 // Preprofessional internship process by student: Proceso de prácticas preprofesionales por estudiante
-Route::get('/laborales/estudiantes/proceso/{student}', [PreprofessionalController::class, 'graduation'])->name('preprofessional.process');
+Route::get('/laborales/estudiantes/proceso/{student}', [PreprofessionalController::class, 'preprofessional'])->name('preprofessional.process');
 Route::get('/laborales/estudiantes/proceso/editar/{student}', [PreprofessionalController::class, 'edit'])->name('preprofessional.processEdit');
-Route::put('/laborales/estudiantes/proceso/actualizar/{graduation}', [PreprofessionalController::class, 'update'])->name('preprofessional.update');
+Route::put('/laborales/estudiantes/proceso/actualizar/{student}', [PreprofessionalController::class, 'updateProcess'])->name('preprofessional.updateProcess');
 
 // Preprofessional internship process by academic period: Proceso de prácticas preprofesionales por periodo académico
 Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 'periods'])->name('preprofessional.periods');

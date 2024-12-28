@@ -12,7 +12,7 @@ class PreprofessionalInternship extends Model
     protected $fillable = [
         'student_id',
         'academic_period_id',
-        'external_cert_id',
+        'external_report_id',
         'student_report_id', 
         'banner_cert_id',
         'status',

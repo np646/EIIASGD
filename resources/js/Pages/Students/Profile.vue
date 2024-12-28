@@ -7,7 +7,7 @@
             <div class="py-3 d-flex justify-content-center ">
                 <div class="row gap-5">
                     <div class="col d-flex flex-column justify-content-center">
-                        <Link :href="url" class="content-wrapper">
+                        <Link :href="urlGraduation" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
                                     <div class="d-flex align-items-center justify-content-center">
@@ -19,7 +19,7 @@
                         </Link>
                     </div>
                     <div class="col d-flex flex-column justify-content-center">
-                        <Link href="/dashboard" class="content-wrapper">
+                        <Link :href="urlCommunity" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
                                     <div class="d-flex align-items-center justify-content-center">
@@ -31,7 +31,7 @@
                         </Link>
                     </div>
                     <div class="col d-flex flex-column justify-content-center">
-                        <Link href="/dashboard" class="content-wrapper">
+                        <Link :href="urlPreprofessional" class="content-wrapper">
                             <div class="row p-3">
                                 <div class="col text-center">
                                     <div class="d-flex align-items-center justify-content-center">
@@ -65,7 +65,10 @@ import { BIconMortarboardFill, BIconPersonWorkspace, BIconPersonRaisedHand } fro
 
 const { student } = usePage().props;
 const title = student?.lastname + " " + student?.name;
-const url = route('graduation.process', { student: student?.id });
+const urlGraduation = route('graduation.process', { student: student?.id });
+const urlCommunity = route('community.process', { student: student?.id });
+const urlPreprofessional = route('preprofessional.process', { student: student?.id });
+
 </script>
 <style scoped>
 .content-wrapper {

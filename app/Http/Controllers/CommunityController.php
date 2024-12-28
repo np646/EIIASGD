@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommunityInternship;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
+    public function store($student_id)
+    {
+        $data = [
+            'student_id' => $student_id,
+        ];
+        CommunityInternship::create($data);
+    }
     public function students()
     {
         return Inertia::render('Internships/Community/Students');

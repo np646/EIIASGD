@@ -71,6 +71,13 @@ class StudentController extends Controller
 
         $graduationFilesController = new GraduationFilesController();
         $graduationFilesController->store($last_id);
+
+        $communityController = new CommunityController();
+        $communityController->store($last_id);
+
+        $preprofessionalController = new PreprofessionalController();
+        $preprofessionalController->store($last_id);
+        
         return redirect()->route('students.index');
     }
 

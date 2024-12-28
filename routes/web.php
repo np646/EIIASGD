@@ -177,7 +177,7 @@ Route::get('/titulacion/periodos-academicos', [GraduationController::class, 'per
 Route::get('/titulacion/periodos-academicos/{period}/estudiantes', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
 Route::get('/titulacion/estudiantes/{student}/documentos', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
 Route::get('/api/graduationFiles/{student}', [GraduationFilesController::class, 'apiStudentFiles'])->name('api.graduationFiles.studentFiles');
-
+//TODO: change studentFiles for graduationFiles for consistency
 
 // Reviewers: Evaluadores
 Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
@@ -248,7 +248,11 @@ Route::put('/laborales/estudiantes/proceso/actualizar/{graduation}', [Preprofess
 // Preprofessional internship process by academic period: Proceso de prácticas preprofesionales por periodo académico
 Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 'periods'])->name('preprofessional.periods');
 Route::get('/laborales/periodos-academicos/{period}/estudiantes', [PreprofessionalController::class, 'studentsInPeriod'])->name('preprofessional.studentsInPeriod');
-Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalController::class, 'studentFiles'])->name('preprofessionalFiles.studentFiles');
+Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalController::class, 'studentFiles'])->name('preprofessional.studentFiles');
+Route::get('/api/laborales/documentos/{student}', [PreprofessionalController::class, 'apiPreprofessionalFiles'])->name('api.preprofessional.preprofessionalFiles');
+// For graduation files: Para archivos de titulación
+Route::post('/documentos/laborales/{parentId}', [PreprofessionalController::class, 'storeFile'])->name('preprofessional.storeFile');
+Route::delete('/documentos/laborales/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyPreprofessional'])->name('files.destroyPreprofessional');
 
 ///////////
 require __DIR__ . '/auth.php';

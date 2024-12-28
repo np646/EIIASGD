@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class GraduationFilesController extends Controller
 {
+    public function store($student_id)
+    {
+        $data = [
+            'student_id' => $student_id,
+        ];
+        GraduationFiles::create($data);
+    }
+    
     public function studentFiles($student_id)
     {
         $studentController = new StudentController();

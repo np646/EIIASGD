@@ -64,6 +64,13 @@ class StudentController extends Controller
             'status' => $params['status']
         ];
         Student::create($data);
+
+        $last_id = Student::orderBy('id', 'desc')->first()->id;
+        $graduationController = new GraduationController();
+        $graduationController->store($last_id);
+
+        $graduationFilesController = new GraduationFilesController();
+        $graduationFilesController->store($last_id);
         return redirect()->route('students.index');
     }
 

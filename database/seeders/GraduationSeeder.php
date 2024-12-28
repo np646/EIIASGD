@@ -28,6 +28,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => '7',
                 'graduation_date' => '2023-11-30',
                 'registration_times' => '1',
+                'status' => '1',
             ],
             [
                 'student_id' => '2',
@@ -42,6 +43,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => '4',
                 'graduation_date' => '2023-05-20',
                 'registration_times' => '1',
+                'status' => '1',
             ],
             [
                 'student_id' => '3',
@@ -56,6 +58,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => '5',
                 'graduation_date' => '2021-11-05',
                 'registration_times' => '3',
+                'status' => '1',
             ],
             [
                 'student_id' => '4',
@@ -85,6 +88,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => '6',
                 'graduation_date' => '2023-03-01',
                 'registration_times' => '1',
+                'status' => '1',
             ],
             [
                 'student_id' => '6',
@@ -99,6 +103,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' =>NULL,
                 'graduation_date' => NULL,
                 'registration_times' => '1',
+                'status' => '1',
             ],
             [
                 'student_id' => '7',
@@ -113,6 +118,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => NULL,
                 'graduation_date' => NULL,
                 'registration_times' => NULL,
+                'status' => '1',
             ],
             [
                 'student_id' => '8',
@@ -127,6 +133,7 @@ class GraduationSeeder extends Seeder
                 'reader2_id' => '4',
                 'graduation_date' => null,
                 'registration_times' => '2',
+                'status' => '1',
             ],
             [
                 'student_id' => '9',

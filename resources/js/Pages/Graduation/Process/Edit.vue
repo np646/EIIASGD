@@ -163,16 +163,22 @@ const title = graduation.student_name;
 
 const selectedStartPeriod = ref(null);
 selectedStartPeriod.value = useComputeSelectedOption(graduation.academic_period_start_id, periods);
-form.academic_period_start_id = selectedStartPeriod.value.id;
-
+if (selectedStartPeriod.value) {
+    form.academic_period_start_id = selectedStartPeriod.value.id;
+} else {
+  form.academic_period_start_id = null;
+}
 watch(selectedStartPeriod, () => {
     form.academic_period_start_id = selectedStartPeriod.value;
 });
 
 const selectedEndPeriod = ref(null);
 selectedEndPeriod.value = useComputeSelectedOption(graduation.academic_period_end_id, periods);
-form.academic_period_end_id = selectedEndPeriod.value.id;
-
+if (selectedEndPeriod.value) {
+    form.academic_period_end_id = selectedEndPeriod.value.id;
+} else {
+  form.academic_period_end_id = null;
+}
 watch(selectedEndPeriod, () => {
     form.academic_period_end_id = selectedEndPeriod.value;
 });
@@ -184,49 +190,77 @@ const registrationTimes = ref([
 ]);
 const selectedTimes = ref(null);
 selectedTimes.value = useComputeSelectedOption(graduation.registration_times, registrationTimes);
-form.registration_times = selectedTimes.value.id;
+if (selectedTimes.value) {
+    form.registration_times = selectedTimes.value.id;
+} else {
+  form.registration_times = null;
+}
 watch(selectedTimes, () => {
     form.registration_times = selectedTimes.value;
 });
 
 const selectedType = ref(null);
 selectedType.value = useComputeSelectedOption(graduation.graduation_type, types);
-form.graduation_type = selectedType.value.id;
+if (selectedType.value) {
+  form.graduation_type = selectedType.value.id;
+} else {
+  form.graduation_type = null;
+}
 watch(selectedType, () => {
     form.graduation_type = selectedType.value;
 });
 
 const selectedArea = ref(null);
 selectedArea.value = useComputeSelectedOption(graduation.thesis_area, areas);
-form.thesis_area = selectedArea.value.id;
+if (selectedArea.value) {
+    form.thesis_area = selectedArea.value.id;
+} else {
+  form.thesis_area = null;
+}
 watch(selectedArea, () => {
     form.thesis_area = selectedArea.value;
 });
 
 const selectedAdvisor = ref(null);
 selectedAdvisor.value = useComputeSelectedOption(graduation.advisor_id, professors);
-form.advisor_id = selectedAdvisor.value.id;
+if (selectedAdvisor.value) {
+    form.advisor_id = selectedAdvisor.value.id;
+} else {
+  form.advisor_id = null;
+}
 watch(selectedAdvisor, () => {
     form.advisor_id = selectedAdvisor.value;
 });
 
 const selectedReader1 = ref(null);
 selectedReader1.value = useComputeSelectedOption(graduation.reader1_id, professors);
-form.reader1_id = selectedReader1.value.id;
+if (selectedReader1.value) {
+    form.advisor_id = selectedReader1.value.id;
+} else {
+  form.advisor_id = null;
+}
 watch(selectedReader1, () => {
     form.reader1_id = selectedReader1.value;
 });
 
 const selectedReader2 = ref(null);
 selectedReader2.value = useComputeSelectedOption(graduation.reader2_id, professors);
-form.reader2_id = selectedReader2.value.id;
+if (selectedReader2.value) {
+    form.reader2_id = selectedReader2.value.id;
+} else {
+  form.reader2_id = null;
+}
 watch(selectedReader2, () => {
     form.reader2_id = selectedReader2.value;
 });
 
 const selectedStatus = ref(null);
 selectedStatus.value = useComputeSelectedOption(graduation.status, statuses);
-form.status = selectedStatus.value.id;
+if (selectedStatus.value) {
+    form.status = selectedStatus.value.id;
+} else {
+  form.status = null;
+}
 watch(selectedStatus, () => {
     form.status = selectedStatus.value;
 });

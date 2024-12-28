@@ -9,6 +9,14 @@ use Inertia\Inertia;
 
 class GraduationController extends Controller
 {
+    public function store($student_id)
+    {
+        $data = [
+            'student_id' => $student_id,
+        ];
+        Graduation::create($data);
+    }
+
     public function statistics()
     {
         return Inertia::render('Graduation/Statistics/Index', []);
@@ -19,19 +27,18 @@ class GraduationController extends Controller
         $graduations = Graduation::where('status', 1)->get();
         return response()->json($graduations);
     }
-
     public function fetchById($student_id)
     {
         $query = Graduation::where('student_id', $student_id)
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('graduation_types', 'graduations.graduation_type', '=', 'graduation_types.id')
-            ->join('thesis_areas', 'graduations.thesis_area', '=', 'thesis_areas.id')
-            ->join('professors AS advisor', 'graduations.advisor_id', '=', 'advisor.id')
-            ->join('professors AS reader1', 'graduations.reader1_id', '=', 'reader1.id')
-            ->join('professors AS reader2', 'graduations.reader2_id', '=', 'reader2.id')
-            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
-            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
-            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->leftJoin('students', 'graduations.student_id', '=', 'students.id')
+            ->leftJoin('graduation_types', 'graduations.graduation_type', '=', 'graduation_types.id')
+            ->leftJoin('thesis_areas', 'graduations.thesis_area', '=', 'thesis_areas.id')
+            ->leftJoin('professors AS advisor', 'graduations.advisor_id', '=', 'advisor.id')
+            ->leftJoin('professors AS reader1', 'graduations.reader1_id', '=', 'reader1.id')
+            ->leftJoin('professors AS reader2', 'graduations.reader2_id', '=', 'reader2.id')
+            ->leftJoin('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
+            ->leftJoin('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
+            ->leftJoin('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student_name"),
@@ -45,8 +52,9 @@ class GraduationController extends Controller
                 'graduation_statuses.name as status_name'
             )
             ->get();
+    
         return $query;
-    }
+    }    
 
     public function graduation($student_id)
     {
@@ -234,9 +242,9 @@ class GraduationController extends Controller
             COUNT(CASE WHEN graduations.advisor_id = professors.id THEN 1 END) AS advisor_count,
             COUNT(CASE WHEN graduations.reader1_id = professors.id THEN 1 END) +
             COUNT(CASE WHEN graduations.reader2_id = professors.id THEN 1 END) AS reader_count,
-            COUNT(CASE WHEN graduations.advisor_id = professors.id AND graduations.status != 1 THEN 1 END) AS advisor_not_graduated_count,
-            COUNT(CASE WHEN graduations.reader1_id = professors.id AND graduations.status != 1 THEN 1 END) +
-            COUNT(CASE WHEN graduations.reader2_id = professors.id AND graduations.status != 1 THEN 1 END) AS reader_not_graduated_count
+            COUNT(CASE WHEN graduations.advisor_id = professors.id AND graduations.status != 2 THEN 1 END) AS advisor_not_graduated_count,
+            COUNT(CASE WHEN graduations.reader1_id = professors.id AND graduations.status != 2 THEN 1 END) +
+            COUNT(CASE WHEN graduations.reader2_id = professors.id AND graduations.status != 2 THEN 1 END) AS reader_not_graduated_count
         ')
         )
             ->join('professors', function ($join) {

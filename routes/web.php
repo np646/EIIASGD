@@ -225,14 +225,19 @@ Route::delete('/documentos/titulacion/eliminar/{student_id}/{index}/{file_id}', 
 Route::get('/vinculacion/estudiantes', [CommunityController::class, 'Students'])->name('community.students');
 
 // Community internship process by student: Proceso de prácticas de vinculación por estudiante
-Route::get('/vinculacion/estudiantes/proceso/{student}', [CommunityController::class, 'graduation'])->name('community.process');
+Route::get('/vinculacion/estudiantes/proceso/{student}', [CommunityController::class, 'community'])->name('community.process');
 Route::get('/vinculacion/estudiantes/proceso/editar/{student}', [CommunityController::class, 'edit'])->name('community.processEdit');
-Route::put('/vinculacion/estudiantes/proceso/actualizar/{graduation}', [CommunityController::class, 'update'])->name('community.update');
+Route::put('/vinculacion/estudiantes/proceso/actualizar/{student}', [CommunityController::class, 'updateProcess'])->name('community.updateProcess');
 
 // Community internship by academic period: Proceso de prácticas de vinculación por periodo académico
 Route::get('/vinculacion/periodos-academicos', [CommunityController::class, 'periods'])->name('community.periods');
 Route::get('/vinculacion/periodos-academicos/{period}/estudiantes', [CommunityController::class, 'studentsInPeriod'])->name('community.studentsInPeriod');
-Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityController::class, 'studentFiles'])->name('communityFiles.studentFiles');
+Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityController::class, 'studentFiles'])->name('community.studentFiles');
+Route::get('/api/vinculacion/documentos/{student}', [CommunityController::class, 'apiCommunityFiles'])->name('api.community.communityFiles');
+
+Route::post('/documentos/vinculacion/{parentId}', [CommunityController::class, 'storeFile'])->name('community.storeFile');
+Route::delete('/documentos/vinculacion/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyCommunity'])->name('files.destroyCommunity');
+
 
 Route::get('/vinculacion/proyectos', [CommunityController::class, 'projects'])->name('community.projects');
 
@@ -250,7 +255,7 @@ Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 
 Route::get('/laborales/periodos-academicos/{period}/estudiantes', [PreprofessionalController::class, 'studentsInPeriod'])->name('preprofessional.studentsInPeriod');
 Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalController::class, 'studentFiles'])->name('preprofessional.studentFiles');
 Route::get('/api/laborales/documentos/{student}', [PreprofessionalController::class, 'apiPreprofessionalFiles'])->name('api.preprofessional.preprofessionalFiles');
-// For graduation files: Para archivos de titulación
+// For preprofessional files: Para archivos de prácticas laborales
 Route::post('/documentos/laborales/{parentId}', [PreprofessionalController::class, 'storeFile'])->name('preprofessional.storeFile');
 Route::delete('/documentos/laborales/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyPreprofessional'])->name('files.destroyPreprofessional');
 

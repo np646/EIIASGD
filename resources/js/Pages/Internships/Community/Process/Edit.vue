@@ -3,7 +3,7 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <Subtitle :title="`Actualizar información del proceso de prácticas laborales`" class="pt-3"></Subtitle>
+            <Subtitle :title="`Actualizar información del proceso de prácticas de vinculación`" class="pt-3"></Subtitle>
             <div class="px-3 pt-3">
                 <div class="flex flex-col gap-4 justify-center h-full mb-3">
                     <form @submit.prevent="submit">
@@ -84,12 +84,12 @@ watch(selectedStatus, () => {
 });
 
 function cancel() {
-    const url = route("preprofessional.process", { student: process.student_id });
+    const url = route("community.process", { student: process.student_id });
     router.visit(url);
 }
 
 function submit() {
-    const url = route("preprofessional.updateProcess", { student: process.student_id });
+    const url = route("community.updateProcess", { student: process.student_id });
     form.put(url);
 }
 </script>

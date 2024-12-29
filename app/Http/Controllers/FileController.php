@@ -133,7 +133,7 @@ class FileController extends Controller
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
     }
 
-    // For preprofessional files
+    // For preprofessional internship files
 
     public function destroyPreprofessional($student_id, $index, $file_id)
     {
@@ -160,6 +160,29 @@ class FileController extends Controller
         };
 
         $preprofessional_file->update([$columnName => null]);
+        return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
+    }
+
+    // For community internship files
+    public function destroyCommunity($student_id, $index, $file_id)
+    {
+        $file = File::findOrFail($file_id);
+        if ($file->path && Storage::exists($file->path)) {
+            Storage::delete($file->path);
+        }
+        $file->delete();
+
+        $communityController = new CommunityController();
+        $community_file = $communityController->fetchByStudentId($student_id);
+        $columnName = "";
+
+        switch ($index) {
+            case 1:
+                $columnName = "student_report_id";
+                break;
+        };
+
+        $community_file->update([$columnName => null]);
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
     }
 }

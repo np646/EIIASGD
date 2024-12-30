@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\AcademicPeriodController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\CommunityFilesController;
+use App\Http\Controllers\CommunityProjectController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserPermissionController;
@@ -238,9 +239,14 @@ Route::get('/api/vinculacion/documentos/{student}', [CommunityController::class,
 Route::post('/documentos/vinculacion/{parentId}', [CommunityController::class, 'storeFile'])->name('community.storeFile');
 Route::delete('/documentos/vinculacion/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyCommunity'])->name('files.destroyCommunity');
 
-
-Route::get('/vinculacion/proyectos', [CommunityController::class, 'projects'])->name('community.projects');
-
+// Proyectos de vinculación
+Route::get('/vinculacion/proyectos', [CommunityProjectController::class, 'projects'])->name('community.projects.index');
+Route::prefix('api/vinculacion')->group(function () {
+    Route::get('/proyectos', [CommunityProjectController::class, 'apiIndex'])->name('api.community.projects.index');
+    Route::post('/proyectos', [CommunityProjectController::class, 'store'])->name('api.community.projects.store');
+    Route::put('/proyectos/{project}', [CommunityProjectController::class, 'update'])->name('api.community.projects.update');
+    Route::delete('/proyectos/{project}', [CommunityProjectController::class, 'destroy'])->name('api.community.projects.destroy');
+});
 
 // Prácticas preprofesionales
 Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');

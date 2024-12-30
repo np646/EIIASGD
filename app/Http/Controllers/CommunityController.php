@@ -155,4 +155,6 @@ class CommunityController extends Controller
         $process->update($request->all());
         return redirect()->route('community.process', ['student' => $student_id]);
     }
+
+
 }

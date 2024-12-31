@@ -11,6 +11,7 @@ class StudentController extends Controller
 {
     public function index()
     {
+        //TODO: again review if the where column is correct
         $students = Student::where('status', 1)->get();
 
         $courseController = new CourseController();
@@ -77,7 +78,7 @@ class StudentController extends Controller
 
         $preprofessionalController = new PreprofessionalController();
         $preprofessionalController->store($last_id);
-        
+
         return redirect()->route('students.index');
     }
 
@@ -156,8 +157,23 @@ class StudentController extends Controller
 
     public function fetch()
     {
+        //TODO: check if the where column here is correct, review where this method is used so only active students are fetched
         $students = Student::where('status', 1)->get();
         return response()->json($students);
+    }
+
+
+    public function fetchFullStudent($student_id)
+    {
+        $student = Student::where('id', $student_id)->first();
+        return $student;
+    }
+    public function fetchFullNames()
+    {
+        $students = Student::where('status', 1)
+            ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
+            ->get();
+        return  $students;
     }
 
     public function fetchById($student_id)

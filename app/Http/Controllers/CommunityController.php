@@ -50,7 +50,7 @@ class CommunityController extends Controller
             ["id" => 1, "file" => "Informe del estudiante", "file_id" => $fileArray['student_report_id']],
         ];
 
-       if (request()->wantsJson()) {
+        if (request()->wantsJson()) {
             return response()->json(['files' => $files]);
         }
 
@@ -96,7 +96,7 @@ class CommunityController extends Controller
 
         $communityFile = CommunityInternship::where('student_id', $request['student_id'])->first();
 
-       $file_column = $request['community_files_id'];
+        $file_column = $request['community_files_id'];
 
         switch ($file_column) {
             case 1:
@@ -156,5 +156,47 @@ class CommunityController extends Controller
         return redirect()->route('community.process', ['student' => $student_id]);
     }
 
+    //Students in a community project
+    public function studentsInProject(Request $request)
+    {
+        $studentController = new StudentController();
+        $students = $studentController->fetchFullNames();
 
+        $project = $request->project;
+        return Inertia::render('Internships/Community/Projects/StudentsInProject', [
+            'project' => $project,
+            'students' => $students
+        ]);
+    }
+    public function apiStudentsInProject($project_id)
+    {
+        $query = CommunityInternship::where('project_id', $project_id)
+            ->leftJoin('students', 'community_internships.student_id', '=', 'students.id')
+            ->leftJoin('academic_periods', 'community_internships.academic_period_id', '=', 'academic_periods.id')
+            ->leftJoin('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
+            ->select(
+                'community_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student_name"),
+                'academic_periods.period AS academic_period',
+                'internship_statuses.name as status_name'
+            )
+            ->get();
+        return response()->json($query);
+    }
+
+    public function removeStudentFromProject(Request $request, $student_id)
+    {
+        $project = $this->fetchById($student_id);
+        $project->update(['project_id' => null]);
+    }
+    public function addStudentToProject($student_id, $project_id)
+    {
+        CommunityInternship::where('student_id', $student_id)
+            ->update(['project_id' => $project_id]);
+
+        $studentController = new StudentController();
+        $student = $studentController->fetchFullStudent($student_id);
+
+        return $student;
+    }
 }

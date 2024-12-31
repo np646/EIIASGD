@@ -82,7 +82,7 @@ import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Button from "primevue/button";
-import { router } from "@inertiajs/vue3";
+import { r } from "@inertiajs/vue3";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { ref, onMounted } from "vue";
@@ -132,7 +132,7 @@ const openUpdateDialog = (id) => {
 
 const uploadFile = () => {
     form.post(
-        route("graduationFiles.storeFile", {
+        ("graduationFiles.storeFile", {
             parentId: 1,
         }),
         {

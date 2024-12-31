@@ -17,7 +17,7 @@
         <template #header>
             <div class="flex justify-between">
                 <div style="text-align: left">
-                    <ModalButtonSlide @click="$emit('open-create-modal')" />
+                    <ModalButtonSlide @click="$emit('open-add-modal')" />
                 </div>
                 <IconField>
                     <InputIcon>
@@ -28,31 +28,30 @@
             </div>
         </template>
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable />
-        <Column :exportable="false" header="Editar" bodyStyle="text-align: center"  headerStyle="width: 1rem; text-align: center">
+        <Column :exportable="false" header="Informe" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
-                <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openEditDialog(slotProps.data)" />
+                <i :class="isNull(slotProps.data.student_report_id)" :style="getColor(slotProps.data.student_report_id)"></i>
             </template>
         </Column>
-        <Column :exportable="false" header="Eliminar" bodyStyle="text-align: center"  headerStyle="width: 1rem; text-align: center">
+        <Column :exportable="false" header="Ver proceso" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
-                <Button icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
-            </template>
-        </Column>
-        <Column :exportable="false" header="Ver" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
-            <template #body="slotProps">
-                <Link :href="route('community.projects.studentsInProject', slotProps.data.id)">
+                <Link :href="generateProcessRoute(slotProps.data)">
                     <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
                 </Link>
             </template>
         </Column>
-        <Dialog v-model:visible="showDeleteDialog" modal header="Eliminar" :style="{ width: '25rem' }">
+        <Column :exportable="false" header="Quitar" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
+            <template #body="slotProps">
+                <Button icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
+            </template>
+        </Column>
+        <Dialog v-model:visible="showDeleteDialog" modal header="Quitar estudiante del proyecto" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8"> ¿Está seguro que desea continuar? </span>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="showDeleteDialog = false" />
-                <Button type="button" label="Eliminar" severity="danger" @click="deleteItem" />
+                <Button type="button" label="Quitar" severity="danger" @click="deleteItem" />
             </div>
         </Dialog>
-        <EditProjectModal v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
@@ -72,8 +71,6 @@ import { FilterMatchMode } from "@primevue/core/api";
 import { useToast } from "primevue/usetoast";
 import ModalButtonSlide from "@/Components/ModalButtonSlide.vue";
 
-import EditProjectModal from "./EditProjectModal.vue";
-
 const props = defineProps({
     columnHeaders: Array,
     data: Array,
@@ -91,13 +88,17 @@ const initFilters = () => {
 };
 initFilters();
 
-const emit = defineEmits(["item-deleted", "item-updated", "open-create-modal"]);
+const emit = defineEmits(["item-deleted", "open-add-modal"]);
+const loading = ref(false);
 
 const toast = useToast();
 const showDeleteDialog = ref(false);
-const showEditModal = ref(false);
 const itemToDelete = ref(null);
-const selectedItem = ref(null);
+
+const generateProcessRoute = (data) => {
+    console.log('Generating route for:', data); // Debug log
+    return route('community.process', { id: data.id });
+};
 
 const openDeleteDialog = (id) => {
     itemToDelete.value = id;
@@ -105,34 +106,44 @@ const openDeleteDialog = (id) => {
 };
 
 const deleteItem = async () => {
+    loading.value = true;
     try {
-        await axios.delete(route(`api.${pageName}.destroy`, { id: itemToDelete.value }));
+        await axios.put(route("api.community.projects.removeStudentFromProject", { student: itemToDelete.value }));
         emit("item-deleted", itemToDelete.value);
-        showDeleteDialog.value = false;
         toast.add({
             severity: "success",
             summary: "Success",
-            detail: "Ha sido eliminado exitosamente.",
+            detail: "Ha sido actualizado exitosamente.",
             life: 3000,
         });
+        showDeleteDialog.value = false;
     } catch (error) {
-        console.error("No fue posible eliminar el usuario. ", error);
+        console.error("Error updating item:", error);
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible eliminar el usuario.",
+            detail: "No fue posible actualizar.",
             life: 3000,
         });
+    } finally {
+        loading.value = false;
     }
 };
 
-const openEditDialog = (itemData) => {
-    selectedItem.value = { ...itemData };
-    showEditModal.value = true;
+const isNull = (value) => {
+    if (value == null) {
+        return "pi pi-times";
+    } else {
+        return "pi pi-check";
+    }
 };
 
-const handleItemUpdated = (updatedItem) => {
-    emit("item-updated", updatedItem);
+const getColor = (value) => {
+    if (value == null) {
+        return { color: "red" };
+    } else {
+        return { color: "green" };
+    }
 };
 </script>
 <style>

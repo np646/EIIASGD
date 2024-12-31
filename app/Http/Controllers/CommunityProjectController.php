@@ -64,4 +64,11 @@ class CommunityProjectController extends Controller
         $project->update($request->all());
         return response()->json($project);
     }
+
+    public function destroy(CommunityProject $project)
+    {
+        $project->delete();
+        return response()->json(null, 204);
+    }
+
 }

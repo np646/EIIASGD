@@ -252,6 +252,12 @@ Route::get('/api/vinculacion/proyectos/{project}/estudiantes', [CommunityControl
 Route::put('/api/vinculacion/proyectos/quitar/{student}', [CommunityController::class, 'removeStudentFromProject'])->name('api.community.projects.removeStudentFromProject');
 Route::put('/api/vinculacion/proyectos/agregar/{student}/{project}', [CommunityController::class, 'addStudentToProject'])->name('api.community.projects.addStudentToProject');
 
+// Archivos de projectos de vinculación
+Route::get('/api/vinculacion/documentos/proyecto/{project}', [CommunityProjectController::class, 'apiProjectFiles'])->name('api.community.project.projectFiles');
+
+Route::post('/documentos/vinculacion/proyecto/{parentId}', [CommunityProjectController::class, 'storeFile'])->name('community.project.storeFile');
+Route::delete('/documentos/vinculacion/proyecto/eliminar/{project_id}/{index}/{file_id}', [FileController::class, 'destroyProject'])->name('files.destroyProject');
+
 
 // Prácticas preprofesionales
 Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');

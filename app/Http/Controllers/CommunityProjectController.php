@@ -71,4 +71,47 @@ class CommunityProjectController extends Controller
         return response()->json(null, 204);
     }
 
+    // For project files
+    public function apiProjectFiles($project_id)
+    {
+        $files = CommunityProject::where('id', $project_id)->first();
+        $fileArray = json_decode($files, true);
+
+        $files = [
+            ["id" => 1, "file" => "Informe del proyecto", "file_id" => $fileArray['project_report_id']],
+        ];
+
+        if (request()->wantsJson()) {
+            return response()->json(['files' => $files]);
+        }
+
+        return back()->with(['files' => $files]);
+    }
+
+    public function storeFile(Request $request, $parentId)
+    {
+        $fileController = new FileController();
+        $fileController->store($request, $parentId);
+        $fileId = $fileController->getLastId();
+
+        $projectFile = CommunityProject::where('id', $request['project_id'])->first();
+
+        $file_column = $request['project_files_id'];
+
+        switch ($file_column) {
+            case 1:
+                $projectFile->project_report_id = $fileId;
+                break;
+        };
+
+        $projectFile->save();
+    }
+
+    public function fetchByProjectId($project_id)
+    {
+        return CommunityProject::where('id', $project_id)->first();
+    }
+
+    
+
 }

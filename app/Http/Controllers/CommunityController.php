@@ -163,9 +163,12 @@ class CommunityController extends Controller
         $students = $studentController->fetchFullNames();
 
         $project = $request->project;
+        $projectController = new CommunityProjectController();
+        $projectName = $projectController->fetchByProjectId($project);
         return Inertia::render('Internships/Community/Projects/StudentsInProject', [
             'project' => $project,
-            'students' => $students
+            'students' => $students,
+            'projectName' => $projectName
         ]);
     }
     public function apiStudentsInProject($project_id)

@@ -3,6 +3,10 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
+           <ProjectFiles></ProjectFiles>
+        </ContentContainer>
+        <ContentContainer>
+            <Subtitle title="Estudiantes en proyecto de vinculación" />
             <AddStudentToProject v-model="showAddModal" @item-added="handleItemAdded" />
             <StudentsDatatable
                 :data="items"
@@ -27,9 +31,13 @@ import AddStudentToProject from './Partials/AddStudentToProject.vue';
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import ProjectFiles from './Partials/ProjectFiles.vue';
+import Subtitle from '@/Components/Subtitle.vue';
 
 const project = usePage().props.project;
-const title = "Estudiantes en proyecto de vinculación";
+const projectName = usePage().props.projectName.name;
+console.log(projectName);
+const title = projectName;
 
 
 const items = ref([]);

@@ -185,4 +185,27 @@ class FileController extends Controller
         $community_file->update([$columnName => null]);
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
     }
+
+    // For community project files
+    public function destroyProject($project_id, $index, $file_id)
+    {
+        $file = File::findOrFail($file_id);
+        if ($file->path && Storage::exists($file->path)) {
+            Storage::delete($file->path);
+        }
+        $file->delete();
+
+        $projectController = new CommunityProjectController();
+        $project_file = $projectController->fetchByProjectId($project_id);
+        $columnName = "";
+
+        switch ($index) {
+            case 1:
+                $columnName = "project_report_id";
+                break;
+        };
+
+        $project_file->update([$columnName => null]);
+        return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
+    }
 }

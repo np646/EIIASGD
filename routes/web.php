@@ -276,5 +276,11 @@ Route::get('/api/laborales/documentos/{student}', [PreprofessionalController::cl
 Route::post('/documentos/laborales/{parentId}', [PreprofessionalController::class, 'storeFile'])->name('preprofessional.storeFile');
 Route::delete('/documentos/laborales/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyPreprofessional'])->name('files.destroyPreprofessional');
 
+
+// Search functionality
+use App\Http\Controllers\SearchController;
+
+Route::get('/buscar', action: [SearchController::class, 'search'])->name('search');
+
 ///////////
 require __DIR__ . '/auth.php';

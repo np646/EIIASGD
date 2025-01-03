@@ -21,7 +21,7 @@
                     <InputIcon>
                         <i class="pi pi-search" />
                     </InputIcon>
-                    <InputText v-model="filters['global'].value" placeholder="Buscar" class="border-color" />
+                    <InputText v-model="filters['global'].value" placeholder="Filtrar por estudiante" class="border-color" />
                 </IconField>
             </div>
         </template>
@@ -85,13 +85,13 @@ const generateRoute = (action, id = null) => {
 const getSeverity = (status) => {
     switch (status) {
         case 1:
-            return "success";
+            return "secondary";
         case 2:
             return "info";
         case 3:
             return "danger";
         case 4:
-            return "warn";
+            return "success";
     }
 };
 

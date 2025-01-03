@@ -33,7 +33,7 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
-                        <Datepicker v-model="form.banner_code" id="inputCodigoBanner" required />
+                        <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
                     </div>
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>

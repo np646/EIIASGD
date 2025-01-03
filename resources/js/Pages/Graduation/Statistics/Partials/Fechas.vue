@@ -1,8 +1,4 @@
 <template>
-    <div class="p-3 d-flex justify-content-start">
-        <span class="fw-medium fs-6">Reporte generado el {{ currentDate }} a las {{ currentTime }}</span>
-    </div>
-
     <div class="d-flex justify-content-center items-center p-3 mb-3">
         <div class="w-50">
             <div class="col">
@@ -24,6 +20,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="p-3 d-flex justify-content-start">
+        <span class="fw-medium fs-6">Reporte generado el {{ currentDate }} a las {{ currentTime }}</span>
     </div>
     <div class="col mb-4">
         <DataTable

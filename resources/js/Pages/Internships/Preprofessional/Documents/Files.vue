@@ -92,24 +92,19 @@ import { usePage } from "@inertiajs/vue3";
 import InputText from "primevue/inputtext";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
-import { useModuleStore } from "@/stores/module";
 import Information from "./Partials/Information.vue";
 import axios from "axios";
-
-const moduleStore = useModuleStore();
-const moduleId = moduleStore.moduleId;
 
 const fileInput = ref(null);
 
 const student = usePage().props.student;
-const files = usePage().props.files;
 const form = useForm({
     name: "",
     is_folder: false,
-    parent_id: moduleId,
+    parent_id: 3,
     file: null,
     student_id: student.original.id,
-    graduation_files_id: null,
+    preprofessional_files_id: null,
 });
 
 
@@ -127,13 +122,13 @@ const openDeleteDialog = (index, file_id) => {
 const visibleUpdate = ref(false);
 const openUpdateDialog = (id) => {
     visibleUpdate.value = true;
-    form.graduation_files_id = id;
+    form.preprofessional_files_id = id;
 };
 
 const uploadFile = () => {
     form.post(
         route("preprofessional.storeFile", {
-            parentId: 1,
+            parentId: 3,
         }),
         {
             onSuccess: () => {

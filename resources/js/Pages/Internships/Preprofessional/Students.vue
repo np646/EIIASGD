@@ -22,8 +22,7 @@ const pageName = "preprofessional";
 
 const title = "Estudiantes";
 const columnHeaders = [
-    { field: "student", header: "Apellidos" },
-    { field: "status_name", header: "Nombres" },
+    { field: "student", header: "Estudiante" },
 ];
-const globalFilters = ["lastname", "name", "identification"];
+const globalFilters = ["student"];
 </script>

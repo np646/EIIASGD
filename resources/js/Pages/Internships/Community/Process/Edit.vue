@@ -12,6 +12,10 @@
                             <div class="col-span-9 mb-2">
                                 <Select id="inputPeriodo" v-model="selectedAcademicPeriod" :options="periods" optionLabel="period" class="w-100" />
                             </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputProyecto">Proyecto</label>
+                            <div class="col-span-9 mb-2">
+                                <Select id="inputProyecto" v-model="selectedProject" :options="projects" optionLabel="name" class="w-100" />
+                            </div>
                             <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
                             <div class="col-span-9 mb-2">
                                 <Select id="inputEstado" v-model="selectedStatus" :options="statuses" optionLabel="name" class="w-100" />
@@ -53,10 +57,12 @@ const process = ref(usePage().props.process).value;
 console.log(process);
 const periods = ref(usePage().props.periods);
 const statuses = ref(usePage().props.statuses);
+const projects = ref(usePage().props.projects);
 
 const form = useForm({
     academic_period_id: process.academic_period_id,
     status: process.status,
+    project_id: process.project_id
 });
 
 const title = process.student_name;
@@ -70,6 +76,17 @@ if (selectedAcademicPeriod.value) {
 }
 watch(selectedAcademicPeriod, () => {
     form.academic_period_id = selectedAcademicPeriod.value;
+});
+
+const selectedProject = ref(null);
+selectedProject.value = useComputeSelectedOption(process.project_id, projects);
+if (selectedProject.value) {
+    form.project_id = selectedProject.value.id;
+} else {
+    form.project_id = null;
+}
+watch(selectedProject, () => {
+    form.project_id = selectedProject.value;
 });
 
 const selectedStatus = ref(null);

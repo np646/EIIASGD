@@ -1,8 +1,8 @@
 <template>
-    <Dialog :visible="modelValue" @update:visible="$emit('update:modelValue', $event)" modal header="Crear Usuario" :style="{ width: '30rem' }">
+    <Dialog :visible="modelValue" @update:visible="$emit('update:modelValue', $event)" modal header="Crear usuario" :style="{ width: '30rem' }">
         <form @submit.prevent="createItem" class="flex flex-col gap-4">
             <div class="field">
-                <label for="name">Nombre</label>
+                <label for="name">Usuario</label>
                 <InputText id="name" v-model="form.name" required class="w-full" />
             </div>
 

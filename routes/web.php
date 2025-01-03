@@ -190,13 +190,12 @@ Route::middleware('auth:sanctum')->group(function () {
 // Reviewers: Evaluadores
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
-    Route::get('/titulacion/evaluadores/docente/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
+    Route::get('/titulacion/evaluadores/docente/procesos/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
     Route::prefix('api/titulacion/evaluadores')->group(function () {
         Route::get('/get-reviewers-by-students', [GraduationController::class, 'getReviewersByStudents'])
             ->name('api.graduation.getReviewersByStudents');
         Route::get('/get-reviewers-by-professors', [GraduationController::class, 'getReviewersByProfessors'])
             ->name('api.graduation.getReviewersByProfessors');
-        Route::get('/reviewers/processes/professor/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
         Route::get('/get-processes-as-advisor/{id}', [GraduationController::class, 'getProcessesAsAdvisor'])
             ->name('api.graduation.getProcessesAsAdvisor');
         Route::get('/get-processes-as-reader/{id}', [GraduationController::class, 'getProcessesAsReader'])

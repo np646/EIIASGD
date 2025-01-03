@@ -17,6 +17,10 @@
                         <div class="col-span-9 mb-2">
                             <InputText id="inputInicio" fluid disabled v-model="form.academic_period" />
                         </div>
+                        <label class="flex items-center col-span-3 h-full" for="inputProyecto">Proyecto</label>
+                        <div class="col-span-9">
+                            <InputText id="inputProyecto" fluid disabled v-model="form.project_name" />
+                        </div>
                         <label class="flex items-center col-span-3 h-full" for="inputEstado">Estado</label>
                         <div class="col-span-9">
                             <InputText id="inputEstado" fluid disabled v-model="form.status" />
@@ -48,6 +52,7 @@ const process = ref(usePage().props.process).value;
 const form = useForm({
     academic_period: process.academic_period,
     status: process.status_name,
+    project_name: process.project_name
 });
 
 const title = process.student_name;

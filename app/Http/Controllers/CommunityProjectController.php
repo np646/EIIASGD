@@ -112,6 +112,10 @@ class CommunityProjectController extends Controller
         return CommunityProject::where('id', $project_id)->first();
     }
 
-    
+    public function fetch()
+    {
+        $statuses = CommunityProject::get();
+        return $statuses;
+    }
 
 }

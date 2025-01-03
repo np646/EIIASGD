@@ -126,59 +126,6 @@ class GraduationController extends Controller
         return $query;
     }
 
-    public function advisors()
-    {
-        $query = Graduation::whereNotNull('advisor_id')
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
-            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
-            ->join('professors', 'graduations.advisor_id', '=', 'professors.id')
-            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
-            ->select(
-                'graduations.*',
-                'graduation_statuses.name as status_name',
-                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
-                'start_period.period AS start_period',
-                'end_period.period AS end_period',
-                DB::raw("CONCAT(professors.lastname, ' ', professors.name) AS professor")
-            )
-            ->orderBy('professor', 'asc')
-            ->orderBy('graduations.status', 'asc')
-            ->get();
-
-        return Inertia::render('Graduation/Advisors', [
-            'advisors' => $query
-        ]);
-    }
-
-    public function readers()
-    {
-        $query = Graduation::whereNotNull('reader1_id')
-            ->whereNotNull('reader2_id')
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
-            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
-            ->join('professors', function ($join) {
-                $join->on('graduations.reader1_id', '=', 'professors.id')
-                    ->orOn('graduations.reader2_id', '=', 'professors.id');
-            })->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
-            ->select(
-                'graduations.*',
-                'graduation_statuses.name as status_name',
-                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
-                'start_period.period AS start_period',
-                'end_period.period AS end_period',
-                DB::raw("CONCAT(professors.lastname, ' ', professors.name) AS professor")
-            )
-            ->orderBy('professor', 'asc')
-            ->orderBy('graduations.status', 'asc')
-            ->get();
-
-        return Inertia::render('Graduation/Readers', [
-            'readers' => $query
-        ]);
-    }
-
     public function periods()
     {
         $periodController = new AcademicPeriodController();
@@ -318,8 +265,7 @@ class GraduationController extends Controller
     public function getProcessesAsReader($professor_id)
     {
         $query = Graduation::where(function ($q) use ($professor_id) {
-            $q->where('graduations.advisor_id', $professor_id)
-                ->orWhere('graduations.reader1_id', $professor_id)
+            $q->where('graduations.reader1_id', $professor_id)
                 ->orWhere('graduations.reader2_id', $professor_id);
         })->select(
             'graduations.*',

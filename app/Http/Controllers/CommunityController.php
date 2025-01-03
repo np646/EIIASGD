@@ -113,11 +113,13 @@ class CommunityController extends Controller
             ->leftJoin('students', 'community_internships.student_id', '=', 'students.id')
             ->leftJoin('academic_periods', 'community_internships.academic_period_id', '=', 'academic_periods.id')
             ->leftJoin('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
+            ->leftJoin('community_projects', 'community_internships.project_id', '=', 'community_projects.id')
             ->select(
                 'community_internships.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student_name"),
                 'academic_periods.period AS academic_period',
-                'internship_statuses.name as status_name'
+                'internship_statuses.name as status_name',
+                'community_projects.name as project_name'
             )
             ->first();
         return $query;
@@ -142,10 +144,14 @@ class CommunityController extends Controller
         $statusController = new InternshipStatusController();
         $statuses = $statusController->fetch();
 
+        $projectController = new CommunityProjectController();
+        $projects = $projectController->fetch();
+
         return Inertia::render('Internships/Community/Process/Edit', [
             'process' => $process,
             'periods' => $periods,
-            'statuses' => $statuses
+            'statuses' => $statuses,
+            'projects' => $projects
         ]);
     }
 
@@ -194,12 +200,16 @@ class CommunityController extends Controller
     }
     public function addStudentToProject($student_id, $project_id)
     {
-        CommunityInternship::where('student_id', $student_id)
-            ->update(['project_id' => $project_id]);
+        $project = (new CommunityProjectController())->fetchByProjectId($project_id);
+        $projectPeriod = $project->academic_period_id;
 
+        CommunityInternship::where('student_id', $student_id)
+            ->update([
+                'project_id' => $project_id,
+                'academic_period_id' => $projectPeriod
+            ]);
         $studentController = new StudentController();
         $student = $studentController->fetchFullStudent($student_id);
-
         return $student;
     }
 }

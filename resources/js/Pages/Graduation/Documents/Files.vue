@@ -82,7 +82,6 @@ import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Button from "primevue/button";
-import { r } from "@inertiajs/vue3";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { ref, onMounted } from "vue";
@@ -92,26 +91,21 @@ import { usePage } from "@inertiajs/vue3";
 import InputText from "primevue/inputtext";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
-import { useModuleStore } from "@/stores/module";
 import Information from "./Partials/Information.vue";
 import axios from "axios";
-
-const moduleStore = useModuleStore();
-const moduleId = moduleStore.moduleId;
+import { router } from '@inertiajs/vue3';
 
 const fileInput = ref(null);
 
 const student = usePage().props.student;
-const files = usePage().props.files;
 const form = useForm({
     name: "",
     is_folder: false,
-    parent_id: moduleId,
+    parent_id: 1,
     file: null,
     student_id: student.original.id,
     graduation_files_id: null,
 });
-
 
 const removeId = ref(null);
 const indexRef = ref(null);
@@ -132,7 +126,7 @@ const openUpdateDialog = (id) => {
 
 const uploadFile = () => {
     form.post(
-        ("graduationFiles.storeFile", {
+        route("graduationFiles.storeFile", {
             parentId: 1,
         }),
         {

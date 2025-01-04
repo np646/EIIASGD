@@ -77,7 +77,7 @@ class RoleController extends Controller
 
     public function fetch()
     {
-        $roles = Role::where('status', 1)->get();
+        $roles = Role::get();
         return response()->json($roles);
     }
 

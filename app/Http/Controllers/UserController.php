@@ -12,7 +12,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Settings/Users/Index');
+        $roleController = new RoleController();
+        $roles = $roleController->fetch();
+        return Inertia::render('Settings/Users/Index', [
+            'roles' => $roles
+        ]);
     }
 
     public function apiIndex()
@@ -41,7 +45,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'status' => 'required|integer'
         ]);
 
         if ($validator->fails()) {

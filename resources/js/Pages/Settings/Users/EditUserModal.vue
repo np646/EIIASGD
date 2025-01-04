@@ -2,19 +2,18 @@
     <Dialog :visible="modelValue" @update:visible="$emit('update:modelValue', $event)" modal header="Editar usuario" :style="{ width: '30rem' }">
         <form @submit.prevent="updateItem" class="flex flex-col gap-4">
             <div class="field">
-                <label for="edit-name">Usuario</label>
-                <InputText id="edit-name" v-model="form.name" required class="w-full" />
+                <label for="email">Correo</label>
+                <InputText
+                    id="name"
+                    v-model="form.name"
+                    @input="updateEmail"
+                    required
+                    class="w-full"
+                    pattern="^[a-zA-Z0-9]*$"
+                    title="Solo se admiten caracteres alfanuméricos"
+                />
+                <small v-if="!isValidName" class="text-red-500">Solo se admiten caracteres alfanuméricos.</small>
             </div>
-
-            <div class="field">
-                <label for="edit-email">Correo</label>
-                <InputText id="edit-email" v-model="form.email" required type="email" class="w-full" />
-            </div>
-            <div class="field">
-                <label for="edit-email">Contraseña</label>
-                <InputText id="edit-password" v-model="form.password" required type="password" class="w-full" />
-            </div>
-
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Guardar" :loading="loading" />
@@ -30,6 +29,7 @@ import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
+import { computed } from "vue";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -46,10 +46,14 @@ const loading = ref(false);
 const form = ref({
     name: "",
     email: "",
-    password: "",
     status: 1,
 });
 
+const isValidName = computed(() => /^[a-zA-Z0-9]*$/.test(form.value.name));
+
+function updateEmail() {
+    form.value.email = form.value.name + "@pucesi.edu.ec";
+}
 watch(
     () => props.itemData,
     (newData) => {
@@ -63,7 +67,7 @@ watch(
 const updateItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.put(route('api.users.update', { user: props.itemData.id }), form.value);
+        const response = await axios.put(route("api.users.update", { user: props.itemData.id }), form.value);
         emit("item-updated", response.data);
         toast.add({
             severity: "success",

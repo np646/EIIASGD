@@ -15,17 +15,15 @@
                 <small v-if="!isValidName" class="text-red-500">Solo se admiten caracteres alfanuméricos.</small>
             </div>
 
-            <!-- Add Role Section -->
             <div class="field">
                 <label for="roles">Roles</label>
-                <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2">
-                    <InputText v-model="roles[index]" placeholder="Ingrese un rol" class="w-full" />
-                    <Button icon="pi pi-minus" class="p-button-danger" type="button" @click="removeRole(index)" />
+                <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2 mb-2">
+                    <Select v-model="roles[index]" :options="roleOptions" optionLabel="name" placeholder="Seleccione un rol" class="w-full" />
+                    <Button icon="pi pi-minus" severity="danger" type="button" @click="removeRole(index)" :disabled="roles.length === 1" />
                 </div>
-                <Button label="Añadir Rol" icon="pi pi-plus" type="button" class="mt-2" @click="addRole" />
+                <Button label="Añadir rol" icon="pi pi-plus" type="button" class="mt-2" @click="addRole" />
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Crear" :loading="loading" />
@@ -35,25 +33,28 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
+import { ref, computed } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
+import Select from "@/Components/Select.vue";
 import { useToast } from "primevue/usetoast";
-import { computed } from "vue";
-import { usePage } from "@inertiajs/vue3";
 
-const roleArray = ref(usePage().props.roles);
-// TODO: change the text input to a dynamic select input filled with the roles from the database
+const toast = useToast();
+
 const props = defineProps({
     modelValue: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue", "item-created"]);
-
-const toast = useToast();
 const loading = ref(false);
+
+const pageProps = usePage().props;
+const roleOptions = computed(() => {
+    return pageProps.roles?.original || [];
+});
+
 const form = ref({
     name: "",
     email: "",
@@ -61,27 +62,32 @@ const form = ref({
     status: 1,
 });
 
-const roles = ref([]);
+// Separate roles state
+const roles = ref([null]);
 
 const isValidName = computed(() => /^[a-zA-Z0-9]*$/.test(form.value.name));
 
 function updateEmail() {
-    form.value.email = form.value.name + "@pucesi.edu.ec";
+    form.value.email = `${form.value.name}@example.com`;
 }
 
 function addRole() {
-  roles.value.push('');
+    roles.value.push(null);
 }
 
-// Remove a specific role input
 function removeRole(index) {
-  roles.value.splice(index, 1);
+    if (roles.value.length > 1) {
+        roles.value.splice(index, 1);
+    }
 }
 
 const createItem = async () => {
-    loading.value = true;
     try {
-        const response = await axios.post(route("api.users.store"), form.value);
+        const formData = {
+            ...form.value,
+            roles: roles.value,
+        };
+        const response = await axios.post(route("api.users.store"), formData);
         emit("item-created", response.data);
         toast.add({
             severity: "success",
@@ -101,9 +107,13 @@ const createItem = async () => {
         loading.value = false;
     }
 };
-
 const closeModal = () => {
-    form.value = { name: "", email: "", status: 1 };
+    form.value = {
+        name: "",
+        email: "",
+        status: 1,
+    };
+    roles.value = [null];
     emit("update:modelValue", false);
 };
 </script>

@@ -123,6 +123,7 @@ const deleteItem = async () => {
             life: 3000,
         });
     }
+    
 };
 
 const openEditDialog = (itemData) => {

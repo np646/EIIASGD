@@ -24,6 +24,7 @@ use App\Http\Controllers\GraduationFilesController;
 use App\Http\Controllers\PreprofessionalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\RoleUserController;
 
 //Original log in and welcome routes
 
@@ -153,9 +154,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // Users: Usuarios
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('api')->group(function () {
-        Route::get('/usuarios', [UserController::class, 'apiIndex'])->name('api.users.index');
-        Route::post('/usuarios', [UserController::class, 'store'])->name('api.users.store');
-        Route::put('/usuarios/{user}', [UserController::class, 'update'])->name('api.users.update');
+        Route::get('/usuarios', [RoleUserController::class, 'apiIndex'])->name('api.users.index');
+        Route::post('/usuarios', [RoleUserController::class, 'store'])->name('api.users.store');
+        Route::put('/usuarios/{role_user}', [RoleUserController::class, 'update'])->name('api.users.update');
         Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('api.users.destroy');
     });
 });

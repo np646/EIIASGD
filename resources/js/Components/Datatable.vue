@@ -116,7 +116,7 @@ const openDeleteDialog = (id) => {
 
 const deleteItem = async () => {
     try {
-        await axios.delete(route(`api.${props.pageName}.destroy`, { id: itemToDelete.value }));
+        await axios.put(route(`api.${props.pageName}.remove`, { id: itemToDelete.value }));
         emit("item-deleted", itemToDelete.value);
         showDeleteDialog.value = false;
         toast.add({

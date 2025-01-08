@@ -52,9 +52,9 @@ class GraduationController extends Controller
                 'graduation_statuses.name as status_name'
             )
             ->get();
-    
+
         return $query;
-    }    
+    }
 
     public function graduation($student_id)
     {
@@ -138,7 +138,8 @@ class GraduationController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-        $query = Graduation::where('graduations.academic_period_start_id', $period_id)
+        $query = Graduation::where('students.status', 1)
+            ->where('graduations.academic_period_start_id', $period_id)
             ->orWhere('graduations.academic_period_end_id', $period_id)
             ->join('students', 'graduations.student_id', '=', 'students.id')
             ->select(
@@ -287,6 +288,7 @@ class GraduationController extends Controller
     public function students()
     {
         $query = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
+            ->where('students.status', 1)
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->select(
                 'graduations.*',

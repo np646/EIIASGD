@@ -18,7 +18,8 @@ class CommunityController extends Controller
     }
     public function students()
     {
-        $query = CommunityInternship::join('students', 'community_internships.student_id', '=', 'students.id')
+        $query = CommunityInternship::where('students.status', 1)
+            ->join('students', 'community_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
             ->select(
                 'community_internships.*',
@@ -69,7 +70,8 @@ class CommunityController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-        $query = CommunityInternship::where('community_internships.academic_period_id', $period_id)
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('community_internships.academic_period_id', $period_id)
             ->join('students', 'community_internships.student_id', '=', 'students.id')
             ->select(
                 'community_internships.id',
@@ -179,7 +181,8 @@ class CommunityController extends Controller
     }
     public function apiStudentsInProject($project_id)
     {
-        $query = CommunityInternship::where('project_id', $project_id)
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('project_id', $project_id)
             ->leftJoin('students', 'community_internships.student_id', '=', 'students.id')
             ->leftJoin('academic_periods', 'community_internships.academic_period_id', '=', 'academic_periods.id')
             ->leftJoin('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')

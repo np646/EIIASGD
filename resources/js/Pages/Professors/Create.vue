@@ -83,11 +83,9 @@ const form = useForm({
     email: "",
     banner_code: "",
     sex: selectedSex,
-    status: 1,
 });
 
 // To get the selected sex option
-
 watch(selectedSex, () => {
     form.sex = selectedSex.value;
 });

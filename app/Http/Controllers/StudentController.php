@@ -11,7 +11,6 @@ class StudentController extends Controller
 {
     public function index()
     {
-        //TODO: again review if the where column is correct
         $students = Student::where('status', 1)->get();
 
         $courseController = new CourseController();
@@ -61,8 +60,7 @@ class StudentController extends Controller
             'banner_code' => $params['banner_code'],
             'sex' => $params['sex'],
             'course_id' => $params['course_id'],
-            'academic_period_start_id' => $params['academic_period_start_id'],
-            'status' => $params['status']
+            'academic_period_start_id' => $params['academic_period_start_id']
         ];
         Student::create($data);
 
@@ -145,14 +143,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function remove(Request $request, Student $student)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $student->update($request->only('status'));
-        return redirect()->route('students.index');
+        $student = Student::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
@@ -192,7 +187,7 @@ class StudentController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Student::all());
+        return response()->json(Student::where('status', 1)->get());
     }
 
     public function totalStudents()

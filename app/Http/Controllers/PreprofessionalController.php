@@ -18,7 +18,8 @@ class PreprofessionalController extends Controller
     }
     public function students()
     {
-        $query = PreprofessionalInternship::join('students', 'preprofessional_internships.student_id', '=', 'students.id')
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
             ->select(
                 'preprofessional_internships.*',
@@ -71,7 +72,8 @@ class PreprofessionalController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-        $query = PreprofessionalInternship::where('preprofessional_internships.academic_period_id', $period_id)
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->where('preprofessional_internships.academic_period_id', $period_id)
             ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
             ->select(
                 'preprofessional_internships.id',

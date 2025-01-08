@@ -92,7 +92,6 @@ const form = useForm({
     sex: selectedSex,
     course_id: selectedCourse,
     academic_period_start_id: selectedStartPeriod,
-    status: 1,
 });
 
 // To get the selected sex option

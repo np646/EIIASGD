@@ -32,8 +32,7 @@ class ProfessorController extends Controller
             'identification' => $params['identification'],
             'email' => $params['email'],
             'banner_code' => $params['banner_code'],
-            'sex' => $params['sex'],
-            'status' => $params['status']
+            'sex' => $params['sex']
         ];
         Professor::create($data);
         return redirect()->route('professors.index');
@@ -69,15 +68,14 @@ class ProfessorController extends Controller
         ]);
     }
 
-    public function remove(Request $request, Professor $professor)
-    {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
 
-        $professor->update($request->only('status'));
-        return redirect()->route('professors.index');
+    public function remove($id)
+    {
+        $professor = Professor::findOrFail($id);
+        $professor->update(['status' => 0]);
+        return response()->json(null, 204);
     }
+
 
     public function fetch()
     {
@@ -96,6 +94,6 @@ class ProfessorController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Professor::all());
+        return response()->json(Professor::where('status', 1)->get());
     }
 }

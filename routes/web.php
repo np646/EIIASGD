@@ -76,11 +76,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/estudiantes/actualizar/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::post('/estudiantes/guardar', [StudentController::class, 'store'])->name('students.store');
     Route::get('/estudiantes/{student}/perfil', [StudentController::class, 'profile'])->name('students.profile');
-    Route::put('/estudiantes/{student}/quitar', [StudentController::class, 'remove'])->name('students.remove');
     Route::put('/estudiantes/buscar', [StudentController::class, 'fetch'])->name('students.fetch');
     Route::prefix('api')->group(function () {
         Route::get('/estudiantes', [StudentController::class, 'apiIndex'])->name('api.students.index');
         Route::delete('/estudiantes/{id}', [StudentController::class, 'destroy'])->name('api.students.destroy');
+        Route::put('/estudiantes/quitar/{id}', [StudentController::class, 'remove'])->name('api.students.remove');
+
     });
 });
 
@@ -92,11 +93,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/docentes/actualizar/{professor}', [ProfessorController::class, 'update'])->name('professors.update');
     Route::post('/docentes/guardar', [ProfessorController::class, 'store'])->name('professors.store');
     Route::get('/docentes/{professor}/perfil', [ProfessorController::class, 'profile'])->name('professors.profile');
-    Route::put('/docentes/{professor}/quitar', [ProfessorController::class, 'remove'])->name('professors.remove');
     Route::put('/docentes/buscar', [ProfessorController::class, 'fetch'])->name('professors.fetch');
     Route::prefix('api')->group(function () {
         Route::get('/docentes', [ProfessorController::class, 'apiIndex'])->name('api.professors.index');
         Route::delete('/docentes/{id}', [ProfessorController::class, 'destroy'])->name('api.professors.destroy');
+        Route::put('/docentes/quitar/{id}', [ProfessorController::class, 'remove'])->name('api.professors.remove');
     });
 });
 

@@ -12,7 +12,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Settings/Users/Index');
+        $roleController = new RoleController();
+        $roles = $roleController->fetch();
+        return Inertia::render('Settings/Users/Index', [
+            'roles' => $roles
+        ]);
     }
 
     public function apiIndex()
@@ -22,7 +26,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+       $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'status' => 'required|integer'
@@ -33,20 +37,20 @@ class UserController extends Controller
         }
 
         $user = User::create($request->all());
-        return response()->json($user, 201);
+        //return response()->json($user, 201);
+        return $user;
     }
 
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
+        /*$validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'status' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
-        }
+        }*/
 
         $user->update($request->all());
         return response()->json($user);
@@ -56,5 +60,17 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json(null, 204);
+    }
+
+    public function getLastId()
+    {
+        $userId = User::latest()->pluck('id')->first();
+        return $userId;
+    }
+
+    public function fetchById($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user;
     }
 }

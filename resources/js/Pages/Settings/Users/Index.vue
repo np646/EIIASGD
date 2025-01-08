@@ -33,6 +33,7 @@ const showCreateModal = ref(false);
 const columnHeaders = [
     { field: "name", header: "Usuario" },
     { field: "email", header: "Correo" },
+    { field: "role", header: "Roles" },
 ];
 const globalFilters = ["name", "email"];
 
@@ -54,11 +55,8 @@ const handleItemDeleted = (itemId) => {
     items.value = items.value.filter((item) => item.id !== itemId);
 };
 
-const handleItemUpdated = (updatedItem) => {
-    const index = items.value.findIndex((item) => item.id === updatedItem.id);
-    if (index !== -1) {
-        items.value[index] = updatedItem;
-    }
+const handleItemUpdated = () => {
+    fetchItems();
 };
 
 onMounted(fetchItems);

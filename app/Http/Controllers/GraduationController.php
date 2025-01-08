@@ -161,7 +161,8 @@ class GraduationController extends Controller
 
     public function getReviewersByStudents()
     {
-        $graduations = Graduation::join('students', 'graduations.student_id', '=', 'students.id')
+        $graduations = Graduation::where('students.status', 1)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
             ->join('professors AS advisors', 'graduations.advisor_id', '=', 'advisors.id')
             ->join('professors AS reader1s', 'graduations.reader1_id', '=', 'reader1s.id')
             ->join('professors AS reader2s', 'graduations.reader2_id', '=', 'reader2s.id')
@@ -194,13 +195,15 @@ class GraduationController extends Controller
             COUNT(CASE WHEN graduations.reader1_id = professors.id AND graduations.status != 2 THEN 1 END) +
             COUNT(CASE WHEN graduations.reader2_id = professors.id AND graduations.status != 2 THEN 1 END) AS reader_not_graduated_count
         ')
-        )
+        )->where('students.status', 1)
             ->join('professors', function ($join) {
                 $join->on('professors.id', '=', 'graduations.advisor_id')
                     ->orOn('professors.id', '=', 'graduations.reader1_id')
                     ->orOn('professors.id', '=', 'graduations.reader2_id');
             })
+            ->join('students', 'graduations.student_id', '=', 'students.id')
             ->groupBy('professors.id', 'professor')
+            ->orderBy('professor', 'asc')
             ->get();
 
 
@@ -246,7 +249,8 @@ class GraduationController extends Controller
         $query = Graduation::where(
             'advisor_id',
             $professor_id
-        )->select(
+        )->where('students.status', 1)
+        ->select(
             'graduations.*',
             DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
             'graduation_statuses.name as status_name',
@@ -265,7 +269,8 @@ class GraduationController extends Controller
 
     public function getProcessesAsReader($professor_id)
     {
-        $query = Graduation::where(function ($q) use ($professor_id) {
+        $query = Graduation::where('students.status', 1)
+        ->where(function ($q) use ($professor_id) {
             $q->where('graduations.reader1_id', $professor_id)
                 ->orWhere('graduations.reader2_id', $professor_id);
         })->select(

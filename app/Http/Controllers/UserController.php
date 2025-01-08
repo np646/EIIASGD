@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(User::all());
+        return response()->json(User::where('status', 1)->get());
     }
 
     public function store(Request $request)
@@ -59,6 +59,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        return response()->json(null, 204);
+    }
+
+    public function remove($id)
+    {
+        $student = User::findOrFail($id);
+        $student->update(['status' => 0]);
         return response()->json(null, 204);
     }
 

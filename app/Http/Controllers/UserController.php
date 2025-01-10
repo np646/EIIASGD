@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -26,7 +27,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-       $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'status' => 'required|integer'
@@ -64,8 +65,9 @@ class UserController extends Controller
 
     public function remove($id)
     {
-        $student = User::findOrFail($id);
-        $student->update(['status' => 0]);
+        $user = User::findOrFail($id);
+        $user->status = 0;
+        $user->save();
         return response()->json(null, 204);
     }
 

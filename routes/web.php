@@ -108,6 +108,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/periodos-academicos', [AcademicPeriodController::class, 'apiIndex'])->name('api.academicPeriods.index');
         Route::post('/periodos-academicos', [AcademicPeriodController::class, 'store'])->name('api.academicPeriods.store');
         Route::put('/periodos-academicos/{period}', [AcademicPeriodController::class, 'update'])->name('api.academicPeriods.update');
+        Route::put( '/periodos-academicos/quitar/{id}', [AcademicPeriodController::class, 'remove'])->name('api.academicPeriods.remove');
         Route::delete('/periodos-academicos/{period}', [AcademicPeriodController::class, 'destroy'])->name('api.academicPeriods.destroy');
     });
 });
@@ -117,6 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/carreras', [CourseController::class, 'apiIndex'])->name('api.courses.index');
         Route::post('/carreras', [CourseController::class, 'store'])->name('api.courses.store');
         Route::put('/carreras/{course}', [CourseController::class, 'update'])->name('api.courses.update');
+        Route::put('/carreras/quitar/{id}', [CourseController::class, 'remove'])->name('api.courses.remove');
         Route::delete('/carreras/{course}', [CourseController::class, 'destroy'])->name('api.courses.destroy');
     });
 });
@@ -127,6 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/areas-titulacion', [ThesisAreaController::class, 'apiIndex'])->name('api.thesisAreas.index');
         Route::post('/areas-titulacion', [ThesisAreaController::class, 'store'])->name('api.thesisAreas.store');
         Route::put('/areas-titulacion/{area}', [ThesisAreaController::class, 'update'])->name('api.thesisAreas.update');
+        Route::put('/areas-titulacion/quitar/{id}', [ThesisAreaController::class, 'remove'])->name('api.thesisAreas.remove');
         Route::delete('/areas-titulacion/{area}', [ThesisAreaController::class, 'destroy'])->name('api.thesisAreas.destroy');
     });
 });
@@ -137,6 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/roles', [RoleController::class, 'apiIndex'])->name('api.roles.index');
         Route::post('/roles', [RoleController::class, 'store'])->name('api.roles.store');
         Route::put('/roles/{role}', [RoleController::class, 'update'])->name('api.roles.update');
+        Route::put('/roles/quitar/{id}', [RoleController::class, 'remove'])->name('api.roles.remove');
         Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('api.roles.destroy');
     });
 });
@@ -158,6 +162,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/usuarios', [RoleUserController::class, 'apiIndex'])->name('api.users.index');
         Route::post('/usuarios', [RoleUserController::class, 'store'])->name('api.users.store');
         Route::put('/usuarios/{role_user}', [RoleUserController::class, 'update'])->name('api.users.update');
+        Route::put('/usuarios/quitar/{id}', [UserController::class, 'remove'])->name('api.users.remove');
         Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('api.users.destroy');
     });
 });

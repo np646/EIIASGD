@@ -11,9 +11,11 @@ class RoleUserController extends Controller
     public function apiIndex()
     {
         // role_user.user_id is returned as 'id' to update the user, this is because SettingsDatatable expects
-        // the id to be updated as 'id'
+        // the item id to be updated as 'id'
 
         $users = DB::table('role_user')
+        ->where('users.status', 1)
+        ->where('role_user.status', 1)
             ->join('users', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select(
@@ -100,7 +102,7 @@ class RoleUserController extends Controller
 
         DB::table('role_user')
             ->where('user_id', $role_user->id)
-            ->delete();
+            ->update(['status' => 0]);
 
         foreach ($roles as $role) {
             DB::table('role_user')->insert([

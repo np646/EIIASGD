@@ -94,10 +94,9 @@ class FileController extends Controller
     public function destroyGraduation($student_id, $index, $file_id)
     {
         $file = File::findOrFail($file_id);
-        if ($file->path && Storage::exists($file->path)) {
-            Storage::delete($file->path);
-        }
-        $file->delete();
+
+        $file->status = 0;
+        $file->save();
 
         $graduationFilesController = new GraduationFilesController();
         $graduation_file = $graduationFilesController->fetchByStudentId($student_id);
@@ -138,10 +137,8 @@ class FileController extends Controller
     public function destroyPreprofessional($student_id, $index, $file_id)
     {
         $file = File::findOrFail($file_id);
-        if ($file->path && Storage::exists($file->path)) {
-            Storage::delete($file->path);
-        }
-        $file->delete();
+        $file->status = 0;
+        $file->save();
 
         $preprofessionalController = new PreprofessionalController();
         $preprofessional_file = $preprofessionalController->fetchByStudentId($student_id);
@@ -167,10 +164,8 @@ class FileController extends Controller
     public function destroyCommunity($student_id, $index, $file_id)
     {
         $file = File::findOrFail($file_id);
-        if ($file->path && Storage::exists($file->path)) {
-            Storage::delete($file->path);
-        }
-        $file->delete();
+        $file->status = 0;
+        $file->save();
 
         $communityController = new CommunityController();
         $community_file = $communityController->fetchByStudentId($student_id);
@@ -190,10 +185,8 @@ class FileController extends Controller
     public function destroyProject($project_id, $index, $file_id)
     {
         $file = File::findOrFail($file_id);
-        if ($file->path && Storage::exists($file->path)) {
-            Storage::delete($file->path);
-        }
-        $file->delete();
+        $file->status = 0;
+        $file->save();
 
         $projectController = new CommunityProjectController();
         $project_file = $projectController->fetchByProjectId($project_id);

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable(); // TODO: should be constrained to users table
             $table->foreignId('updated_by')->nullable(); // same as above
             $table->timestamps();
+            $table->boolean('status')->default(true);
         });
 
 

@@ -256,6 +256,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/proyectos', [CommunityProjectController::class, 'apiIndex'])->name('api.community.projects.index');
         Route::post('/proyectos', [CommunityProjectController::class, 'store'])->name('api.community.projects.store');
         Route::put('/proyectos/{project}', [CommunityProjectController::class, 'update'])->name('api.community.projects.update');
+        Route::put('/proyectos/quitar/{id}', [CommunityProjectController::class, 'remove'])->name('api.community.projects.remove');
         Route::delete('/proyectos/{project}', [CommunityProjectController::class, 'destroy'])->name('api.community.projects.destroy');
     });
     Route::get('/vinculacion/proyectos/{project}/estudiantes', [CommunityController::class, 'studentsInProject'])->name('community.projects.studentsInProject');

@@ -39,8 +39,7 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    academic_period_id: selectedPeriod,
-    status: 1,
+    academic_period_id: selectedPeriod
 });
 
 watch(selectedPeriod, () => {

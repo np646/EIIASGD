@@ -49,9 +49,9 @@ const fetchItems = async () => {
     }
 };
 
-const handleItemCreated = (newItem) => {
-    items.value.push(newItem);
-    showCreateModal.value = false;
+const handleItemCreated = async (newItem) => {
+       // Fetch fresh data instead of pushing
+       await fetchItems();
 };
 
 const handleItemDeleted = (itemId) => {

@@ -22,7 +22,8 @@ class CommunityProjectController extends Controller
     public function apiIndex()
     {
 
-        $query = CommunityProject::join('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
+        $query = CommunityProject::where('community_projects.status', 1)
+            ->join('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
             ->select(
                 'community_projects.*',
                 'academic_periods.period as academic_period_name'
@@ -30,7 +31,7 @@ class CommunityProjectController extends Controller
             ->get();
 
         return response()->json($query);
-       // return back()->with($query);
+        // return back()->with($query);
         /*return response()->json(CommunityProject::all());*/
     }
 
@@ -68,6 +69,12 @@ class CommunityProjectController extends Controller
     public function destroy(CommunityProject $project)
     {
         $project->delete();
+        return response()->json(null, 204);
+    }
+    public function remove($id)
+    {
+        $project = CommunityProject::findOrFail($id);
+        $project->update(['status' => 0]);
         return response()->json(null, 204);
     }
 
@@ -117,5 +124,4 @@ class CommunityProjectController extends Controller
         $statuses = CommunityProject::get();
         return $statuses;
     }
-
 }

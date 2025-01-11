@@ -6,6 +6,7 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FileController extends Controller
 {
@@ -200,5 +201,34 @@ class FileController extends Controller
 
         $project_file->update([$columnName => null]);
         return redirect()->back()->with('success', 'Ha sido eliminado exitosamente.');
+    }
+
+    // For file info
+    public function fileInfo($id)
+    {
+        $file = File::where('files.id', $id)
+            ->join('users as creator', 'files.created_by', '=', 'creator.id')
+            ->join('users as updater', 'files.updated_by', '=', 'updater.id')
+            ->select(
+                'files.name',
+                'creator.name as created_by_name',
+                'files.created_at',
+                'updater.name as updated_by_name',
+                'files.updated_at'
+            )
+            ->first();
+
+        if ($file) {
+            // Convert the file object to an array
+            $data = $file->toArray();
+
+            // Format the timestamps
+            $data['created_at'] = $file->created_at->format('Y-m-d H:i:s');
+            $data['updated_at'] = $file->updated_at->format('Y-m-d H:i:s');
+
+            return response()->json($data);
+        }
+
+        return response()->json(null, 404);
     }
 }

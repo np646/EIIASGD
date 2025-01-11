@@ -214,6 +214,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/documentos/actualizar/{id}', [FileController::class, 'update'])->name('files.update');
     Route::get('/documentos/descargar/{id}', [FileController::class, 'download'])->name('files.download');
     Route::get('/documentos/abrir/{file_id}', [FileController::class, 'open'])->name('files.open');
+    Route::get('/documentos/info/{id}', [FileController::class, 'fileInfo'])->name('files.info');
     Route::post('/documentos/guardar/{parentId}', [FileController::class, 'store'])->name('files.store');
 });
 // Graduation files: Archivos de titulación

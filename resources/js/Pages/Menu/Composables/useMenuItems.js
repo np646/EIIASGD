@@ -28,7 +28,6 @@ export const useMenuItems = () => {
                 { href: "/titulacion/estudiantes", text: "Por estudiante", icon: markRaw(BIconFileEarmarkPersonFill) },
                 { href: "/titulacion/periodos-academicos", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
                 { href: "/titulacion/evaluadores", text: "Evaluadores", icon: markRaw(BIconPersonCheckFill) },
-                { href: "/titulacion/reportes", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
             ],
         },
         {
@@ -50,6 +49,7 @@ export const useMenuItems = () => {
                 { href: "/laborales/periodos-academicos", text: "Por periodo", icon: markRaw(BIconCalendarWeekFill) },
             ],
         },
+        { id: "reportes", href: "/reportes", text: "Reportes", icon: markRaw(BIconClipboardDataFill) },
         { id: "configuracion", href: "/configuracion", text: "Configuración", icon: markRaw(BIconGearFill) },
     ]);
 };

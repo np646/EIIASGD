@@ -23,4 +23,13 @@ class DashboardController extends Controller
             'graduatedPerYear' => $graduatedPerYear
         ]);
     }
+
+    public function reports()
+    {
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+        return Inertia::render('Reports/Index', [
+            'periods' => $periods
+        ]);
+    }
 }

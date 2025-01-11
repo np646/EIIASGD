@@ -209,17 +209,6 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('api.graduation.getProcessesAsReader');
     });
 });
-// Graduation statistics: Reportes de titulación
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/titulacion/reportes', [GraduationController::class, 'statistics'])->name('graduation.statistics');
-    Route::prefix('api/titulacion/reportes')->group(function () {
-        Route::get('/rezagados', [GraduationController::class, 'getDelayedStudents'])->name('api.graduation.delayedStudents');
-        Route::get('/numero-de-matricula', [GraduationController::class, 'getRegistrationTimes'])->name('api.graduation.registrationTimes');
-        Route::get('/graduados-por-fecha/{start}/{end}', [GraduationController::class, 'getGraduatesByDate'])->name('api.graduation.graduatesByDate');
-        Route::get('/documentacion-entregada', [GraduationFilesController::class, 'getSentDocummentation'])->name('api.graduationFiles.sentDocummentation');
-    });
-});
-
 // General file management: Gestión de archivos en general
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/documentos/actualizar/{id}', [FileController::class, 'update'])->name('files.update');
@@ -293,5 +282,20 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/buscar', action: [SearchController::class, 'search'])->name('search');
 });
+
+// Statistical reports: Reportes estadisticos
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/reportes', [DashboardController::class, 'reports'])->name('menu.reports');
+    Route::prefix('api/reportes')->group(function () {
+        Route::get('/titulacion/rezagados/{id}', [GraduationController::class, 'getDelayedStudents'])->name('api.graduation.delayedStudents');
+        Route::get('/titulacion/numero-de-matricula/{id}', [GraduationController::class, 'getRegistrationTimes'])->name('api.graduation.registrationTimes');
+        Route::get('/titulacion/graduados-por-fecha/{start}/{end}', [GraduationController::class, 'getGraduatesByDate'])->name('api.graduation.graduatesByDate');
+        Route::get('/titulacion/documentacion-entregada/{id}', [GraduationFilesController::class, 'getSentDocumentation'])->name('api.graduationFiles.sentDocumentation');
+        Route::get('/vinculacion/documentacion-entregada/{id}', [CommunityController::class, 'getSentDocumentation'])->name('api.community.sentDocumentation');
+        Route::get('/preprofesionales/documentacion-entregada/{id}', [PreprofessionalController::class, 'getSentDocumentation'])->name('api.preprofessional.sentDocumentation');
+        Route::get('/proyecto-vinculacion/documentacion-entregada/{id}', [CommunityProjectController::class, 'getSentDocumentation'])->name('api.community.project.sentDocumentation');
+    });
+});
+
 ////
 require __DIR__ . '/auth.php';

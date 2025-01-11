@@ -16,7 +16,7 @@ class GraduationFilesController extends Controller
         ];
         GraduationFiles::create($data);
     }
-    
+
     public function studentFiles($student_id)
     {
         $studentController = new StudentController();
@@ -90,10 +90,11 @@ class GraduationFilesController extends Controller
         return GraduationFiles::find($student_id);
     }
 
-    //Statistics module
-    public function getSentDocummentation()
+    //Reports module
+    public function getSentDocumentation($id)
     {
         $query = GraduationFiles::whereNot('graduations.status', 2)
+            ->where('graduations.academic_period_end_id', '=', $id)
             ->join('graduations', 'graduations.student_id', '=', 'graduation_files.student_id')
             ->join('students', 'graduations.student_id', '=', 'students.id')
             ->select(

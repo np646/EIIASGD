@@ -165,4 +165,23 @@ class PreprofessionalController extends Controller
         $process->update($request->all());
         return redirect()->route('preprofessional.process', ['student' => $student_id]);
     }
+
+    public function getSentDocumentation($id)
+    {
+        $query = PreprofessionalInternship::where('preprofessional_internships.academic_period_id', '=', $id)
+            ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
+            ->select(
+                'preprofessional_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->external_report_is_null = is_null($item->external_report_id) ? true : false;
+            $item->student_report_is_null = is_null($item->student_report_id) ? true : false;
+            $item->banner_cert_is_null = is_null($item->banner_cert_id) ? true : false;
+        });
+
+        return response()->json($query);
+    }
 }

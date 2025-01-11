@@ -121,7 +121,22 @@ class CommunityProjectController extends Controller
 
     public function fetch()
     {
-        $statuses = CommunityProject::get();
+        $statuses = CommunityProject::where('status', 1)->get();
         return $statuses;
+    }
+
+    public function getSentDocumentation($id)
+    {
+        $query = CommunityProject::where('community_projects.academic_period_id', '=', $id)
+            ->select(
+                'community_projects.*',
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->project_report_is_null = is_null($item->project_report_id) ? true : false;
+        });
+
+        return response()->json($query);
     }
 }

@@ -215,4 +215,22 @@ class CommunityController extends Controller
         $student = $studentController->fetchFullStudent($student_id);
         return $student;
     }
+
+    public function getSentDocumentation($id)
+    {
+        $query = CommunityInternship::where('community_internships.academic_period_id', '=', $id)
+            ->join('students', 'community_internships.student_id', '=', 'students.id')
+            ->select(
+                'community_internships.id',
+                'community_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->student_report_is_null = is_null($item->student_report_id) ? true : false;
+        });
+
+        return response()->json($query);
+    }
 }

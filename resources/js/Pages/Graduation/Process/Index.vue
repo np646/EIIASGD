@@ -45,6 +45,10 @@
                         <div class="col-span-9 mb-2">
                             <InputText id="inputAsesor" fluid disabled v-model="form.advisor" />
                         </div>
+                        <label class="flex items-center col-span-3 h-full" for="inputFechaAsesor">Fecha de asignación de asesor</label>
+                        <div class="col-span-9 mb-2">
+                            <InputText id="inputFechaAsesor" fluid disabled v-model="form.advisor_assignment_date" />
+                        </div>
                         <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
                         <div class="col-span-9 mb-2">
                             <InputText id="inputLector1" fluid disabled v-model="form.reader1" />
@@ -52,6 +56,10 @@
                         <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
                         <div class="col-span-9 mb-2">
                             <InputText id="inputLector2" fluid disabled v-model="form.reader2" />
+                        </div>
+                        <label class="flex items-center col-span-3 h-full" for="inputFechaLector">Fecha de asignación de lectores</label>
+                        <div class="col-span-9 mb-2">
+                            <InputText id="inputFechaLectores" fluid disabled v-model="form.readers_assignment_date" />
                         </div>
                         <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
                         <div class="col-span-9 mb-2">
@@ -91,8 +99,10 @@ const form = useForm({
     start_period: graduation.start_period,
     end_period: graduation.end_period,
     advisor: graduation.advisor_name,
+    advisor_assignment_date: graduation.advisor_assignment_date,
     reader1: graduation.reader1_name,
     reader2: graduation.reader2_name,
+    readers_assignment_date: graduation.readers_assignment_date,
     area: graduation.area,
     registration_times: registration_times,
     approval_date: graduation.plan_approval_date,

@@ -54,7 +54,11 @@
                                     </template>
                                 </Select>
                             </div>
-                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
+                            <label class="flex items-center col-span-3 h-full" for="inputFechaAsesor">Fecha de asignación de asesor</label>
+                            <div class="col-span-9 mb-2">
+                                <Datepicker v-model="form.advisor_assignment_date" id="inputFechaAsesor" required />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputLector1">Lector (I)</label>
                             <div class="col-span-9 mb-2">
                                 <Select v-model="selectedReader1" id="inputLector1" :options="professors" filter optionLabel="name" class="w-100">
                                     <template #value="slotProps">
@@ -72,7 +76,7 @@
                                     </template>
                                 </Select>
                             </div>
-                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
+                            <label class="flex items-center col-span-3 h-full" for="inputLector2">Lector (II)</label>
                             <div class="col-span-9 mb-2">
                                 <Select v-model="selectedReader2" id="inputLector2" :options="professors" filter optionLabel="name" class="w-100">
                                     <template #value="slotProps">
@@ -89,6 +93,10 @@
                                         </div>
                                     </template>
                                 </Select>
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputFechaLectores">Fecha de asignación de lectores</label>
+                            <div class="col-span-9 mb-2">
+                                <Datepicker v-model="form.readers_assignment_date" id="inputFechaLectores" required />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
                             <div class="col-span-9 mb-2">
@@ -147,9 +155,11 @@ const registration_times = ref("");
 const form = useForm({
     academic_period_start_id: graduation.academic_period_start_id,
     academic_period_end_id: graduation.academic_period_end_id,
-    advisor_id: graduation.advisor_name,
-    reader1_id: graduation.reader1_name,
-    reader2_id: graduation.reader2_name,
+    advisor_id: graduation.advisor_id,
+    advisor_assignment_date: graduation.advisor_assignment_date,
+    reader1_id: graduation.reader1_id,
+    reader2_id: graduation.reader2_id,
+    readers_assignment_date: graduation.readers_assignment_date,
     thesis_area: graduation.thesis_area,
     registration_times: registration_times,
     plan_approval_date: graduation.plan_approval_date,
@@ -235,9 +245,9 @@ watch(selectedAdvisor, () => {
 const selectedReader1 = ref(null);
 selectedReader1.value = useComputeSelectedOption(graduation.reader1_id, professors);
 if (selectedReader1.value) {
-    form.advisor_id = selectedReader1.value.id;
+    form.reader1_id = selectedReader1.value.id;
 } else {
-  form.advisor_id = null;
+  form.reader1_id = null;
 }
 watch(selectedReader1, () => {
     form.reader1_id = selectedReader1.value;

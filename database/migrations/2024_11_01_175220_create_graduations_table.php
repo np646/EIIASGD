@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('thesis_name')->unique()->nullable();
             $table->foreignId('thesis_area')->nullable()->constrained('thesis_areas')->onDelete('cascade'); 
             $table->foreignId('advisor_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->date('advisor_assignment_date')->nullable();
             $table->foreignId('academic_period_end_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
             $table->foreignId('reader1_id')->nullable()->constrained('professors')->onDelete('cascade');
             $table->foreignId('reader2_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->date('readers_assignment_date')->nullable();
             $table->date('graduation_date')->nullable();
             $table->integer('registration_times')->nullable();
             $table->boolean('status')->constrained('graduation_statuses')->onDelete('cascade')->default(4);

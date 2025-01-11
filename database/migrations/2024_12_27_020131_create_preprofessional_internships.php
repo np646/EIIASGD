@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('cascade'); 
             $table->foreignId('academic_period_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
-            $table->foreignId('external_report_id')->nullable()->constrained('files')->onDelete('set null'); 
+            $table->foreignId('external_cert_id')->nullable()->constrained('files')->onDelete('set null'); 
             $table->foreignId('student_report_id')->nullable()->constrained('files')->onDelete('set null'); 
             $table->foreignId('banner_cert_id')->nullable()->constrained('files')->onDelete('set null'); 
             $table->boolean('status')->constrained('internship_statuses')->onDelete('cascade')->default(1);

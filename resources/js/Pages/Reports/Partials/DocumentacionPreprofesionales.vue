@@ -60,7 +60,7 @@ const fetchStudents = async () => {
 };
 
 const columnHeaders = [
-    { field: "external_report_is_null", header: "Certificado externo" },
+    { field: "external_cert_is_null", header: "Certificado externo" },
     { field: "student_report_is_null", header: "Informe del estudiante" },
 ];
 

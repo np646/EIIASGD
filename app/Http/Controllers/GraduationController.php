@@ -156,12 +156,18 @@ class GraduationController extends Controller
 
     public function reviewers()
     {
-        return Inertia::render('Graduation/Reviewers/Index');
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
+        return Inertia::render('Graduation/Reviewers/Index', [
+            'periods' => $periods
+        ]);
     }
 
-    public function getReviewersByStudents()
+    public function getReviewersByStudents($id)
     {
-        $graduations = Graduation::where('students.status', 1)
+        $query = Graduation::where('students.status', 1)
+            ->where('graduations.academic_period_end_id', "=", $id)
             ->join('students', 'graduations.student_id', '=', 'students.id')
             ->join('professors AS advisors', 'graduations.advisor_id', '=', 'advisors.id')
             ->join('professors AS reader1s', 'graduations.reader1_id', '=', 'reader1s.id')
@@ -174,12 +180,7 @@ class GraduationController extends Controller
                 DB::raw("CONCAT(reader2s.lastname, ' ', reader2s.name) AS reader2")
             )
             ->get();
-
-        if (request()->wantsJson()) {
-            return response()->json(['graduations' => $graduations]);
-        }
-
-        return back()->with(['graduations' => $graduations]);
+        return response()->json($query);
     }
 
     public function getReviewersByProfessors()
@@ -238,18 +239,23 @@ class GraduationController extends Controller
         $professorController = new ProfessorController();
         $professor = $professorController->fetchById($id);
 
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
         return Inertia::render('Graduation/Reviewers/Processes', [
             'professor_id' => $id,
-            'professor' => $professor
+            'professor' => $professor,
+            'periods' => $periods
         ]);
     }
 
-    public function getProcessesAsAdvisor($professor_id)
+    public function getProcessesAsAdvisor($professor_id, $period_id)
     {
         $query = Graduation::where(
             'advisor_id',
             $professor_id
         )->where('students.status', 1)
+            ->where('graduations.academic_period_end_id', $period_id)
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
@@ -259,17 +265,13 @@ class GraduationController extends Controller
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->get();
 
-
-        if (request()->wantsJson()) {
-            return response()->json(['processes' => $query]);
-        }
-
-        return back()->with(['processes' => $query]);
+        return response()->json($query);
     }
 
-    public function getProcessesAsReader($professor_id)
+    public function getProcessesAsReader($professor_id, $period_id)
     {
         $query = Graduation::where('students.status', 1)
+            ->where('graduations.academic_period_end_id', $period_id)
             ->where(function ($q) use ($professor_id) {
                 $q->where('graduations.reader1_id', $professor_id)
                     ->orWhere('graduations.reader2_id', $professor_id);
@@ -283,11 +285,7 @@ class GraduationController extends Controller
             ->get();
 
 
-        if (request()->wantsJson()) {
-            return response()->json(['processes' => $query]);
-        }
-
-        return back()->with(['processes' => $query]);
+        return response()->json($query);
     }
 
     public function students()
@@ -311,8 +309,8 @@ class GraduationController extends Controller
     public function totalGraduated()
     {
         $query = Graduation::where('graduations.status', 2)
-        ->where('students.status', 1)
-        ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->where('students.status', 1)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
             ->count();
         return response()->json($query);
     }
@@ -322,7 +320,7 @@ class GraduationController extends Controller
         $query = Graduation::selectRaw('YEAR(graduations.graduation_date) as year, COUNT(*) as total_graduated')
             ->where('graduations.status', 2)
             ->where('students.status', 1)
-            ->join('students', 'graduations.student_id', '=', 'students.id')    
+            ->join('students', 'graduations.student_id', '=', 'students.id')
             ->groupBy(DB::raw('YEAR(graduations.graduation_date)'))
             ->orderBy('year', 'asc')
             ->get();

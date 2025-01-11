@@ -146,7 +146,7 @@ class FileController extends Controller
 
         switch ($index) {
             case 1:
-                $columnName = "external_report_id";
+                $columnName = "external_cert_id";
                 break;
             case 2:
                 $columnName = "student_report_id";

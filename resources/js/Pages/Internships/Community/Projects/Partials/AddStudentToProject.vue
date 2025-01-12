@@ -86,13 +86,13 @@ const addItem = async () => {
         
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Estudiante agregado exitosamente",
+            summary: "Éxito",
+            detail: "Estudiante agregado exitosamente.",
             life: 3000,
         });
         closeModal();
     } catch (error) {
-        console.error('Error adding student:', error);
+        console.error('No fue posible agregar el estudiante. ', error);
         toast.add({
             severity: "error",
             summary: "Error",

@@ -66,15 +66,12 @@ const handleItemAdded = async (newItem) => {
     await fetchItems();
 };
 
-const handleItemDeleted = (itemId) => {
-    items.value = items.value.filter((item) => item.id !== itemId);
+const handleItemDeleted = async (itemId) => {
+    await fetchItems();
 };
 
-const handleItemUpdated = (updatedItem) => {
-    const index = items.value.findIndex((item) => item.id === updatedItem.id);
-    if (index !== -1) {
-        items.value[index] = updatedItem;
-    }
+const handleItemUpdated = async (updatedItem) => {
+    await fetchItems();
 };
 
 onMounted(fetchItems);

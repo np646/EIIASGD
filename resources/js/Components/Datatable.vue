@@ -121,12 +121,12 @@ const deleteItem = async () => {
         showDeleteDialog.value = false;
         toast.add({
             severity: "success",
-            summary: "Success",
+            summary: "Éxito",
             detail: "Ha sido eliminado exitosamente.",
             life: 3000,
         });
     } catch (error) {
-        console.error("No fue posible eliminar el usuario. ", error);
+        console.error("No fue posible eliminar el usuario.", error);
         toast.add({
             severity: "error",
             summary: "Error",

@@ -91,8 +91,8 @@ const createItem = async () => {
         emit("item-created", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Usuario creado exitosamente.",
             life: 3000,
         });
         closeModal();

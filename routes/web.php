@@ -251,7 +251,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::get('/vinculacion/proyectos/{project}/estudiantes', [CommunityController::class, 'studentsInProject'])->name('community.projects.studentsInProject');
     Route::get('/api/vinculacion/proyectos/{project}/estudiantes', [CommunityController::class, 'apiStudentsInProject'])->name('api.community.projects.studentsInProject');
-    Route::put('/api/vinculacion/proyectos/quitar/{student}', [CommunityController::class, 'removeStudentFromProject'])->name('api.community.projects.removeStudentFromProject');
+    Route::put('/api/vinculacion/proyectos/quitar/estudiante/{student}', [CommunityController::class, 'removeStudentFromProject'])->name('api.community.projects.removeStudentFromProject');
     Route::put('/api/vinculacion/proyectos/agregar/{student}/{project}', [CommunityController::class, 'addStudentToProject'])->name('api.community.projects.addStudentToProject');
 });
 // Community internship files: Archivos de projectos de vinculación

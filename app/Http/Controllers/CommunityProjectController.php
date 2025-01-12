@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CommunityProject;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CommunityProjectController extends Controller
@@ -51,7 +51,7 @@ class CommunityProjectController extends Controller
         return response()->json($course, 201);
     }
 
-    public function update(Request $request, CommunityProject $project)
+    public function update(Request $request, $project_id)
     {
         /* $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -62,8 +62,10 @@ class CommunityProjectController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 */
+        $project = $this->fetchByProjectId($project_id);
         $project->update($request->all());
         return response()->json($project);
+   
     }
 
     public function destroy(CommunityProject $project)

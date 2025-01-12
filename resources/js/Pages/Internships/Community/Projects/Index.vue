@@ -18,12 +18,12 @@
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import ProjectsDatatable from './Partials/ProjectsDatatable.vue';
-import CreateCourseModal from './Partials/CreateProjectModal.vue';
+import ProjectsDatatable from "./Partials/ProjectsDatatable.vue";
+import CreateCourseModal from "./Partials/CreateProjectModal.vue";
 import axios from "axios";
 import { ref, onMounted } from "vue";
 
@@ -43,26 +43,22 @@ const fetchItems = async () => {
     try {
         const response = await axios.get(route("api.community.projects.index"));
         items.value = response.data;
-        console.log(items)
+        console.log(items);
     } catch (error) {
         console.error("Error fetching items:", error);
     }
 };
 
 const handleItemCreated = async (newItem) => {
-       // Fetch fresh data instead of pushing
-       await fetchItems();
+    await fetchItems();
 };
 
 const handleItemDeleted = (itemId) => {
     items.value = items.value.filter((item) => item.id !== itemId);
 };
 
-const handleItemUpdated = (updatedItem) => {
-    const index = items.value.findIndex((item) => item.id === updatedItem.id);
-    if (index !== -1) {
-        items.value[index] = updatedItem;
-    }
+const handleItemUpdated = async (updatedItem) => {
+    await fetchItems();
 };
 
 onMounted(fetchItems);

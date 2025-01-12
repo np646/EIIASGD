@@ -138,8 +138,8 @@ const updateItem = async () => {
         emit("item-updated", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido actualizado exitosamente.",
+            summary: "Éxito",
+            detail: "Usuario actualizado exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -147,7 +147,7 @@ const updateItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible actualizar el usuario.",
             life: 3000,
         });
     } finally {

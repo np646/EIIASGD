@@ -110,7 +110,7 @@ const deleteItem = async () => {
         showDeleteDialog.value = false;
         toast.add({
             severity: "success",
-            summary: "Success",
+            summary: "Éxito",
             detail: "Ha sido eliminado exitosamente.",
             life: 3000,
         });
@@ -119,7 +119,7 @@ const deleteItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible eliminar el usuario.",
+            detail: "No fue posible eliminar.",
             life: 3000,
         });
     }

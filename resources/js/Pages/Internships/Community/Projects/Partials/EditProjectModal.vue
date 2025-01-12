@@ -7,13 +7,7 @@
             </div>
             <div class="field">
                 <label for="edit-periodo">Periodo académico</label>
-                <Select
-                    id="edit-period"
-                    v-model="selectedPeriod"
-                    :options="periods"
-                    optionLabel="period"
-                    class="w-100"
-                />
+                <Select id="edit-period" v-model="selectedPeriod" :options="periods" optionLabel="period" class="w-100" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
@@ -24,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, watch} from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
@@ -53,35 +47,33 @@ const form = ref({
 
 const selectedPeriod = ref(null);
 
-watch(selectedPeriod, (newValue) => {
-    if (newValue) {
-        form.value.academic_period_id = selectedPeriod.value;
-    } else {
-        form.value.academic_period_id = null;
-    }
-});
-
-watch(() => props.itemData, (newData) => {
-    if (newData) {
-        form.value = { ...newData };
-        // Find and set the selected period based on the academic_period_id
-        selectedPeriod.value = periods.value.find(
-            period => period.id === newData.academic_period_id
-        ) || null;
-    }
-}, { immediate: true });
+watch(
+    () => props.itemData,
+    (newData) => {
+        if (newData) {
+            form.value = {
+                name: newData.name,
+                academic_period_id: newData.academic_period_id,
+            };
+            selectedPeriod.value = periods.value.find((period) => period.id === newData.academic_period_id) || null;
+        }
+    },
+    { immediate: true }
+);
 
 const updateItem = async () => {
     loading.value = true;
     try {
         const response = await axios.put(
-            route("api.community.projects.update", { project: props.itemData.id }), 
-            form.value
+            route("api.community.projects.update", { project: props.itemData.id }),
+            form.value 
         );
+        console.log(props.itemData.id);
+        console.log("Sending project:", form.value);
         emit("item-updated", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
+            summary: "Éxito",
             detail: "Ha sido actualizado exitosamente.",
             life: 3000,
         });
@@ -91,7 +83,7 @@ const updateItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible actualizar el proyecto.",
             life: 3000,
         });
     } finally {

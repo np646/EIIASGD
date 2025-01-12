@@ -145,17 +145,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-// Permissions: Permisos
-//TODO: check if permissions are needed at all
-Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('api')->group(function () {
-        Route::get('/permisos', [PermissionController::class, 'apiIndex'])->name('api.permissions.index');
-        Route::post('/permisos', [PermissionController::class, 'store'])->name('api.permissions.store');
-        Route::put('/permisos/{permission}', [PermissionController::class, 'update'])->name('api.permissions.update');
-        Route::delete('/permisos/{permission}', [PermissionController::class, 'destroy'])->name('api.permissions.destroy');
-    });
-});
-
 // Users: Usuarios
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('api')->group(function () {
@@ -173,7 +162,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/configuracion/carreras', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/configuracion/areas-titulacion', [ThesisAreaController::class, 'index'])->name('thesisAreas.index');
     Route::get('/configuracion/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('/configuracion/permisos', [PermissionController::class, 'index'])->name('permissions.index');
     Route::get('/configuracion/usuarios', [UserController::class, 'index'])->name('users.index');
     Route::get('/configuracion', [SettingsController::class, 'index'])->name('settings.index');
 });

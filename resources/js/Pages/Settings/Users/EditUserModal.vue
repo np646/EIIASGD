@@ -144,6 +144,7 @@ const updateItem = async () => {
         });
         closeModal();
     } catch (error) {
+        console.error("No fue posible actualizar el usuario. ", error);
         toast.add({
             severity: "error",
             summary: "Error",

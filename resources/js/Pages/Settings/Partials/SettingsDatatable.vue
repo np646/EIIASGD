@@ -47,7 +47,6 @@
         <EditCourseModal v-if="pageName === 'courses'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditPeriodModal v-if="pageName === 'academicPeriods'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditRoleModal v-if="pageName === 'roles'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPermissionModal v-if="pageName === 'permissions'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
@@ -71,7 +70,6 @@ import EditAreaModal from "../ThesisAreas/EditAreaModal.vue";
 import EditCourseModal from "../Courses/EditCourseModal.vue";
 import EditPeriodModal from "../AcademicPeriods/EditPeriodModal.vue";
 import EditRoleModal from "../Roles/EditRoleModal.vue";
-import EditPermissionModal from "../Permissions/EditPermissionModal.vue";
 
 const props = defineProps({
     columnHeaders: Array,

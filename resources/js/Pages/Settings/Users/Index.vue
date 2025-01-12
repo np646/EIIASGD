@@ -49,8 +49,9 @@ const fetchItems = async () => {
 };
 
 const handleItemCreated = (newItem) => {
-    items.value.push(newItem);
-    showCreateModal.value = false;
+   /* items.value.push(newItem);
+    showCreateModal.value = false;*/
+    fetchItems();
 };
 
 const handleItemDeleted = (itemId) => {

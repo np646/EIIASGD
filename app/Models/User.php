@@ -57,8 +57,4 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->exists();
     }
 
-    public function hasPermission($permission): bool
-    {
-        return $this->roles->flatMap->permissions->pluck('name')->contains($permission);
-    }
 }

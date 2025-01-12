@@ -70,7 +70,7 @@ const user = usePage().props.auth.user;
 const totalStudents = usePage().props.students.original;
 const totalGraduated = usePage().props.graduated.original;
 const graduatedPerYear = usePage().props.graduatedPerYear.original;
-const formattedDate = useGetDate;
+const formattedDate = useGetDate();
 
 import Chart from "primevue/chart";
 import { ref } from "vue";

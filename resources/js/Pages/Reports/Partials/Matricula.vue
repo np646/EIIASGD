@@ -73,10 +73,14 @@ const getRegistrationTimes = (times) => {
 };
 
 onMounted(() => {
-    currentDate.value = useGetDate;
-    currentTime.value = useGetTime;
+    currentDate.value = useGetDate();
+    currentTime.value = useGetTime();
 });
+
 watch([selectedPeriod], fetchStudents);
+watch(selectedPeriod, () => {
+    currentTime.value = useGetTime();
+});
 </script>
 <style>
 :root {

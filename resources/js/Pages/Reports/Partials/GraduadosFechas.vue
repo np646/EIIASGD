@@ -100,8 +100,8 @@ const initFilters = () => {
 initFilters();
 
 onMounted(() => {
-    currentDate.value = useGetDate;
-    currentTime.value = useGetTime;
+    currentDate.value = useGetDate();
+    currentTime.value = useGetTime();
 });
 </script>
 <style>

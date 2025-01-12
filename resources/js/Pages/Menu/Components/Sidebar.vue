@@ -186,17 +186,13 @@ onMounted(() => {
     overflow-x: hidden;
 }
 
+.sidebar .menu-items {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 .sidebar .menu-items::-webkit-scrollbar {
-    width: 3px;
-}
-
-.sidebar .menu-items::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    border-radius: 5px;
-}
-
-.sidebar .menu-items::-webkit-scrollbar-thumb:hover {
-    background-color: var(--border-color);
+    display: none;
 }
 
 .sidebar .menu-items #menu-items-ul {

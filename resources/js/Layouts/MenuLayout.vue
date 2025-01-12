@@ -73,15 +73,9 @@ const userName = computed(() => page.props.auth.user.name);
 .main-content {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     transition: margin-left 0.4s ease;
 }
 
-
-@media (max-width: 600px) {
-    .main-content,
-    .main-content-sidebar-mini {
-        padding-right: 20px;
-    }
-}
 </style>

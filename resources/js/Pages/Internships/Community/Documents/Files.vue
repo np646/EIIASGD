@@ -235,6 +235,9 @@ const infoFile = async () => {
             "Nombre: " +
             response.data.name +
             "<br>" +
+            "Tamaño: " +
+            response.data.size +
+            "<br>" +
             "Creado por: " +
             response.data.created_by_name +
             "<br>" +

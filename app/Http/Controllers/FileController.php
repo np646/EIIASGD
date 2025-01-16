@@ -13,20 +13,30 @@ class FileController extends Controller
 
     public function store(Request $request, $parentId = null)
     {
+        function formatBytes($size, $precision = 2)
+        {
+            $base = log($size, 1024);
+            $suffixes = array('', 'KB', 'MB', 'GB', 'TB');
+
+            return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'is_folder' => 'required|boolean',
             'file' => 'nullable|file',
         ]);
 
+        $file_name = uniqid() . "_" . $request->name;
         // Create file or folder in database
         $file = new File();
-        $file->name = $request->name;
+        $file->name = $file_name;
         $file->is_folder = $request->is_folder;
         $file->parent_id = $parentId ?: null;
         $file->student_id = $request->student_id;
         $file->created_by = Auth::id();
         $file->updated_by = Auth::id();
+        $file->size = formatBytes($request->file('file')->getSize());
 
         if ($parentId) {
             $parentFile = File::find($parentId);
@@ -45,8 +55,8 @@ class FileController extends Controller
             $storagePath = "uploads/{$file->path}";
             $filePath = "{$file->path}";
 
-            Storage::putFileAs($storagePath, $fileToUpload, $fileToUpload->getClientOriginalName());
-            $file->path = $filePath . $fileToUpload->getClientOriginalName();
+            Storage::putFileAs($storagePath, $fileToUpload, $file_name);
+            $file->path = $filePath . $file_name;
             $file->save();
         }
 
@@ -211,6 +221,7 @@ class FileController extends Controller
             ->join('users as updater', 'files.updated_by', '=', 'updater.id')
             ->select(
                 'files.name',
+                'files.size',
                 'creator.name as created_by_name',
                 'files.created_at',
                 'updater.name as updated_by_name',

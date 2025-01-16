@@ -16,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_folder'); // CARPETA = 1, ARCHIVO = 0
+            $table->string(column: 'size')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('files')->onDelete('cascade');
             $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('set null');
-            $table->string('path');
+            $table->string(column: 'path');
             $table->integer('level')->default(1);
             $table->foreignId('created_by')->nullable(); // TODO: should be constrained to users table
             $table->foreignId('updated_by')->nullable(); // same as above

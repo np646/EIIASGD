@@ -218,8 +218,11 @@ const infoFile = async () => {
         const response = await axios.get(route("files.info", { id: fileId.value }));
         console.log("Fetched students:", response.data);
         fileInfoData.value =
-            "Nombre: " +
+           "Nombre: " +
             response.data.name +
+            "<br>" +
+            "Tamaño: " +
+            response.data.size +
             "<br>" +
             "Creado por: " +
             response.data.created_by_name +

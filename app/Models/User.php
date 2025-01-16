@@ -47,14 +47,15 @@ class User extends Authenticatable
     }
 
     //For authentication
-    public function roles(): BelongsToMany
+
+    public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')
+            ->where('role_user.status', 1); // Filter roles with status = 1
     }
 
     public function hasRole($role): bool
     {
         return $this->roles()->where('name', $role)->exists();
     }
-
 }

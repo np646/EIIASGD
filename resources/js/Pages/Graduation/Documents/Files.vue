@@ -110,7 +110,6 @@ import InputGroupAddon from "primevue/inputgroupaddon";
 import Information from "./Partials/Information.vue";
 import axios from "axios";
 import { router } from "@inertiajs/vue3";
-import Textarea from "primevue/textarea";
 
 const fileInput = ref(null);
 const fileInfoData = ref(null);

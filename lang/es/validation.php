@@ -188,6 +188,16 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'lastname' => 'apellido',
+        'name' => 'nombre',
+        'email' => 'correo electrónico',
+        'date_of_birth' => 'fecha de nacimiento',
+        'identification' => 'identificación',
+        'banner_code' => 'código de banner',
+        'sex' => 'sexo',
+        'course_id' => 'carrera',
+        'academic_period_start_id' => 'periodo académico de inicio',
+    ],
 
 ];

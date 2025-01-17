@@ -7,7 +7,7 @@ use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -38,35 +38,22 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'lastname' => 'required|string',
-        //     'date_of_birth' => 'required|string',
-        //     'identification' => 'required|string',
-        //     'email' => 'required|email|unique:students',
-        //     'banner_code' => 'required|email|unique:students',
-        //     'sex' => 'required|integer',
-        //     'status' => 'required|integer'
-        // ]);
-
-        // Student::create($request->all());
-        // return redirect()->route('students.index');
-
-
         $validator = Validator::make($request->all(), [
-           'name' => 'required|string',
+            'name' => 'required|string',
             'lastname' => 'required|string',
             'date_of_birth' => 'required|string',
-            'identification' => 'required|string',
+            'identification' => 'required|string|unique:students',
             'email' => 'required|email|unique:students',
             'banner_code' => 'required|string|unique:students',
             'sex' => 'required|boolean',
+            'course_id' => 'required|integer',
+            'academic_period_start_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-    
+
 
         $params = $request->all();
         $data = [
@@ -120,16 +107,34 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
-        //TODO: test update
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'lastname' => 'required|string',
-        //     'email' => 'required|email|unique:students',
-        //     'date_of_birth' => 'required|date',
-        //     'identification' => 'required|string',
-        //     'banner_code' => 'required|string|unique:students',
-        //     'sex' => 'required|integer',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => [
+                'required',
+                'string',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'banner_code' => [
+                'required',
+                'string',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'sex' => 'required|boolean',
+            'course_id' => 'required|integer',
+            'academic_period_start_id' => 'required|integer',
+        ]);
+
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $student->update($request->all());
         return redirect()->route('students.index');
@@ -170,7 +175,6 @@ class StudentController extends Controller
 
     public function fetch()
     {
-        //TODO: check if the where column here is correct, review where this method is used so only active students are fetched
         $students = Student::where('status', 1)->get();
         return response()->json($students);
     }

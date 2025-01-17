@@ -80,6 +80,9 @@ const title = "Editar información del estudiante";
 const label = "sex";
 const { student } = usePage().props;
 const courses = ref(usePage().props.courses);
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 
 const form = useForm({
     name: student.name,
@@ -115,7 +118,29 @@ watch(selectedCourse, () => {
 });
 
 const submit = () => {
-    form.put(route("students.update", student.id));
+    form.put(route("students.update", student.id), {
+        onError: (errors) => {
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Validation Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+            if (errors.sex) selectedSex.value = null;
+            if (errors.course_id) selectedCourse.value = null;
+            if (errors.academic_period_start_id) selectedStartPeriod.value = null;
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Estudiante actualizado correctamente.",
+                life: 3000,
+            });
+        },
+    });
 };
 
 const cancel = () => {

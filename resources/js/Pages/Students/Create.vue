@@ -33,14 +33,7 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select
-                            class="w-100"
-                            id="inputSelectSexo"
-                            :options="sex"
-                            optionLabel="sex"
-                            v-model="selectedSex"
-                            :class="{ 'p-invalid': form.errors.sex }"
-                        />
+                        <Select class="w-100" id="inputSelectSexo" :options="sex" optionLabel="sex" v-model="selectedSex" />
                     </div>
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
@@ -50,11 +43,11 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectCarrera" class="col-form-label">Carrera</label>
-                        <Select id="inputSelectCarrera" v-model="selectedCourse" :options="courses" optionLabel="name" class="w-100" />
+                        <Select id="inputSelectCarrera" v-model="selectedCourse" :options="courses" optionLabel="name" class="w-100" required />
                     </div>
                     <div class="col-6">
                         <label for="inputInicio" class="col-form-label">Periodo de inicio de estudios</label>
-                        <Select id="inputInicio" v-model="selectedStartPeriod" :options="periods" optionLabel="period" class="w-100" />
+                        <Select id="inputInicio" v-model="selectedStartPeriod" :options="periods" optionLabel="period" class="w-100" required />
                     </div>
                 </div>
                 <div class="row g-3 py-3 px-3">
@@ -82,9 +75,8 @@ import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 const courses = ref(usePage().props.courses);
 const periods = ref(usePage().props.periods);
-import { useToast } from "primevue/usetoast"; // PrimeVue toast example (if using PrimeVue)
+import { useToast } from "primevue/usetoast";
 const toast = useToast();
-import axios from "axios";
 
 const title = "Registrar nuevo estudiante";
 const selectedSex = ref(null);
@@ -111,23 +103,22 @@ const sex = ref([
 
 // Watch handlers with proper error state handling
 watch(selectedSex, (newValue) => {
-    form.sex = newValue;  // This should now work
-    console.log('Selected sex:', newValue);  // To debug the selected value
-    console.log('Form sex value:', form.sex);  // To debug the form value
+    form.sex = newValue; // This should now work
+    console.log("Selected sex:", newValue); // To debug the selected value
+    console.log("Form sex value:", form.sex); // To debug the form value
 });
 
 watch(selectedCourse, (newValue) => {
-    form.course_id = newValue?.id;
+    form.course_id = newValue;
 });
 
 watch(selectedStartPeriod, (newValue) => {
-    form.academic_period_start_id = newValue?.id;
+    form.academic_period_start_id = newValue;
 });
 
 const submit = () => {
     form.post(route("students.store"), {
         onError: (errors) => {
-            // Show errors in toast
             Object.keys(errors).forEach((key) => {
                 toast.add({
                     severity: "error",
@@ -136,9 +127,6 @@ const submit = () => {
                     life: 3000,
                 });
             });
-            
-            // Don't reset form on error so user can fix mistakes
-            // But do reset any invalid select fields
             if (errors.sex) selectedSex.value = null;
             if (errors.course_id) selectedCourse.value = null;
             if (errors.academic_period_start_id) selectedStartPeriod.value = null;
@@ -147,7 +135,7 @@ const submit = () => {
             toast.add({
                 severity: "success",
                 summary: "Éxito",
-                detail: "Estudiante registrado correctamente",
+                detail: "Estudiante registrado correctamente.",
                 life: 3000,
             });
             resetForm();

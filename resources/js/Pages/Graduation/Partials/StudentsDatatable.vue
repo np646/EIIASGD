@@ -91,7 +91,7 @@ const getSeverity = (status) => {
         case 3:
             return "danger";
         case 4:
-            return "warn";
+            return "secondary";
     }
 };
 

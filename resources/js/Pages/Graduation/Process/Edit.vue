@@ -138,8 +138,9 @@ import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption
 import { ref, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-
 import { useForm } from "@inertiajs/vue3";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const graduationArray = ref(usePage().props.graduation);
 const graduation = graduationArray.value[0];
@@ -282,6 +283,25 @@ function cancel() {
 
 function submit() {
     const url = route('graduation.update', { graduation: graduation.id});
-    form.put(url);
+    form.put(url, {
+        onError: (errors) => {
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Información actualizada correctamente.",
+                life: 3000,
+            });
+        },
+    });
 }
 </script>

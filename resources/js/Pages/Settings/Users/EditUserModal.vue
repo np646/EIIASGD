@@ -44,8 +44,6 @@ import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
-// TODO: handle user not selecting a role error
-// "required" doesn't work apparently
 
 const props = defineProps({
     modelValue: Boolean,

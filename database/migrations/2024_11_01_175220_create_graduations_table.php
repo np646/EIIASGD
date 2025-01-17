@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('graduations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); 
-            $table->foreignId('academic_period_start_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
+            $table->foreignId('student_id')->constrained('students')->onDelete('restrict'); 
+            $table->foreignId('academic_period_start_id')->nullable()->constrained('academic_periods')->onDelete('set null'); 
             $table->date('plan_approval_date')->nullable();
-            $table->foreignId('graduation_type')->nullable()->constrained('graduation_types')->onDelete('cascade'); 
+            $table->foreignId('graduation_type')->nullable()->constrained('graduation_types')->onDelete('set null'); 
             $table->string('thesis_name')->unique()->nullable();
-            $table->foreignId('thesis_area')->nullable()->constrained('thesis_areas')->onDelete('cascade'); 
-            $table->foreignId('advisor_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->foreignId('thesis_area')->nullable()->constrained('thesis_areas')->onDelete('set null'); 
+            $table->foreignId('advisor_id')->nullable()->constrained('professors')->onDelete('set null');
             $table->date('advisor_assignment_date')->nullable();
-            $table->foreignId('academic_period_end_id')->nullable()->constrained('academic_periods')->onDelete('cascade'); 
-            $table->foreignId('reader1_id')->nullable()->constrained('professors')->onDelete('cascade');
-            $table->foreignId('reader2_id')->nullable()->constrained('professors')->onDelete('cascade');
+            $table->foreignId('academic_period_end_id')->nullable()->constrained('academic_periods')->onDelete('set null'); 
+            $table->foreignId('reader1_id')->nullable()->constrained('professors')->onDelete('set null');
+            $table->foreignId('reader2_id')->nullable()->constrained('professors')->onDelete('set null');
             $table->date('readers_assignment_date')->nullable();
             $table->date('graduation_date')->nullable();
             $table->integer('registration_times')->nullable();
-            $table->boolean('status')->constrained('graduation_statuses')->onDelete('cascade')->default(4);
+            $table->integer('status')->nullable()->constrained('graduation_statuses')->onDelete('set null')->default(4);
         });
     }
 

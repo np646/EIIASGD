@@ -23,7 +23,7 @@ class CommunityProjectController extends Controller
     {
 
         $query = CommunityProject::where('community_projects.status', 1)
-            ->join('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
+            ->leftJoin('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
             ->select(
                 'community_projects.*',
                 'academic_periods.period as academic_period_name'

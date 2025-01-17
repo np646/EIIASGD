@@ -22,7 +22,9 @@ class PreprofessionalController extends Controller
             ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
             ->select(
-                'preprofessional_internships.*',
+                'preprofessional_internships.id',
+                'preprofessional_internships.status',
+                'students.identification',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'internship_statuses.name as status_name'
             )

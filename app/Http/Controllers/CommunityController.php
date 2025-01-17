@@ -22,7 +22,9 @@ class CommunityController extends Controller
             ->join('students', 'community_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
             ->select(
-                'community_internships.*',
+                'community_internships.id',
+                'community_internships.status',
+                'students.identification',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'internship_statuses.name as status_name'
             )

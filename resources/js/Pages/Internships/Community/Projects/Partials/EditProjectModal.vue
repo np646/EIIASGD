@@ -26,6 +26,7 @@ import InputText from "primevue/inputtext";
 import Select from "@/Components/Select.vue";
 import { useToast } from "primevue/usetoast";
 import { usePage } from "@inertiajs/vue3";
+import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -47,27 +48,36 @@ const form = ref({
 
 const selectedPeriod = ref(null);
 
+console.log("Item data:", props.itemData);
+
 watch(
     () => props.itemData,
     (newData) => {
         if (newData) {
-            form.value = {
-                name: newData.name,
-                academic_period_id: newData.academic_period_id,
-            };
-            selectedPeriod.value = periods.value.find((period) => period.id === newData.academic_period_id) || null;
+            form.value = { ...newData };
+            console.log("Item data:", props.itemData);
+            selectedPeriod.value = useComputeSelectedOption(props.itemData.academic_period_id, periods);
+            console.log("Selected period:", selectedPeriod.value);
+            if (selectedPeriod.value) {
+                form.value.academic_period_id = selectedPeriod.value.id;
+            }
         }
     },
     { immediate: true }
 );
 
+
+watch(selectedPeriod, (newPeriod) => {
+    if (newPeriod) {
+        form.value.academic_period_id = newPeriod;
+    } else {
+        form.value.academic_period_id = "";
+    }
+});
 const updateItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.put(
-            route("api.community.projects.update", { project: props.itemData.id }),
-            form.value 
-        );
+        const response = await axios.put(route("api.community.projects.update", { project: props.itemData.id }), form.value);
         console.log(props.itemData.id);
         console.log("Sending project:", form.value);
         emit("item-updated", response.data);

@@ -6,6 +6,8 @@ use App\Models\Graduation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GraduationController extends Controller
 {
@@ -96,6 +98,22 @@ class GraduationController extends Controller
 
     public function update(Request $request, Graduation $graduation)
     {
+        $validator = Validator::make($request->all(), [
+            'advisor_assignment_date' => ['nullable', 'string'],
+            'readers_assignment_date' => ['nullable', 'string'],
+            'plan_approval_date' => ['nullable', 'string'],
+            'thesis_name' => [
+                ['nullable', 'string'],
+                Rule::unique('graduations')->ignore($graduation->id),
+            ],
+            'graduation_date' => ['nullable', 'string'],
+
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $graduation->update($request->all());
         return redirect()->route('graduation.process', [$graduation->id]);
     }
@@ -103,11 +121,11 @@ class GraduationController extends Controller
     public function professorProcesses($professor_id)
     {
         $query = Graduation::where('students.status', 1)
-        ->where(function ($q) use ($professor_id) {
-            $q->where('graduations.advisor_id', $professor_id)
-                ->orWhere('graduations.reader1_id', $professor_id)
-                ->orWhere('graduations.reader2_id', $professor_id);
-        })
+            ->where(function ($q) use ($professor_id) {
+                $q->where('graduations.advisor_id', $professor_id)
+                    ->orWhere('graduations.reader1_id', $professor_id)
+                    ->orWhere('graduations.reader2_id', $professor_id);
+            })
             ->select(
                 'graduations.*',
                 'graduation_statuses.name as status_name',
@@ -295,7 +313,9 @@ class GraduationController extends Controller
             ->where('students.status', 1)
             ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
             ->select(
-                'graduations.*',
+                'graduations.id',
+                'graduations.status',
+                'students.identification',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'graduation_statuses.name as status_name'
             )
@@ -374,7 +394,7 @@ class GraduationController extends Controller
         $query = Graduation::where('students.status', 1)
             ->where('graduations.status', 2)
             ->whereBetween('graduation_date', [$start, $end])
-            ->join('students', 'graduations.student_id', '=', 'students.id') 
+            ->join('students', 'graduations.student_id', '=', 'students.id')
             ->join('professors AS advisor', 'graduations.advisor_id', '=', 'advisor.id')
             ->join('professors AS reader1', 'graduations.reader1_id', '=', 'reader1.id')
             ->join('professors AS reader2', 'graduations.reader2_id', '=', 'reader2.id')

@@ -87,11 +87,11 @@ const getSeverity = (status) => {
         case 1:
             return "secondary";
         case 2:
-            return "info";
+            return "success";
         case 3:
             return "danger";
         case 4:
-            return "success";
+            return "info";
     }
 };
 

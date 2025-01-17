@@ -23,6 +23,7 @@ const pageName = "graduationFiles";
 const title = "Estudiantes";
 const columnHeaders = [
     { field: "student", header: "Estudiante" },
+    { field: "identification", header: "Identificación" },
 ];
 const globalFilters = ["student", "status_name"];
 

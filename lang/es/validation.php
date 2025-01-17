@@ -198,6 +198,7 @@ return [
         'sex' => 'sexo',
         'course_id' => 'carrera',
         'academic_period_start_id' => 'periodo académico de inicio',
+        'thesis_name' => 'título de tesis',
     ],
 
 ];

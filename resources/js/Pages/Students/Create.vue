@@ -95,17 +95,13 @@ const form = useForm({
     academic_period_start_id: null,
 });
 
-// To get the selected sex option
 const sex = ref([
     { id: 0, sex: "FEMENINO" },
     { id: 1, sex: "MASCULINO" },
 ]);
 
-// Watch handlers with proper error state handling
 watch(selectedSex, (newValue) => {
-    form.sex = newValue; // This should now work
-    console.log("Selected sex:", newValue); // To debug the selected value
-    console.log("Form sex value:", form.sex); // To debug the form value
+    form.sex = newValue;
 });
 
 watch(selectedCourse, (newValue) => {
@@ -122,14 +118,11 @@ const submit = () => {
             Object.keys(errors).forEach((key) => {
                 toast.add({
                     severity: "error",
-                    summary: "Validation Error",
+                    summary: "Error",
                     detail: errors[key].join(", "),
                     life: 3000,
                 });
             });
-            if (errors.sex) selectedSex.value = null;
-            if (errors.course_id) selectedCourse.value = null;
-            if (errors.academic_period_start_id) selectedStartPeriod.value = null;
         },
         onSuccess: () => {
             toast.add({
@@ -138,20 +131,11 @@ const submit = () => {
                 detail: "Estudiante registrado correctamente.",
                 life: 3000,
             });
-            resetForm();
         },
     });
 };
 
 const cancel = () => {
-    resetForm();
     router.visit(route("students.index"));
-};
-
-const resetForm = () => {
-    form.reset();
-    selectedSex.value = null;
-    selectedCourse.value = null;
-    selectedStartPeriod.value = null;
 };
 </script>

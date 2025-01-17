@@ -33,7 +33,7 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" />
+                        <Select class="w-100" id="inputSelectSexo" :options="sex" optionLabel="sex" v-model="selectedSex" />
                     </div>
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
@@ -76,13 +76,12 @@ import Button from "primevue/button";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
-const title = "Editar información del estudiante";
-const label = "sex";
-const { student } = usePage().props;
-const courses = ref(usePage().props.courses);
 import { useToast } from "primevue/usetoast";
 const toast = useToast();
 
+const title = "Editar información del estudiante";
+const { student } = usePage().props;
+const courses = ref(usePage().props.courses);
 
 const form = useForm({
     name: student.name,
@@ -123,14 +122,11 @@ const submit = () => {
             Object.keys(errors).forEach((key) => {
                 toast.add({
                     severity: "error",
-                    summary: "Validation Error",
+                    summary: "Error",
                     detail: errors[key].join(", "),
                     life: 3000,
                 });
             });
-            if (errors.sex) selectedSex.value = null;
-            if (errors.course_id) selectedCourse.value = null;
-            if (errors.academic_period_start_id) selectedStartPeriod.value = null;
         },
         onSuccess: () => {
             toast.add({
@@ -146,7 +142,6 @@ const submit = () => {
 const cancel = () => {
     router.visit(route("students.index"));
 };
-
 
 const periods = ref(usePage().props.periods);
 

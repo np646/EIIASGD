@@ -6,6 +6,8 @@ use App\Models\Professor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProfessorController extends Controller
 {
@@ -24,6 +26,21 @@ class ProfessorController extends Controller
 
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => 'required|string|unique:professors',
+            'email' => 'required|email|unique:professors',
+            'banner_code' => 'required|string|unique:professors',
+            'sex' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $params = $request->all();
         $data = [
             'name' => $params['name'],
@@ -47,6 +64,32 @@ class ProfessorController extends Controller
 
     public function update(Request $request, Professor $professor)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => [
+                'required',
+                'string',
+                Rule::unique('professors')->ignore($professor->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('professors')->ignore($professor->id),
+            ],
+            'banner_code' => [
+                'required',
+                'string',
+                Rule::unique('professors')->ignore($professor->id),
+            ],
+            'sex' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $professor->update($request->all());
         return redirect()->route('professors.index');
     }
@@ -89,7 +132,7 @@ class ProfessorController extends Controller
         $professors = Professor::where('id', $id)
             ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
             ->first();
-            return response()->json($professors);
+        return response()->json($professors);
     }
 
     public function apiIndex()

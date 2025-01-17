@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" placeholder="Seleccione uno" />
+                        <Select class="w-100" id="inputSelectSexo" :options="sex" optionLabel="sex" v-model="selectedSex" />
                     </div>
                 </div>
                 <div class="row g-3 py-3 px-3">
@@ -63,6 +63,8 @@ import Button from "primevue/button";
 import Title from "@/Components/Title.vue";
 import Select from "@/Components/Select.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const title = "Registrar nuevo docente";
 const selectedDate = ref(null);
@@ -72,34 +74,44 @@ const sex = ref([
     { id: 1, sex: "MASCULINO" },
 ]);
 
-const label = "sex";
 const selectedSex = ref(null);
 
 const form = useForm({
     name: "",
     lastname: "",
-    date_of_birth: selectedDate,
+    date_of_birth: "",
     identification: "",
     email: "",
     banner_code: "",
-    sex: selectedSex,
+    sex: null,
 });
 
 // To get the selected sex option
-watch(selectedSex, () => {
-    form.sex = selectedSex.value;
-});
-
-// Watch for changes in selectedDate value
-watch(selectedDate, () => {
-    form.date_of_birth = selectedDate.value;
+watch(selectedSex, (newValue) => {
+    form.sex = newValue;
 });
 
 const submit = () => {
-    form.post(route("professors.store")),
-        {
-            onFinish: () => form.reset(),
-        };
+    form.post(route("professors.store"), {
+        onError: (errors) => {
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Docente registrado correctamente.",
+                life: 3000,
+            });
+        },
+    });
 };
 const cancel = () => {
     router.visit(route("professors.index"));

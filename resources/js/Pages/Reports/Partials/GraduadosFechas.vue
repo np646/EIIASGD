@@ -39,6 +39,11 @@
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             currentPageReportTemplate="{first} - {last} de {totalRecords}"
         >
+            <template #header>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <Button icon="pi pi-file-excel" @click="exportExcel()" />
+                </div>
+            </template>
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
         </DataTable>
     </div>
@@ -52,7 +57,8 @@ import DatePicker from "primevue/datepicker";
 import FloatLabel from "primevue/floatlabel";
 import { FilterMatchMode } from "@primevue/core/api";
 import axios from "axios";
-
+import Button from "primevue/button";
+import useExportExcel from "@/Composables/useExportExcel";
 import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
 
@@ -103,6 +109,15 @@ onMounted(() => {
     currentDate.value = useGetDate();
     currentTime.value = useGetTime();
 });
+
+const columnMapping = {
+    student: "Estudiante",
+    graduation_date: "Fecha de graduación",
+};
+
+const exportExcel = () => {
+    useExportExcel(students.value, columnMapping);
+};
 </script>
 <style>
 :root {

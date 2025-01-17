@@ -12,6 +12,11 @@
     </div>
     <div class="col mb-4">
         <DataTable :value="students" class="w-full" stripedRows paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
+            <template #header>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <Button icon="pi pi-file-excel" @click="exportExcel()" />
+                </div>
+            </template>
             <Column field="student" header="Estudiante" />
             <Column field="end_period" header="Periodo de Integración Curricular" />
             <Column field="registration_times" header="Número de matrícula">
@@ -30,6 +35,8 @@ import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 import Select from "primevue/select";
 import { usePage } from "@inertiajs/vue3";
+import Button from "primevue/button";
+import useExportExcel from "@/Composables/useExportExcel";
 
 import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
@@ -81,6 +88,16 @@ watch([selectedPeriod], fetchStudents);
 watch(selectedPeriod, () => {
     currentTime.value = useGetTime();
 });
+
+const columnMapping = {
+    student: "Estudiante",
+    end_period: "Periodo de Integración Curricular",
+    registration_times: "Número de matrícula",
+};
+
+const exportExcel = () => {
+    useExportExcel(students.value, columnMapping);
+};
 </script>
 <style>
 :root {

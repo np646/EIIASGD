@@ -12,6 +12,11 @@
     </div>
     <div class="col mb-4">
         <DataTable :value="students" class="w-full" stripedRows paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
+            <template #header>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <Button icon="pi pi-file-excel" @click="exportExcel()" />
+                </div>
+            </template>
             <Column field="student" header="Estudiante" />
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header">
                 <template #body="slotProps">
@@ -31,6 +36,8 @@ import Select from "primevue/select";
 import { usePage } from "@inertiajs/vue3";
 import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
+import Button from "primevue/button";
+import useExportExcel from "@/Composables/useExportExcel";
 
 const currentDate = ref("");
 const currentTime = ref("");
@@ -49,7 +56,7 @@ const fetchStudents = async () => {
 
     loading.value = true;
     try {
-        const response = await axios.get(route("api.graduationFiles.sentDocumentation", {id: selectedPeriod.value }));
+        const response = await axios.get(route("api.graduationFiles.sentDocumentation", { id: selectedPeriod.value }));
         students.value = response.data;
         console.log("Fetched students:", response.data);
     } catch (error) {
@@ -96,6 +103,21 @@ watch([selectedPeriod], fetchStudents);
 watch(selectedPeriod, () => {
     currentTime.value = useGetTime();
 });
+
+const columnMapping = {
+    student: "Estudiante",
+    int_cert_is_null: "Certificación internacional",
+    english_cert_is_null: "Inglés",
+    community_cert_is_null: "Prácticas de vinculación",
+    prep_cert_is_null: "Prácticas laborales",
+    grad_type_is_null: "Modalidad de titulación",
+    readers_is_null: "Asignación de lectores",
+    plan_approval_is_null: "Aprobación del plan de titulación",
+};
+
+const exportExcel = () => {
+    useExportExcel(students.value, columnMapping);
+};
 </script>
 <style>
 :root {

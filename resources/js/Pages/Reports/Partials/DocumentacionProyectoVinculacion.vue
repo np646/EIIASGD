@@ -12,7 +12,12 @@
     </div>
     <div class="col mb-4">
         <DataTable :value="students" class="w-full" stripedRows paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]">
-            <Column field="student" header="Estudiante" />
+            <template #header>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <Button icon="pi pi-file-excel" @click="exportExcel()" />
+                </div>
+            </template>
+            <Column field="name" header="Nombre del proyecto" />
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header">
                 <template #body="slotProps">
                     <i :class="isNull(slotProps.data[column.field])" :style="getColor(slotProps.data[column.field])"></i>
@@ -31,6 +36,8 @@ import Select from "primevue/select";
 import { usePage } from "@inertiajs/vue3";
 import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
+import Button from "primevue/button";
+import useExportExcel from "@/Composables/useExportExcel";
 
 const currentDate = ref("");
 const currentTime = ref("");
@@ -49,7 +56,7 @@ const fetchStudents = async () => {
 
     loading.value = true;
     try {
-        const response = await axios.get(route("api.community.project.sentDocumentation", {id: selectedPeriod.value }));
+        const response = await axios.get(route("api.community.project.sentDocumentation", { id: selectedPeriod.value }));
         students.value = response.data;
         console.log("Fetched students:", response.data);
     } catch (error) {
@@ -59,9 +66,7 @@ const fetchStudents = async () => {
     }
 };
 
-const columnHeaders = [
-    { field: "project_report_is_null", header: "Informe del proyecto" },
-];
+const columnHeaders = [{ field: "project_report_is_null", header: "Informe del proyecto" }];
 
 const isNull = (value) => {
     switch (value) {
@@ -90,6 +95,14 @@ watch([selectedPeriod], fetchStudents);
 watch(selectedPeriod, () => {
     currentTime.value = useGetTime();
 });
+
+const columnMapping = {
+    name: "Nombre del proyecto",
+    project_report_is_null: "Informe del proyecto",
+};
+const exportExcel = () => {
+    useExportExcel(students.value, columnMapping);
+};
 </script>
 <style>
 :root {

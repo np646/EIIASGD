@@ -106,13 +106,13 @@ class GraduationFilesController extends Controller
             ->get();
 
         $query->each(function ($item) {
-            $item->int_cert_is_null = is_null($item->international_cert_id) ? true : false;
-            $item->english_cert_is_null = is_null($item->english_cert_id) ? true : false;
-            $item->community_cert_is_null = is_null($item->community_internship_id) ? true : false;
-            $item->prep_cert_is_null = is_null($item->preprofessional_internship_id) ? true : false;
-            $item->grad_type_is_null = is_null($item->graduation_type_id) ? true : false;
-            $item->readers_is_null = is_null($item->readers_id) ? true : false;
-            $item->plan_approval_is_null = is_null($item->plan_approval_id) ? true : false;
+            $item->int_cert_is_null = !is_null($item->international_cert_id) ? true : false;
+            $item->english_cert_is_null = !is_null($item->english_cert_id) ? true : false;
+            $item->community_cert_is_null = !is_null($item->community_internship_id) ? true : false;
+            $item->prep_cert_is_null = !is_null($item->preprofessional_internship_id) ? true : false;
+            $item->grad_type_is_null = !is_null($item->graduation_type_id) ? true : false;
+            $item->readers_is_null = !is_null($item->readers_id) ? true : false;
+            $item->plan_approval_is_null = !is_null($item->plan_approval_id) ? true : false;
         });
 
         return response()->json($query);

@@ -18,6 +18,8 @@
                 </div>
             </template>
             <Column field="student" header="Estudiante" />
+            <Column field="plan_approval_date" header="Fecha de aprobación del plan" />
+            <Column field="start_period" header="Periodo de inicio de titulación" />
             <Column field="end_period" header="Periodo de Integración Curricular" />
             <Column field="registration_times" header="Número de matrícula">
                 <template #body="slotProps">
@@ -91,6 +93,8 @@ watch(selectedPeriod, () => {
 
 const columnMapping = {
     student: "Estudiante",
+    plan_approval_date: "Fecha de aprobación del plan",
+    start_period: "Periodo de inicio de titulación",
     end_period: "Periodo de Integración Curricular",
     registration_times: "Número de matrícula",
 };

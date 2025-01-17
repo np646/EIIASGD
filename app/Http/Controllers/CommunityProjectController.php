@@ -136,7 +136,7 @@ class CommunityProjectController extends Controller
             ->get();
 
         $query->each(function ($item) {
-            $item->project_report_is_null = is_null($item->project_report_id) ? true : false;
+            $item->project_report_is_null = !is_null($item->project_report_id) ? true : false;
         });
 
         return response()->json($query);

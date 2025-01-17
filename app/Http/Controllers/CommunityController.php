@@ -228,9 +228,26 @@ class CommunityController extends Controller
             ->get();
 
         $query->each(function ($item) {
-            $item->student_report_is_null = is_null($item->student_report_id) ? true : false;
+            $item->student_report_is_null = !is_null($item->student_report_id) ? true : false;
         });
 
+        return response()->json($query);
+    }
+
+    public function getProcessStatus($id)
+    {
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('community_internships.academic_period_id', '=', $id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
+            ->select(
+                'community_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'academic_periods.period AS academic_period',
+                'internship_statuses.name as status_name'
+            )
+            ->get();
         return response()->json($query);
     }
 }

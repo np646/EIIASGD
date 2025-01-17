@@ -94,6 +94,10 @@ const fetchStudents = async () => {
 watch([formatedStartDate, formatedEndDate], fetchStudents);
 const columnHeaders = [
     { field: "student", header: "Estudiante" },
+    { field: "thesis_name", header: "Titulo de tesis" },
+    { field: "advisor", header: "Asesor" },
+    { field: "reader1", header: "Lector I" },
+    { field: "reader2", header: "Lector II" },
     { field: "graduation_date", header: "Fecha de graduación" },
 ];
 const globalFilters = ["student", "graduation_date"];
@@ -112,6 +116,10 @@ onMounted(() => {
 
 const columnMapping = {
     student: "Estudiante",
+    thesis_name: "Titulo de tesis",
+    advisor: "Asesor",
+    reader1: "Lector I",
+    reader2: "Lector II",
     graduation_date: "Fecha de graduación",
 };
 

@@ -67,24 +67,24 @@ const fetchStudents = async () => {
 };
 
 const columnHeaders = [{ field: "project_report_is_null", header: "Informe del proyecto" }];
-
 const isNull = (value) => {
     switch (value) {
         case false:
-            return "pi pi-check";
-        case true:
             return "pi pi-times";
+        case true:
+            return "pi pi-check";
     }
 };
 
 const getColor = (value) => {
     switch (value) {
         case false:
-            return "color: green";
-        case true:
             return "color: red";
+        case true:
+            return "color: green";
     }
 };
+
 
 onMounted(() => {
     currentDate.value = useGetDate();

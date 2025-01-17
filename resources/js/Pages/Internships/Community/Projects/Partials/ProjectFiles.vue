@@ -30,6 +30,7 @@
                                         auto
                                         severity="secondary"
                                         class="p-button-text"
+                                        accept=".pdf,.docx" 
                                     />
                                 </InputGroupAddon>
                                 <InputText type="text" v-model="form.name" fluid disabled />

@@ -19,10 +19,12 @@
             </template>
             <Column field="student" header="Estudiante" />
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header">
-                <template #body="slotProps">
-                    <i :class="isNull(slotProps.data[column.field])" :style="getColor(slotProps.data[column.field])"></i>
-                </template>
             </Column>
+            <Column field="status_name" header="Estado" :sortable="true">
+            <template #body="slotProps">
+                <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
+            </template>
+        </Column>
         </DataTable>
     </div>
 </template>
@@ -38,6 +40,7 @@ import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
 import Button from "primevue/button";
 import useExportExcel from "@/Composables/useExportExcel";
+import Tag from "primevue/tag";
 
 const currentDate = ref("");
 const currentTime = ref("");
@@ -56,7 +59,7 @@ const fetchStudents = async () => {
 
     loading.value = true;
     try {
-        const response = await axios.get(route("api.preprofessional.sentDocumentation", { id: selectedPeriod.value }));
+        const response = await axios.get(route("api.graduation.getProcessStatus", { id: selectedPeriod.value }));
         students.value = response.data;
         console.log("Fetched students:", response.data);
     } catch (error) {
@@ -67,29 +70,22 @@ const fetchStudents = async () => {
 };
 
 const columnHeaders = [
-    { field: "external_cert_is_null", header: "Certificado externo" },
-    { field: "student_report_is_null", header: "Informe del estudiante" },
-    { field: "banner_cert_is_null", header: "Certificado de Banner" },
+    { field: "start_period", header: "Periodo de inicio de titulación" },
+    { field: "end_period", header: "Periodo de Integración Curricular" },
 ];
 
-const isNull = (value) => {
-    switch (value) {
-        case false:
-            return "pi pi-times";
-        case true:
-            return "pi pi-check";
+const getSeverity = (status) => {
+    switch (status) {
+        case 1:
+            return "success";
+        case 2:
+            return "info";
+        case 3:
+            return "danger";
+        case 4:
+            return "warn";
     }
 };
-
-const getColor = (value) => {
-    switch (value) {
-        case false:
-            return "color: red";
-        case true:
-            return "color: green";
-    }
-};
-
 
 onMounted(() => {
     currentDate.value = useGetDate();
@@ -103,9 +99,9 @@ watch(selectedPeriod, () => {
 
 const columnMapping = {
     student: "Estudiante",
-    external_cert_is_null: "Certificado externo",
-    student_report_is_null: "Informe del estudiante",
-    banner_cert_is_null: "Certificado de Banner",
+    start_period: "Periodo de inicio de titulación",
+    end_period: "Periodo de Integración Curricular",
+    status_name: "Estado",
 };
 
 const exportExcel = () => {

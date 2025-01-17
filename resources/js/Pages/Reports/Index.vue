@@ -16,9 +16,12 @@
             <Matricula v-if="activeComponent.value === 'matricula'" />
             <Rezagados v-if="activeComponent.value === 'rezagados'" />
             <DocumentacionTitulacion v-if="activeComponent.value === 'titulacion'" />
+            <DocumentacionPreprofesionales v-if="activeComponent.value === 'preprofesionales'" />
             <DocumentacionVinculacion v-if="activeComponent.value === 'vinculacion'" />
             <DocumentacionProyectoVinculacion v-if="activeComponent.value === 'proyectos'" />
-            <DocumentacionPreprofesionales v-if="activeComponent.value === 'preprofesionales'" />
+            <ProcesoTitulacion v-if="activeComponent.value === 'procesoTitulacion'" />
+            <ProcesoPreprofesionales v-if="activeComponent.value === 'procesoPreprofesionales'" />
+            <ProcesoVinculacion v-if="activeComponent.value === 'procesoVinculacion'" />
         </ContentContainer>
     </MenuLayout>
 </template>
@@ -37,6 +40,10 @@ import { ref } from "vue";
 import DocumentacionVinculacion from "./Partials/DocumentacionVinculacion.vue";
 import DocumentacionPreprofesionales from "./Partials/DocumentacionPreprofesionales.vue";
 import DocumentacionProyectoVinculacion from "./Partials/DocumentacionProyectoVinculacion.vue";
+import ProcesoTitulacion from "./Partials/ProcesoTitulacion.vue";
+import ProcesoVinculacion from "./Partials/ProcesoVinculacion.vue";
+import ProcesoPreprofesionales from "./Partials/ProcesoPreprofesionales.vue";
+
 const title = "Reportes";
 
 const activeComponent = ref("");
@@ -49,5 +56,8 @@ const options = ref([
     { name: "Documentación entregada - Vinculación", value: "vinculacion" },
     { name: "Documentación entregada - Proyectos de vinculación", value: "proyectos" },
     { name: "Documentación entregada - Prácticas laborales", value: "preprofesionales" },
+    { name: "Estado del proceso - Titulación", value: "procesoTitulacion" },
+    { name: "Estado del proceso - Vinculación", value: "procesoVinculacion" },
+    { name: "Estado del proceso - Prácticas laborales", value: "procesoPreprofesionales" },
 ]);
 </script>

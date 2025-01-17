@@ -102,7 +102,8 @@ class GraduationController extends Controller
 
     public function professorProcesses($professor_id)
     {
-        $query = Graduation::where(function ($q) use ($professor_id) {
+        $query = Graduation::where('students.status', 1)
+        ->where(function ($q) use ($professor_id) {
             $q->where('graduations.advisor_id', $professor_id)
                 ->orWhere('graduations.reader1_id', $professor_id)
                 ->orWhere('graduations.reader2_id', $professor_id);
@@ -331,7 +332,8 @@ class GraduationController extends Controller
     // Reports module
     public function getDelayedStudents($id)
     {
-        $query = Graduation::whereNotNull('graduations.academic_period_start_id')
+        $query = Graduation::where('students.status', 1)
+            ->whereNotNull('graduations.academic_period_start_id')
             ->where('graduations.academic_period_start_id', '=', $id)
             ->whereNot('graduations.status', 2)
             ->whereNull('academic_period_end_id')
@@ -350,15 +352,18 @@ class GraduationController extends Controller
 
     public function getRegistrationTimes($id)
     {
-        $query = Graduation::where('registration_times', '>', 1)
+        $query = Graduation::where('students.status', 1)
+            ->where('registration_times', '>', 1)
             ->where('graduations.academic_period_end_id', '=', $id)
             ->whereNot('graduations.status', 2)
             ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
             ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'end_period.period AS end_period',
+                'start_period.period AS start_period'
             )
             ->get();
         return response()->json($query);
@@ -366,12 +371,39 @@ class GraduationController extends Controller
 
     public function getGraduatesByDate($start, $end)
     {
-        $query = Graduation::where('graduations.status', 2)
+        $query = Graduation::where('students.status', 1)
+            ->where('graduations.status', 2)
             ->whereBetween('graduation_date', [$start, $end])
-            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('students', 'graduations.student_id', '=', 'students.id') 
+            ->join('professors AS advisor', 'graduations.advisor_id', '=', 'advisor.id')
+            ->join('professors AS reader1', 'graduations.reader1_id', '=', 'reader1.id')
+            ->join('professors AS reader2', 'graduations.reader2_id', '=', 'reader2.id')
             ->select(
                 'graduations.*',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                DB::raw("CONCAT(advisor.lastname, ' ', advisor.name) AS advisor"),
+                DB::raw("CONCAT(reader1.lastname, ' ', reader1.name) AS reader1"),
+                DB::raw("CONCAT(reader2.lastname, ' ', reader2.name) AS reader2")
+            )
+            ->get();
+        return response()->json($query);
+    }
+
+    public function getProcessStatus($id)
+    {
+        $query = Graduation::where('students.status', 1)
+            ->where('graduations.academic_period_start_id', $id)
+            ->orWhere('graduations.academic_period_end_id', $id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods AS start_period', 'graduations.academic_period_start_id', '=', 'start_period.id')
+            ->join('academic_periods AS end_period', 'graduations.academic_period_end_id', '=', 'end_period.id')
+            ->join('graduation_statuses', 'graduations.status', '=', 'graduation_statuses.id')
+            ->select(
+                'graduations.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'start_period.period AS start_period',
+                'end_period.period AS end_period',
+                'graduation_statuses.name as status_name'
             )
             ->get();
         return response()->json($query);

@@ -177,11 +177,28 @@ class PreprofessionalController extends Controller
             ->get();
 
         $query->each(function ($item) {
-            $item->external_cert_is_null = is_null($item->external_cert_id) ? true : false;
-            $item->student_report_is_null = is_null($item->student_report_id) ? true : false;
-            $item->banner_cert_is_null = is_null($item->banner_cert_id) ? true : false;
+            $item->external_cert_is_null = !is_null($item->external_cert_id) ? true : false;
+            $item->student_report_is_null = !is_null($item->student_report_id) ? true : false;
+            $item->banner_cert_is_null = !is_null($item->banner_cert_id) ? true : false;
         });
 
+        return response()->json($query);
+    }
+
+    public function getProcessStatus($id)
+    {
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->where('preprofessional_internships.academic_period_id', '=', $id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
+            ->select(
+                'preprofessional_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'academic_periods.period AS academic_period',
+                'internship_statuses.name as status_name'
+            )
+            ->get();
         return response()->json($query);
     }
 }

@@ -33,7 +33,14 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" />
+                        <Select
+                            class="w-100"
+                            id="inputSelectSexo"
+                            :options="sex"
+                            optionLabel="sex"
+                            v-model="selectedSex"
+                            :class="{ 'p-invalid': form.errors.sex }"
+                        />
                     </div>
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
@@ -75,9 +82,11 @@ import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 const courses = ref(usePage().props.courses);
 const periods = ref(usePage().props.periods);
+import { useToast } from "primevue/usetoast"; // PrimeVue toast example (if using PrimeVue)
+const toast = useToast();
+import axios from "axios";
 
 const title = "Registrar nuevo estudiante";
-const label = "sex";
 const selectedSex = ref(null);
 const selectedCourse = ref(null);
 const selectedStartPeriod = ref(null);
@@ -89,9 +98,9 @@ const form = useForm({
     identification: "",
     email: "",
     banner_code: "",
-    sex: selectedSex,
-    course_id: selectedCourse,
-    academic_period_start_id: selectedStartPeriod,
+    sex: null,
+    course_id: null,
+    academic_period_start_id: null,
 });
 
 // To get the selected sex option
@@ -99,27 +108,62 @@ const sex = ref([
     { id: 0, sex: "FEMENINO" },
     { id: 1, sex: "MASCULINO" },
 ]);
-watch(selectedSex, () => {
-    form.sex = selectedSex.value;
+
+// Watch handlers with proper error state handling
+watch(selectedSex, (newValue) => {
+    form.sex = newValue;  // This should now work
+    console.log('Selected sex:', newValue);  // To debug the selected value
+    console.log('Form sex value:', form.sex);  // To debug the form value
 });
 
-// To get the selected course option
-watch(selectedCourse, () => {
-    form.course_id = selectedCourse.value;
+watch(selectedCourse, (newValue) => {
+    form.course_id = newValue?.id;
 });
 
-watch(selectedStartPeriod, () => {
-    form.academic_period_start_id = selectedStartPeriod.value;
+watch(selectedStartPeriod, (newValue) => {
+    form.academic_period_start_id = newValue?.id;
 });
 
 const submit = () => {
-    form.post(route("students.store")),
-        {
-            onFinish: () => form.reset(),
-        };
+    form.post(route("students.store"), {
+        onError: (errors) => {
+            // Show errors in toast
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Validation Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+            
+            // Don't reset form on error so user can fix mistakes
+            // But do reset any invalid select fields
+            if (errors.sex) selectedSex.value = null;
+            if (errors.course_id) selectedCourse.value = null;
+            if (errors.academic_period_start_id) selectedStartPeriod.value = null;
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Estudiante registrado correctamente",
+                life: 3000,
+            });
+            resetForm();
+        },
+    });
 };
 
 const cancel = () => {
-    router.visit(route('students.index'));
+    resetForm();
+    router.visit(route("students.index"));
+};
+
+const resetForm = () => {
+    form.reset();
+    selectedSex.value = null;
+    selectedCourse.value = null;
+    selectedStartPeriod.value = null;
 };
 </script>

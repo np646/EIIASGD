@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+
 
 class StudentController extends Controller
 {
@@ -49,6 +51,22 @@ class StudentController extends Controller
 
         // Student::create($request->all());
         // return redirect()->route('students.index');
+
+
+        $validator = Validator::make($request->all(), [
+           'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => 'required|string',
+            'email' => 'required|email|unique:students',
+            'banner_code' => 'required|string|unique:students',
+            'sex' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    
 
         $params = $request->all();
         $data = [

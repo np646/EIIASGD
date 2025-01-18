@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -30,7 +29,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'status' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -38,21 +36,11 @@ class UserController extends Controller
         }
 
         $user = User::create($request->all());
-        //return response()->json($user, 201);
         return $user;
     }
 
     public function update(Request $request, User $user)
     {
-        /*$validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }*/
-
         $user->update($request->all());
         return response()->json($user);
     }
@@ -81,5 +69,20 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         return $user;
+    }
+
+    public function fetchByName($name)
+    {
+        $user = User::where('name', $name)->first();
+        return $user;
+    }
+
+    public function updateStatus($name)
+    {
+        $user = $this->fetchByName($name);
+        if ($user && $user->status == 0) {
+            $user->status = 1;
+            $user->save();
+        }
     }
 }

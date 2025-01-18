@@ -37,6 +37,9 @@ class RoleUserController extends Controller
         $userController->store($request);
         $user_id = $userController->getLastId();
 
+        // If user already exists, update status to 1
+        $userController->updateStatus($request['name']);
+       
         $roles = $request['roles'];
 
         foreach ($roles as $role) {

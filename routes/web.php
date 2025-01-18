@@ -1,7 +1,5 @@
 <?php
 
-
-
 use App\Http\Controllers\DashboardController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -25,21 +23,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RoleUserController;
 
-//Original log in and welcome routes
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 // Login: Iniciar sesión
 Route::get('/', function () {
@@ -61,10 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // User profile: Perfil de usuario
 Route::middleware('auth:sanctum')->group(function () {
-    //TODO: review: users cannot change user info
-    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/perfil', [ProfileController::class, 'profile'])->name('profile');
 });
 
 // Students: Estudiantes

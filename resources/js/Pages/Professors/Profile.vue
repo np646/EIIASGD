@@ -6,7 +6,7 @@
             <Subtitle :title="`Información personal`" class="pt-3"></Subtitle>
             <Information :professor="professor" />
         </ContentContainer>
-        <ContentContainer>
+        <ContentContainer v-if="hasRole(['admin', 'titulacion', 'asistente'])">
             <Subtitle :title="`Procesos de titulación`" class="pt-3"></Subtitle>
             <Graduation :professor="professor" :students="processes" />
         </ContentContainer>
@@ -23,7 +23,9 @@ import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { useRoles } from '@/Composables/useRoles'; 
 
+const { hasRole } = useRoles();
 const { professor } = usePage().props;
 const processes = ref(usePage().props.processes);
 

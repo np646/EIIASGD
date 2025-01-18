@@ -1,10 +1,10 @@
 <template v-slot:slot-content>
-    <Head title="Procesos activos" />
+    <Head title="Procesos del docente" />
     <MenuLayout>
         <Title :title="professor" />
         <ContentContainer>
             
-            <Subtitle title="Procesos activos"/>
+            <Subtitle title="Procesos del docente"/>
             <div class="py-3 d-flex justify-content-center">
                 <ButtonGroup>
                     <Button

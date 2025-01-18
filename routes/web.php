@@ -50,31 +50,38 @@ Route::middleware('auth:sanctum')->group(function () {
 // Students: Estudiantes
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/estudiantes', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/estudiantes/{student}/perfil', [StudentController::class, 'profile'])->name('students.profile');
+    Route::prefix('api')->group(function () {
+        Route::get('/estudiantes', [StudentController::class, 'apiIndex'])->name('api.students.index');
+    });
+});
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,practicas,asistente'])->group(function () {
     Route::get('/estudiantes/crear', [StudentController::class, 'create'])->name('students.create');
     Route::get('/estudiantes/editar/{student}', [StudentController::class, 'edit'])->name('students.edit');
     Route::put('/estudiantes/actualizar/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::post('/estudiantes/guardar', [StudentController::class, 'store'])->name('students.store');
-    Route::get('/estudiantes/{student}/perfil', [StudentController::class, 'profile'])->name('students.profile');
     Route::put('/estudiantes/buscar', [StudentController::class, 'fetch'])->name('students.fetch');
     Route::prefix('api')->group(function () {
-        Route::get('/estudiantes', [StudentController::class, 'apiIndex'])->name('api.students.index');
         Route::delete('/estudiantes/{id}', [StudentController::class, 'destroy'])->name('api.students.destroy');
         Route::put('/estudiantes/quitar/{id}', [StudentController::class, 'remove'])->name('api.students.remove');
-
     });
 });
 
 // Professors: Docentes
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/docentes', [ProfessorController::class, 'index'])->name('professors.index');
+    Route::get('/docentes/{professor}/perfil', [ProfessorController::class, 'profile'])->name('professors.profile');
+    Route::prefix('api')->group(function () {
+        Route::get('/docentes', [ProfessorController::class, 'apiIndex'])->name('api.professors.index');
+    });
+});
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,practicas,asistente'])->group(function () {
     Route::get('/docentes/crear', [ProfessorController::class, 'create'])->name('professors.create');
     Route::get('/docentes/editar/{professor}', [ProfessorController::class, 'edit'])->name('professors.edit');
     Route::put('/docentes/actualizar/{professor}', [ProfessorController::class, 'update'])->name('professors.update');
     Route::post('/docentes/guardar', [ProfessorController::class, 'store'])->name('professors.store');
-    Route::get('/docentes/{professor}/perfil', [ProfessorController::class, 'profile'])->name('professors.profile');
     Route::put('/docentes/buscar', [ProfessorController::class, 'fetch'])->name('professors.fetch');
     Route::prefix('api')->group(function () {
-        Route::get('/docentes', [ProfessorController::class, 'apiIndex'])->name('api.professors.index');
         Route::delete('/docentes/{id}', [ProfessorController::class, 'destroy'])->name('api.professors.destroy');
         Route::put('/docentes/quitar/{id}', [ProfessorController::class, 'remove'])->name('api.professors.remove');
     });
@@ -87,7 +94,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::get('/periodos-academicos', [AcademicPeriodController::class, 'apiIndex'])->name('api.academicPeriods.index');
         Route::post('/periodos-academicos', [AcademicPeriodController::class, 'store'])->name('api.academicPeriods.store');
         Route::put('/periodos-academicos/{period}', [AcademicPeriodController::class, 'update'])->name('api.academicPeriods.update');
-        Route::put( '/periodos-academicos/quitar/{id}', [AcademicPeriodController::class, 'remove'])->name('api.academicPeriods.remove');
+        Route::put('/periodos-academicos/quitar/{id}', [AcademicPeriodController::class, 'remove'])->name('api.academicPeriods.remove');
         Route::delete('/periodos-academicos/{period}', [AcademicPeriodController::class, 'destroy'])->name('api.academicPeriods.destroy');
     });
 });
@@ -149,20 +156,22 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
 ////---------Graduations----------////
 // Graduation process by student: Proceso de titulación por estudiante
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/titulacion/estudiantes', [GraduationController::class, 'Students'])->name('graduation.students');
     Route::get('/titulacion/estudiantes/proceso/{student}', [GraduationController::class, 'graduation'])->name('graduation.process');
+});
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,asistente'])->group(function () {
+    Route::get('/titulacion/estudiantes', [GraduationController::class, 'Students'])->name('graduation.students');
     Route::get('/titulacion/estudiantes/proceso/editar/{student}', [GraduationController::class, 'edit'])->name('graduation.processEdit');
     Route::put('/titulacion/estudiantes/proceso/actualizar/{graduation}', [GraduationController::class, 'update'])->name('graduation.update');
 });
 // Graduation process by academic period: Proceso de titulación por periodo académico
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,asistente'])->group(function () {
     Route::get('/titulacion/periodos-academicos', [GraduationController::class, 'periods'])->name('graduation.periods');
     Route::get('/titulacion/periodos-academicos/{period}/estudiantes', [GraduationController::class, 'studentsInPeriod'])->name('graduation.studentsInPeriod');
     Route::get('/titulacion/estudiantes/{student}/documentos', [GraduationFilesController::class, 'studentFiles'])->name('graduationFiles.studentFiles');
     Route::get('/api/documentos/titulacion/{student}', [GraduationFilesController::class, 'apiStudentFiles'])->name('api.graduationFiles.studentFiles');
 });
 // Reviewers: Evaluadores
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,asistente'])->group(function () {
     Route::get('/titulacion/evaluadores', [GraduationController::class, 'reviewers'])->name('graduation.reviewers');
     Route::get('/titulacion/evaluadores/docente/procesos/{professor}', [GraduationController::class, 'processesByProfessor'])->name('graduation.processesByProfessor');
     Route::prefix('api/titulacion/evaluadores')->group(function () {
@@ -177,7 +186,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 // General file management: Gestión de archivos en general
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,practicas,asistente'])->group(function () {
     Route::put('/documentos/actualizar/{id}', [FileController::class, 'update'])->name('files.update');
     Route::get('/documentos/descargar/{id}', [FileController::class, 'download'])->name('files.download');
     Route::get('/documentos/abrir/{file_id}', [FileController::class, 'open'])->name('files.open');
@@ -185,7 +194,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/documentos/guardar/{parentId}', [FileController::class, 'store'])->name('files.store');
 });
 // Graduation files: Archivos de titulación
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,asistente'])->group(function () {
     Route::post('/documentos/titulacion/{parentId}', [GraduationFilesController::class, 'storeFile'])->name('graduationFiles.storeFile');
     Route::delete('/documentos/titulacion/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyGraduation'])->name('files.destroyGraduation');
 });
@@ -193,12 +202,16 @@ Route::middleware('auth:sanctum')->group(function () {
 ////---------Community internships----------////
 // Community internship process: Proceso de prácticas de vinculación
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/vinculacion/estudiantes', [CommunityController::class, 'Students'])->name('community.students');
     Route::get('/vinculacion/estudiantes/proceso/{student}', [CommunityController::class, 'community'])->name('community.process');
-    Route::get('/vinculacion/estudiantes/proceso/editar/{student}', [CommunityController::class, 'edit'])->name('community.processEdit');
-    Route::put('/vinculacion/estudiantes/proceso/actualizar/{student}', [CommunityController::class, 'updateProcess'])->name('community.updateProcess');
+});
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,practicas'])->group(function () {
+    Route::get('/vinculacion/estudiantes', [CommunityController::class, 'Students'])->name('community.students');
     Route::get('/vinculacion/periodos-academicos', [CommunityController::class, 'periods'])->name('community.periods');
     Route::get('/vinculacion/periodos-academicos/{period}/estudiantes', [CommunityController::class, 'studentsInPeriod'])->name('community.studentsInPeriod');
+});
+Route::middleware(['auth:sanctum', 'role:admin,practicas'])->group(function () {
+    Route::get('/vinculacion/estudiantes/proceso/editar/{student}', [CommunityController::class, 'edit'])->name('community.processEdit');
+    Route::put('/vinculacion/estudiantes/proceso/actualizar/{student}', [CommunityController::class, 'updateProcess'])->name('community.updateProcess');
     Route::get('/vinculacion/estudiantes/{student}/documentos', [CommunityController::class, 'studentFiles'])->name('community.studentFiles');
     Route::get('/api/vinculacion/documentos/{student}', [CommunityController::class, 'apiCommunityFiles'])->name('api.community.communityFiles');
     Route::post('/documentos/vinculacion/{parentId}', [CommunityController::class, 'storeFile'])->name('community.storeFile');
@@ -207,7 +220,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 ////---------Community internship projects----------////
 // Community internship projects: Proyectos de prácticas de vinculación
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,practicas'])->group(function () {
     Route::get('/vinculacion/proyectos', [CommunityProjectController::class, 'projects'])->name('community.projects.index');
     Route::prefix('api/vinculacion')->group(function () {
         Route::get('/proyectos', [CommunityProjectController::class, 'apiIndex'])->name('api.community.projects.index');
@@ -222,7 +235,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/api/vinculacion/proyectos/agregar/{student}/{project}', [CommunityController::class, 'addStudentToProject'])->name('api.community.projects.addStudentToProject');
 });
 // Community internship files: Archivos de projectos de vinculación
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,practicas'])->group(function () {
     Route::get('/api/vinculacion/documentos/proyecto/{project}', [CommunityProjectController::class, 'apiProjectFiles'])->name('api.community.project.projectFiles');
     Route::post('/documentos/vinculacion/proyecto/{parentId}', [CommunityProjectController::class, 'storeFile'])->name('community.project.storeFile');
     Route::delete('/documentos/vinculacion/proyecto/eliminar/{project_id}/{index}/{file_id}', [FileController::class, 'destroyProject'])->name('files.destroyProject');
@@ -231,17 +244,21 @@ Route::middleware('auth:sanctum')->group(function () {
 ////---------Preprofessional internships----------////
 // Preprofessional internship process: Proceso de prácticas preprofesionales
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');
     Route::get('/laborales/estudiantes/proceso/{student}', [PreprofessionalController::class, 'preprofessional'])->name('preprofessional.process');
-    Route::get('/laborales/estudiantes/proceso/editar/{student}', [PreprofessionalController::class, 'edit'])->name('preprofessional.processEdit');
-    Route::put('/laborales/estudiantes/proceso/actualizar/{student}', [PreprofessionalController::class, 'updateProcess'])->name('preprofessional.updateProcess');
+});
+Route::middleware(['auth:sanctum', 'role:admin,titulacion,practicas'])->group(function () {
+    Route::get('/laborales/estudiantes', [PreprofessionalController::class, 'Students'])->name('preprofessional.students');
     Route::get('/laborales/periodos-academicos', [PreprofessionalController::class, 'periods'])->name('preprofessional.periods');
     Route::get('/laborales/periodos-academicos/{period}/estudiantes', [PreprofessionalController::class, 'studentsInPeriod'])->name('preprofessional.studentsInPeriod');
+});
+Route::middleware(['auth:sanctum', 'role:admin,practicas'])->group(function () {
+    Route::get('/laborales/estudiantes/proceso/editar/{student}', [PreprofessionalController::class, 'edit'])->name('preprofessional.processEdit');
+    Route::put('/laborales/estudiantes/proceso/actualizar/{student}', [PreprofessionalController::class, 'updateProcess'])->name('preprofessional.updateProcess');
     Route::get('/laborales/estudiantes/{student}/documentos', [PreprofessionalController::class, 'studentFiles'])->name('preprofessional.studentFiles');
     Route::get('/api/laborales/documentos/{student}', [PreprofessionalController::class, 'apiPreprofessionalFiles'])->name('api.preprofessional.preprofessionalFiles');
 });
 // Preprofessional internship files: Archivos de prácticas laborales
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin,practicas'])->group(function () {
     Route::post('/documentos/laborales/{parentId}', [PreprofessionalController::class, 'storeFile'])->name('preprofessional.storeFile');
     Route::delete('/documentos/laborales/eliminar/{student_id}/{index}/{file_id}', [FileController::class, 'destroyPreprofessional'])->name('files.destroyPreprofessional');
 });

@@ -17,7 +17,7 @@
     >
         <template #header>
             <div class="flex justify-between">
-                <div style="text-align: left">
+                <div v-if="hasRole(['admin', 'practicas', 'titulacion', 'asistente'])" style="text-align: left">
                     <ButtonSlide :pageName="generateRoute('create')" />
                 </div>
                 <IconField>
@@ -32,14 +32,14 @@
 
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
 
-        <Column :exportable="false" header="Editar" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
+        <Column v-if="hasRole(['admin', 'practicas', 'titulacion', 'asistente'])" :exportable="false" header="Editar" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Link :href="generateRoute('edit', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded />
                 </Link>
             </template>
         </Column>
-        <Column :exportable="false" header="Eliminar" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
+        <Column v-if="hasRole(['admin', 'practicas', 'titulacion', 'asistente'])" :exportable="false" header="Eliminar" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-trash" outlined rounded severity="danger" @click="openDeleteDialog(slotProps.data.id)" />
                 <Dialog v-model:visible="showDeleteDialog" modal header="Eliminar" :style="{ width: '25rem' }">
@@ -76,6 +76,8 @@ import ButtonSlide from "./ButtonSlide.vue";
 import Dialog from "primevue/dialog";
 import { useToast } from "primevue/usetoast";
 import axios from "axios";
+import { useRoles } from '@/Composables/useRoles'; 
+const { hasRole } = useRoles();
 
 const filters = ref();
 const initFilters = () => {

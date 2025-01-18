@@ -59,7 +59,6 @@ const roleOptions = computed(() => {
 const form = ref({
     name: "",
     email: "",
-    password: "password", //TODO: remove when api authentication is implemented
 });
 
 // Separate roles state
@@ -127,7 +126,6 @@ const closeModal = () => {
     form.value = {
         name: "",
         email: "",
-        password: "password",
     };
     roles.value = [null];
     showRoleError.value = false;

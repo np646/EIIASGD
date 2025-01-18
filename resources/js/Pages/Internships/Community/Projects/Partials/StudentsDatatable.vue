@@ -96,7 +96,6 @@ const showDeleteDialog = ref(false);
 const itemToDelete = ref(null);
 
 const generateProcessRoute = (data) => {
-    console.log('Generating route for:', data); // Debug log
     return route('community.process', { id: data.id });
 };
 

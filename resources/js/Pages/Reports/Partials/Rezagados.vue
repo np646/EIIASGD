@@ -62,7 +62,6 @@ const fetchStudents = async () => {
     try {
         const response = await axios.get(route("api.graduation.delayedStudents", { id: selectedPeriod.value }));
         students.value = response.data;
-        console.log("Fetched students:", response.data);
     } catch (error) {
         console.error("Error fetching students:", error);
     } finally {

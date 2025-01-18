@@ -28,7 +28,6 @@ import { usePage } from "@inertiajs/vue3";
 import Select from "@/Components/Select.vue";
 
 const periods = ref(usePage().props.periods);
-console.log(periods);
 const props = defineProps({
     modelValue: Boolean,
 });

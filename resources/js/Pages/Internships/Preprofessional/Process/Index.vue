@@ -52,7 +52,6 @@ const form = useForm({
 
 const title = process.student_name;
 
-console.log(process);
 function documents() {
     const url = route("preprofessional.studentFiles", { student: process.id });
     router.visit(url);

@@ -52,8 +52,6 @@ const updateItem = async () => {
     try {
         const response = await axios.put(route('api.thesisAreas.update', { area: props.itemData.id }), form.value);
         emit("item-updated", response.data);
-        console.log("response", response.data);
-        console.log("form", form.value);
         toast.add({
             severity: "success",
             summary: "Éxito",

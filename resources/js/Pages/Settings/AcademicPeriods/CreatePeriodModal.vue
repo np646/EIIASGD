@@ -44,9 +44,6 @@ const createItem = async () => {
     try {
         const response = await axios.post(route('api.academicPeriods.store'), form.value);
         emit("item-created", response.data);
-        
-        console.log("response", response.data);
-        console.log("form", form.value);
         toast.add({
             severity: "success",
             summary: "Éxito",

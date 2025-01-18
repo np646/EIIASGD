@@ -48,16 +48,12 @@ const form = ref({
 
 const selectedPeriod = ref(null);
 
-console.log("Item data:", props.itemData);
-
 watch(
     () => props.itemData,
     (newData) => {
         if (newData) {
             form.value = { ...newData };
-            console.log("Item data:", props.itemData);
             selectedPeriod.value = useComputeSelectedOption(props.itemData.academic_period_id, periods);
-            console.log("Selected period:", selectedPeriod.value);
             if (selectedPeriod.value) {
                 form.value.academic_period_id = selectedPeriod.value.id;
             }
@@ -78,8 +74,6 @@ const updateItem = async () => {
     loading.value = true;
     try {
         const response = await axios.put(route("api.community.projects.update", { project: props.itemData.id }), form.value);
-        console.log(props.itemData.id);
-        console.log("Sending project:", form.value);
         emit("item-updated", response.data);
         toast.add({
             severity: "success",

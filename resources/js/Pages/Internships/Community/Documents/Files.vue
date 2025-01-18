@@ -132,14 +132,12 @@ const visibleDelete = ref(false);
 const visibleInfo = ref(false);
 
 const openDeleteDialog = (index, file_id) => {
-    console.log(index, file_id);
     indexRef.value = index;
     removeId.value = file_id;
     visibleDelete.value = true;
 };
 
 const openInfoDialog = (file_id) => {
-    console.log(file_id);
     fileId.value = file_id;
     fileInfoData.value = "";
     infoFile();
@@ -201,7 +199,6 @@ const deleteFile = async () => {
         index: indexRef.value,
         file_id: removeId.value,
     });
-    console.log(indexRef.value);
     try {
         await router.delete(url);
         alert("Archivo eliminado exitosamente.");
@@ -220,7 +217,6 @@ const fetchItems = async () => {
     try {
         const response = await axios.get(route("api.community.communityFiles", student_id));
         items.value = response.data.files;
-        console.log(items.value);
     } catch (error) {
         console.error("Error fetching items:", error);
     }
@@ -231,7 +227,6 @@ const infoFile = async () => {
     loading.value = true;
     try {
         const response = await axios.get(route("files.info", { id: fileId.value }));
-        console.log("Fetched students:", response.data);
         fileInfoData.value =
             "Nombre: " +
             response.data.name +

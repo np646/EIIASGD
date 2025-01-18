@@ -36,7 +36,6 @@ import Subtitle from '@/Components/Subtitle.vue';
 
 const project = usePage().props.project;
 const projectName = usePage().props.projectName.name;
-console.log(projectName);
 const title = projectName;
 
 
@@ -54,7 +53,6 @@ const fetchItems = async () => {
     try {
         const response = await axios.get(route('api.community.projects.studentsInProject', { project: project }));
                 items.value = response.data;
-        console.log(items)
     } catch (error) {
         console.error("Error fetching items:", error);
     }

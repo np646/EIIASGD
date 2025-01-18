@@ -43,7 +43,6 @@ const fetchItems = async () => {
     try {
         const response = await axios.get(route("api.community.projects.index"));
         items.value = response.data;
-        console.log(items);
     } catch (error) {
         console.error("Error fetching items:", error);
     }

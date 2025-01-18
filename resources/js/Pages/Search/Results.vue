@@ -26,11 +26,7 @@ const results = computed(() => usePage().props.results);
 const searchQuery = computed(() => usePage().props.searchQuery);
 const title = 'Resultados para "' + searchQuery.value + '"';
 
-console.log(results.value);
-console.log("search query: " + searchQuery.value);
-
 function getProfile(result) {
-    console.log(result.type);
     return route(`${result.type}.profile`, result.id);
 }
 </script>

@@ -23,12 +23,6 @@ class UserSeeder extends Seeder
                 'roles' => ['admin']
             ],
             [
-                'name' => 'guest',
-                'email' => 'guest@example.com',
-                'password' => Hash::make('password'),
-                'roles' => ['guest']
-            ],
-            [
                 'name' => 'titulacion',
                 'email' => 'titulacion@example.com',
                 'password' => Hash::make('password'),
@@ -38,7 +32,7 @@ class UserSeeder extends Seeder
                 'name' => 'practicas',
                 'email' => 'practicas@example.com',
                 'password' => Hash::make('password'),
-                'roles' => ['p_preprofesionales', 'p_vinculacion']
+                'roles' => ['practicas']
             ],
             [
                 'name' => 'asistente',
@@ -53,16 +47,7 @@ class UserSeeder extends Seeder
                 'roles' => ['director']
             ],
         ];
-        /*for one role per user
-        foreach ($users as $userData) {
-            $role = $userData['role'];
-            unset($userData['role']);
-            
-            $user = User::create($userData);
-            $user->roles()->attach(Role::where('name', $role)->first());
-        }*/
 
-        //for multiple roles
         foreach ($users as $userData) {
             $roles = $userData['roles'];
             unset($userData['roles']);

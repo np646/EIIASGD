@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // User profile: Perfil de usuario
-Route::middleware(['auth:sanctum', 'role:guest,editor'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/perfil', [ProfileController::class, 'profile'])->name('profile');
 });
 
@@ -82,7 +82,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 ////---------Settings----------////
 // Academic periods: Periodos académicos
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('/periodos-academicos', [AcademicPeriodController::class, 'apiIndex'])->name('api.academicPeriods.index');
         Route::post('/periodos-academicos', [AcademicPeriodController::class, 'store'])->name('api.academicPeriods.store');
@@ -92,7 +92,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 // Courses: Carreras
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('/carreras', [CourseController::class, 'apiIndex'])->name('api.courses.index');
         Route::post('/carreras', [CourseController::class, 'store'])->name('api.courses.store');
@@ -103,7 +103,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Thesis areas: Áreas de titulación
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('/areas-titulacion', [ThesisAreaController::class, 'apiIndex'])->name('api.thesisAreas.index');
         Route::post('/areas-titulacion', [ThesisAreaController::class, 'store'])->name('api.thesisAreas.store');
@@ -114,7 +114,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Roles
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('/roles', [RoleController::class, 'apiIndex'])->name('api.roles.index');
         Route::post('/roles', [RoleController::class, 'store'])->name('api.roles.store');
@@ -125,7 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Users: Usuarios
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('api')->group(function () {
         Route::get('/usuarios', [RoleUserController::class, 'apiIndex'])->name('api.users.index');
         Route::post('/usuarios', [RoleUserController::class, 'store'])->name('api.users.store');
@@ -136,7 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Settings menu: Menú de configuración
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/configuracion/periodos-academicos', [AcademicPeriodController::class, 'index'])->name('academicPeriods.index');
     Route::get('/configuracion/carreras', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/configuracion/areas-titulacion', [ThesisAreaController::class, 'index'])->name('thesisAreas.index');

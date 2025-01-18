@@ -53,6 +53,9 @@
                     </div>
                 </div>
             </div>
+            <div v-if="hasRole('guest')">
+        Admin content here
+    </div>
         </ContentContainer>
     </MenuLayout>
 </template>

@@ -85,13 +85,19 @@ class FileController extends Controller
     public function download($id)
     {
         $file = File::findOrFail($id);
-        return response()->download(storage_path("app/uploads/{$file->path}"));
+        $fileName = $file->name; // or any other property that holds the desired name
+
+        return response()->download(storage_path("app/uploads/{$file->path}"), $fileName);
     }
 
     public function open($file_id)
     {
         $file = File::findOrFail($file_id);
-        return response()->file(storage_path("app/uploads/{$file->path}"));
+        $fileName = $file->name; 
+    
+        return response()->file(storage_path("app/uploads/{$file->path}"), [
+            'Content-Disposition' => 'inline; filename="' . $fileName . '"',
+        ]);
     }
 
     public function getLastId()

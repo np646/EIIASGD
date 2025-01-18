@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('graduation_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained('students')->onDelete('restrict');
             $table->string('international_cert_id')->nullable()->constrained('files')->onDelete('set null');
             $table->string('english_cert_id')->nullable()->constrained('files')->onDelete('set null');
             $table->string('community_internship_id')->nullable()->constrained('files')->onDelete('set null');

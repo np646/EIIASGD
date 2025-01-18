@@ -27,7 +27,8 @@ return new class extends Migration
             $table->date('readers_assignment_date')->nullable();
             $table->date('graduation_date')->nullable();
             $table->integer('registration_times')->nullable();
-            $table->integer('status')->nullable()->constrained('graduation_statuses')->onDelete('set null')->default(4);
+            $table->unsignedBigInteger('status')->default(4);
+            $table->foreign('status')->references('id')->on('graduation_statuses')->onDelete('restrict');
         });
     }
 

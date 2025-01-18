@@ -27,12 +27,12 @@ class DatabaseSeeder extends Seeder
             AcademicPeriodSeeder::class,
             ThesisAreaSeeder::class,
             CourseSeeder::class,
-            StudentSeeder::class,
-            ProfessorSeeder::class,
             GraduationStatusSeeder::class,
             GraduationTypeSeeder::class,
-            GraduationSeeder::class,
             InternshipStatusSeeder::class,
+            StudentSeeder::class,
+            ProfessorSeeder::class,
+            GraduationSeeder::class,
         ]);
     }
 }

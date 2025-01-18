@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // User profile: Perfil de usuario
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'role:guest,editor'])->group(function () {
     Route::get('/perfil', [ProfileController::class, 'profile'])->name('profile');
 });
 

@@ -21,22 +21,21 @@
                             <div class="login-wrap p-4 p-md-5">
                                 <form @submit.prevent="submit" class="signin-form">
                                     <!-- Email -->
-                                    <label class="label input-label" for="email">EMAIL</label>
+                                    <label class="label input-label" for="identifier">USUARIO</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="email"><BIconEnvelope></BIconEnvelope></span>
                                         </div>
                                         <input
-                                            id="email"
-                                            v-model="form.email"
-                                            type="email"
+                                            id="identifier"
+                                            v-model="form.identifier"
+                                            type="text"
                                             class="form-control"
-                                            placeholder="Email"
-                                            aria-label="email"
-                                            aria-describedby="email"
+                                            placeholder="Usuario"
                                             autocomplete="username"
                                             required
                                         />
+                                        <span v-if="form.errors.identifier">{{ form.errors.identifier }}</span>
                                     </div>
                                     <!-- Password -->
                                     <label class="label input-label" for="password">CONTRASEÑA</label>
@@ -55,6 +54,7 @@
                                             autocomplete="current-password"
                                             required
                                         />
+                                        <span v-if="form.errors.password">{{ form.errors.password }}</span>
                                     </div>
 
                                     <!-- Login button -->
@@ -121,7 +121,7 @@ const typeSubtitleText = () => {
 
 // For logging in
 const form = useForm({
-    email: "",
+    identifier: "",
     password: "",
     remember: false,
 });
@@ -139,7 +139,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 body {
     font-size: 16px;
     line-height: 1.8;

@@ -22,6 +22,22 @@ use App\Http\Controllers\PreprofessionalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+Route::get('/login', function () {
+    return Inertia::render('Login');
+})->name('login');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/inicio', function () {
+        return Inertia::render('dashboard');
+    })->name('inicio');
+});
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
 // Login: Iniciar sesión
@@ -286,4 +302,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 ////
-require __DIR__ . '/auth.php';
+//require __DIR__ . '/auth.php';

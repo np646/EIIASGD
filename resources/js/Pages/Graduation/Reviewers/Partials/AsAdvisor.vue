@@ -1,6 +1,14 @@
 <template v-slot:slot-content>
+    <div class="py-3 d-flex justify-content-center">
+        <div class="col text-center">
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <span class="fw-bold fs-6 mb-2">Seleccione el periodo académico</span>
+                <Select v-model="selectedPeriod" :options="periods" optionLabel="period" class="w-auto" />
+            </div>
+        </div>
+    </div>
     <DataTable
-        :value="processes"
+        :value="students"
         tableStyle="min-width: 50rem"
         stripedRows
         ref="dt"
@@ -42,7 +50,7 @@
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
+import { ref, watch } from "vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import IconField from "primevue/iconfield";
@@ -52,6 +60,13 @@ import { FilterMatchMode } from "@primevue/core/api";
 import "primeicons/primeicons.css";
 import Button from "primevue/button";
 import Tag from "primevue/tag";
+import { usePage } from "@inertiajs/vue3";
+import Select from "primevue/select";
+import axios from "axios";
+
+const students = ref([]);
+const periods = ref(usePage().props.periods);
+const selectedPeriod = ref(null);
 
 const props = defineProps({
     id: {
@@ -95,23 +110,24 @@ const getSeverity = (status) => {
     }
 };
 
-import axios from "axios";
-
-const processes = ref([]);
 const loading = ref(true);
 
-const fetchData = async () => {
+const fetchStudents = async () => {
+    if (!selectedPeriod.value) {
+        students.value = [];
+        return;
+    }
+
+    loading.value = true;
     try {
-        const response = await axios.get(route("api.graduation.getProcessesAsAdvisor", props.id));
-        processes.value = response.data.processes;
-        loading.value = false;
+        const response = await axios.get(route("api.graduation.getProcessesAsAdvisor", { professor: props.id, period: selectedPeriod.value }));
+        students.value = response.data;
     } catch (error) {
-        console.error("Error fetching processes:", error);
+        console.error("Error fetching students:", error);
+    } finally {
         loading.value = false;
     }
 };
 
-onMounted(() => {
-    fetchData();
-});
+watch([selectedPeriod], fetchStudents);
 </script>

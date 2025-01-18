@@ -18,10 +18,13 @@ class PreprofessionalController extends Controller
     }
     public function students()
     {
-        $query = PreprofessionalInternship::join('students', 'preprofessional_internships.student_id', '=', 'students.id')
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
             ->select(
-                'preprofessional_internships.*',
+                'preprofessional_internships.id',
+                'preprofessional_internships.status',
+                'students.identification',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'internship_statuses.name as status_name'
             )
@@ -47,7 +50,7 @@ class PreprofessionalController extends Controller
         $fileArray = json_decode($files, true);
 
         $files = [
-            ["id" => 1, "file" => "Certificado externo", "file_id" => $fileArray['external_report_id']],
+            ["id" => 1, "file" => "Certificado externo", "file_id" => $fileArray['external_cert_id']],
             ["id" => 2, "file" => "Informe del estudiante", "file_id" => $fileArray['student_report_id']],
             ["id" => 3, "file" => "Certificado de Banner", "file_id" => $fileArray['banner_cert_id']],
         ];
@@ -71,7 +74,8 @@ class PreprofessionalController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-        $query = PreprofessionalInternship::where('preprofessional_internships.academic_period_id', $period_id)
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->where('preprofessional_internships.academic_period_id', $period_id)
             ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
             ->select(
                 'preprofessional_internships.id',
@@ -102,7 +106,7 @@ class PreprofessionalController extends Controller
 
         switch ($file_column) {
             case 1:
-                $preprofessionalFile->external_report_id = $fileId;
+                $preprofessionalFile->external_cert_id = $fileId;
                 break;
             case 2:
                 $preprofessionalFile->student_report_id = $fileId;
@@ -162,5 +166,41 @@ class PreprofessionalController extends Controller
         $process = $this->fetchById($student_id);
         $process->update($request->all());
         return redirect()->route('preprofessional.process', ['student' => $student_id]);
+    }
+
+    public function getSentDocumentation($id)
+    {
+        $query = PreprofessionalInternship::where('preprofessional_internships.academic_period_id', '=', $id)
+            ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
+            ->select(
+                'preprofessional_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->external_cert_is_null = !is_null($item->external_cert_id) ? true : false;
+            $item->student_report_is_null = !is_null($item->student_report_id) ? true : false;
+            $item->banner_cert_is_null = !is_null($item->banner_cert_id) ? true : false;
+        });
+
+        return response()->json($query);
+    }
+
+    public function getProcessStatus($id)
+    {
+        $query = PreprofessionalInternship::where('students.status', 1)
+            ->where('preprofessional_internships.academic_period_id', '=', $id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
+            ->select(
+                'preprofessional_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'academic_periods.period AS academic_period',
+                'internship_statuses.name as status_name'
+            )
+            ->get();
+        return response()->json($query);
     }
 }

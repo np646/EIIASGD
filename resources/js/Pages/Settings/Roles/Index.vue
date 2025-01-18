@@ -1,4 +1,5 @@
 <template v-slot:slot-content>
+    <Head title="Roles" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -17,11 +18,12 @@
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
-import SettingsDatatable from '../Partials/SettingsDatatable.vue';
-import CreateRoleModal from './CreateRoleModal.vue';
+import SettingsDatatable from "../Partials/SettingsDatatable.vue";
+import CreateRoleModal from "./CreateRoleModal.vue";
 import axios from "axios";
 import { ref, onMounted } from "vue";
 
@@ -31,9 +33,7 @@ const items = ref([]);
 const pageName = "roles";
 const showCreateModal = ref(false);
 
-const columnHeaders = [
-    { field: "name", header: "Rol" },
-];
+const columnHeaders = [{ field: "name", header: "Rol" }];
 const globalFilters = ["name"];
 
 const fetchItems = async () => {

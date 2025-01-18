@@ -33,9 +33,9 @@
                 <Tag :severity="getSeverity(slotProps.data.status)" :value="slotProps.data.status_name"> </Tag>
             </template>
         </Column>
-        <Column :exportable="false" header="Documentos" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
+        <Column :exportable="false" header="Ver" bodyStyle="text-align: center" headerStyle="width: 1rem; text-align: center">
             <template #body="slotProps">
-                <Link :href="generateRoute('studentFiles', slotProps.data.id)">
+                <Link :href="generateRoute('process', slotProps.data.id)">
                     <Button class="mr-2" icon="pi pi-search-plus" severity="secondary" outlined rounded />
                 </Link>
             </template>
@@ -87,11 +87,11 @@ const getSeverity = (status) => {
         case 1:
             return "secondary";
         case 2:
-            return "info";
+            return "success";
         case 3:
             return "danger";
         case 4:
-            return "success";
+            return "info";
     }
 };
 

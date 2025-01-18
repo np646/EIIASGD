@@ -18,10 +18,13 @@ class CommunityController extends Controller
     }
     public function students()
     {
-        $query = CommunityInternship::join('students', 'community_internships.student_id', '=', 'students.id')
+        $query = CommunityInternship::where('students.status', 1)
+            ->join('students', 'community_internships.student_id', '=', 'students.id')
             ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
             ->select(
-                'community_internships.*',
+                'community_internships.id',
+                'community_internships.status',
+                'students.identification',
                 DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
                 'internship_statuses.name as status_name'
             )
@@ -69,7 +72,8 @@ class CommunityController extends Controller
 
     public function studentsInPeriod($period_id)
     {
-        $query = CommunityInternship::where('community_internships.academic_period_id', $period_id)
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('community_internships.academic_period_id', $period_id)
             ->join('students', 'community_internships.student_id', '=', 'students.id')
             ->select(
                 'community_internships.id',
@@ -179,7 +183,8 @@ class CommunityController extends Controller
     }
     public function apiStudentsInProject($project_id)
     {
-        $query = CommunityInternship::where('project_id', $project_id)
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('project_id', $project_id)
             ->leftJoin('students', 'community_internships.student_id', '=', 'students.id')
             ->leftJoin('academic_periods', 'community_internships.academic_period_id', '=', 'academic_periods.id')
             ->leftJoin('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
@@ -211,5 +216,40 @@ class CommunityController extends Controller
         $studentController = new StudentController();
         $student = $studentController->fetchFullStudent($student_id);
         return $student;
+    }
+
+    public function getSentDocumentation($id)
+    {
+        $query = CommunityInternship::where('community_internships.academic_period_id', '=', $id)
+            ->join('students', 'community_internships.student_id', '=', 'students.id')
+            ->select(
+                'community_internships.id',
+                'community_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->student_report_is_null = !is_null($item->student_report_id) ? true : false;
+        });
+
+        return response()->json($query);
+    }
+
+    public function getProcessStatus($id)
+    {
+        $query = CommunityInternship::where('students.status', 1)
+            ->where('community_internships.academic_period_id', '=', $id)
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
+            ->select(
+                'community_internships.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+                'academic_periods.period AS academic_period',
+                'internship_statuses.name as status_name'
+            )
+            ->get();
+        return response()->json($query);
     }
 }

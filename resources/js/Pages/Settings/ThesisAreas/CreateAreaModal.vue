@@ -41,8 +41,8 @@ const createItem = async () => {
         emit("item-created", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Área de titulación creada exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -50,7 +50,7 @@ const createItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible crear el área.",
+            detail: "No fue posible crear el área de titulación.",
             life: 3000,
         });
     } finally {

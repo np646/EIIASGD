@@ -65,14 +65,11 @@ class RoleController extends Controller
         return response()->json(null, 204);
     }
 
-    public function remove(Request $request, Role $role)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $role->update($request->only('status'));
-        return redirect()->route('roles.index');
+        $student = Role::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
@@ -83,6 +80,6 @@ class RoleController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Role::all());
+        return response()->json(Role::where('status', 1)->get());
     }
 }

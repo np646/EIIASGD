@@ -14,16 +14,18 @@
                 />
                 <small v-if="!isValidName" class="text-red-500">Solo se admiten caracteres alfanuméricos.</small>
             </div>
-
             <div class="field">
                 <label for="roles">Roles</label>
                 <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2 mb-2">
                     <Select v-model="roles[index]" :options="roleOptions" optionLabel="name" placeholder="Seleccione un rol" class="w-full" />
                     <Button icon="pi pi-minus" severity="danger" type="button" @click="removeRole(index)" :disabled="roles.length === 1" />
                 </div>
+                <div>
+                    <small v-if="showRoleError" class="text-red-500"> Debe seleccionar al menos un rol.</small>
+                </div>
                 <Button label="Añadir rol" icon="pi pi-plus" type="button" class="mt-2" @click="addRole" />
-            </div>
 
+            </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Crear" :loading="loading" />
@@ -42,13 +44,12 @@ import Select from "@/Components/Select.vue";
 import { useToast } from "primevue/usetoast";
 
 const toast = useToast();
-
 const props = defineProps({
     modelValue: Boolean,
 });
-
 const emit = defineEmits(["update:modelValue", "item-created"]);
 const loading = ref(false);
+const showRoleError = ref(false);
 
 const pageProps = usePage().props;
 const roleOptions = computed(() => {
@@ -59,7 +60,6 @@ const form = ref({
     name: "",
     email: "",
     password: "password", //TODO: remove when api authentication is implemented
-    status: 1,
 });
 
 // Separate roles state
@@ -81,39 +81,56 @@ function removeRole(index) {
     }
 }
 
+const validateRoles = () => {
+    const hasValidRole = roles.value.some(role => role !== null);
+    showRoleError.value = !hasValidRole;
+    return hasValidRole;
+};
+
 const createItem = async () => {
+    if (!validateRoles()) {
+        return;
+    }
+
     try {
+        loading.value = true;
         const formData = {
             ...form.value,
-            roles: roles.value,
+            roles: roles.value.filter(role => role !== null), 
         };
+        
         const response = await axios.post(route("api.users.store"), formData);
         emit("item-created", response.data);
+        
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Usuario creado exitosamente.",
             life: 3000,
         });
+        
         closeModal();
     } catch (error) {
+        console.error('Error creating user:', error);
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible crear el usuario.",
+            detail: error.response?.data?.message || "No fue posible crear el usuario.",
             life: 3000,
         });
     } finally {
         loading.value = false;
     }
 };
+
 const closeModal = () => {
     form.value = {
         name: "",
         email: "",
-        status: 1,
+        password: "password",
     };
     roles.value = [null];
+    showRoleError.value = false;
     emit("update:modelValue", false);
 };
 </script>

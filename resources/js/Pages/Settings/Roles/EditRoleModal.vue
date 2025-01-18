@@ -52,12 +52,10 @@ const updateItem = async () => {
     try {
         const response = await axios.put(route('api.roles.update', { role: props.itemData.id }), form.value);
         emit("item-updated", response.data);
-        console.log("response", response.data);
-        console.log("form", form.value);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido actualizado exitosamente.",
+            summary: "Éxito",
+            detail: "Rol actualizado exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -66,7 +64,7 @@ const updateItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible actualizar el rol.",
             life: 3000,
         });
     } finally {

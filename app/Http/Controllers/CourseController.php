@@ -67,14 +67,11 @@ class CourseController extends Controller
         return response()->json(null, 204);
     }
 
-    public function remove(Request $request, Course $course)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $course->update($request->only('status'));
-        return redirect()->route('courses.index');
+        $student = Course::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
@@ -85,6 +82,6 @@ class CourseController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Course::all());
+        return response()->json(Course::where('status', 1)->get());
     }
 }

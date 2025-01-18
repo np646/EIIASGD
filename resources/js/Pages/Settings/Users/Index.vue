@@ -1,4 +1,5 @@
 <template>
+    <Head title="Usuarios" />
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
@@ -17,6 +18,7 @@
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
@@ -47,8 +49,9 @@ const fetchItems = async () => {
 };
 
 const handleItemCreated = (newItem) => {
-    items.value.push(newItem);
-    showCreateModal.value = false;
+   /* items.value.push(newItem);
+    showCreateModal.value = false;*/
+    fetchItems();
 };
 
 const handleItemDeleted = (itemId) => {

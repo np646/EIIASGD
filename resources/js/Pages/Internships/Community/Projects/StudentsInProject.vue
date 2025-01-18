@@ -36,7 +36,6 @@ import Subtitle from '@/Components/Subtitle.vue';
 
 const project = usePage().props.project;
 const projectName = usePage().props.projectName.name;
-console.log(projectName);
 const title = projectName;
 
 
@@ -54,7 +53,6 @@ const fetchItems = async () => {
     try {
         const response = await axios.get(route('api.community.projects.studentsInProject', { project: project }));
                 items.value = response.data;
-        console.log(items)
     } catch (error) {
         console.error("Error fetching items:", error);
     }
@@ -66,15 +64,12 @@ const handleItemAdded = async (newItem) => {
     await fetchItems();
 };
 
-const handleItemDeleted = (itemId) => {
-    items.value = items.value.filter((item) => item.id !== itemId);
+const handleItemDeleted = async (itemId) => {
+    await fetchItems();
 };
 
-const handleItemUpdated = (updatedItem) => {
-    const index = items.value.findIndex((item) => item.id === updatedItem.id);
-    if (index !== -1) {
-        items.value[index] = updatedItem;
-    }
+const handleItemUpdated = async (updatedItem) => {
+    await fetchItems();
 };
 
 onMounted(fetchItems);

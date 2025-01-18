@@ -28,7 +28,6 @@ import { usePage } from "@inertiajs/vue3";
 import Select from "@/Components/Select.vue";
 
 const periods = ref(usePage().props.periods);
-console.log(periods);
 const props = defineProps({
     modelValue: Boolean,
 });
@@ -39,8 +38,7 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    academic_period_id: selectedPeriod,
-    status: 1,
+    academic_period_id: selectedPeriod
 });
 
 watch(selectedPeriod, () => {
@@ -54,8 +52,8 @@ const createItem = async () => {
         emit("item-created", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Proyecto creado exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -63,7 +61,7 @@ const createItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible crear la carrera.",
+            detail: "No fue posible crear el proyecto.",
             life: 3000,
         });
     } finally {
@@ -72,7 +70,7 @@ const createItem = async () => {
 };
 
 const closeModal = () => {
-    form.value = { name: "", academic_period_id: "", status: 1 };
+    form.value = { name: "", academic_period_id: ""};
     emit("update:modelValue", false);
 };
 </script>

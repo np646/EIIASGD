@@ -17,16 +17,16 @@
             <div class="field">
                 <label for="roles">Roles</label>
                 <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2 mb-2">
-                    <select class="styled-select" v-model="roles[index]" :options="roleOptions" optionLabel="name" placeholder="Seleccione un rol">
-                        <option v-for="role in roleOptions" :key="role.id" :value="role.id" >
-                            {{ role.name }}
+                    <select class="styled-select" v-model="roles[index]">
+                        <option value="">Seleccione un rol</option>
+                        <option v-for="option in roleOptions" :key="option.id" :value="option.id">
+                            {{ option.name }}
                         </option>
                     </select>
                     <Button icon="pi pi-minus" severity="danger" type="button" @click="removeRole(index)" :disabled="roles.length === 1" />
                 </div>
                 <Button label="Añadir rol" icon="pi pi-plus" type="button" class="mt-2" @click="addRole" />
             </div>
-
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Guardar" :loading="loading" />
@@ -44,8 +44,6 @@ import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
-// TODO: handle user not selecting a role error
-// "required" doesn't work apparently
 
 const props = defineProps({
     modelValue: Boolean,
@@ -61,8 +59,7 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    email: "",
-    status: 1,
+    email: ""
 });
 
 const isValidName = computed(() => /^[a-zA-Z0-9]*$/.test(form.value.name));
@@ -88,10 +85,10 @@ watch(
 );
 
 // Separate roles state
-const roles = ref([1, 2]);
+const roles = ref([]);
 
 function addRole() {
-    roles.value.push(null);
+    roles.value.push(""); // Initialize with empty string to match the select's empty state
 }
 
 function removeRole(index) {
@@ -101,13 +98,32 @@ function removeRole(index) {
 }
 
 function populateRoles() {
-    roles.value = [];
-    for (let i = 0; i < props.itemData.role_ids.length; i++) {
-        if (props.itemData.role_ids[i] != ",") {
-            roles.value.push(parseInt(props.itemData.role_ids[i]));
-        }
+    if (!props.itemData.role_ids) {
+        roles.value = [""]; // Initialize with one empty select if no roles
+        return;
+    }
+
+    roles.value = props.itemData.role_ids
+        .split(",")
+        .filter((id) => id.trim())
+        .map((id) => parseInt(id.trim()));
+
+    if (roles.value.length === 0) {
+        roles.value = [""]; // Ensure at least one select is shown
     }
 }
+
+// Add a watch to ensure roles are populated when itemData changes
+watch(
+    () => props.itemData,
+    (newData) => {
+        if (newData) {
+            form.value = { ...newData };
+            populateRoles();
+        }
+    },
+    { immediate: true }
+);
 
 const updateItem = async () => {
     loading.value = true;
@@ -120,16 +136,17 @@ const updateItem = async () => {
         emit("item-updated", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido actualizado exitosamente.",
+            summary: "Éxito",
+            detail: "Usuario actualizado exitosamente.",
             life: 3000,
         });
         closeModal();
     } catch (error) {
+        console.error("No fue posible actualizar el usuario. ", error);
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible actualizar el usuario.",
             life: 3000,
         });
     } finally {
@@ -138,7 +155,7 @@ const updateItem = async () => {
 };
 
 const closeModal = () => {
-    form.value = { name: "", email: "", status: 1 };
+    form.value = { name: "", email: ""};
     emit("update:modelValue", false);
 };
 

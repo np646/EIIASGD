@@ -21,15 +21,14 @@ class UserController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(User::all());
+        return response()->json(User::where('status', 1)->get());
     }
 
     public function store(Request $request)
     {
-       $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'status' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -37,21 +36,11 @@ class UserController extends Controller
         }
 
         $user = User::create($request->all());
-        //return response()->json($user, 201);
         return $user;
     }
 
     public function update(Request $request, User $user)
     {
-        /*$validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }*/
-
         $user->update($request->all());
         return response()->json($user);
     }
@@ -59,6 +48,14 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        return response()->json(null, 204);
+    }
+
+    public function remove($id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = 0;
+        $user->save();
         return response()->json(null, 204);
     }
 
@@ -72,5 +69,20 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         return $user;
+    }
+
+    public function fetchByName($name)
+    {
+        $user = User::where('name', $name)->first();
+        return $user;
+    }
+
+    public function updateStatus($name)
+    {
+        $user = $this->fetchByName($name);
+        if ($user && $user->status == 0) {
+            $user->status = 1;
+            $user->save();
+        }
     }
 }

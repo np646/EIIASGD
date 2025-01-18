@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('community_internships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('cascade');
-            $table->foreignId('academic_period_id')->nullable()->constrained('academic_periods')->onDelete('cascade');
-            $table->foreignId('project_id')->nullable()->constrained('community_projects')->onDelete('cascade');
+            $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('restrict');
+            $table->foreignId('academic_period_id')->nullable()->constrained('academic_periods')->onDelete('set null');
+            $table->foreignId('project_id')->nullable()->constrained('community_projects')->onDelete('set null');
             $table->foreignId('student_report_id')->nullable()->constrained('files')->onDelete('set null');
-            $table->boolean('status')->constrained('internship_statuses')->onDelete('cascade')->default(1);
-        });
+            $table->unsignedBigInteger('status')->default(1);
+            $table->foreign('status')->references('id')->on('internship_statuses')->onDelete('restrict');        });
     }
 
     /**

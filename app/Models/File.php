@@ -12,12 +12,14 @@ class File extends Model
     protected $fillable = [
         'name',
         'is_folder',
+        'size',
         'parent_id',
         'student_id',
         'path',
         'level',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'status'
     ];
 
     public function parent()

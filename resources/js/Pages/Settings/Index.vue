@@ -5,7 +5,6 @@
         <ContentContainer>
             <CustomLink :href="route('users.index')" :title="`Usuarios`"></CustomLink>
             <CustomLink :href="route('roles.index')" :title="`Roles`"></CustomLink>
-            <CustomLink :href="route('permissions.index')" :title="`Permisos`"></CustomLink>
             <CustomLink :href="route('academicPeriods.index')" :title="`Periodos académicos`"></CustomLink>
             <CustomLink :href="route('courses.index')" :title="`Carreras`"></CustomLink>
             <CustomLink :href="route('thesisAreas.index')" :title="`Áreas de titulación`"></CustomLink>

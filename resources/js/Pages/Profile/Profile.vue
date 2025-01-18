@@ -5,20 +5,19 @@
         <ContentContainer>
             <div class="px-3 pb-3 pt-1">
                 <div class="row pb-3">
-                    <div class="grid grid-cols-12 gap-3 h-full"></div>
                     <div class="col">
                         <label for="inputUsuario" class="col-form-label">Usuario</label>
                         <InputText class="form-control" v-model="user.name" id="inputUsuario" required disabled />
                     </div>
                     <div class="col">
-                        <label for="inputRol" class="col-form-label">Rol</label>
-                        <InputText class="form-control" v-model="user.roles" id="inputRol" required disabled />
+                        <label for="inputEmail" class="col-form-label">Email</label>
+                        <InputText type="email" class="form-control" v-model="user.email" id="inputEmail" required disabled />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-span-6">
-                        <label for="inputEmail" class="col-form-label">Email</label>
-                        <InputText type="email" class="form-control" v-model="user.email" id="inputEmail" required disabled />
+                    <div class="col-sm">
+                        <label for="inputRol" class="col-form-label">Roles</label>
+                        <InputText v-for="role in user.roles" class="form-control mb-3  w-50" id="inputRol" required disabled :value="role" />
                     </div>
                 </div>
             </div>

@@ -13,12 +13,12 @@ class SearchController extends Controller
         $query = $request->input('search');
 
 
-        $students = Student::search($query)->get()->map(function ($student) {
+        $students = Student::search($query)->where('status', 1)->get()->map(function ($student) {
             $student->type = 'students';
             return $student;
         });
 
-        $professors = Professor::search($query)->get()->map(function ($professor) {
+        $professors = Professor::search($query)->where('status', 1)->get()->map(function ($professor) {
             $professor->type = 'professors';
             return $professor;
         });

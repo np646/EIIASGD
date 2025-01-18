@@ -96,7 +96,6 @@ const showDeleteDialog = ref(false);
 const itemToDelete = ref(null);
 
 const generateProcessRoute = (data) => {
-    console.log('Generating route for:', data); // Debug log
     return route('community.process', { id: data.id });
 };
 
@@ -112,8 +111,8 @@ const deleteItem = async () => {
         emit("item-deleted", itemToDelete.value);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido actualizado exitosamente.",
+            summary: "Éxito",
+            detail: "Se ha quitado existosamente al estudiante del proyecto.",
             life: 3000,
         });
         showDeleteDialog.value = false;
@@ -122,7 +121,7 @@ const deleteItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible quitar al estudiante del proyecto.",
             life: 3000,
         });
     } finally {

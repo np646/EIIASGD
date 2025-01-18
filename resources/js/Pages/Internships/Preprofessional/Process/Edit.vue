@@ -50,7 +50,6 @@ import { router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 
 const process = ref(usePage().props.process).value;
-console.log(process);
 const periods = ref(usePage().props.periods);
 const statuses = ref(usePage().props.statuses);
 

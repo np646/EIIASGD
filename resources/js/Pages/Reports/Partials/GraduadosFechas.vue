@@ -39,6 +39,11 @@
             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
             currentPageReportTemplate="{first} - {last} de {totalRecords}"
         >
+            <template #header>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <Button icon="pi pi-file-excel" @click="exportExcel()" />
+                </div>
+            </template>
             <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable></Column>
         </DataTable>
     </div>
@@ -52,7 +57,8 @@ import DatePicker from "primevue/datepicker";
 import FloatLabel from "primevue/floatlabel";
 import { FilterMatchMode } from "@primevue/core/api";
 import axios from "axios";
-
+import Button from "primevue/button";
+import useExportExcel from "@/Composables/useExportExcel";
 import { useGetDate } from "@/Composables/useGetDate";
 import { useGetTime } from "@/Composables/useGetTime";
 
@@ -77,7 +83,6 @@ const fetchStudents = async () => {
     try {
         const response = await axios.get(route("api.graduation.graduatesByDate", { start: formatedStartDate.value, end: formatedEndDate.value }));
         students.value = response.data;
-        console.log("Fetched students:", response.data);
     } catch (error) {
         console.error("Error fetching students:", error);
     } finally {
@@ -88,6 +93,10 @@ const fetchStudents = async () => {
 watch([formatedStartDate, formatedEndDate], fetchStudents);
 const columnHeaders = [
     { field: "student", header: "Estudiante" },
+    { field: "thesis_name", header: "Titulo de tesis" },
+    { field: "advisor", header: "Asesor" },
+    { field: "reader1", header: "Lector I" },
+    { field: "reader2", header: "Lector II" },
     { field: "graduation_date", header: "Fecha de graduación" },
 ];
 const globalFilters = ["student", "graduation_date"];
@@ -100,9 +109,22 @@ const initFilters = () => {
 initFilters();
 
 onMounted(() => {
-    currentDate.value = useGetDate;
-    currentTime.value = useGetTime;
+    currentDate.value = useGetDate();
+    currentTime.value = useGetTime();
 });
+
+const columnMapping = {
+    student: "Estudiante",
+    thesis_name: "Titulo de tesis",
+    advisor: "Asesor",
+    reader1: "Lector I",
+    reader2: "Lector II",
+    graduation_date: "Fecha de graduación",
+};
+
+const exportExcel = () => {
+    useExportExcel(students.value, columnMapping);
+};
 </script>
 <style>
 :root {

@@ -47,7 +47,6 @@
         <EditCourseModal v-if="pageName === 'courses'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditPeriodModal v-if="pageName === 'academicPeriods'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditRoleModal v-if="pageName === 'roles'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPermissionModal v-if="pageName === 'permissions'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
@@ -71,7 +70,6 @@ import EditAreaModal from "../ThesisAreas/EditAreaModal.vue";
 import EditCourseModal from "../Courses/EditCourseModal.vue";
 import EditPeriodModal from "../AcademicPeriods/EditPeriodModal.vue";
 import EditRoleModal from "../Roles/EditRoleModal.vue";
-import EditPermissionModal from "../Permissions/EditPermissionModal.vue";
 
 const props = defineProps({
     columnHeaders: Array,
@@ -105,12 +103,12 @@ const openDeleteDialog = (id) => {
 
 const deleteItem = async () => {
     try {
-        await axios.delete(route(`api.${pageName}.destroy`, { id: itemToDelete.value }));
+        await axios.put(route(`api.${pageName}.remove`, { id: itemToDelete.value }));
         emit("item-deleted", itemToDelete.value);
         showDeleteDialog.value = false;
         toast.add({
             severity: "success",
-            summary: "Success",
+            summary: "Éxito",
             detail: "Ha sido eliminado exitosamente.",
             life: 3000,
         });
@@ -119,7 +117,7 @@ const deleteItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible eliminar el usuario.",
+            detail: "No fue posible eliminar.",
             life: 3000,
         });
     }

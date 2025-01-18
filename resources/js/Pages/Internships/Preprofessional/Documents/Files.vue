@@ -34,6 +34,7 @@
                                                 auto
                                                 severity="secondary"
                                                 class="p-button-text"
+                                                accept=".pdf,.docx" 
                                             />
                                         </InputGroupAddon>
                                         <InputText type="text" v-model="form.name" fluid disabled />
@@ -70,6 +71,22 @@
                             </Dialog>
                         </template>
                     </Column>
+                    <Column :exportable="false" header="Info" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
+                        <template #body="slotProps">
+                            <Button
+                                v-if="slotProps.data.file_id"
+                                class="mr-2"
+                                icon="pi pi-info-circle"
+                                outlined
+                                rounded
+                                severity="secondary"
+                                @click="openInfoDialog(slotProps.data.file_id)"
+                            />
+                            <Dialog v-model:visible="visibleInfo" modal header="Información del archivo" :style="{ width: '25rem' }">
+                                <div v-html="fileInfoData"></div>
+                            </Dialog>
+                        </template>
+                    </Column>
                 </DataTable>
             </div>
         </ContentContainer>
@@ -96,6 +113,7 @@ import Information from "./Partials/Information.vue";
 import axios from "axios";
 
 const fileInput = ref(null);
+const fileInfoData = ref(null);
 
 const student = usePage().props.student;
 const form = useForm({
@@ -107,16 +125,23 @@ const form = useForm({
     preprofessional_files_id: null,
 });
 
-
 const removeId = ref(null);
+const fileId = ref(null);
 const indexRef = ref(null);
 const visibleDelete = ref(false);
+const visibleInfo = ref(false);
 
 const openDeleteDialog = (index, file_id) => {
-    console.log(index, file_id);
     indexRef.value = index;
     removeId.value = file_id;
     visibleDelete.value = true;
+};
+
+const openInfoDialog = (file_id) => {
+    fileId.value = file_id;
+    fileInfoData.value = "";
+    infoFile();
+    visibleInfo.value = true;
 };
 
 const visibleUpdate = ref(false);
@@ -163,16 +188,16 @@ function onFileSelect(event) {
 }
 
 function openFile(file_id) {
-    const fileUrl = route('files.open', { file_id: file_id });
+    const fileUrl = route("files.open", { file_id: file_id });
     window.open(fileUrl, "_blank");
 }
 const deleteFile = async () => {
     const student_id = student.original.id;
 
-    const url = route('files.destroyPreprofessional', {
+    const url = route("files.destroyPreprofessional", {
         student_id: student_id,
         index: indexRef.value,
-        file_id: removeId.value
+        file_id: removeId.value,
     });
 
     try {
@@ -197,5 +222,37 @@ const fetchItems = async () => {
         console.error("Error fetching items:", error);
     }
 };
+
+const loading = ref(true);
+
+const infoFile = async () => {
+    loading.value = true;
+    try {
+        const response = await axios.get(route("files.info", { id: fileId.value }));
+        fileInfoData.value =
+            "Nombre: " +
+            response.data.name +
+            "<br>" +
+            "Tamaño: " +
+            response.data.size +
+            "<br>" +
+            "Creado por: " +
+            response.data.created_by_name +
+            "<br>" +
+            "Fecha de creación: " +
+            response.data.created_at +
+            "<br>" +
+            "Modificado por: " +
+            response.data.updated_by_name +
+            "<br>" +
+            "Fecha de modificación: " +
+            response.data.updated_at;
+    } catch (error) {
+        console.error("Error fetching students:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
 onMounted(fetchItems);
 </script>

@@ -22,18 +22,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
-            PermissionSeeder::class,
             UserSeeder::class,
             //
             AcademicPeriodSeeder::class,
             ThesisAreaSeeder::class,
             CourseSeeder::class,
-            StudentSeeder::class,
-            ProfessorSeeder::class,
             GraduationStatusSeeder::class,
             GraduationTypeSeeder::class,
-            GraduationSeeder::class,
             InternshipStatusSeeder::class,
+            StudentSeeder::class,
+            ProfessorSeeder::class,
+            GraduationSeeder::class,
         ]);
     }
 }

@@ -19,7 +19,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <Link class="dropdown-item" :href="route('profile.edit')">{{ userName }}</Link>
+                        <Link class="dropdown-item" :href="route('profile')">{{ userName }}</Link>
                     </li>
                     <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
                 </ul>

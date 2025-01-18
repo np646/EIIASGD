@@ -11,7 +11,6 @@
                         filter 
                         optionLabel="name"
                         class="w-100"
-                        @change="(e) => console.log('Select changed:', e.value)"
                     >
                         <template #value="slotProps">
                             <div v-if="slotProps.value" class="flex items-center">
@@ -71,9 +70,6 @@ const addItem = async () => {
 
     loading.value = true;
     try {
-        console.log('Sending student:', selectedStudent.value);
-        console.log('Sending project:', project);
-
         const response = await axios.put(
             route("api.community.projects.addStudentToProject", 
             { 
@@ -86,13 +82,13 @@ const addItem = async () => {
         
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Estudiante agregado exitosamente",
+            summary: "Éxito",
+            detail: "Estudiante agregado exitosamente.",
             life: 3000,
         });
         closeModal();
     } catch (error) {
-        console.error('Error adding student:', error);
+        console.error('No fue posible agregar el estudiante. ', error);
         toast.add({
             severity: "error",
             summary: "Error",

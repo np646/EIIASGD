@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CommunityProject;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CommunityProjectController extends Controller
@@ -22,7 +22,8 @@ class CommunityProjectController extends Controller
     public function apiIndex()
     {
 
-        $query = CommunityProject::join('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
+        $query = CommunityProject::where('community_projects.status', 1)
+            ->leftJoin('academic_periods', 'community_projects.academic_period_id', '=', 'academic_periods.id')
             ->select(
                 'community_projects.*',
                 'academic_periods.period as academic_period_name'
@@ -30,7 +31,7 @@ class CommunityProjectController extends Controller
             ->get();
 
         return response()->json($query);
-       // return back()->with($query);
+        // return back()->with($query);
         /*return response()->json(CommunityProject::all());*/
     }
 
@@ -50,7 +51,7 @@ class CommunityProjectController extends Controller
         return response()->json($course, 201);
     }
 
-    public function update(Request $request, CommunityProject $project)
+    public function update(Request $request, $project_id)
     {
         /* $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -61,13 +62,21 @@ class CommunityProjectController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 */
+        $project = $this->fetchByProjectId($project_id);
         $project->update($request->all());
         return response()->json($project);
+   
     }
 
     public function destroy(CommunityProject $project)
     {
         $project->delete();
+        return response()->json(null, 204);
+    }
+    public function remove($id)
+    {
+        $project = CommunityProject::findOrFail($id);
+        $project->update(['status' => 0]);
         return response()->json(null, 204);
     }
 
@@ -114,8 +123,22 @@ class CommunityProjectController extends Controller
 
     public function fetch()
     {
-        $statuses = CommunityProject::get();
+        $statuses = CommunityProject::where('status', 1)->get();
         return $statuses;
     }
 
+    public function getSentDocumentation($id)
+    {
+        $query = CommunityProject::where('community_projects.academic_period_id', '=', $id)
+            ->select(
+                'community_projects.*',
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->project_report_is_null = !is_null($item->project_report_id) ? true : false;
+        });
+
+        return response()->json($query);
+    }
 }

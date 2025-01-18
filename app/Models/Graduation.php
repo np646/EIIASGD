@@ -17,9 +17,11 @@ class Graduation extends Model
         'thesis_name',
         'thesis_area',
         'advisor_id',
+        'advisor_assignment_date',
         'academic_period_end_id', // PERIODO QUE CURSÓ INTEGRACIÓN CURRICULAR
         'reader1_id',
         'reader2_id',
+        'readers_assignment_date',
         'graduation_date',
         'registration_times', // CANTIDAD DE VECES QUE TOMA INTEGRACIÓN CURRICULAR
         'status',

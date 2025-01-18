@@ -5,7 +5,7 @@
         <ContentContainer>
             <Subtitle :title="`Proceso de prácticas de vinculación`" class="pt-3"></Subtitle>
             <div class="p-3">
-                <div>
+                <div v-if="hasRole(['admin', 'practicas'])">
                     <ButtonGroup>
                         <Button label="Editar información" icon="pi pi-pencil" size="small" @click="edit"></Button>
                         <Button label="Ver documentación" icon="pi pi-file" size="small" @click="documents"></Button>
@@ -44,8 +44,10 @@ import Button from "primevue/button";
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-
 import { useForm } from "@inertiajs/vue3";
+import { useRoles } from '@/Composables/useRoles'; 
+
+const { hasRole } = useRoles();
 
 const process = ref(usePage().props.process).value;
 
@@ -57,7 +59,6 @@ const form = useForm({
 
 const title = process.student_name;
 
-console.log(process);
 function documents() {
     const url = route("community.studentFiles", { student: process.id });
     router.visit(url);

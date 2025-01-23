@@ -125,18 +125,6 @@ function populateRoles() {
     }
 }
 
-// Add a watch to ensure roles are populated when itemData changes
-watch(
-    () => props.itemData,
-    (newData) => {
-        if (newData) {
-            form.value = { ...newData };
-            populateRoles();
-        }
-    },
-    { immediate: true }
-);
-
 const updateItem = async () => {
     loading.value = true;
     try {
@@ -213,5 +201,14 @@ onMounted(() => {});
 .styled-select:disabled {
     background-color: #e9ecef;
     cursor: not-allowed;
+}
+
+select {
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+
+select::-webkit-scrollbar {
+  display: none; 
 }
 </style>

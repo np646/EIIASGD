@@ -7,7 +7,7 @@
             </div>
             <div class="field">
                 <label for="edit-periodo">Periodo académico</label>
-                <Select id="edit-period" v-model="selectedPeriod" :options="periods" optionLabel="period" class="w-100" />
+                <CustomSelect v-model="form.academic_period_id" :periods="periods" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
@@ -23,11 +23,10 @@ import axios from "axios";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
-import Select from "@/Components/Select.vue";
 import { useToast } from "primevue/usetoast";
 import { usePage } from "@inertiajs/vue3";
 import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
-
+import CustomSelect from "./CustomSelect.vue";
 const props = defineProps({
     modelValue: Boolean,
     itemData: {
@@ -62,14 +61,6 @@ watch(
     { immediate: true }
 );
 
-
-watch(selectedPeriod, (newPeriod) => {
-    if (newPeriod) {
-        form.value.academic_period_id = newPeriod;
-    } else {
-        form.value.academic_period_id = "";
-    }
-});
 const updateItem = async () => {
     loading.value = true;
     try {

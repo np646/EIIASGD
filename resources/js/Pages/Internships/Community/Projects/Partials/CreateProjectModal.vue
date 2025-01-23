@@ -41,8 +41,8 @@ const form = ref({
     academic_period_id: selectedPeriod
 });
 
-watch(selectedPeriod, () => {
-    form.academic_period_id = selectedPeriod.value;
+watch(selectedPeriod, (newValue) => {
+    form.academic_period_id = newValue.id;
 });
 
 const createItem = async () => {

@@ -3,13 +3,13 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <CreateCourseModal v-model="showCreateModal" @item-created="handleItemCreated" />
+            <CreateCourseModal v-model="showCreateModal" @item-created="updateTable" />
             <ProjectsDatatable
                 :data="items"
                 :columnHeaders="columnHeaders"
                 :pageName="pageName"
-                @item-deleted="handleItemDeleted"
-                @item-updated="handleItemUpdated"
+                @item-deleted="updateTable"
+                @item-updated="updateTable"
                 @open-create-modal="showCreateModal = true"
                 :globalFilters="globalFilters"
             />
@@ -48,16 +48,8 @@ const fetchItems = async () => {
     }
 };
 
-const handleItemCreated = async (newItem) => {
-    await fetchItems();
-};
-
-const handleItemDeleted = (itemId) => {
-    items.value = items.value.filter((item) => item.id !== itemId);
-};
-
-const handleItemUpdated = async (updatedItem) => {
-    await fetchItems();
+const updateTable = () => {
+    fetchItems();
 };
 
 onMounted(fetchItems);

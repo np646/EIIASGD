@@ -211,7 +211,8 @@ class CommunityController extends Controller
         CommunityInternship::where('student_id', $student_id)
             ->update([
                 'project_id' => $project_id,
-                'academic_period_id' => $projectPeriod
+                'academic_period_id' => $projectPeriod,
+                'status' => 2
             ]);
         $studentController = new StudentController();
         $student = $studentController->fetchFullStudent($student_id);

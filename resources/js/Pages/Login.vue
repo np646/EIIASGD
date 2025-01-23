@@ -35,7 +35,6 @@
                                             autocomplete="username"
                                             required
                                         />
-                                        <span v-if="form.errors.identifier">{{ form.errors.identifier }}</span>
                                     </div>
                                     <!-- Password -->
                                     <label class="label input-label" for="password">CONTRASEÑA</label>
@@ -54,14 +53,15 @@
                                             autocomplete="current-password"
                                             required
                                         />
-                                        <span v-if="form.errors.password">{{ form.errors.password }}</span>
                                     </div>
-
-                                    <!-- Login button -->
                                     <div class="form-group">
                                         <button :disabled="form.processing" type="submit" class="form-control btn btn-primary rounded submit px-3">
                                             Iniciar sesión
                                         </button>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span style="color:red;" v-if="form.errors.identifier">{{ form.errors.identifier[0] }}</span>
+                                        <span style="color:red;" v-if="form.errors.password">{{ form.errors.password[0] }}</span>
                                     </div>
                                 </form>
                             </div>
@@ -139,7 +139,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 body {
     font-size: 16px;
     line-height: 1.8;

@@ -75,13 +75,13 @@ const columnHeaders = [
 const getSeverity = (status) => {
     switch (status) {
         case 1:
-            return "success";
+            return "secondary";
         case 2:
-            return "info";
+            return "success";
         case 3:
             return "danger";
         case 4:
-            return "warn";
+            return "info";
     }
 };
 

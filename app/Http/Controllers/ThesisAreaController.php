@@ -79,6 +79,6 @@ class ThesisAreaController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(ThesisArea::where('status', 1)->get());
+        return response()->json(ThesisArea::get());
     }
 }

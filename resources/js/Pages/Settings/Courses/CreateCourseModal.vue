@@ -47,7 +47,7 @@ const createItem = async () => {
         toast.add({
             severity: "success",
             summary: "Éxito",
-            detail: "Carrera creada exitosamente",
+            detail: "Carrera creada exitosamente.",
             life: 3000,
         });
         closeModal();

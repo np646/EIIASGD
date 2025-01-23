@@ -139,12 +139,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 body {
     font-size: 16px;
     line-height: 1.8;
     background: var(--background-color);
     color: gray;
     font-family: var(--font-family-base) !important;
+    height: 100vh;
 }
 
 .center-section {

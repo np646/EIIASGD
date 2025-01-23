@@ -28,6 +28,12 @@
             </div>
         </template>
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable />
+        <Column :exportable="false" header="Estado" bodyStyle="text-align: center" headerStyle="width: 8rem; text-align: center">
+            <template #body="slotProps">
+                <span v-if="slotProps.data.status === 1" class="p-tag p-tag-success">Activo</span>
+                <span v-else class="p-tag p-tag-danger">Inactivo</span>
+              </template>
+        </Column>
         <Column :exportable="false" header="Acciones" bodyStyle="text-align: center" headerStyle="width: 8rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openEditDialog(slotProps.data)" />

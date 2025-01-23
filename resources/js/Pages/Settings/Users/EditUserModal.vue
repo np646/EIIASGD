@@ -15,6 +15,16 @@
                 <small v-if="!isValidName" class="text-red-500">Solo se admiten caracteres alfanuméricos.</small>
             </div>
             <div class="field">
+                <label for="email">Correo</label>
+                <InputText id="email" v-model="form.email" required class="w-full" />
+            </div>
+            <div class="field">
+                <label for="name">Estado</label>
+                <div class="card flex justify-center">
+                    <ToggleButton v-model="form.status" class="w-24" onLabel="Activo" offLabel="Inactivo" />
+                </div>
+            </div>
+            <div class="field">
                 <label for="roles">Roles</label>
                 <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2 mb-2">
                     <select class="styled-select" v-model="roles[index]">
@@ -44,6 +54,7 @@ import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import ToggleButton from "primevue/togglebutton";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -59,13 +70,14 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    email: ""
+    email: "",
+    status: "",
 });
 
 const isValidName = computed(() => /^[a-zA-Z0-9]*$/.test(form.value.name));
 
 function updateEmail() {
-    form.value.email = `${form.value.name}@example.com`;
+    form.value.email = `${form.value.name}@pucesi.edu.ec`;
 }
 
 const pageProps = usePage().props;
@@ -155,7 +167,7 @@ const updateItem = async () => {
 };
 
 const closeModal = () => {
-    form.value = { name: "", email: ""};
+    form.value = { name: "", email: "" };
     emit("update:modelValue", false);
 };
 

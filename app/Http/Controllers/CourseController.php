@@ -82,6 +82,6 @@ class CourseController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Course::where('status', 1)->get());
+        return response()->json(Course::get());
     }
 }

@@ -240,8 +240,8 @@ class CommunityController extends Controller
     {
         $query = CommunityInternship::where('students.status', 1)
             ->where('community_internships.academic_period_id', '=', $id)
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('students', 'community_internships.student_id', '=', 'students.id')
+            ->join('academic_periods', 'community_internships.academic_period_id', '=', 'academic_periods.id')
             ->join('internship_statuses', 'community_internships.status', '=', 'internship_statuses.id')
             ->select(
                 'community_internships.*',

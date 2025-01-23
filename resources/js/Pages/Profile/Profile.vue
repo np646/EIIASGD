@@ -7,11 +7,13 @@
                 <div class="row pb-3">
                     <div class="col">
                         <label for="inputUsuario" class="col-form-label">Usuario</label>
-                        <InputText class="form-control" v-model="user.name" id="inputUsuario" required disabled />
+                        <InputText class="form-control w-50" v-model="user.name" id="inputUsuario" required disabled />
                     </div>
+                </div>
+                <div class="row pb-3">
                     <div class="col">
                         <label for="inputEmail" class="col-form-label">Email</label>
-                        <InputText type="email" class="form-control" v-model="user.email" id="inputEmail" required disabled />
+                        <InputText type="email" class="form-control w-50" v-model="user.email" id="inputEmail" required disabled />
                     </div>
                 </div>
                 <div class="row">

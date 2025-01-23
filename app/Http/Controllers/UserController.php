@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(User::where('status', 1)->get());
+        return response()->json(User::get());
     }
 
     public function store(Request $request)

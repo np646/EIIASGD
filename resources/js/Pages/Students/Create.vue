@@ -128,7 +128,7 @@ const submit = () => {
             toast.add({
                 severity: "success",
                 summary: "Éxito",
-                detail: "Estudiante registrado correctamente.",
+                detail: "Estudiante registrado exitosamente.",
                 life: 3000,
             });
         },

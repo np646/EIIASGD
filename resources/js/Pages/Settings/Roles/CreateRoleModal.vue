@@ -42,7 +42,7 @@ const createItem = async () => {
         toast.add({
             severity: "success",
             summary: "Éxito",
-            detail: "Rol creado exitosamente",
+            detail: "Rol creado exitosamente.",
             life: 3000,
         });
         closeModal();

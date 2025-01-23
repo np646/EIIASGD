@@ -81,6 +81,6 @@ class AcademicPeriodController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(AcademicPeriod::where('status', 1)->get());
+        return response()->json(AcademicPeriod::get());
     }
 }

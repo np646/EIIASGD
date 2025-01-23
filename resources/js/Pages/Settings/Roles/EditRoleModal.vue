@@ -5,6 +5,12 @@
                 <label for="edit-name">Rol</label>
                 <InputText id="edit-name" v-model="form.name" required class="w-full" />
             </div>
+            <div class="field">
+                <label for="name">Estado</label>
+                <div class="card flex justify-center">
+                    <ToggleButton v-model="form.status" class="w-24" onLabel="Activo" offLabel="Inactivo" />
+                </div>
+            </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Guardar" :loading="loading" />
@@ -20,6 +26,7 @@ import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
+import ToggleButton from "primevue/togglebutton";
 
 const props = defineProps({
     modelValue: Boolean,

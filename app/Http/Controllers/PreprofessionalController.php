@@ -191,8 +191,8 @@ class PreprofessionalController extends Controller
     {
         $query = PreprofessionalInternship::where('students.status', 1)
             ->where('preprofessional_internships.academic_period_id', '=', $id)
-            ->join('students', 'graduations.student_id', '=', 'students.id')
-            ->join('academic_periods', 'graduations.academic_period_end_id', '=', 'academic_periods.id')
+            ->join('students', 'preprofessional_internships.student_id', '=', 'students.id')
+            ->join('academic_periods', 'preprofessional_internships.academic_period_id', '=', 'academic_periods.id')
             ->join('internship_statuses', 'preprofessional_internships.status', '=', 'internship_statuses.id')
             ->select(
                 'preprofessional_internships.*',

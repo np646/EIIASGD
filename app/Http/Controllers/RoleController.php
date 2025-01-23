@@ -74,12 +74,12 @@ class RoleController extends Controller
 
     public function fetch()
     {
-        $roles = Role::get();
+        $roles = Role::where('status', 1)->get();
         return response()->json($roles);
     }
 
     public function apiIndex()
     {
-        return response()->json(Role::where('status', 1)->get());
+        return response()->json(Role::get());
     }
 }

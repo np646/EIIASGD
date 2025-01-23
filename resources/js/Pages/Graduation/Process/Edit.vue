@@ -298,7 +298,7 @@ function submit() {
             toast.add({
                 severity: "success",
                 summary: "Éxito",
-                detail: "Información actualizada correctamente.",
+                detail: "Información actualizada exitosamente.",
                 life: 3000,
             });
         },

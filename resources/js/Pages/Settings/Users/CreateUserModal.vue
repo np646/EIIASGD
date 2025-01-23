@@ -15,6 +15,10 @@
                 <small v-if="!isValidName" class="text-red-500">Solo se admiten caracteres alfanuméricos.</small>
             </div>
             <div class="field">
+                <label for="email">Correo</label>
+                <InputText id="email" v-model="form.email" required class="w-full" />
+            </div>
+            <div class="field">
                 <label for="roles">Roles</label>
                 <div v-for="(role, index) in roles" :key="index" class="flex items-center gap-2 mb-2">
                     <Select v-model="roles[index]" :options="roleOptions" optionLabel="name" placeholder="Seleccione un rol" class="w-full" />
@@ -67,7 +71,7 @@ const roles = ref([null]);
 const isValidName = computed(() => /^[a-zA-Z0-9]*$/.test(form.value.name));
 
 function updateEmail() {
-    form.value.email = `${form.value.name}@example.com`;
+    form.value.email = `${form.value.name}@pucesi.edu.ec`;
 }
 
 function addRole() {

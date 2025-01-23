@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class RoleUserController extends Controller
 {
@@ -14,7 +16,6 @@ class RoleUserController extends Controller
         // the item id to be updated as 'id'
 
         $users = DB::table('role_user')
-        ->where('users.status', 1)
         ->where('role_user.status', 1)
             ->join('users', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
@@ -24,7 +25,8 @@ class RoleUserController extends Controller
                 'users.email',
                 DB::raw('GROUP_CONCAT(roles.name ORDER BY role_user.role_id ASC) AS role'),
                 DB::raw('GROUP_CONCAT(role_user.role_id ORDER BY role_user.role_id ASC) AS role_ids'),
-                'users.name AS name'
+                'users.name AS name',
+                'users.status AS status'
             )
             ->groupBy('role_user.user_id', 'users.email', 'users.name')
             ->get();
@@ -34,11 +36,18 @@ class RoleUserController extends Controller
     public function store(Request $request)
     {
         $userController = new UserController();
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $userController->store($request);
         $user_id = $userController->getLastId();
-
-        // If user already exists, update status to 1
-        $userController->updateStatus($request['name']);
        
         $roles = $request['roles'];
 
@@ -79,7 +88,7 @@ class RoleUserController extends Controller
             return null;
         }
         return DB::table('role_user')
-            ->join('users', 'users.id', '=', 'role_user.user_id')
+            ->Leftjoin('users', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select(
                 'role_user.user_id',
@@ -101,7 +110,7 @@ class RoleUserController extends Controller
         $user = $userController->fetchById($id);
         $userController->update($request, $user);
 
-        $roles = $request['roles'];
+       $roles = $request['roles'];
 
         DB::table('role_user')
             ->where('user_id', $role_user->id)

@@ -5,6 +5,7 @@ const useExportExcel = (items, columnMapping) => {
         alert("No existen datos disponibles para exportar.");
         return;
     }
+
     const filteredData = items.map((item) => {
         const mapped = {};
         Object.keys(columnMapping).forEach((key) => {
@@ -13,11 +14,29 @@ const useExportExcel = (items, columnMapping) => {
         return mapped;
     });
 
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const currentDate = new Date().toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    const headers = [
+        ["PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR SEDE IBARRA"], 
+        ["ESCUELA DE INFORMÁTICA E INTELIGENCIA ARTIFICIAL"], 
+        [`Reporte generado el: ${currentDate}`],
+    ];
+
+    const jsonData = [
+        Object.keys(filteredData[0]),
+        ...filteredData.map((row) => Object.values(row)),
+    ];
+
+    const finalData = [...headers, ...jsonData];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(finalData);
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte");
 
-    // Export to Excel file
     XLSX.writeFile(workbook, "reporte.xlsx");
 };
 

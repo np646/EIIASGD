@@ -6,65 +6,105 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
 
     public function store(Request $request, $parentId = null)
     {
+        // Helper function for byte formatting
         function formatBytes($size, $precision = 2)
         {
             $base = log($size, 1024);
             $suffixes = array('', 'KB', 'MB', 'GB', 'TB');
-
             return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
         }
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'is_folder' => 'required|boolean',
-            'file' => 'nullable|file',
-        ]);
+        try {
+            Log::info('Iniciando validación de archivo');
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'is_folder' => 'required|boolean',
+                'file' => 'nullable|file',
+            ]);
 
-        $file_name = uniqid() . "_" . $request->name;
-        // Create file or folder in database
-        $file = new File();
-        $file->name = $file_name;
-        $file->is_folder = $request->is_folder;
-        $file->parent_id = $parentId ?: null;
-        $file->student_id = $request->student_id;
-        $file->created_by = Auth::id();
-        $file->updated_by = Auth::id();
-        $file->size = formatBytes($request->file('file')->getSize());
+            $file_name = uniqid() . "_" . $request->name;
 
-        if ($parentId) {
-            $parentFile = File::find($parentId);
-            $parentPath = $parentFile->path;
-            $file->path = $parentPath . $parentFile->id . '/';
-        } else {
+            if ($parentId) {
+                $parentFile = File::find($parentId);
+                $parentPath = $parentFile->path;
+                $path = $parentPath . $parentFile->id . '/';
+            } else {
+                $path = 'uploads/';
+            }
+
+            $file = new File();
+            $file->name = $file_name;
+            $file->is_folder = $request->is_folder;
+            $file->parent_id = $parentId ?: null;
+            $file->student_id = $request->student_id;
+            $file->created_by = Auth::id();
+            $file->updated_by = Auth::id();
+            $file->path = $path;
             $file->level = 1;
-            $file->path = 'uploads/';
-        }
 
-        $file->save();
+            if ($request->hasFile('file')) {
+                $fileToUpload = $request->file('file');
 
-        // Store the file
-        if ($request->hasFile('file')) {
-            $fileToUpload = $request->file('file');
-            $storagePath = "uploads/{$file->path}";
-            $filePath = "{$file->path}";
+                if (!$fileToUpload->isValid()) {
+                    Log::error('Archivo inválido', [
+                        'error' => $fileToUpload->getError(),
+                        'error_message' => $fileToUpload->getErrorMessage()
+                    ]);
+                    throw new \Exception('El archivo cargado no es válido');
+                }
 
-            Storage::putFileAs($storagePath, $fileToUpload, $file_name);
-            $file->path = $filePath . $file_name;
+                // Log file information
+                Log::info('Información del archivo:', [
+                    'nombre_original' => $fileToUpload->getClientOriginalName(),
+                    'tipo' => $fileToUpload->getMimeType(),
+                    'tamaño' => $fileToUpload->getSize(),
+                    'ruta_temporal' => $fileToUpload->getRealPath()
+                ]);
+
+                $file->size = formatBytes($fileToUpload->getSize());
+
+                $uploadPath = storage_path('app/uploads/' . $path);
+                if (!file_exists($uploadPath)) {
+                    if (!mkdir($uploadPath, 0755, true)) {
+                        Log::error('No se pudo crear el directorio', ['path' => $uploadPath]);
+                        throw new \Exception('Error al crear directorio necesario');
+                    }
+                }
+
+                $file->save();
+
+                // Move the file
+                if ($fileToUpload->move($uploadPath, $file_name)) {
+                    $file->path = $path . $file_name;
+                    Log::info('Archivo guardado exitosamente', [
+                        'ruta_final' => $file->path
+                    ]);
+                } else {
+                    throw new \Exception('No se pudo mover el archivo');
+                }
+            }
+
+            $pathSegments = explode('/', $file->path);
+            $file->level = count($pathSegments);
+
             $file->save();
-        }
 
-        // Generate level   
-        $path = $file->path;
-        $pathSegments = explode('/', $path);
-        $file->level = count($pathSegments);
-        $file->save();
+            return $file;
+        } catch (\Exception $e) {
+            Log::error('Error en el proceso de almacenamiento', [
+                'mensaje' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+        }
     }
 
     public function update(Request $request, $id)
@@ -93,8 +133,8 @@ class FileController extends Controller
     public function open($file_id)
     {
         $file = File::findOrFail($file_id);
-        $fileName = $file->name; 
-    
+        $fileName = $file->name;
+
         return response()->file(storage_path("app/uploads/{$file->path}"), [
             'Content-Disposition' => 'inline; filename="' . $fileName . '"',
         ]);

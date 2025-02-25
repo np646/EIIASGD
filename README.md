@@ -1,4 +1,4 @@
-Esta versión de la aplicación corre en localhost, pero mantiene la implementación de la API universitaria para la autenticación de usuarios que pertenezcan al directorio activo de la PUCE-I. 
+Esta versión de la aplicación corre en localhost con la autenticación de usuarios registrados en la base de datos local. 
 # Pasos para instalar en localhost
 ## 1. Instalar software necesario
 - [PHP](https://windows.php.net/download/) (non-thread-safe version) 8.2 o superior
@@ -33,13 +33,14 @@ npm run dev
 ```sh
 php artisan migrate:fresh --seed
 ```
-- Dentro de MySQL cambiar el usuario administrador
-```sh
-UPDATE `bdd_eiiasgd`.`users` SET `name` = "[Nuevo usuario]", `email` = "[Nuevo email@pucesi.edu.ec]"  WHERE `id` = 1;
-```
 - Probar la aplicación en localhost 
 ```sh
 http://127.0.0.1:8000
+```
+- Iniciar sesión con el usuario administrador
+```sh
+Email: admin@example.com
+Contraseña: password
 ```
 # Información
 | Herramienta | Versión |
@@ -48,4 +49,3 @@ http://127.0.0.1:8000
 | Laravel | 11 |
 | Vue | 3 |
 | MySQL Server | 8.0.39 |
-

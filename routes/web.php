@@ -23,24 +23,24 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RoleUserController;
 
+use Illuminate\Support\Facades\Log;
 
 // Login: Iniciar sesión
 Route::get('/', function () {
+    Log::info('Accediendo a la ruta `/`');
 
     if (Auth::check()) {
-
+        Log::info('Usuario autenticado, redirigiendo al dashboard', ['user_id' => Auth::id()]);
         return redirect()->route('dashboard');
     }
+
+    Log::warning('Usuario no autenticado, mostrando login');
+
     return Inertia::render('Login', [
-
         'canLogin' => Route::has('login'),
-
         'canRegister' => Route::has('register'),
-
         'laravelVersion' => Application::VERSION,
-
         'phpVersion' => PHP_VERSION,
-
     ]);
 });
 

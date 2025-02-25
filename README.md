@@ -1,3 +1,4 @@
+Esta versión del proyecto ha sido instalada en un servidor de prueba de la Escuela de Informática e Inteligencia Artifical de la PUCE-I. Los pasos a continuación permiten reproducir el proceso de instalación.
 # Pasos para instalar en IIS (Windows Server 2016)
 ## 1. Instalar software necesario
 - Internet Information Services (IIS) con los servicios de rol:

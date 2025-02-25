@@ -1,12 +1,6 @@
-# Pasos para instalar en IIS (Windows Server 2016)
+Esta versión de la aplicación corre en localhost, pero mantiene la implementación de la API universitaria para la autenticación de usuarios que pertenezcan al directorio activo de la PUCE-I. 
+# Pasos para instalar en localhost
 ## 1. Instalar software necesario
-- Internet Information Services (IIS) con los servicios de rol:
-  - Características HTTP comunes
-  - Desarrollo de aplicaciones -> CGI
-  - Seguridad
-  - Rendimiento
-  - Herramientas de administración
-- Agregar [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
 - [PHP](https://windows.php.net/download/) (non-thread-safe version) 8.2 o superior
   - Quitar el comentario en php.ini de extension=mysqli y extension=openssl
   - Agregar PHP al PATH de las variables de entorno del sistema
@@ -16,15 +10,11 @@
 - NPM
 
 ## 2. Desplegar el proyecto
-- Copiar el proyecto dentro del servidor
-```sh
-C:\inetpub\wwwroot
-```
+- Copiar el proyecto
 - Instalar las dependencias
 ```sh
-composer install --no-dev --optimize-autoloader
+composer install
 npm install
-npm run build
 ```
 - Copiar el archivo .env
 ```sh
@@ -34,12 +24,10 @@ copy .env.example .env
 ```sh
 php artisan key:generate
 ```
-- Modificar la IP y URL dentro del archivo .env (si es necesario)
-- Instalar el proyecto en IIS
-- Agregar las IP en la tabla de hosts
+- Correr los servidores de prueba
 ```sh
-127.0.0.1           localhost     
-XXX.XX.XX.XXX       www.eiiadocumental.pucesi.edu.ec
+php artisan serve
+npm run dev
 ```
 - Correr migraciones y seeders
 ```sh
@@ -49,18 +37,10 @@ php artisan migrate:fresh --seed
 ```sh
 UPDATE `bdd_eiiasgd`.`users` SET `name` = "[Nuevo usuario]", `email` = "[Nuevo email@pucesi.edu.ec]"  WHERE `id` = 1;
 ```
-- Descargar el archivo de certificados de [CA](https://curl.se/ca/cacert.pem)
-- Copiar cacert.pem en la carpeta de PHP
+- Probar la aplicación en localhost 
 ```sh
-C:\php\extras\ssl\cacert.pem
+http://127.0.0.1:8000
 ```
-- Editar php.ini con las líneas:
-```sh
-curl.cainfo = "C:\php\extras\ssl\cacert.pem"
-openssl.cafile = "C:\php\extras\ssl\cacert.pem"
-```
-- Probar la aplicación con la IP del servidor o en www.eiiadocumental.pucesi.edu.ec
-
 # Información
 | Herramienta | Versión |
 | ------ | ------ |

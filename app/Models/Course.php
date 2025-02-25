@@ -11,7 +11,7 @@ class Course extends Model
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'banner_id',
+        'banner_code',
         'status',
     ];
 }

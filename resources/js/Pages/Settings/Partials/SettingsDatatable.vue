@@ -28,6 +28,12 @@
             </div>
         </template>
         <Column v-for="column in columnHeaders" :key="column.field" :field="column.field" :header="column.header" sortable />
+        <Column :exportable="false" header="Estado" bodyStyle="text-align: center" headerStyle="width: 8rem; text-align: center">
+            <template #body="slotProps">
+                <span v-if="slotProps.data.status === 1" class="p-tag p-tag-success">Activo</span>
+                <span v-else class="p-tag p-tag-danger">Inactivo</span>
+              </template>
+        </Column>
         <Column :exportable="false" header="Acciones" bodyStyle="text-align: center" headerStyle="width: 8rem; text-align: center">
             <template #body="slotProps">
                 <Button class="mr-2" icon="pi pi-pencil" severity="success" outlined rounded @click="openEditDialog(slotProps.data)" />
@@ -42,12 +48,11 @@
             </div>
         </Dialog>
 
-        <EditUserModal v-if="pageName === 'usuarios'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditAreaModal v-if="pageName === 'areas-titulacion'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditCourseModal v-if="pageName === 'carreras'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPeriodModal v-if="pageName === 'periodos-academicos'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditUserModal v-if="pageName === 'users'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditAreaModal v-if="pageName === 'thesisAreas'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditCourseModal v-if="pageName === 'courses'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
+        <EditPeriodModal v-if="pageName === 'academicPeriods'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
         <EditRoleModal v-if="pageName === 'roles'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
-        <EditPermissionModal v-if="pageName === 'permisos'" v-model="showEditModal" :itemData="selectedItem" @item-updated="handleItemUpdated" />
     </DataTable>
 </template>
 
@@ -71,7 +76,6 @@ import EditAreaModal from "../ThesisAreas/EditAreaModal.vue";
 import EditCourseModal from "../Courses/EditCourseModal.vue";
 import EditPeriodModal from "../AcademicPeriods/EditPeriodModal.vue";
 import EditRoleModal from "../Roles/EditRoleModal.vue";
-import EditPermissionModal from "../Permissions/EditPermissionModal.vue";
 
 const props = defineProps({
     columnHeaders: Array,
@@ -105,12 +109,12 @@ const openDeleteDialog = (id) => {
 
 const deleteItem = async () => {
     try {
-        await axios.delete(`/api/${props.pageName}/${itemToDelete.value}`);
+        await axios.put(route(`api.${pageName}.remove`, { id: itemToDelete.value }));
         emit("item-deleted", itemToDelete.value);
         showDeleteDialog.value = false;
         toast.add({
             severity: "success",
-            summary: "Success",
+            summary: "Éxito",
             detail: "Ha sido eliminado exitosamente.",
             life: 3000,
         });
@@ -119,10 +123,11 @@ const deleteItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible eliminar el usuario.",
+            detail: "No fue posible eliminar.",
             life: 3000,
         });
     }
+    
 };
 
 const openEditDialog = (itemData) => {

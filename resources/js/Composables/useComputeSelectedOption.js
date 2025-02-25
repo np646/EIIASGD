@@ -1,3 +1,6 @@
 export const useComputeSelectedOption = (arrayValue, arrayName) => {
-    return arrayName.value.find(option => option.id === arrayValue) || null;
-  };
+  if (arrayValue === null || arrayValue === undefined) {
+      return null;
+  }
+  return arrayName.value.find(option => option.id === arrayValue) || null;
+};

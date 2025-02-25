@@ -7,7 +7,7 @@
             </div>
             <div class="field">
                 <label for="create-bannerid">Código de banner</label>
-                <InputText id="create-bannerid" v-model="form.banner_id" required class="w-full" />
+                <InputText id="create-bannerid" v-model="form.banner_code" required class="w-full" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
@@ -35,19 +35,19 @@ const toast = useToast();
 const loading = ref(false);
 const form = ref({
     name: "",
-    banner_id: "",
+    banner_code: "",
     status: 1,
 });
 
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/carreras", form.value);
+        const response = await axios.post(route('api.courses.store'), form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Carrera creada exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -64,7 +64,7 @@ const createItem = async () => {
 };
 
 const closeModal = () => {
-    form.value = { name: "", banner_id: "", status: 1 };
+    form.value = { name: "", banner_code: "", status: 1 };
     emit("update:modelValue", false);
 };
 </script>

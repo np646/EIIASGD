@@ -37,12 +37,12 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/roles", form.value);
+        const response = await axios.post(route('api.roles.store'), form.value);
         emit("item-created", response.data);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Rol creado exitosamente.",
             life: 3000,
         });
         closeModal();

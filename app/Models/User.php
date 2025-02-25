@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'status'
     ];
 
     /**
@@ -29,7 +29,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -42,23 +41,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
         ];
     }
 
     //For authentication
-    public function roles(): BelongsToMany
+
+    public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')
+            ->where('role_user.status', 1); // Filter roles with status = 1
     }
 
     public function hasRole($role): bool
     {
         return $this->roles()->where('name', $role)->exists();
-    }
-
-    public function hasPermission($permission): bool
-    {
-        return $this->roles->flatMap->permissions->pluck('name')->contains($permission);
     }
 }

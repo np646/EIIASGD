@@ -7,9 +7,9 @@
             <div>
                 <img src="/img/logo-pucesi.jpg" />
             </div>
-            <form class="d-flex search-box" role="search">
+            <form class="d-flex search-box" role="search" @submit.prevent="submitSearch">
                 <div class="position-relative">
-                    <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" />
+                    <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" v-model="searchQuery"/>
                     <BIconSearch id="search-icon"></BIconSearch>
                 </div>
             </form>
@@ -19,7 +19,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <Link class="dropdown-item" :href="route('profile.edit')">{{ userName }}</Link>
+                        <Link class="dropdown-item" :href="route('profile')">{{ userName }}</Link>
                     </li>
                     <li><Link class="dropdown-item" :href="route('logout')" method="post" as="button">Cerrar sesión</Link></li>
                 </ul>
@@ -45,6 +45,8 @@
 import { BIconList, BIconPersonCircle, BIconSearch } from "bootstrap-icons-vue";
 import { Link } from "@inertiajs/vue3";
 import { useMenuItems } from "@/Pages/Menu/Composables/useMenuItems";
+import { router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 const menuItems = useMenuItems();
 const props = defineProps({
     userName: String,
@@ -55,6 +57,12 @@ const props = defineProps({
 const emit = defineEmits(["toggleSidebar"]);
 
 import "primeicons/primeicons.css";
+
+const searchQuery = ref('');
+
+function submitSearch() {
+  router.get(route("search"), { search: searchQuery.value });
+}
 </script>
 
 <style scoped>

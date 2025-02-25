@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper container">
+    <div class="wrapper container-custom">
         <h4 class="title">{{ title }}</h4>
         <div class="line"></div>
     </div>
@@ -18,12 +18,13 @@ const props = defineProps({
     align-items: center;
     margin-bottom: 20px;
 }
-.container {
+.container-custom {
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding-top: 10px;
     background-color: white;
-    width:90%;
+    width:96%;
+    margin-left:2.2%;
 }
 
 .line {

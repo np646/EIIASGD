@@ -9,6 +9,12 @@
                 <label for="edit-year">Año</label>
                 <InputText id="edit-year" v-model="form.year" required class="w-full" />
             </div>
+            <div class="field">
+                <label for="name">Estado</label>
+                <div class="card flex justify-center">
+                    <ToggleButton v-model="form.status" class="w-24" onLabel="Activo" offLabel="Inactivo" />
+                </div>
+            </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
                 <Button type="submit" label="Guardar" :loading="loading" />
@@ -24,6 +30,7 @@ import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
+import ToggleButton from "primevue/togglebutton";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -40,6 +47,7 @@ const loading = ref(false);
 const form = ref({
     period: "",
     year: "",
+    status: "",
 });
 
 watch(
@@ -55,14 +63,12 @@ watch(
 const updateItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.put(`/api/periodos-academicos/${props.itemData.id}`, form.value);
+        const response = await axios.put(route("api.academicPeriods.update", { period: props.itemData.id }), form.value);
         emit("item-updated", response.data);
-        console.log("response", response.data);
-        console.log("form", form.value);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido actualizado exitosamente.",
+            summary: "Éxito",
+            detail: "Periodo actualizado exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -71,7 +77,7 @@ const updateItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible actualizar.",
+            detail: "No fue posible actualizar el periodo.",
             life: 3000,
         });
     } finally {

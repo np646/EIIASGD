@@ -29,7 +29,7 @@ const globalFilters = ["lastname", "name", "identification"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/docentes");
+        const response = await axios.get(route("api.professors.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);

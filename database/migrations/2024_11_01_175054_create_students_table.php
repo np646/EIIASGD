@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('banner_code')->unique();
             $table->boolean('sex'); //0 - FEMALE, 1 MALE
-            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade'); 
+            $table->foreignId('course_id')->nullable()->constrained('courses')->onDelete('set null'); 
+            $table->foreignId('academic_period_start_id')->nullable()->constrained('academic_periods')->onDelete('set null'); 
             $table->boolean('status')->default(true);
         });
     }

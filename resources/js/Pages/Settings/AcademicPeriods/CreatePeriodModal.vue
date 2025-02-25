@@ -7,7 +7,7 @@
             </div>
             <div class="field">
                 <label for="create-year">Año</label>
-                <InputText id="create-year" v-model="form.year" required class="w-full" />
+                <InputText id="create-year" type="number" min="1900" max="2099" step="1" v-model="form.year" required class="w-full" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancelar" severity="secondary" @click="closeModal" />
@@ -42,15 +42,12 @@ const form = ref({
 const createItem = async () => {
     loading.value = true;
     try {
-        const response = await axios.post("/api/periodos-academicos", form.value);
+        const response = await axios.post(route('api.academicPeriods.store'), form.value);
         emit("item-created", response.data);
-        
-        console.log("response", response.data);
-        console.log("form", form.value);
         toast.add({
             severity: "success",
-            summary: "Success",
-            detail: "Ha sido creado exitosamente",
+            summary: "Éxito",
+            detail: "Periodo creado exitosamente.",
             life: 3000,
         });
         closeModal();
@@ -58,7 +55,7 @@ const createItem = async () => {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "No fue posible crear la carrera.",
+            detail: "No fue posible crear el periodo.",
             life: 3000,
         });
     } finally {

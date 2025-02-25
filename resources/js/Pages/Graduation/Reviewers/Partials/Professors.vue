@@ -80,7 +80,7 @@ const loading = ref(true);
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(route("graduation.getReviewersByProfessors"));
+        const response = await axios.get(route("api.graduation.getReviewersByProfessors"));
         professors.value = response.data.professors;
         loading.value = false;
     } catch (error) {

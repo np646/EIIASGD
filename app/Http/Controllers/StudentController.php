@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -25,26 +27,33 @@ class StudentController extends Controller
     {
         $courseController = new CourseController();
         $courses = $courseController->fetch();
+
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
         return Inertia::render('Students/Create', [
-            'courses' => $courses
+            'courses' => $courses,
+            'periods' => $periods
         ]);
     }
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'lastname' => 'required|string',
-        //     'date_of_birth' => 'required|string',
-        //     'identification' => 'required|string',
-        //     'email' => 'required|email|unique:students',
-        //     'banner_code' => 'required|email|unique:students',
-        //     'sex' => 'required|integer',
-        //     'status' => 'required|integer'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => 'required|string|unique:students',
+            'email' => 'required|email|unique:students',
+            'banner_code' => 'required|string|unique:students',
+            'sex' => 'required|boolean',
+            'course_id' => 'required|integer',
+            'academic_period_start_id' => 'required|integer'
+        ]);
 
-        // Student::create($request->all());
-        // return redirect()->route('students.index');
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
 
         $params = $request->all();
         $data = [
@@ -56,9 +65,23 @@ class StudentController extends Controller
             'banner_code' => $params['banner_code'],
             'sex' => $params['sex'],
             'course_id' => $params['course_id'],
-            'status' => $params['status']
+            'academic_period_start_id' => $params['academic_period_start_id']
         ];
         Student::create($data);
+
+        $last_id = Student::orderBy('id', 'desc')->first()->id;
+        $graduationController = new GraduationController();
+        $graduationController->store($last_id);
+
+        $graduationFilesController = new GraduationFilesController();
+        $graduationFilesController->store($last_id);
+
+        $communityController = new CommunityController();
+        $communityController->store($last_id);
+
+        $preprofessionalController = new PreprofessionalController();
+        $preprofessionalController->store($last_id);
+
         return redirect()->route('students.index');
     }
 
@@ -71,24 +94,47 @@ class StudentController extends Controller
 
         $courseController = new CourseController();
         $courses = $courseController->fetch();
+
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
         return Inertia::render('Students/Edit', [
             'student' => $student,
-            'courses' => $courses
+            'courses' => $courses,
+            'periods' => $periods
         ]);
     }
 
     public function update(Request $request, Student $student)
     {
-        //TODO: test update
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'lastname' => 'required|string',
-        //     'email' => 'required|email|unique:students',
-        //     'date_of_birth' => 'required|date',
-        //     'identification' => 'required|string',
-        //     'banner_code' => 'required|string|unique:students',
-        //     'sex' => 'required|integer',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'identification' => [
+                'required',
+                'string',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'banner_code' => [
+                'required',
+                'string',
+                Rule::unique('students')->ignore($student->id),
+            ],
+            'sex' => 'required|boolean',
+            'course_id' => 'required|integer',
+            'academic_period_start_id' => 'required|integer',
+        ]);
+
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $student->update($request->all());
         return redirect()->route('students.index');
@@ -110,26 +156,41 @@ class StudentController extends Controller
         $graduationController = new GraduationController();
         $graduation = $graduationController->graduation($student->id);
 
+        $periodController = new AcademicPeriodController();
+        $periods = $periodController->fetch();
+
         return Inertia::render('Students/Profile', [
             'student' => $student,
-            'graduation' => $graduation
+            'graduation' => $graduation,
+            'periods' => $periods
         ]);
     }
 
-    public function remove(Request $request, Student $student)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $student->update($request->only('status'));
-        return redirect()->route('students.index');
+        $student = Student::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
     {
         $students = Student::where('status', 1)->get();
         return response()->json($students);
+    }
+
+
+    public function fetchFullStudent($student_id)
+    {
+        $student = Student::where('id', $student_id)->first();
+        return $student;
+    }
+    public function fetchFullNames()
+    {
+        $students = Student::where('status', 1)
+            ->select('id', DB::raw("CONCAT(lastname, ' ', name) AS name"))
+            ->get();
+        return  $students;
     }
 
     public function fetchById($student_id)
@@ -148,7 +209,7 @@ class StudentController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(Student::all());
+        return response()->json(Student::where('status', 1)->get());
     }
 
     public function totalStudents()

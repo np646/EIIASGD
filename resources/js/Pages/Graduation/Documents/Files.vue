@@ -4,7 +4,7 @@
         <Information />
         <ContentContainer>
             <div class="flex flex-col gap-4 justify-center h-full mb-3">
-                <DataTable :value="files" dataKey="id" class="w-full">
+                <DataTable :value="items" dataKey="id" class="w-full">
                     <Column header="Documentación" field="file" />
                     <Column :exportable="false" header="Abrir" bodyStyle="text-align: center" headerStyle="width: 3rem; text-align: center">
                         <template #body="slotProps">
@@ -34,6 +34,7 @@
                                                 auto
                                                 severity="secondary"
                                                 class="p-button-text"
+                                                accept=".pdf,.docx" 
                                             />
                                         </InputGroupAddon>
                                         <InputText type="text" v-model="form.name" fluid disabled />
@@ -70,6 +71,22 @@
                             </Dialog>
                         </template>
                     </Column>
+                    <Column :exportable="false" header="Info" bodyStyle="text-align: center;" headerStyle="width: 3rem; text-align: center">
+                        <template #body="slotProps">
+                            <Button
+                                v-if="slotProps.data.file_id"
+                                class="mr-2"
+                                icon="pi pi-info-circle"
+                                outlined
+                                rounded
+                                severity="secondary"
+                                @click="openInfoDialog(slotProps.data.file_id)"
+                            />
+                            <Dialog v-model:visible="visibleInfo" modal header="Información del archivo" :style="{ width: '25rem' }">
+                                <div v-html="fileInfoData"></div>
+                            </Dialog>
+                        </template>
+                    </Column>
                 </DataTable>
             </div>
         </ContentContainer>
@@ -82,45 +99,49 @@ import { Head } from "@inertiajs/vue3";
 import MenuLayout from "@/Layouts/MenuLayout.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Button from "primevue/button";
-import { router } from "@inertiajs/vue3";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Dialog from "primevue/dialog";
 import FileUpload from "primevue/fileupload";
 import { usePage } from "@inertiajs/vue3";
 import InputText from "primevue/inputtext";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
-import { useModuleStore } from "@/stores/module";
 import Information from "./Partials/Information.vue";
-
-const moduleStore = useModuleStore();
-const moduleId = moduleStore.moduleId;
+import axios from "axios";
+import { router } from "@inertiajs/vue3";
 
 const fileInput = ref(null);
+const fileInfoData = ref(null);
 
 const student = usePage().props.student;
-const files = usePage().props.files;
 const form = useForm({
     name: "",
     is_folder: false,
-    parent_id: moduleId,
+    parent_id: 1,
     file: null,
     student_id: student.original.id,
     graduation_files_id: null,
 });
 
-
 const removeId = ref(null);
+const fileId = ref(null);
 const indexRef = ref(null);
 const visibleDelete = ref(false);
+const visibleInfo = ref(false);
 
 const openDeleteDialog = (index, file_id) => {
-    console.log(index, file_id);
     indexRef.value = index;
     removeId.value = file_id;
     visibleDelete.value = true;
+};
+
+const openInfoDialog = (file_id) => {
+    fileId.value = file_id;
+    fileInfoData.value = "";
+    infoFile();
+    visibleInfo.value = true;
 };
 
 const visibleUpdate = ref(false);
@@ -136,6 +157,7 @@ const uploadFile = () => {
         }),
         {
             onSuccess: () => {
+                fetchItems();
                 alert("Archivo cargado con éxito");
                 form.reset();
                 if (fileInput.value) {
@@ -166,21 +188,22 @@ function onFileSelect(event) {
 }
 
 function openFile(file_id) {
-    const fileUrl = route('files.open', { file_id: file_id });
+    const fileUrl = route("files.open", { file_id: file_id });
     window.open(fileUrl, "_blank");
 }
 const deleteFile = async () => {
     const student_id = student.original.id;
 
-    const url = route('files.destroyGraduation', {
+    const url = route("files.destroyGraduation", {
         student_id: student_id,
         index: indexRef.value,
-        file_id: removeId.value
+        file_id: removeId.value,
     });
 
     try {
         await router.delete(url);
         alert("Archivo eliminado exitosamente.");
+        fetchItems();
         visibleDelete.value = false;
     } catch (error) {
         console.error("Error al eliminar:", error);
@@ -188,4 +211,47 @@ const deleteFile = async () => {
         visibleDelete.value = false;
     }
 };
+
+const loading = ref(true);
+
+const infoFile = async () => {
+    loading.value = true;
+    try {
+        const response = await axios.get(route("files.info", { id: fileId.value }));
+        fileInfoData.value =
+            "Nombre: " +
+            response.data.name +
+            "<br>" +
+            "Tamaño: " +
+            response.data.size +
+            "<br>" +
+            "Creado por: " +
+            response.data.created_by_name +
+            "<br>" +
+            "Fecha de creación: " +
+            response.data.created_at +
+            "<br>" +
+            "Modificado por: " +
+            response.data.updated_by_name +
+            "<br>" +
+            "Fecha de modificación: " +
+            response.data.updated_at;
+    } catch (error) {
+        console.error("Error fetching students:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const items = ref([]);
+const student_id = student.original.id;
+const fetchItems = async () => {
+    try {
+        const response = await axios.get(route("api.graduationFiles.studentFiles", student_id));
+        items.value = response.data.files;
+    } catch (error) {
+        console.error("Error fetching items:", error);
+    }
+};
+onMounted(fetchItems);
 </script>

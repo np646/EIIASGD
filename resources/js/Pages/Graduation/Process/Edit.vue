@@ -54,7 +54,11 @@
                                     </template>
                                 </Select>
                             </div>
-                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (I)</label>
+                            <label class="flex items-center col-span-3 h-full" for="inputFechaAsesor">Fecha de asignación de asesor</label>
+                            <div class="col-span-9 mb-2">
+                                <Datepicker v-model="form.advisor_assignment_date" id="inputFechaAsesor" required />
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputLector1">Lector (I)</label>
                             <div class="col-span-9 mb-2">
                                 <Select v-model="selectedReader1" id="inputLector1" :options="professors" filter optionLabel="name" class="w-100">
                                     <template #value="slotProps">
@@ -72,7 +76,7 @@
                                     </template>
                                 </Select>
                             </div>
-                            <label class="flex items-center col-span-3 h-full" for="inputAsesor">Lector (II)</label>
+                            <label class="flex items-center col-span-3 h-full" for="inputLector2">Lector (II)</label>
                             <div class="col-span-9 mb-2">
                                 <Select v-model="selectedReader2" id="inputLector2" :options="professors" filter optionLabel="name" class="w-100">
                                     <template #value="slotProps">
@@ -89,6 +93,10 @@
                                         </div>
                                     </template>
                                 </Select>
+                            </div>
+                            <label class="flex items-center col-span-3 h-full" for="inputFechaLectores">Fecha de asignación de lectores</label>
+                            <div class="col-span-9 mb-2">
+                                <Datepicker v-model="form.readers_assignment_date" id="inputFechaLectores" required />
                             </div>
                             <label class="flex items-center col-span-3 h-full" for="inputGraduacion">Fecha de graduación</label>
                             <div class="col-span-9 mb-2">
@@ -130,8 +138,9 @@ import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption
 import { ref, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
-
 import { useForm } from "@inertiajs/vue3";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const graduationArray = ref(usePage().props.graduation);
 const graduation = graduationArray.value[0];
@@ -147,9 +156,11 @@ const registration_times = ref("");
 const form = useForm({
     academic_period_start_id: graduation.academic_period_start_id,
     academic_period_end_id: graduation.academic_period_end_id,
-    advisor_id: graduation.advisor_name,
-    reader1_id: graduation.reader1_name,
-    reader2_id: graduation.reader2_name,
+    advisor_id: graduation.advisor_id,
+    advisor_assignment_date: graduation.advisor_assignment_date,
+    reader1_id: graduation.reader1_id,
+    reader2_id: graduation.reader2_id,
+    readers_assignment_date: graduation.readers_assignment_date,
     thesis_area: graduation.thesis_area,
     registration_times: registration_times,
     plan_approval_date: graduation.plan_approval_date,
@@ -163,16 +174,22 @@ const title = graduation.student_name;
 
 const selectedStartPeriod = ref(null);
 selectedStartPeriod.value = useComputeSelectedOption(graduation.academic_period_start_id, periods);
-form.academic_period_start_id = selectedStartPeriod.value.id;
-
+if (selectedStartPeriod.value) {
+    form.academic_period_start_id = selectedStartPeriod.value.id;
+} else {
+  form.academic_period_start_id = null;
+}
 watch(selectedStartPeriod, () => {
     form.academic_period_start_id = selectedStartPeriod.value;
 });
 
 const selectedEndPeriod = ref(null);
 selectedEndPeriod.value = useComputeSelectedOption(graduation.academic_period_end_id, periods);
-form.academic_period_end_id = selectedEndPeriod.value.id;
-
+if (selectedEndPeriod.value) {
+    form.academic_period_end_id = selectedEndPeriod.value.id;
+} else {
+  form.academic_period_end_id = null;
+}
 watch(selectedEndPeriod, () => {
     form.academic_period_end_id = selectedEndPeriod.value;
 });
@@ -184,49 +201,77 @@ const registrationTimes = ref([
 ]);
 const selectedTimes = ref(null);
 selectedTimes.value = useComputeSelectedOption(graduation.registration_times, registrationTimes);
-form.registration_times = selectedTimes.value.id;
+if (selectedTimes.value) {
+    form.registration_times = selectedTimes.value.id;
+} else {
+  form.registration_times = null;
+}
 watch(selectedTimes, () => {
     form.registration_times = selectedTimes.value;
 });
 
 const selectedType = ref(null);
 selectedType.value = useComputeSelectedOption(graduation.graduation_type, types);
-form.graduation_type = selectedType.value.id;
+if (selectedType.value) {
+  form.graduation_type = selectedType.value.id;
+} else {
+  form.graduation_type = null;
+}
 watch(selectedType, () => {
     form.graduation_type = selectedType.value;
 });
 
 const selectedArea = ref(null);
 selectedArea.value = useComputeSelectedOption(graduation.thesis_area, areas);
-form.thesis_area = selectedArea.value.id;
+if (selectedArea.value) {
+    form.thesis_area = selectedArea.value.id;
+} else {
+  form.thesis_area = null;
+}
 watch(selectedArea, () => {
     form.thesis_area = selectedArea.value;
 });
 
 const selectedAdvisor = ref(null);
 selectedAdvisor.value = useComputeSelectedOption(graduation.advisor_id, professors);
-form.advisor_id = selectedAdvisor.value.id;
+if (selectedAdvisor.value) {
+    form.advisor_id = selectedAdvisor.value.id;
+} else {
+  form.advisor_id = null;
+}
 watch(selectedAdvisor, () => {
     form.advisor_id = selectedAdvisor.value;
 });
 
 const selectedReader1 = ref(null);
 selectedReader1.value = useComputeSelectedOption(graduation.reader1_id, professors);
-form.reader1_id = selectedReader1.value.id;
+if (selectedReader1.value) {
+    form.reader1_id = selectedReader1.value.id;
+} else {
+  form.reader1_id = null;
+}
 watch(selectedReader1, () => {
     form.reader1_id = selectedReader1.value;
 });
 
 const selectedReader2 = ref(null);
 selectedReader2.value = useComputeSelectedOption(graduation.reader2_id, professors);
-form.reader2_id = selectedReader2.value.id;
+if (selectedReader2.value) {
+    form.reader2_id = selectedReader2.value.id;
+} else {
+  form.reader2_id = null;
+}
 watch(selectedReader2, () => {
     form.reader2_id = selectedReader2.value;
 });
 
 const selectedStatus = ref(null);
 selectedStatus.value = useComputeSelectedOption(graduation.status, statuses);
-form.status = selectedStatus.value.id;
+if (selectedStatus.value) {
+    form.status = selectedStatus.value.id;
+} else {
+  form.status = null;
+}
 watch(selectedStatus, () => {
     form.status = selectedStatus.value;
 });
@@ -238,6 +283,25 @@ function cancel() {
 
 function submit() {
     const url = route('graduation.update', { graduation: graduation.id});
-    form.put(url);
+    form.put(url, {
+        onError: (errors) => {
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Información actualizada exitosamente.",
+                life: 3000,
+            });
+        },
+    });
 }
 </script>

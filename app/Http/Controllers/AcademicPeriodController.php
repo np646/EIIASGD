@@ -66,14 +66,11 @@ class AcademicPeriodController extends Controller
         return response()->json(null, 204);
     }
 
-    public function remove(Request $request, AcademicPeriod $academicPeriod)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $academicPeriod->update($request->only('status'));
-        return redirect()->route('academicPeriods.index');
+        $student = AcademicPeriod::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
@@ -84,6 +81,6 @@ class AcademicPeriodController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(AcademicPeriod::all());
+        return response()->json(AcademicPeriod::get());
     }
 }

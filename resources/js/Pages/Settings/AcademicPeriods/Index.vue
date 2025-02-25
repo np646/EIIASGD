@@ -3,13 +3,13 @@
     <MenuLayout>
         <Title :title="title" />
         <ContentContainer>
-            <CreatePeriodModal v-model="showCreateModal" @item-created="handleItemCreated" />
+            <CreatePeriodModal v-model="showCreateModal" @item-created="updateTable" />
             <SettingsDatatable
                 :data="items"
                 :columnHeaders="columnHeaders"
                 :pageName="pageName"
-                @item-deleted="handleItemDeleted"
-                @item-updated="handleItemUpdated"
+                @item-deleted="updateTable"
+                @item-updated="updateTable"
                 @open-create-modal="showCreateModal = true"
                 :globalFilters="globalFilters"
             />
@@ -31,7 +31,7 @@ import { ref, onMounted } from "vue";
 const title = "Periodos académicos";
 
 const items = ref([]);
-const pageName = "periodos-academicos";
+const pageName = "academicPeriods";
 const showCreateModal = ref(false);
 
 const columnHeaders = [
@@ -42,27 +42,15 @@ const globalFilters = ["period", "year"];
 
 const fetchItems = async () => {
     try {
-        const response = await axios.get("/api/periodos-academicos");
+        const response = await axios.get(route("api.academicPeriods.index"));
         items.value = response.data;
     } catch (error) {
         console.error("Error fetching items:", error);
     }
 };
 
-const handleItemCreated = (newItem) => {
-    items.value.push(newItem);
-    showCreateModal.value = false;
-};
-
-const handleItemDeleted = (itemId) => {
-    items.value = items.value.filter((item) => item.id !== itemId);
-};
-
-const handleItemUpdated = (updatedItem) => {
-    const index = items.value.findIndex((item) => item.id === updatedItem.id);
-    if (index !== -1) {
-        items.value[index] = updatedItem;
-    }
+const updateTable = () => {
+    fetchItems();
 };
 
 onMounted(fetchItems);

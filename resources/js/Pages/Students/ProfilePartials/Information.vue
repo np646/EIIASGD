@@ -34,6 +34,10 @@
                 <div class="col-span-9">
                     <InputText v-model="form.course_name" id="inputCarrera" fluid disabled />
                 </div>
+                <label class="flex items-center col-span-3 h-full" for="inputInicio">Periodo de inicio de estudios</label>
+                <div class="col-span-9">
+                    <InputText v-model="startPeriod" id="inputInicio" fluid disabled />
+                </div>
             </div>
         </div>
     </div>
@@ -42,13 +46,19 @@
 <script setup>
 import InputText from "primevue/inputtext";
 import { ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
+
+const periods = ref(usePage().props.periods);
 
 const props = defineProps({
     student: Object,
 });
 
 const sex = ref("");
+const startPeriod = ref("");
+startPeriod.value = useComputeSelectedOption(props.student.academic_period_start_id, periods).period;
+
 const form = useForm({
     name: props.student.name,
     lastname: props.student.lastname,
@@ -58,6 +68,7 @@ const form = useForm({
     banner_code: props.student.banner_code,
     sex: sex,
     course_name: props.student.course_name,
+    academic_period_start_id: startPeriod,
 });
 
 function selectedSex() {
@@ -68,4 +79,6 @@ function selectedSex() {
     }
 }
 selectedSex();
+
+
 </script>

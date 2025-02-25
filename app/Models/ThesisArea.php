@@ -11,6 +11,6 @@ class ThesisArea extends Model
     public $timestamps = false;
     protected $fillable = [
         'area',
-        'status', //TODO: check if this one is right
+        'status',
     ]; 
 }

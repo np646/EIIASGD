@@ -12,12 +12,16 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Settings/Users/Index');
+        $roleController = new RoleController();
+        $roles = $roleController->fetch();
+        return Inertia::render('Settings/Users/Index', [
+            'roles' => $roles
+        ]);
     }
 
     public function apiIndex()
     {
-        return response()->json(User::all());
+        return response()->json(User::get());
     }
 
     public function store(Request $request)
@@ -25,7 +29,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'status' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -33,21 +36,11 @@ class UserController extends Controller
         }
 
         $user = User::create($request->all());
-        return response()->json($user, 201);
+        return $user;
     }
 
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'status' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $user->update($request->all());
         return response()->json($user);
     }
@@ -56,5 +49,40 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json(null, 204);
+    }
+
+    public function remove($id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = 0;
+        $user->save();
+        return response()->json(null, 204);
+    }
+
+    public function getLastId()
+    {
+        $userId = User::latest()->pluck('id')->first();
+        return $userId;
+    }
+
+    public function fetchById($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user;
+    }
+
+    public function fetchByName($name)
+    {
+        $user = User::where('name', $name)->first();
+        return $user;
+    }
+
+    public function updateStatus($name)
+    {
+        $user = $this->fetchByName($name);
+        if ($user && $user->status == 0) {
+            $user->status = 1;
+            $user->save();
+        }
     }
 }

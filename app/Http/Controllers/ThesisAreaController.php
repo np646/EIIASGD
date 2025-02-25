@@ -64,14 +64,11 @@ class ThesisAreaController extends Controller
         return response()->json(null, 204);
     }
 
-    public function remove(Request $request, ThesisArea $thesisArea)
+    public function remove($id)
     {
-        $request->validate([
-            'status' => 'required|integer'
-        ]);
-
-        $thesisArea->update($request->only('status'));
-        return redirect()->route('thesisAreas.index');
+        $student = ThesisArea::findOrFail($id);
+        $student->update(['status' => 0]);
+        return response()->json(null, 204);
     }
 
     public function fetch()
@@ -82,6 +79,6 @@ class ThesisAreaController extends Controller
 
     public function apiIndex()
     {
-        return response()->json(ThesisArea::all());
+        return response()->json(ThesisArea::get());
     }
 }

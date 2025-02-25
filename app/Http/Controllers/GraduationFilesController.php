@@ -5,14 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\GraduationFiles;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Illuminate\Support\Facades\DB;
 
 class GraduationFilesController extends Controller
 {
+    public function store($student_id)
+    {
+        $data = [
+            'student_id' => $student_id,
+        ];
+        GraduationFiles::create($data);
+    }
+
     public function studentFiles($student_id)
     {
         $studentController = new StudentController();
         $student = $studentController->fetchById($student_id);
+        return Inertia::render('Graduation/Documents/Files', [
+            'student' => $student
+        ]);
+    }
+    public function apiStudentFiles($student_id)
+    {
         $files = GraduationFiles::where('student_id', $student_id)->first();
         $fileArray = json_decode($files, true);
 
@@ -27,10 +41,11 @@ class GraduationFilesController extends Controller
 
         ];
 
-        return Inertia::render('Graduation/Documents/Files', [
-            'files' => $files,
-            'student' => $student
-        ]);
+        if (request()->wantsJson()) {
+            return response()->json(['files' => $files]);
+        }
+
+        return back()->with(['files' => $files]);
     }
 
     public function storeFile(Request $request, $parentId)
@@ -73,5 +88,33 @@ class GraduationFilesController extends Controller
     public function fetchByStudentId($student_id)
     {
         return GraduationFiles::find($student_id);
+    }
+
+    //Reports module
+    public function getSentDocumentation($id)
+    {
+        $query = GraduationFiles::whereNot('graduations.status', 2)
+            ->where('graduations.academic_period_end_id', '=', $id)
+            ->join('graduations', 'graduations.student_id', '=', 'graduation_files.student_id')
+            ->join('students', 'graduations.student_id', '=', 'students.id')
+            ->select(
+                'graduations.id',
+                'graduations.student_id',
+                'graduation_files.*',
+                DB::raw("CONCAT(students.lastname, ' ', students.name) AS student"),
+            )
+            ->get();
+
+        $query->each(function ($item) {
+            $item->int_cert_is_null = !is_null($item->international_cert_id) ? true : false;
+            $item->english_cert_is_null = !is_null($item->english_cert_id) ? true : false;
+            $item->community_cert_is_null = !is_null($item->community_internship_id) ? true : false;
+            $item->prep_cert_is_null = !is_null($item->preprofessional_internship_id) ? true : false;
+            $item->grad_type_is_null = !is_null($item->graduation_type_id) ? true : false;
+            $item->readers_is_null = !is_null($item->readers_id) ? true : false;
+            $item->plan_approval_is_null = !is_null($item->plan_approval_id) ? true : false;
+        });
+
+        return response()->json($query);
     }
 }

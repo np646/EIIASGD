@@ -33,11 +33,11 @@
                 <div class="row g-3 pb-3 px-3">
                     <div class="col-6">
                         <label for="inputCodigoBanner" class="col-form-label">Código de Banner</label>
-                        <Datepicker v-model="form.banner_code" id="inputCodigoBanner" required />
+                        <InputText class="form-control" v-model="form.banner_code" id="inputCodigoBanner" required />
                     </div>
                     <div class="col-6">
                         <label for="inputSelectSexo" class="col-form-label">Sexo</label>
-                        <Select class="w-100" id="inputSelectSexo" :options="sex" :optionLabel="label" v-model="selectedSex" placeholder="Seleccione uno" />
+                        <Select class="w-100" id="inputSelectSexo" :options="sex" optionLabel="sex" v-model="selectedSex" />
                     </div>
                 </div>
                 <div class="row g-3 py-3 px-3">
@@ -65,16 +65,16 @@ import Title from "@/Components/Title.vue";
 import ContentContainer from "@/Components/ContentContainer.vue";
 import Select from "@/Components/Select.vue";
 import { useComputeSelectedOption } from "@/Composables/useComputeSelectedOption";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const title = "Editar información del docente";
-const label = "sex";
 
 // Sex array for select component
 const sex = ref([
     { id: 0, sex: "FEMENINO" },
     { id: 1, sex: "MASCULINO" },
 ]);
-
 
 const { professor } = usePage().props;
 const form = useForm({
@@ -84,7 +84,7 @@ const form = useForm({
     identification: professor.identification,
     email: professor.email,
     banner_code: professor.banner_code,
-    sex: professor.sex
+    sex: professor.sex,
 });
 
 const selectedSex = ref(null);
@@ -104,7 +104,26 @@ watch(selectedDate, () => {
 });
 
 const submit = () => {
-    form.put(route("professors.update", professor.id));
+    form.put(route("professors.update", professor.id), {
+        onError: (errors) => {
+            Object.keys(errors).forEach((key) => {
+                toast.add({
+                    severity: "error",
+                    summary: "Error",
+                    detail: errors[key].join(", "),
+                    life: 3000,
+                });
+            });
+        },
+        onSuccess: () => {
+            toast.add({
+                severity: "success",
+                summary: "Éxito",
+                detail: "Docente actualizado exitosamente.",
+                life: 3000,
+            });
+        },
+    });
 };
 const cancel = () => {
     router.visit(route("professors.index"));

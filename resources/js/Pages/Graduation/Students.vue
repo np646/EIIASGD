@@ -18,13 +18,13 @@ import { usePage } from "@inertiajs/vue3";
 import StudentsDatatable from "./Partials/StudentsDatatable.vue";
 
 const items = usePage().props.students;
-const pageName = "graduationFiles";
+const pageName = "graduation";
 
 const title = "Estudiantes";
 const columnHeaders = [
-    { field: "student", header: "Apellidos" },
-    { field: "status_name", header: "Nombres" },
+    { field: "student", header: "Estudiante" },
+    { field: "identification", header: "Identificación" },
 ];
-const globalFilters = ["lastname", "name", "identification"];
+const globalFilters = ["student", "status_name"];
 
 </script>

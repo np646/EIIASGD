@@ -21,19 +21,17 @@
                             <div class="login-wrap p-4 p-md-5">
                                 <form @submit.prevent="submit" class="signin-form">
                                     <!-- Email -->
-                                    <label class="label input-label" for="email">EMAIL</label>
+                                    <label class="label input-label" for="identifier">USUARIO</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="email"><BIconEnvelope></BIconEnvelope></span>
                                         </div>
                                         <input
-                                            id="email"
-                                            v-model="form.email"
-                                            type="email"
+                                            id="identifier"
+                                            v-model="form.identifier"
+                                            type="text"
                                             class="form-control"
-                                            placeholder="Email"
-                                            aria-label="email"
-                                            aria-describedby="email"
+                                            placeholder="Usuario"
                                             autocomplete="username"
                                             required
                                         />
@@ -56,12 +54,14 @@
                                             required
                                         />
                                     </div>
-
-                                    <!-- Login button -->
                                     <div class="form-group">
                                         <button :disabled="form.processing" type="submit" class="form-control btn btn-primary rounded submit px-3">
                                             Iniciar sesión
                                         </button>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span style="color:red;" v-if="form.errors.identifier">{{ form.errors.identifier[0] }}</span>
+                                        <span style="color:red;" v-if="form.errors.password">{{ form.errors.password[0] }}</span>
                                     </div>
                                 </form>
                             </div>
@@ -121,7 +121,7 @@ const typeSubtitleText = () => {
 
 // For logging in
 const form = useForm({
-    email: "",
+    identifier: "",
     password: "",
     remember: false,
 });
@@ -139,13 +139,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 body {
     font-size: 16px;
     line-height: 1.8;
     background: var(--background-color);
     color: gray;
     font-family: var(--font-family-base) !important;
+    height: 100vh;
 }
 
 .center-section {

@@ -82,6 +82,13 @@ createInertiaApp({
             })
             .use(ToastService)
             .directive("tooltip", Tooltip)
+            .mixin({
+                methods: {
+                    hasRole(role) {
+                        return this.$page.props.auth.user.roles.includes(role);
+                    }
+                }
+            })
             .mount(el);
     },
     progress: {

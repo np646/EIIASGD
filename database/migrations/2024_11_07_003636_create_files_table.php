@@ -16,20 +16,22 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_folder'); // CARPETA = 1, ARCHIVO = 0
+            $table->string(column: 'size')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('files')->onDelete('cascade');
             $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('set null');
-            $table->string('path');
+            $table->string(column: 'path');
             $table->integer('level')->default(1);
-            $table->foreignId('created_by')->nullable(); // TODO: should be constrained to users table
-            $table->foreignId('updated_by')->nullable(); // same as above
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete(action: 'restrict');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('restrict');
             $table->timestamps();
+            $table->boolean('status')->default(true);
         });
 
 
         DB::table('files')->insert([
-            ['name' => 'TITULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
-            ['name' => 'VINCULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
-            ['name' => 'PREPROFESIONALES', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => 1, 'updated_by' => null],
+            ['name' => 'TITULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => null, 'updated_by' => null],
+            ['name' => 'VINCULACION', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => null, 'updated_by' => null],
+            ['name' => 'PREPROFESIONALES', 'is_folder' => true, 'parent_id' => null, 'path' => '', 'level' => 1, 'created_by' => null, 'updated_by' => null],
         ]);
     }
 

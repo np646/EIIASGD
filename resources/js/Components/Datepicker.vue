@@ -18,7 +18,6 @@ watch(date, (newDate) => {
         const month = String(newDate.getMonth() + 1).padStart(2, '0');
         const day = String(newDate.getDate()).padStart(2, '0');
         const formattedDate = `${year}-${month}-${day}`;
-        // console.log(formattedDate);
         emit("update:modelValue", formattedDate);
     } else {
         emit("update:modelValue", null);

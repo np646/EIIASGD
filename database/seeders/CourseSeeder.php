@@ -16,15 +16,15 @@ class CourseSeeder extends Seeder
         $courses = [
             [
                 'name' => 'INGENIERÍA EN SISTEMAS',
-                'banner_id' => 'C001',
+                'banner_code' => 'C001',
             ],
             [
                 'name' => 'INGENIERÍA EN TECNOLOGÍAS DE LA INFORMACIÓN',
-                'banner_id' => 'C002',
+                'banner_code' => 'C002',
             ],
             [
                 'name' => 'INGENIERÍA EN SOFTWARE',
-                'banner_id' => 'C003',
+                'banner_code' => 'C003',
             ],
         ];
 
